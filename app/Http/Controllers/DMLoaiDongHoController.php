@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\DMQuyenModel;
+use App\Models\DMLoaiDongHoModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 
-class DMQuyenController extends Controller
+class DMLoaiDongHoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return DMQuyenModel::orderBy('ma_quyen', 'ASC')->get();
+        return DMLoaiDongHoModel::all();
     }
 
     /**
@@ -31,16 +31,16 @@ class DMQuyenController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'ten_quyen' => 'required|unique:dm_quyen,ten_quyen',
+            'ten_loai_dong_ho' => 'required|unique:dm_loaidongho,ten_loai_dong_ho',
           ]);
         if($validator->fails()){
             return response()->json([
-                'message' => 'Quyền đã tồn tại!'
+                'message' => 'Loại đồng hồ đã tồn tại!'
                 ]);
         }
-        $quyen = new DMQuyenModel; 
-        $quyen->ten_quyen=$request->ten_quyen;
-        $result = $quyen->save();
+        $loai_dong_ho = new DMLoaiDongHoModel; 
+        $loai_dong_ho->ten_loai_dong_ho=$request->ten_loai_dong_ho;
+        $result = $loai_dong_ho->save();
         if($result){
             return response()->json([
                 'message' => 'Tạo thành công!'
@@ -58,7 +58,7 @@ class DMQuyenController extends Controller
      */
     public function show(string $id)
     {
-        return DMQuyenModel::where("ma_quyen",$id)->first();
+        return DMLoaiDongHoModel::where("ma_loai_dong_ho",$id)->first();
     }
 
     /**
@@ -75,18 +75,18 @@ class DMQuyenController extends Controller
     public function update(Request $request, string $id)
     {
         $validator = Validator::make($request->all(),[
-            'ten_quyen' => 'required',
+            'ten_loai_dong_ho' => 'required',
           ]);
         if($validator->fails()){
             return response()->json([
                 'message' => 'Xin hãy điền đủ thông tin!'
                 ]);
         }
-        $quyen = DMQuyenModel::find($id); 
-        if(isset($request->ten_quyen)){
-            $quyen->ten_quyen=$request->ten_quyen;
+        $loai_dong_ho = DMLoaiDongHoModel::find($id); 
+        if(isset($request->ten_loai_dong_ho)){
+            $loai_dong_ho->ten_loai_dong_ho=$request->ten_loai_dong_ho;
         }
-        $result = $quyen->save();
+        $result = $loai_dong_ho->save();
         if($result){
             return response()->json([
                 'message' => 'Cập nhật thành công!'
@@ -104,8 +104,8 @@ class DMQuyenController extends Controller
      */
     public function destroy(string $id)
     {
-        $quyen = DMQuyenModel::find($id);
-        $result = $quyen->delete();
+        $loai_dong_ho = DMLoaiDongHoModel::find($id);
+        $result = $loai_dong_ho->delete();
         if($result){
             return response()->json([
                 'message' => 'Xóa thành công!'
@@ -119,6 +119,6 @@ class DMQuyenController extends Controller
     }
     public function search(Request $request)
     {
-        return DMQuyenModel::where("ten_quyen","like","%".$request->ten_quyen."%")->orderBy('ma_quyen', 'ASC')->get();
+        return DMLoaiDongHoModel::where("ten_loai_dong_ho","like","%".$request->ten_loai_dong_ho."%")->orderBy('ma_loai_dong_ho', 'ASC')->get();
     }
 }

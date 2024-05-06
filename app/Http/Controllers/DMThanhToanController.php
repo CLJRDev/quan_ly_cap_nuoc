@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\DMQuyenModel;
+use App\Models\DMThanhToanModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 
-class DMQuyenController extends Controller
+class DMThanhToanController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return DMQuyenModel::orderBy('ma_quyen', 'ASC')->get();
+        return DMThanhToanModel::all();
     }
 
     /**
@@ -31,16 +31,16 @@ class DMQuyenController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'ten_quyen' => 'required|unique:dm_quyen,ten_quyen',
+            'ten_phuong_thuc' => 'required|unique:dm_ptthanhtoan,ten_phuong_thuc',
           ]);
         if($validator->fails()){
             return response()->json([
-                'message' => 'Quyền đã tồn tại!'
+                'message' => 'Phương thức đã tồn tại!'
                 ]);
         }
-        $quyen = new DMQuyenModel; 
-        $quyen->ten_quyen=$request->ten_quyen;
-        $result = $quyen->save();
+        $phuong_thuc = new DMThanhToanModel; 
+        $phuong_thuc->ten_phuong_thuc=$request->ten_phuong_thuc;
+        $result = $phuong_thuc->save();
         if($result){
             return response()->json([
                 'message' => 'Tạo thành công!'
@@ -58,7 +58,7 @@ class DMQuyenController extends Controller
      */
     public function show(string $id)
     {
-        return DMQuyenModel::where("ma_quyen",$id)->first();
+        return DMThanhToanModel::where("ma_phuong_thuc",$id)->first();
     }
 
     /**
@@ -75,18 +75,18 @@ class DMQuyenController extends Controller
     public function update(Request $request, string $id)
     {
         $validator = Validator::make($request->all(),[
-            'ten_quyen' => 'required',
+            'ten_phuong_thuc' => 'required',
           ]);
         if($validator->fails()){
             return response()->json([
                 'message' => 'Xin hãy điền đủ thông tin!'
                 ]);
         }
-        $quyen = DMQuyenModel::find($id); 
-        if(isset($request->ten_quyen)){
-            $quyen->ten_quyen=$request->ten_quyen;
+        $phuong_thuc = DMThanhToanModel::find($id); 
+        if(isset($request->ten_phuong_thuc)){
+            $phuong_thuc->ten_phuong_thuc=$request->ten_phuong_thuc;
         }
-        $result = $quyen->save();
+        $result = $phuong_thuc->save();
         if($result){
             return response()->json([
                 'message' => 'Cập nhật thành công!'
@@ -104,8 +104,8 @@ class DMQuyenController extends Controller
      */
     public function destroy(string $id)
     {
-        $quyen = DMQuyenModel::find($id);
-        $result = $quyen->delete();
+        $phuong_thuc = DMThanhToanModel::find($id);
+        $result = $phuong_thuc->delete();
         if($result){
             return response()->json([
                 'message' => 'Xóa thành công!'
@@ -119,6 +119,6 @@ class DMQuyenController extends Controller
     }
     public function search(Request $request)
     {
-        return DMQuyenModel::where("ten_quyen","like","%".$request->ten_quyen."%")->orderBy('ma_quyen', 'ASC')->get();
+        return DMThanhToanModel::where("ten_phuong_thuc","like","%".$request->ten_phuong_thuc."%")->orderBy('ma_phuong_thuc', 'ASC')->get();
     }
 }

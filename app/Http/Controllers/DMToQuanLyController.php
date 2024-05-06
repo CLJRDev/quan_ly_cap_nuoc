@@ -3,18 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\DMQuyenModel;
+use App\Models\DMToQuanLyModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 
-class DMQuyenController extends Controller
+class DMToQuanLyController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return DMQuyenModel::orderBy('ma_quyen', 'ASC')->get();
+        return DMToQuanLyModel::select('ma_to_quan_ly','ten_to_quan_ly','dm_toquanly.ma_chi_nhanh','dm_chinhanh.ten_chi_nhanh','dm_chinhanh.dia_chi')
+        ->join('dm_chinhanh','dm_chinhanh.ma_chi_nhanh','=','dm_toquanly.ma_chi_nhanh')
+        ->orderBy('ma_to_quan_ly', 'ASC')->get();
     }
 
     /**
@@ -31,16 +33,18 @@ class DMQuyenController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'ten_quyen' => 'required|unique:dm_quyen,ten_quyen',
+            'ten_to_quan_ly' => 'required|unique:dm_toquanly,ten_to_quan_ly',
+            'ma_chi_nhanh' => 'required',
           ]);
         if($validator->fails()){
             return response()->json([
-                'message' => 'Quyền đã tồn tại!'
+                'message' => 'Tổ quản lý đã tồn tại!'
                 ]);
         }
-        $quyen = new DMQuyenModel; 
-        $quyen->ten_quyen=$request->ten_quyen;
-        $result = $quyen->save();
+        $to_quan_ly = new DMToQuanLyModel; 
+        $to_quan_ly->ten_to_quan_ly=$request->ten_to_quan_ly;
+        $to_quan_ly->ma_chi_nhanh=$request->ma_chi_nhanh;
+        $result = $to_quan_ly->save();
         if($result){
             return response()->json([
                 'message' => 'Tạo thành công!'
@@ -58,7 +62,9 @@ class DMQuyenController extends Controller
      */
     public function show(string $id)
     {
-        return DMQuyenModel::where("ma_quyen",$id)->first();
+        return DMToQuanLyModel::select('ma_to_quan_ly','ten_to_quan_ly','dm_toquanly.ma_chi_nhanh','dm_chinhanh.ten_chi_nhanh','dm_chinhanh.dia_chi')
+        ->join('dm_chinhanh','dm_chinhanh.ma_chi_nhanh','=','dm_toquanly.ma_chi_nhanh')
+        ->where("ma_to_quan_ly",$id)->first();
     }
 
     /**
@@ -75,18 +81,22 @@ class DMQuyenController extends Controller
     public function update(Request $request, string $id)
     {
         $validator = Validator::make($request->all(),[
-            'ten_quyen' => 'required',
+            'ten_to_quan_ly' => 'required',
+            'ma_chi_nhanh' => 'required',
           ]);
         if($validator->fails()){
             return response()->json([
                 'message' => 'Xin hãy điền đủ thông tin!'
                 ]);
         }
-        $quyen = DMQuyenModel::find($id); 
-        if(isset($request->ten_quyen)){
-            $quyen->ten_quyen=$request->ten_quyen;
+        $to_quan_ly = DMToQuanLyModel::find($id); 
+        if(isset($request->ten_to_quan_ly)){
+            $to_quan_ly->ten_to_quan_ly=$request->ten_to_quan_ly;
         }
-        $result = $quyen->save();
+        if(isset($request->ma_chi_nhanh)){
+            $to_quan_ly->ma_chi_nhanh=$request->ma_chi_nhanh;
+        }
+        $result = $to_quan_ly->save();
         if($result){
             return response()->json([
                 'message' => 'Cập nhật thành công!'
@@ -104,8 +114,8 @@ class DMQuyenController extends Controller
      */
     public function destroy(string $id)
     {
-        $quyen = DMQuyenModel::find($id);
-        $result = $quyen->delete();
+        $to_quan_ly = DMToQuanLyModel::find($id);
+        $result = $to_quan_ly->delete();
         if($result){
             return response()->json([
                 'message' => 'Xóa thành công!'
@@ -119,6 +129,14 @@ class DMQuyenController extends Controller
     }
     public function search(Request $request)
     {
-        return DMQuyenModel::where("ten_quyen","like","%".$request->ten_quyen."%")->orderBy('ma_quyen', 'ASC')->get();
+        $to_quan_ly = DMToQuanLyModel::query()->select('ma_to_quan_ly','ten_to_quan_ly','dm_toquanly.ma_chi_nhanh','dm_chinhanh.ten_chi_nhanh','dm_chinhanh.dia_chi')
+        ->join('dm_chinhanh','dm_chinhanh.ma_chi_nhanh','=','dm_toquanly.ma_chi_nhanh');
+        if($request->has('ten_to_quan_ly')){
+            $to_quan_ly->where('ten_to_quan_ly',"like","%".$request->ten_to_quan_ly."%");
+        }
+        if($request->has('ma_chi_nhanh')){
+            $to_quan_ly->where('ma_chi_nhanh',$request->ma_chi_nhanh);
+        }
+        return $to_quan_ly->orderBy('ma_to_quan_ly', 'ASC')->get();
     }
 }

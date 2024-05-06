@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\DMQuyenModel;
+use App\Models\DMNhaCungCapModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 
-class DMQuyenController extends Controller
+class DMNhaCungCapController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return DMQuyenModel::orderBy('ma_quyen', 'ASC')->get();
+        return DMNhaCungCapModel::all();
     }
 
     /**
@@ -31,16 +31,18 @@ class DMQuyenController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'ten_quyen' => 'required|unique:dm_quyen,ten_quyen',
+            'ten_nha_cung_cap' => 'required|unique:dm_nhacungcap,ten_nha_cung_cap',
           ]);
         if($validator->fails()){
             return response()->json([
-                'message' => 'Quyền đã tồn tại!'
+                'message' => 'Chi nhánh đã tồn tại!'
                 ]);
         }
-        $quyen = new DMQuyenModel; 
-        $quyen->ten_quyen=$request->ten_quyen;
-        $result = $quyen->save();
+        $nha_cung_cap = new DMNhaCungCapModel; 
+        $nha_cung_cap->ten_nha_cung_cap=$request->ten_nha_cung_cap;
+        $nha_cung_cap->dia_chi=$request->dia_chi;
+        $nha_cung_cap->sdt=$request->sdt;
+        $result = $nha_cung_cap->save();
         if($result){
             return response()->json([
                 'message' => 'Tạo thành công!'
@@ -58,7 +60,7 @@ class DMQuyenController extends Controller
      */
     public function show(string $id)
     {
-        return DMQuyenModel::where("ma_quyen",$id)->first();
+        return DMNhaCungCapModel::where("ma_nha_cung_cap",$id)->first();
     }
 
     /**
@@ -75,18 +77,24 @@ class DMQuyenController extends Controller
     public function update(Request $request, string $id)
     {
         $validator = Validator::make($request->all(),[
-            'ten_quyen' => 'required',
+            'ten_nha_cung_cap' => 'required',
           ]);
         if($validator->fails()){
             return response()->json([
                 'message' => 'Xin hãy điền đủ thông tin!'
                 ]);
         }
-        $quyen = DMQuyenModel::find($id); 
-        if(isset($request->ten_quyen)){
-            $quyen->ten_quyen=$request->ten_quyen;
+        $nha_cung_cap = DMNhaCungCapModel::find($id); 
+        if(isset($request->ten_nha_cung_cap)){
+            $nha_cung_cap->ten_nha_cung_cap=$request->ten_nha_cung_cap;
         }
-        $result = $quyen->save();
+        if(isset($request->dia_chi)){
+            $nha_cung_cap->dia_chi=$request->dia_chi;
+        }
+        if(isset($request->sdt)){
+            $nha_cung_cap->sdt=$request->sdt;
+        }
+        $result = $nha_cung_cap->save();
         if($result){
             return response()->json([
                 'message' => 'Cập nhật thành công!'
@@ -104,8 +112,8 @@ class DMQuyenController extends Controller
      */
     public function destroy(string $id)
     {
-        $quyen = DMQuyenModel::find($id);
-        $result = $quyen->delete();
+        $nha_cung_cap = DMNhaCungCapModel::find($id);
+        $result = $nha_cung_cap->delete();
         if($result){
             return response()->json([
                 'message' => 'Xóa thành công!'
@@ -119,6 +127,6 @@ class DMQuyenController extends Controller
     }
     public function search(Request $request)
     {
-        return DMQuyenModel::where("ten_quyen","like","%".$request->ten_quyen."%")->orderBy('ma_quyen', 'ASC')->get();
+        return DMNhaCungCapModel::where("ten_nha_cung_cap","like","%".$request->ten_nha_cung_cap."%")->orderBy('ma_nha_cung_cap', 'ASC')->get();
     }
 }

@@ -3,18 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\DMQuyenModel;
+use App\Models\DMPhuongXaModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 
-class DMQuyenController extends Controller
+class DMPhuongXaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return DMQuyenModel::orderBy('ma_quyen', 'ASC')->get();
+        return DMPhuongXaModel::select('ma_phuong_xa','ten_phuong_xa','dm_phuongxa.ma_quan_huyen','dm_quanhuyen.ten_quan_huyen')
+        ->join('dm_quanhuyen','dm_quanhuyen.ma_quan_huyen','=','dm_phuongxa.ma_quan_huyen')
+        ->orderBy('ma_phuong_xa', 'ASC')->get();
     }
 
     /**
@@ -31,16 +33,18 @@ class DMQuyenController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'ten_quyen' => 'required|unique:dm_quyen,ten_quyen',
+            'ten_phuong_xa' => 'required|unique:dm_phuongxa,ten_phuong_xa',
+            'ma_quan_huyen' => 'required',
           ]);
         if($validator->fails()){
             return response()->json([
-                'message' => 'Quyền đã tồn tại!'
+                'message' => 'Phường xã đã tồn tại!'
                 ]);
         }
-        $quyen = new DMQuyenModel; 
-        $quyen->ten_quyen=$request->ten_quyen;
-        $result = $quyen->save();
+        $phuong_xa = new DMPhuongXaModel; 
+        $phuong_xa->ten_phuong_xa=$request->ten_phuong_xa;
+        $phuong_xa->ma_quan_huyen=$request->ma_quan_huyen;
+        $result = $phuong_xa->save();
         if($result){
             return response()->json([
                 'message' => 'Tạo thành công!'
@@ -58,7 +62,9 @@ class DMQuyenController extends Controller
      */
     public function show(string $id)
     {
-        return DMQuyenModel::where("ma_quyen",$id)->first();
+        return DMPhuongXaModel::select('ma_phuong_xa','ten_phuong_xa','dm_phuongxa.ma_quan_huyen','dm_quanhuyen.ten_quan_huyen')
+        ->join('dm_quanhuyen','dm_quanhuyen.ma_quan_huyen','=','dm_phuongxa.ma_quan_huyen')
+        ->where("ma_phuong_xa",$id)->first();
     }
 
     /**
@@ -75,18 +81,22 @@ class DMQuyenController extends Controller
     public function update(Request $request, string $id)
     {
         $validator = Validator::make($request->all(),[
-            'ten_quyen' => 'required',
+            'ten_phuong_xa' => 'required',
+            'ma_quan_huyen' => 'required',
           ]);
         if($validator->fails()){
             return response()->json([
                 'message' => 'Xin hãy điền đủ thông tin!'
                 ]);
         }
-        $quyen = DMQuyenModel::find($id); 
-        if(isset($request->ten_quyen)){
-            $quyen->ten_quyen=$request->ten_quyen;
+        $phuong_xa = DMPhuongXaModel::find($id); 
+        if(isset($request->ten_phuong_xa)){
+            $phuong_xa->ten_phuong_xa=$request->ten_phuong_xa;
         }
-        $result = $quyen->save();
+        if(isset($request->ma_quan_huyen)){
+            $phuong_xa->ma_quan_huyen=$request->ma_quan_huyen;
+        }
+        $result = $phuong_xa->save();
         if($result){
             return response()->json([
                 'message' => 'Cập nhật thành công!'
@@ -104,8 +114,8 @@ class DMQuyenController extends Controller
      */
     public function destroy(string $id)
     {
-        $quyen = DMQuyenModel::find($id);
-        $result = $quyen->delete();
+        $phuong_xa = DMPhuongXaModel::find($id);
+        $result = $phuong_xa->delete();
         if($result){
             return response()->json([
                 'message' => 'Xóa thành công!'
@@ -119,6 +129,14 @@ class DMQuyenController extends Controller
     }
     public function search(Request $request)
     {
-        return DMQuyenModel::where("ten_quyen","like","%".$request->ten_quyen."%")->orderBy('ma_quyen', 'ASC')->get();
+        $phuong_xa = DMPhuongXaModel::query()->select('ma_phuong_xa','ten_phuong_xa','dm_phuongxa.ma_quan_huyen','dm_quanhuyen.ten_quan_huyen')
+        ->join('dm_quanhuyen','dm_quanhuyen.ma_quan_huyen','=','dm_phuongxa.ma_quan_huyen');
+        if($request->has('ten_phuong_xa')){
+            $phuong_xa->where('ten_phuong_xa',"like","%".$request->ten_phuong_xa."%");
+        }
+        if($request->has('ma_quan_huyen')){
+            $phuong_xa->where('ma_quan_huyen',$request->ma_quan_huyen);
+        }
+        return $phuong_xa->orderBy('ma_phuong_xa', 'ASC')->get();
     }
 }
