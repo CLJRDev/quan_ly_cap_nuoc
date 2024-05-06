@@ -6,6 +6,7 @@ use App\Http\Controllers\DMQuanHuyenController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DMQuyenController;
+use App\Http\Controllers\DMToQuanLyController;
 use App\Http\Controllers\QLPhanQuyenController;
 use App\Http\Controllers\QLTaiKhoanController;
 
@@ -34,6 +35,9 @@ Route::get('/phuong_xa_search',[DMPhuongXaController::class,'search']);
 //chi nhanh
 Route::apiResource("chi_nhanh",DMChiNhanhController::class);
 Route::get('/chi_nhanh_search',[DMChiNhanhController::class,'search']);
+//to quan ly
+Route::apiResource("to_quan_ly",DMToQuanLyController::class);
+Route::get('/to_quan_ly_search',[DMToQuanLyController::class,'search']);
 //gia nuoc
 //404
 Route::fallback(function(){

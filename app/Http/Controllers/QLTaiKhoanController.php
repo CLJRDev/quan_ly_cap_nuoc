@@ -163,7 +163,7 @@ class QLTaiKhoanController extends Controller
             $query->where('chuc_vu',"like","%".$request->chuc_vu."%");
         }
         if($request->has('ho_ten')){
-            $query->where('ten_nguoi_dung',"like","%".$request->ten_nguoi_dung."%");
+            $query->where('ho_ten',"like","%".$request->ho_ten."%");
         }
         if($request->has('email')){
             $query->where('email',"like","%".$request->email."%");

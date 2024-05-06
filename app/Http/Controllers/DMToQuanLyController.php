@@ -3,20 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\DMPhuongXaModel;
+use App\Models\DMToQuanLyModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 
-class DMPhuongXaController extends Controller
+class DMToQuanLyController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return DMPhuongXaModel::select('ma_phuong_xa','ten_phuong_xa','dm_phuongxa.ma_quan_huyen','dm_quanhuyen.ten_quan_huyen')
-        ->join('dm_quanhuyen','dm_quanhuyen.ma_quan_huyen','=','dm_phuongxa.ma_quan_huyen')
-        ->orderBy('ma_phuong_xa', 'ASC')->get();
+        return DMToQuanLyModel::select('ma_to_quan_ly','ten_to_quan_ly','dm_toquanly.ma_chi_nhanh','dm_chinhanh.ten_chi_nhanh','dm_chinhanh.dia_chi')
+        ->join('dm_chinhanh','dm_chinhanh.ma_chi_nhanh','=','dm_toquanly.ma_chi_nhanh')
+        ->orderBy('ma_to_quan_ly', 'ASC')->get();
     }
 
     /**
@@ -33,18 +33,18 @@ class DMPhuongXaController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'ten_phuong_xa' => 'required|unique:dm_phuongxa,ten_phuong_xa',
-            'ma_quan_huyen' => 'required',
+            'ten_to_quan_ly' => 'required|unique:dm_toquanly,ten_to_quan_ly',
+            'ma_chi_nhanh' => 'required',
           ]);
         if($validator->fails()){
             return response()->json([
-                'message' => 'Phường xã đã tồn tại!'
+                'message' => 'Tổ quản lý đã tồn tại!'
                 ]);
         }
-        $phuong_xa = new DMPhuongXaModel; 
-        $phuong_xa->ten_phuong_xa=$request->ten_phuong_xa;
-        $phuong_xa->ma_quan_huyen=$request->ma_quan_huyen;
-        $result = $phuong_xa->save();
+        $to_quan_ly = new DMToQuanLyModel; 
+        $to_quan_ly->ten_to_quan_ly=$request->ten_to_quan_ly;
+        $to_quan_ly->ma_chi_nhanh=$request->ma_chi_nhanh;
+        $result = $to_quan_ly->save();
         if($result){
             return response()->json([
                 'message' => 'Tạo thành công!'
@@ -62,9 +62,9 @@ class DMPhuongXaController extends Controller
      */
     public function show(string $id)
     {
-        return DMPhuongXaModel::select('ma_phuong_xa','ten_phuong_xa','dm_phuongxa.ma_quan_huyen','dm_quanhuyen.ten_quan_huyen')
-        ->join('dm_quanhuyen','dm_quanhuyen.ma_quan_huyen','=','dm_phuongxa.ma_quan_huyen')
-        ->where("ma_phuong_xa",$id)->first();
+        return DMToQuanLyModel::select('ma_to_quan_ly','ten_to_quan_ly','dm_toquanly.ma_chi_nhanh','dm_chinhanh.ten_chi_nhanh','dm_chinhanh.dia_chi')
+        ->join('dm_chinhanh','dm_chinhanh.ma_chi_nhanh','=','dm_toquanly.ma_chi_nhanh')
+        ->where("ma_to_quan_ly",$id)->first();
     }
 
     /**
@@ -81,22 +81,22 @@ class DMPhuongXaController extends Controller
     public function update(Request $request, string $id)
     {
         $validator = Validator::make($request->all(),[
-            'ten_phuong_xa' => 'required',
-            'ma_quan_huyen' => 'required',
+            'ten_to_quan_ly' => 'required',
+            'ma_chi_nhanh' => 'required',
           ]);
         if($validator->fails()){
             return response()->json([
                 'message' => 'Xin hãy điền đủ thông tin!'
                 ]);
         }
-        $phuong_xa = DMPhuongXaModel::find($id); 
-        if(isset($request->ten_phuong_xa)){
-            $phuong_xa->ten_phuong_xa=$request->ten_phuong_xa;
+        $to_quan_ly = DMToQuanLyModel::find($id); 
+        if(isset($request->ten_to_quan_ly)){
+            $to_quan_ly->ten_to_quan_ly=$request->ten_to_quan_ly;
         }
-        if(isset($request->ma_quan_huyen)){
-            $phuong_xa->ma_quan_huyen=$request->ma_quan_huyen;
+        if(isset($request->ma_chi_nhanh)){
+            $to_quan_ly->ma_chi_nhanh=$request->ma_chi_nhanh;
         }
-        $result = $phuong_xa->save();
+        $result = $to_quan_ly->save();
         if($result){
             return response()->json([
                 'message' => 'Cập nhật thành công!'
@@ -114,8 +114,8 @@ class DMPhuongXaController extends Controller
      */
     public function destroy(string $id)
     {
-        $phuong_xa = DMPhuongXaModel::find($id);
-        $result = $phuong_xa->delete();
+        $to_quan_ly = DMToQuanLyModel::find($id);
+        $result = $to_quan_ly->delete();
         if($result){
             return response()->json([
                 'message' => 'Xóa thành công!'
@@ -129,14 +129,14 @@ class DMPhuongXaController extends Controller
     }
     public function search(Request $request)
     {
-        $phuong_xa = DMPhuongXaModel::query()->select('ma_phuong_xa','ten_phuong_xa','dm_phuongxa.ma_quan_huyen','dm_quanhuyen.ten_quan_huyen')
-        ->join('dm_quanhuyen','dm_quanhuyen.ma_quan_huyen','=','dm_phuongxa.ma_quan_huyen');
-        if($request->has('ten_phuong_xa')){
-            $phuong_xa->where('ten_phuong_xa',"like","%".$request->ten_phuong_xa."%");
+        $to_quan_ly = DMToQuanLyModel::query()->select('ma_to_quan_ly','ten_to_quan_ly','dm_toquanly.ma_chi_nhanh','dm_chinhanh.ten_chi_nhanh','dm_chinhanh.dia_chi')
+        ->join('dm_chinhanh','dm_chinhanh.ma_chi_nhanh','=','dm_toquanly.ma_chi_nhanh');
+        if($request->has('ten_to_quan_ly')){
+            $to_quan_ly->where('ten_to_quan_ly',"like","%".$request->ten_to_quan_ly."%");
         }
-        if($request->has('ma_quan_huyen')){
-            $phuong_xa->where('ma_quan_huyen',$request->ma_quan_huyen);
+        if($request->has('ma_chi_nhanh')){
+            $to_quan_ly->where('ma_chi_nhanh',$request->ma_chi_nhanh);
         }
-        return $phuong_xa->orderBy('ma_phuong_xa', 'ASC')->get();
+        return $to_quan_ly->orderBy('ma_to_quan_ly', 'ASC')->get();
     }
 }

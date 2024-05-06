@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DMChiNhanhModel extends Model
+class DMToQuanLyModel extends Model
 {
     use HasFactory;
-    protected $table = 'dm_chinhanh';
+    protected $table = 'dm_toquanly';
     public $incrementing = true;
-    protected $primaryKey = 'ma_chi_nhanh';
+    protected $primaryKey = 'ma_to_quan_ly';
     protected $keytype = 'int';
     public $timestamps = false;
-    public function to_quan_ly()
+    public function chi_nhanh()
     {
-      return $this->hasMany(DMToQuanLyModel::class);
+      return $this->hasOne(DMChiNhanhModel::class);
     }
 }
