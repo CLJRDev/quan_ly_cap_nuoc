@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
+:root{
+  --primary-color: #0051a9;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -8,11 +12,133 @@
 
 body {
   font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
-  /* color: #212121; */
   background-color: #f6f6f6;
 }
 
 .page {
-  padding-left: 300px;
+  margin-left: 320px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+}
+
+.table-container,
+.form-container {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+}
+
+.title {
+  text-align: center;
+  font-weight: bold;
+  color: var(--primary-color);
+  text-transform: uppercase;
+}
+
+table {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table>thead>tr>th {
+  text-align: center;
+  padding: 0.5rem 0.5rem;
+  background-color: #9fcaf6;
+  color: var(--primary-color);
+}
+
+table>tbody>tr>td {
+  padding: 0.5rem 0.5rem;
+  border-bottom: 1px solid #efefef;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.btn,
+.btn-add,
+.btn-search,
+.btn-edit,
+.btn-delete {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #0e4279;
+  border: 0;
+  text-decoration: none;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 16px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-add,
+.btn-search,
+.btn-edit,
+.btn-delete {
+  padding: 0.5rem 0.75rem;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.btn-add {
+  background-color: #0e4279;
+}
+
+.btn-delete {
+  background-color: #b72424;
+}
+
+/* .btn-logout {
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  color: #212121;
+  transition: all 0.3s;
+  border-radius: 6px;
+}
+
+.btn-logout:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover,
+.btn:active,
+.btn:focus {
+  background: #5b08a7;
+} */
+
+.form-container {
+  margin: 10px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+input {
+  outline: 0;
+  background: #ffffff;
+  width: 100%;
+  border: 2px solid #e6e6e6;
+  padding: 10px;
+  box-sizing: border-box;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+input:focus {
+  border-color: #0e4279;
+}
+
+label {
+  font-weight: bold;
+  color: var(--primary-color);
 }

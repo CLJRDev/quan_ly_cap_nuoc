@@ -88,7 +88,7 @@ export const SidebarData = [
   {
     title: 'Đồng Hồ Và Lắp Đặt',
     // path: '/overview',
-    icon: <AiIcons.AiFillHome />,
+    icon: <FaIcons.FaStopwatch />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
     subNav: [
