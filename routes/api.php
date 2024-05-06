@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\DMChiNhanhController;
+use App\Http\Controllers\DMPhuongXaController;
+use App\Http\Controllers\DMQuanHuyenController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DMQuyenController;
@@ -21,6 +24,16 @@ Route::get('/phan_quyen_search',[QLPhanQuyenController::class,'search']);
 Route::apiResource("tai_khoan",QLTaiKhoanController::class);
 Route::get('/tai_khoan_search',[QLTaiKhoanController::class,'search']);
 Route::post('/login',[QLTaiKhoanController::class,'login']);
+//danh muc
+//quan huyen
+Route::apiResource("quan_huyen",DMQuanHuyenController::class);
+Route::get('/quan_huyen_search',[DMQuanHuyenController::class,'search']);
+//phuong xa
+Route::apiResource("phuong_xa",DMPhuongXaController::class);
+Route::get('/phuong_xa_search',[DMPhuongXaController::class,'search']);
+//chi nhanh
+Route::apiResource("chi_nhanh",DMChiNhanhController::class);
+Route::get('/chi_nhanh_search',[DMChiNhanhController::class,'search']);
 //gia nuoc
 //404
 Route::fallback(function(){

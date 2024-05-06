@@ -34,6 +34,7 @@ class QLTaiKhoanController extends Controller
             'mat_khau' => 'required|max:100',
             'trang_thai' => 'required',
             'email' => 'required',
+            'sdt' => 'required|max:10',
             'chuc_vu' => 'required',
             'ho_ten' => 'required',
             'ngay_sinh' => 'required',
@@ -47,6 +48,7 @@ class QLTaiKhoanController extends Controller
         $tai_khoan->mat_khau=md5($request->mat_khau);
         $tai_khoan->trang_thai=$request->trang_thai;
         $tai_khoan->email=$request->email;
+        $tai_khoan->sdt=$request->sdt;
         $tai_khoan->chuc_vu=$request->chuc_vu;
         $tai_khoan->ho_ten=$request->ho_ten;
         $tai_khoan->ngay_sinh=$request->ngay_sinh;
@@ -88,6 +90,7 @@ class QLTaiKhoanController extends Controller
             // 'mat_khau' => 'required',
             'trang_thai' => 'required',
             'email' => 'required',
+            'sdt' => 'required',
             'chuc_vu' => 'required',
             'ho_ten' => 'required',
             'ngay_sinh' => 'required',
@@ -103,6 +106,9 @@ class QLTaiKhoanController extends Controller
         }
         if(isset($request->email)){
             $tai_khoan->email=$request->email;
+        }
+        if(isset($request->sdt)){
+            $tai_khoan->sdt=$request->sdt;
         }
         if(isset($request->trang_thai)){
             $tai_khoan->trang_thai=$request->trang_thai;
@@ -162,8 +168,8 @@ class QLTaiKhoanController extends Controller
         if($request->has('email')){
             $query->where('email',"like","%".$request->email."%");
         }
-        if($request->has('ngay_sinh')){
-            $query->where('ngay_sinh',$request->ngay_sinh);
+        if($request->has('sdt')){
+            $query->where('sdt',"like","%".$request->sdt."%");
         }
         if($request->has('trang_thai')){
             $query->where('trang_thai',$request->trang_thai);
