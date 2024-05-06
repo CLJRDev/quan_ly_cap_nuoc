@@ -1,0 +1,165 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use App\Models\QLPhanQuyenModel;
+use App\Models\QLTaiKhoanModel;
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;  
+use \Illuminate\Support\Facades\Validator;
+
+class QLPhanQuyenController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        return QLPhanQuyenModel::select('ql_phanquyen.ma_quyen','dm_quyen.ten_quyen','ql_phanquyen.ma_nhan_vien','ql_taikhoan.ho_ten')
+        ->join('dm_quyen','dm_quyen.ma_quyen','=','ql_phanquyen.ma_quyen')
+        ->join('ql_taikhoan','ql_taikhoan.ma_nhan_vien','=','ql_phanquyen.ma_nhan_vien')
+        ->orderBy('ma_nhan_vien', 'ASC')->get();
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'ma_nhan_vien' => 'required',
+            'ma_quyen' => 'required',
+          ]);
+        if($validator->fails()){
+            return response()->json([
+                'message' => 'Xin hãy điền đủ thông tin!'
+                ]);
+        }
+        foreach($request->ma_quyen as $quyen ){
+            $phan_quyen = new QLPhanQuyenModel; 
+            $phan_quyen->ma_nhan_vien=$request->ma_nhan_vien;
+            $phan_quyen->ma_quyen=$quyen;
+            $result = $phan_quyen->save();
+            if(!$result){
+                return response()->json([
+                    'message' => 'Lỗi!'
+                  ]);
+            }
+        }
+
+        if($result){
+            return response()->json([
+                'message' => 'Tạo thành công!'
+              ]);
+        }
+        else{
+            return response()->json([
+                'message' => 'Lỗi!'
+              ]);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $mnv,string $mq)
+    {
+        try {
+            $phan_quyen = QLPhanQuyenModel::select('ql_phanquyen.ma_quyen','dm_quyen.ten_quyen','ql_phanquyen.ma_nhan_vien','ql_taikhoan.ho_ten')
+            ->join('dm_quyen','dm_quyen.ma_quyen','=','ql_phanquyen.ma_quyen')
+            ->join('ql_taikhoan','ql_taikhoan.ma_nhan_vien','=','ql_phanquyen.ma_nhan_vien')
+            ->where('ql_phanquyen.ma_nhan_vien',$mnv)
+            ->where('ql_phanquyen.ma_quyen',$mq)->firstOrFail();
+            return $phan_quyen;
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Nhân viên không tồn tại!'
+            ]);
+        }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'ma_nhan_vien' => 'required',
+            'ma_quyen' => 'required',
+          ]);
+        if($validator->fails()){
+            return response()->json([
+                'message' => 'Xin hãy điền thông tin!'
+                ]);
+        }
+        $phan_quyen = QLPhanQuyenModel::where('ma_nhan_vien',$request->ma_nhan_vien)->where('ma_quyen',$request->ma_quyen)->firstOrFail(); 
+        if(isset($request->ma_quyen_moi)){
+            $phan_quyen->ma_quyen=$request->ma_quyen_moi;
+        }
+        $result = $phan_quyen->save();
+        if($result){
+            return response()->json([
+                'message' => 'Cập nhật thành công!'
+              ]);
+        }
+        else{
+            return response()->json([
+                'message' => 'Lỗi!'
+              ]);
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $mnv, string $mq)
+    {
+        try{
+            $phan_quyen = QLPhanQuyenModel::where('ma_nhan_vien',$mnv)->where('ma_quyen',$mq)->firstOrFail();
+            $result = $phan_quyen->delete();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Nhân viên không tồn tại!'
+            ]);
+        }
+        if($result){
+            return response()->json([
+                'message' => 'Xóa thành công!'
+              ]);
+        }
+        else{
+            return response()->json([
+                'message' => 'Lỗi!'
+              ]);
+        }
+    }
+    public function search(Request $request)
+    {
+        $query = QLPhanQuyenModel::query();
+        if($request->has('ma_nhan_vien')){
+            $query->where('ma_nhan_vien',"like","%".$request->ma_nhan_vien."%");
+        }
+        if($request->has('ma_quyen')){
+            $query->where('ma_quyen',$request->ma_quyen);
+        }
+        $result = $query->orderBy('ma_nhan_vien', 'ASC')->get();
+        return $result;
+    }
+}
