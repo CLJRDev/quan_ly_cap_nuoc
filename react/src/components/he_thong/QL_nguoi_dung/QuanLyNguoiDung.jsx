@@ -12,7 +12,7 @@ export default function QuanLyNguoiDung() {
     ma_nhan_vien: '',
     ho_ten: '',
     chuc_vu: '',
-    so_dien_thoai: '',
+    sdt: '',
     email: '',
     trang_thai: ''
   })
@@ -35,7 +35,7 @@ export default function QuanLyNguoiDung() {
       <td>{item.ho_ten}</td>
       <td>{item.chuc_vu}</td>
       <td>{format(new Date(item.ngay_sinh), 'dd-MM-yyyy')}</td>
-      <td>{item.so_dien_thoai}</td>
+      <td>{item.sdt != 0 ? `0${item.sdt}` : 'Đang trống'}</td>
       <td>{item.email}</td>
       <td>{item.trang_thai == 1 ? 'Kích hoạt' : 'Khóa'}</td>
       <td>
@@ -58,7 +58,7 @@ export default function QuanLyNguoiDung() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const { ma_nhan_vien, ho_ten, chuc_vu, so_dien_thoai, email, trang_thai } = searchData;
+    const { ma_nhan_vien, ho_ten, chuc_vu, sdt, email, trang_thai } = searchData;
     let queryString = '?'
     if (ma_nhan_vien != '') {
       queryString += `ma_nhan_vien=${ma_nhan_vien}`
@@ -69,8 +69,8 @@ export default function QuanLyNguoiDung() {
     if (chuc_vu != '') {
       queryString += `&chuc_vu=${chuc_vu}`
     }
-    if (so_dien_thoai != '') {
-      queryString += `&so_dien_thoai=${so_dien_thoai}`
+    if (sdt != '') {
+      queryString += `&sdt=${sdt}`
     }
     if (email != '') {
       queryString += `&email=${email}`
@@ -78,8 +78,6 @@ export default function QuanLyNguoiDung() {
     if (trang_thai != '') {
       queryString += `&trang_thai=${trang_thai}`
     }
-
-    console.log(queryString)
     const response = await axios.get(`http://127.0.0.1:8000/api/tai_khoan_search/${queryString}`)
     setUsers(response.data)
   }
@@ -105,8 +103,8 @@ export default function QuanLyNguoiDung() {
           </select>
         </div>
         <div>
-          <label htmlFor="so_dien_thoai">Số điện thoại</label>
-          <input type="number" id='so_dien_thoai' name='so_dien_thoai' onChange={handleChange} />
+          <label htmlFor="sdt">Số điện thoại</label>
+          <input type="number" id='sdt' name='sdt' onChange={handleChange} />
         </div>
         <div>
           <label htmlFor="ho_ten">Họ tên</label>
