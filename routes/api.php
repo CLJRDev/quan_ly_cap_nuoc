@@ -1,12 +1,18 @@
 <?php
 
 use App\Http\Controllers\DMChiNhanhController;
+use App\Http\Controllers\DMCoDongHoController;
+use App\Http\Controllers\DMLoaiDongHoController;
+use App\Http\Controllers\DMLoaiKhachHangController;
+use App\Http\Controllers\DMNhaCungCapController;
 use App\Http\Controllers\DMPhuongXaController;
 use App\Http\Controllers\DMQuanHuyenController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DMQuyenController;
+use App\Http\Controllers\DMThanhToanController;
 use App\Http\Controllers\DMToQuanLyController;
+use App\Http\Controllers\DMtuyendocController;
 use App\Http\Controllers\QLPhanQuyenController;
 use App\Http\Controllers\QLTaiKhoanController;
 
@@ -38,6 +44,25 @@ Route::get('/chi_nhanh_search',[DMChiNhanhController::class,'search']);
 //to quan ly
 Route::apiResource("to_quan_ly",DMToQuanLyController::class);
 Route::get('/to_quan_ly_search',[DMToQuanLyController::class,'search']);
+//tuyen doc
+Route::apiResource("tuyen_doc",DMTuyenDocController::class);
+Route::get('/tuyen_doc_search',[DMTuyenDocController::class,'search']);
+//loai khach hang
+Route::apiResource("loai_khach_hang",DMLoaiKhachHangController::class);
+Route::get('/loai_khach_hang_search',[DMLoaiKhachHangController::class,'search']);
+//phuong thuc thanh toan
+Route::apiResource("pt_thanh_toan",DMThanhToanController::class);
+Route::get('/pt_thanh_toan_search',[DMThanhToanController::class,'search']);
+//loai dong ho
+Route::apiResource("loai_dong_ho",DMLoaiDongHoController::class);
+Route::get('/loai_dong_ho_search',[DMLoaiDongHoController::class,'search']);
+//co dong ho
+Route::apiResource("co_dong_ho",DMCoDongHoController::class);
+Route::get('/co_dong_ho_search',[DMCoDongHoController::class,'search']);
+//nha cung cap
+Route::apiResource("nha_cung_cap",DMNhaCungCapController::class);
+Route::get('/nha_cung_cap_search',[DMNhaCungCapController::class,'search']);
+
 //gia nuoc
 //404
 Route::fallback(function(){

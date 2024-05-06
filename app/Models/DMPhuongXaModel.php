@@ -17,4 +17,8 @@ class DMPhuongXaModel extends Model
     {
       return $this->hasOne(DMQuanHuyenModel::class);
     }
+    public function tuyen_doc()
+    {
+      return $this->hasMany(DMTuyenDocModel::class);
+    }
 }

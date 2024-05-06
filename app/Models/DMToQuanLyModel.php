@@ -17,4 +17,8 @@ class DMToQuanLyModel extends Model
     {
       return $this->hasOne(DMChiNhanhModel::class);
     }
+    public function tuyen_doc()
+    {
+      return $this->hasMany(DMTuyenDocModel::class);
+    }
 }
