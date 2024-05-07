@@ -180,12 +180,18 @@ class QLPhanQuyenController extends Controller
             ->join('dm_quyen','dm_quyen.ma_quyen','=','ql_phanquyen.ma_quyen')
             ->join('ql_taikhoan','ql_taikhoan.ma_nhan_vien','=','ql_phanquyen.ma_nhan_vien');
         if($request->has('ma_nhan_vien')){
-            $query->where('ma_nhan_vien',"like","%".$request->ma_nhan_vien."%");
+            $query->where('ql_phanquyen.ma_nhan_vien',"like","%".$request->ma_nhan_vien."%");
+        }
+        if($request->has('ten_quyen')){
+            $query->where('dm_quyen.ten_quyen',"like","%".$request->ten_quyen."%");
+        }
+        if($request->has('ho_ten')){
+            $query->where('ql_taikhoan.ho_ten',"like","%".$request->ho_ten."%");
         }
         if($request->has('ma_quyen')){
-            $query->where('ma_quyen',$request->ma_quyen);
+            $query->where('ql_phanquyen.ma_quyen',$request->ma_quyen);
         }
-        $result = $query->orderBy('ma_nhan_vien', 'ASC')->get();
+        $result = $query->orderBy('ql_phanquyen.ma_nhan_vien', 'ASC')->get();
         return $result;
     }
 }
