@@ -41,8 +41,8 @@ class DMThanhToanController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         $phuong_thuc = new DMThanhToanModel; 
         $phuong_thuc->ten_phuong_thuc=$request->ten_phuong_thuc;
@@ -54,8 +54,8 @@ class DMThanhToanController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -68,8 +68,8 @@ class DMThanhToanController extends Controller
             return DMThanhToanModel::where("ma_phuong_thuc",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Phương thức thanh toán không tồn tại!'
-            ]);
+               'error' => 'Phương thức thanh toán không tồn tại!'
+            ],422);
         }
     }
 
@@ -96,8 +96,8 @@ class DMThanhToanController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         try{
             $phuong_thuc = DMThanhToanModel::findOrFail($id); 
@@ -107,8 +107,8 @@ class DMThanhToanController extends Controller
             $result = $phuong_thuc->save();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Phương thức thanh toán không tồn tại!'
-            ]);
+               'error' => 'Phương thức thanh toán không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -117,8 +117,8 @@ class DMThanhToanController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -132,8 +132,8 @@ class DMThanhToanController extends Controller
             $result = $phuong_thuc->delete();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Phương thức thanh toán không tồn tại!'
-            ]);
+               'error' => 'Phương thức thanh toán không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -142,8 +142,8 @@ class DMThanhToanController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
     public function search(Request $request)

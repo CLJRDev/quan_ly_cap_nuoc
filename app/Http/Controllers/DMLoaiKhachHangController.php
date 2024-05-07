@@ -41,8 +41,8 @@ class DMLoaiKhachHangController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         $loai_khach_hang = new DMLoaiKhachHangModel; 
         $loai_khach_hang->ten_loai_khach_hang=$request->ten_loai_khach_hang;
@@ -54,8 +54,8 @@ class DMLoaiKhachHangController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -68,8 +68,8 @@ class DMLoaiKhachHangController extends Controller
             return DMLoaiKhachHangModel::where("ma_loai_khach_hang",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Loại khách hàng không tồn tại!'
-            ]);
+               'error' => 'Loại khách hàng không tồn tại!'
+            ],422);
         }
     }
 
@@ -96,8 +96,8 @@ class DMLoaiKhachHangController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         $loai_khach_hang = DMLoaiKhachHangModel::find($id); 
         if(isset($request->ten_loai_khach_hang)){
@@ -111,8 +111,8 @@ class DMLoaiKhachHangController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -130,8 +130,8 @@ class DMLoaiKhachHangController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
     public function search(Request $request)

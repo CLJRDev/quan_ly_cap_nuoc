@@ -41,8 +41,8 @@ class DMQuanHuyenController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         $quan_huyen = new DMQuanHuyenModel; 
         $quan_huyen->ten_quan_huyen=$request->ten_quan_huyen;
@@ -54,8 +54,8 @@ class DMQuanHuyenController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -68,8 +68,8 @@ class DMQuanHuyenController extends Controller
             return DMQuanHuyenModel::where("ma_quan_huyen",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Quận huyện không tồn tại!'
-            ]);
+               'error' => 'Quận huyện không tồn tại!'
+            ],422);
         }
     }
 
@@ -96,8 +96,8 @@ class DMQuanHuyenController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         try{
             $quan_huyen = DMQuanHuyenModel::findOrFail($id); 
@@ -107,8 +107,8 @@ class DMQuanHuyenController extends Controller
             $result = $quan_huyen->save();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Quận huyện không tồn tại!'
-            ]);
+               'error' => 'Quận huyện không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -117,8 +117,8 @@ class DMQuanHuyenController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -132,8 +132,8 @@ class DMQuanHuyenController extends Controller
             $result = $quan_huyen->delete();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Quận huyện không tồn tại!'
-            ]);
+               'error' => 'Quận huyện không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -142,8 +142,8 @@ class DMQuanHuyenController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
     public function search(Request $request)

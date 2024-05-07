@@ -50,8 +50,8 @@ class QLTaiKhoanController extends Controller
 
     if ($validator->fails()) {
       return response()->json([
-        'message' => $validator->errors(),
-      ]);
+        'error' => $validator->errors(),
+      ],422);
     }
     $tai_khoan = new QLTaiKhoanModel;
     $tai_khoan->mat_khau = md5($request->mat_khau);
@@ -68,8 +68,8 @@ class QLTaiKhoanController extends Controller
       ]);
     } else {
       return response()->json([
-        'message' => 'Lỗi!'
-      ]);
+        'error' => 'Lỗi!'
+      ],422);
     }
   }
 
@@ -82,8 +82,8 @@ class QLTaiKhoanController extends Controller
         return QLTaiKhoanModel::where("ma_nhan_vien", $id)->firstOrFail();
     }catch (ModelNotFoundException $e) {
         return response()->json([
-           'message' => 'Tài khoản không tồn tại!'
-        ]);
+           'error' => 'Tài khoản không tồn tại!'
+        ],422);
     }
     
   }
@@ -120,8 +120,8 @@ class QLTaiKhoanController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         try{
             $tai_khoan = QLTaiKhoanModel::findOrFail($id); 
@@ -149,8 +149,8 @@ class QLTaiKhoanController extends Controller
             $result = $tai_khoan->save();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Tài khoản không tồn tại!'
-            ]);
+               'error' => 'Tài khoản không tồn tại!'
+            ],422);
         }
         
         if($result){
@@ -160,8 +160,8 @@ class QLTaiKhoanController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -175,8 +175,8 @@ class QLTaiKhoanController extends Controller
         $result = $tai_khoan->delete();
     }catch (ModelNotFoundException $e) {
         return response()->json([
-           'message' => 'Tài khoản không tồn tại!'
-        ]);
+           'error' => 'Tài khoản không tồn tại!'
+        ],422);
     }
     
     if ($result) {
@@ -185,8 +185,8 @@ class QLTaiKhoanController extends Controller
       ]);
     } else {
       return response()->json([
-        'message' => 'Lỗi!'
-      ]);
+        'error' => 'Lỗi!'
+      ],422);
     }
   }
   public function search(Request $request)
@@ -239,9 +239,9 @@ class QLTaiKhoanController extends Controller
       ]);
     } else {
       return response()->json([
-        'message' => session('bao_loi'),
+        'error' => session('bao_loi'),
         'login' => 'false'
-      ]);
+      ],422);
     }
   }
   public function logout()

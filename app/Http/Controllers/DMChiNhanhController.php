@@ -136,8 +136,8 @@ class DMChiNhanhController extends Controller
             $result = $chi_nhanh->delete();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Chi nhánh không tồn tại!'
-            ]);
+               'error' => 'Chi nhánh không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -146,8 +146,8 @@ class DMChiNhanhController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
     public function search(Request $request)

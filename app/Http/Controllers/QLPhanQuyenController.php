@@ -49,16 +49,11 @@ class QLPhanQuyenController extends Controller
             
             if($validator->fails()){
                 return response()->json([
-                    'message' => $validator->errors(),
-                    ]);
+                    'error' => $validator->errors(),
+                    ],422);
             }
         }
         
-        if($validator->fails()){
-            return response()->json([
-                'message' => $validator->errors(),
-                ]);
-        }
         foreach($request->ma_quyen as $quyen ){
             $phan_quyen = new QLPhanQuyenModel; 
             $phan_quyen->ma_nhan_vien=$request->ma_nhan_vien;
@@ -66,19 +61,14 @@ class QLPhanQuyenController extends Controller
             $result = $phan_quyen->save();
             if(!$result){
                 return response()->json([
-                    'message' => 'Lỗi!'
-                  ]);
+                    'error' => 'Lỗi!'
+                  ],422);
             }
         }
 
         if($result){
             return response()->json([
                 'message' => 'Tạo thành công!'
-              ]);
-        }
-        else{
-            return response()->json([
-                'message' => 'Lỗi!'
               ]);
         }
     }
@@ -98,8 +88,8 @@ class QLPhanQuyenController extends Controller
             return $phan_quyen;
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Phân quyền không tồn tại!'
-            ]);
+               'error' => 'Phân quyền không tồn tại!'
+            ],422);
         }
     }
 
@@ -127,8 +117,8 @@ class QLPhanQuyenController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         try{
             $phan_quyen = QLPhanQuyenModel::findOrFail($id); 
@@ -138,8 +128,8 @@ class QLPhanQuyenController extends Controller
             $result = $phan_quyen->save();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Phân quyền không tồn tại!'
-            ]);
+               'error' => 'Phân quyền không tồn tại!'
+            ],422);
         }
         
         if($result){
@@ -149,8 +139,8 @@ class QLPhanQuyenController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -164,8 +154,8 @@ class QLPhanQuyenController extends Controller
             $result = $phan_quyen->delete();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Phân quyền không tồn tại!'
-            ]);
+               'error' => 'Phân quyền không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -174,8 +164,8 @@ class QLPhanQuyenController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
     public function search(Request $request)

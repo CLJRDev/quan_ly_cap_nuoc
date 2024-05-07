@@ -41,8 +41,8 @@ class DMNhaCungCapController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         $nha_cung_cap = new DMNhaCungCapModel; 
         $nha_cung_cap->ten_nha_cung_cap=$request->ten_nha_cung_cap;
@@ -56,8 +56,8 @@ class DMNhaCungCapController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -70,8 +70,8 @@ class DMNhaCungCapController extends Controller
             return DMNhaCungCapModel::where("ma_nha_cung_cap",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Nhà cung cấp không tồn tại!'
-            ]);
+               'error' => 'Nhà cung cấp không tồn tại!'
+            ],422);
         }
     }
 
@@ -98,8 +98,8 @@ class DMNhaCungCapController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         try{
             $nha_cung_cap = DMNhaCungCapModel::findOrFail($id); 
@@ -115,8 +115,8 @@ class DMNhaCungCapController extends Controller
             $result = $nha_cung_cap->save();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Nhà cung cấp không tồn tại!'
-            ]);
+               'error' => 'Nhà cung cấp không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -125,8 +125,8 @@ class DMNhaCungCapController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -140,8 +140,8 @@ class DMNhaCungCapController extends Controller
             $result = $nha_cung_cap->delete();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Nhà cung cấp không tồn tại!'
-            ]);
+               'error' => 'Nhà cung cấp không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -150,8 +150,8 @@ class DMNhaCungCapController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
     public function search(Request $request)

@@ -46,8 +46,8 @@ class DMTuyenDocController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         $tuyen = new DMTuyenDocModel; 
         $tuyen->ten_tuyen=$request->ten_tuyen;
@@ -61,8 +61,8 @@ class DMTuyenDocController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -78,8 +78,8 @@ class DMTuyenDocController extends Controller
                 ->where("ma_tuyen",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Tuyến đọc không tồn tại!'
-            ]);
+               'error' => 'Tuyến đọc không tồn tại!'
+            ],422);
         }
         
     }
@@ -109,8 +109,8 @@ class DMTuyenDocController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         try{
             $tuyen = DMTuyenDocModel::findOrFail($id); 
@@ -126,8 +126,8 @@ class DMTuyenDocController extends Controller
             $result = $tuyen->save();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Tuyến đọc không tồn tại!'
-            ]);
+               'error' => 'Tuyến đọc không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -136,8 +136,8 @@ class DMTuyenDocController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -151,8 +151,8 @@ class DMTuyenDocController extends Controller
             $result = $tuyen->delete();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Tuyến đọc không tồn tại!'
-            ]);
+               'error' => 'Tuyến đọc không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -161,8 +161,8 @@ class DMTuyenDocController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
     public function search(Request $request)

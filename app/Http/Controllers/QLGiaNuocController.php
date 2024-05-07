@@ -51,8 +51,8 @@ class QLGiaNuocController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         $nhom_gia = new QLGiaNuocModel; 
         $nhom_gia->ten_nhom_gia=$request->ten_nhom_gia;
@@ -75,8 +75,8 @@ class QLGiaNuocController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -89,8 +89,8 @@ class QLGiaNuocController extends Controller
             return QLGiaNuocModel::where("ma_nhom_gia",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Nhóm giá không tồn tại!'
-            ]);
+               'error' => 'Nhóm giá không tồn tại!'
+            ],422);
         }
     }
 
@@ -125,8 +125,8 @@ class QLGiaNuocController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         try{
             $nhom_gia = QLGiaNuocModel::findOrFail($id); 
@@ -158,8 +158,8 @@ class QLGiaNuocController extends Controller
             $result = $nhom_gia->save();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Nhóm giá không tồn tại!'
-            ]);
+               'error' => 'Nhóm giá không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -168,8 +168,8 @@ class QLGiaNuocController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -183,8 +183,8 @@ class QLGiaNuocController extends Controller
             $result = $nhom_gia->delete();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Nhóm giá không tồn tại!'
-            ]);
+               'error' => 'Nhóm giá không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -193,8 +193,8 @@ class QLGiaNuocController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
     public function search(Request $request)

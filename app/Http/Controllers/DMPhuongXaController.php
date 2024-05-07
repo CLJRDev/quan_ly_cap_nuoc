@@ -44,8 +44,8 @@ class DMPhuongXaController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         $phuong_xa = new DMPhuongXaModel; 
         $phuong_xa->ten_phuong_xa=$request->ten_phuong_xa;
@@ -58,8 +58,8 @@ class DMPhuongXaController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -74,8 +74,8 @@ class DMPhuongXaController extends Controller
             ->where("ma_phuong_xa",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Phường xã không tồn tại!'
-            ]);
+               'error' => 'Phường xã không tồn tại!'
+            ],422);
         }
     }
 
@@ -103,8 +103,8 @@ class DMPhuongXaController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         try{
             $phuong_xa = DMPhuongXaModel::findOrFail($id); 
@@ -117,8 +117,8 @@ class DMPhuongXaController extends Controller
             $result = $phuong_xa->save();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Phường xã không tồn tại!'
-            ]);
+               'error' => 'Phường xã không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -127,8 +127,8 @@ class DMPhuongXaController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -142,8 +142,8 @@ class DMPhuongXaController extends Controller
             $result = $phuong_xa->delete();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Phường xã không tồn tại!'
-            ]);
+               'error' => 'Phường xã không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -152,8 +152,8 @@ class DMPhuongXaController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
     public function search(Request $request)

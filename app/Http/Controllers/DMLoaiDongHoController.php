@@ -41,8 +41,8 @@ class DMLoaiDongHoController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         $loai_dong_ho = new DMLoaiDongHoModel; 
         $loai_dong_ho->ten_loai_dong_ho=$request->ten_loai_dong_ho;
@@ -54,8 +54,8 @@ class DMLoaiDongHoController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -68,8 +68,8 @@ class DMLoaiDongHoController extends Controller
             return DMLoaiDongHoModel::where("ma_loai_dong_ho",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Loại đồng hồ không tồn tại!'
-            ]);
+               'error' => 'Loại đồng hồ không tồn tại!'
+            ],422);
         }
     }
 
@@ -96,8 +96,8 @@ class DMLoaiDongHoController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         try{
             $loai_dong_ho = DMLoaiDongHoModel::findOrFail($id); 
@@ -107,8 +107,8 @@ class DMLoaiDongHoController extends Controller
             $result = $loai_dong_ho->save();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Loại đồng hồ không tồn tại!'
-            ]);
+               'error' => 'Loại đồng hồ không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -117,8 +117,8 @@ class DMLoaiDongHoController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -132,8 +132,8 @@ class DMLoaiDongHoController extends Controller
             $result = $loai_dong_ho->delete();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Loại đồng hồ không tồn tại!'
-            ]);
+               'error' => 'Loại đồng hồ không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -142,8 +142,8 @@ class DMLoaiDongHoController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
     public function search(Request $request)

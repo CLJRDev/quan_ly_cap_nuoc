@@ -41,8 +41,8 @@ class DMCoDongHoController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         $co_dong_ho = new DMCoDongHoModel; 
         $co_dong_ho->ten_co_dong_ho=$request->ten_co_dong_ho;
@@ -54,8 +54,8 @@ class DMCoDongHoController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -68,8 +68,8 @@ class DMCoDongHoController extends Controller
             return DMCoDongHoModel::where("ma_co_dong_ho",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Cỡ đồng hồ không tồn tại!'
-            ]);
+               'error' => 'Cỡ đồng hồ không tồn tại!'
+            ],422);
         }
     }
 
@@ -96,8 +96,8 @@ class DMCoDongHoController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         try{
             $co_dong_ho = DMCoDongHoModel::findOrFail($id); 
@@ -107,8 +107,8 @@ class DMCoDongHoController extends Controller
             $result = $co_dong_ho->save();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Cỡ đồng hồ không tồn tại!'
-            ]);
+               'error' => 'Cỡ đồng hồ không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -117,8 +117,8 @@ class DMCoDongHoController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -132,8 +132,8 @@ class DMCoDongHoController extends Controller
             $result = $co_dong_ho->delete();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Cỡ đồng hồ không tồn tại!'
-            ]);
+               'error' => 'Cỡ đồng hồ không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -142,8 +142,8 @@ class DMCoDongHoController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
     public function search(Request $request)
