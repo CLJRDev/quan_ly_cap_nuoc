@@ -126,7 +126,7 @@ class QLTaiKhoanController extends Controller
         try{
             $tai_khoan = QLTaiKhoanModel::findOrFail($id); 
             if(isset($request->mat_khau)){
-                $tai_khoan->mat_khau=$request->mat_khau;
+                $tai_khoan->mat_khau=md5($request->mat_khau);
             }
             if(isset($request->email)){
                 $tai_khoan->email=$request->email;
@@ -217,31 +217,38 @@ class QLTaiKhoanController extends Controller
   {
     $ma_nhan_vien = $request->ma_nhan_vien;
     $mat_khau = md5($request->mat_khau);
-    $tai_khoans = QLTaiKhoanModel::where('ma_nhan_vien', '=', $ma_nhan_vien)->where('trang_thai', '=', 1);
+    $tai_khoans = QLTaiKhoanModel::where('ma_nhan_vien', '=', $ma_nhan_vien);
     session()->put('bao_loi', '');
+    session()->put('trang_thai', 200);
     if ($tai_khoans->count() == 0) {
       session()->put('bao_loi', 'Tài khoản không tồn tại');
+      session()->put('trang_thai', 422);
     } else {
-      $nguoi_dung = $tai_khoans->first();
-      if ($nguoi_dung->mat_khau != $mat_khau) {
-        session()->put('bao_loi', 'Sai mật khẩu!');
-      } else {
-        session()->put('bao_loi', '');
-        session()->put('nguoi_dung', $ma_nhan_vien);
-      }
+        if($tai_khoans->where('trang_thai', '=', 1)->count() == 0) {
+            session()->put('bao_loi', 'Tài khoản bị khóa');
+            session()->put('trang_thai', 422);
+        }
+        else{
+            $nguoi_dung = $tai_khoans->first();
+            if ($nguoi_dung->mat_khau != $mat_khau) {
+                session()->put('bao_loi', 'Sai mật khẩu!');
+                session()->put('trang_thai', 401);
+            } else {
+                session()->put('bao_loi', '');
+                session()->put('nguoi_dung', $ma_nhan_vien);
+            }
+        }
+      
     }
-    if (session('bao_loi') == '') {
-      session()->flash('status', 'Đăng nhập thành công!');
+    if (session('trang_thai') == 200) {
       return response()->json([
-        // 'message' => 'Đăng nhập thành công!',
-        'message' => session('status'),
         'login' => 'true'
-      ]);
+    ],session('trang_thai'));
     } else {
       return response()->json([
         'error' => session('bao_loi'),
         'login' => 'false'
-      ],422);
+      ],session('trang_thai'));
     }
   }
   public function logout()
