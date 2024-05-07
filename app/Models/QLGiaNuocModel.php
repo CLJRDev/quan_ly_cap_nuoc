@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class QLGiaNuocModel extends Model
 {
     use HasFactory;
+    protected $table = 'ql_nhomgia';
+    public $incrementing = true;
+    protected $primaryKey = 'ma_nhom_gia';
+    protected $keytype = 'int';
+    public $timestamps = false;
+    public function loai_khach_hang()
+    {
+      return $this->hasOne(DMLoaiKhachHangModel::class);
+    }
 }

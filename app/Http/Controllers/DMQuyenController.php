@@ -37,6 +37,7 @@ class DMQuyenController extends Controller
         ];
         $validator = Validator::make($request->all(),[
             'ten_quyen' => 'required|unique:dm_quyen,ten_quyen',
+            'trang_thai' => 'required',
           ],$message);
         
         if($validator->fails()){
@@ -46,6 +47,7 @@ class DMQuyenController extends Controller
         }
         $quyen = new DMQuyenModel; 
         $quyen->ten_quyen=$request->ten_quyen;
+        $quyen->trang_thai=$request->trang_thai;
         $result = $quyen->save();
         if($result){
             return response()->json([
@@ -92,6 +94,7 @@ class DMQuyenController extends Controller
         ];
         $validator = Validator::make($request->all(),[
             'ten_quyen' => 'required|unique:dm_quyen,ten_quyen',
+            'trang_thai' => 'required',
           ],$message);
         
         if($validator->fails()){
@@ -103,6 +106,9 @@ class DMQuyenController extends Controller
             $quyen = DMQuyenModel::findOrFail($id); 
             if(isset($request->ten_quyen)){
                 $quyen->ten_quyen=$request->ten_quyen;
+            }
+            if(isset($request->trang_thai)){
+                $quyen->trang_thai=$request->trang_thai;
             }
             $result = $quyen->save();
         }catch (ModelNotFoundException $e) {
@@ -148,6 +154,13 @@ class DMQuyenController extends Controller
     }
     public function search(Request $request)
     {
-        return DMQuyenModel::where("ten_quyen","like","%".$request->ten_quyen."%")->orderBy('ma_quyen', 'ASC')->get();
+        $query =  DMQuyenModel::query();
+        if($request->has('ten_quyen')){
+            $query->where("ten_quyen","like","%".$request->ten_quyen."%");
+        }
+        if($request->has('trang_thai')){
+            $query->where("trang_thai",$request->trang_thai);
+        }
+        $result = $query->orderBy('ma_quyen', 'ASC')->get();
     }
 }

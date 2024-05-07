@@ -19,6 +19,8 @@ class QLPhanQuyenController extends Controller
         return QLPhanQuyenModel::select('ma_phan_quyen','ql_phanquyen.ma_quyen','dm_quyen.ten_quyen','ql_phanquyen.ma_nhan_vien','ql_taikhoan.ho_ten','ql_taikhoan.chuc_vu')
         ->join('dm_quyen','dm_quyen.ma_quyen','=','ql_phanquyen.ma_quyen')
         ->join('ql_taikhoan','ql_taikhoan.ma_nhan_vien','=','ql_phanquyen.ma_nhan_vien')
+        ->where('dm_quyen.trang_thai',1)
+        ->where('ql_taikhoan.trang_thai',1)
         ->orderBy('ma_nhan_vien', 'ASC')->get();
     }
 
@@ -90,6 +92,8 @@ class QLPhanQuyenController extends Controller
             $phan_quyen = QLPhanQuyenModel::select('ma_phan_quyen','ql_phanquyen.ma_quyen','dm_quyen.ten_quyen','ql_phanquyen.ma_nhan_vien','ql_taikhoan.ho_ten','ql_taikhoan.chuc_vu')
             ->join('dm_quyen','dm_quyen.ma_quyen','=','ql_phanquyen.ma_quyen')
             ->join('ql_taikhoan','ql_taikhoan.ma_nhan_vien','=','ql_phanquyen.ma_nhan_vien')
+            ->where('dm_quyen.trang_thai',1)
+            ->where('ql_taikhoan.trang_thai',1)
             ->findOrFail($id);
             return $phan_quyen;
         }catch (ModelNotFoundException $e) {
@@ -190,6 +194,10 @@ class QLPhanQuyenController extends Controller
         }
         if($request->has('ma_quyen')){
             $query->where('ql_phanquyen.ma_quyen',$request->ma_quyen);
+        }
+        if($request->has('kich_hoat')&&$request->kich_hoat==0){
+            $query->where('dm_quyen.trang_thai',1)
+            ->where('ql_taikhoan.trang_thai',1);
         }
         $result = $query->orderBy('ql_phanquyen.ma_nhan_vien', 'ASC')->get();
         return $result;
