@@ -30,12 +30,17 @@ class DMChiNhanhController extends Controller
      */
     public function store(Request $request)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Chi nhánh đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
             'ten_chi_nhanh' => 'required|unique:dm_chinhanh,ten_chi_nhanh',
-          ]);
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Chi nhánh đã tồn tại!'
+                'message' => $validator->errors(),
                 ]);
         }
         $chi_nhanh = new DMChiNhanhModel; 
@@ -75,12 +80,17 @@ class DMChiNhanhController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Chi nhánh đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
-            'ten_chi_nhanh' => 'required',
-          ]);
+            'ten_chi_nhanh' => 'required|unique:dm_chinhanh,ten_chi_nhanh',
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Xin hãy điền đủ thông tin!'
+                'message' => $validator->errors(),
                 ]);
         }
         $chi_nhanh = DMChiNhanhModel::find($id); 

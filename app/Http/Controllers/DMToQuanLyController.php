@@ -32,13 +32,18 @@ class DMToQuanLyController extends Controller
      */
     public function store(Request $request)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Tổ quản lý đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
             'ten_to_quan_ly' => 'required|unique:dm_toquanly,ten_to_quan_ly',
             'ma_chi_nhanh' => 'required',
-          ]);
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Tổ quản lý đã tồn tại!'
+                'message' => $validator->errors(),
                 ]);
         }
         $to_quan_ly = new DMToQuanLyModel; 
@@ -80,13 +85,18 @@ class DMToQuanLyController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Tổ quản lý đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
-            'ten_to_quan_ly' => 'required',
+            'ten_to_quan_ly' => 'required|unique:dm_toquanly,ten_to_quan_ly',
             'ma_chi_nhanh' => 'required',
-          ]);
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Xin hãy điền đủ thông tin!'
+                'message' => $validator->errors(),
                 ]);
         }
         $to_quan_ly = DMToQuanLyModel::find($id); 

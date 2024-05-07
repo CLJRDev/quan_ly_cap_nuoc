@@ -33,14 +33,19 @@ class DMTuyenDocController extends Controller
      */
     public function store(Request $request)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Tuyến đọc đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
             'ten_tuyen' => 'required|unique:dm_tuyendoc,ten_tuyen',
             'ma_to_quan_ly' => 'required',
             'ma_phuong_xa' => 'required',
-          ]);
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Tổ quản lý đã tồn tại!'
+                'message' => $validator->errors(),
                 ]);
         }
         $tuyen = new DMTuyenDocModel; 
@@ -84,14 +89,19 @@ class DMTuyenDocController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Tuyến đọc đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
-            'ten_tuyen' => 'required',
+            'ten_tuyen' => 'required|unique:dm_tuyendoc,ten_tuyen',
             'ma_to_quan_ly' => 'required',
             'ma_phuong_xa' => 'required',
-          ]);
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Xin hãy điền đủ thông tin!'
+                'message' => $validator->errors(),
                 ]);
         }
         $tuyen = DMTuyenDocModel::find($id); 

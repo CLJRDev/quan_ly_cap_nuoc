@@ -94,18 +94,26 @@ class QLTaiKhoanController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'same' => 'Mật khẩu xác nhận không trùng với mật khẩu!',
+            'mat_khau.max' => 'Mật khẩu quá dài!',
+            'sdt.max' => 'Số điện thoại không hợp lệ!'
+        ];
         $validator = Validator::make($request->all(),[
-            // 'mat_khau' => 'required',
+            'mat_khau' => 'max:100',
+            'xac_nhan_mat_khau' => 'max:100|same:mat_khau',
             'trang_thai' => 'required',
             'email' => 'required',
-            'sdt' => 'required',
+            'sdt' => 'required|max:10',
             'chuc_vu' => 'required',
             'ho_ten' => 'required',
             'ngay_sinh' => 'required',
-          ]);
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Xin hãy điền thông tin!'
+                'message' => $validator->errors(),
                 ]);
         }
         $tai_khoan = QLTaiKhoanModel::find($id); 

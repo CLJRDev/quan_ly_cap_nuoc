@@ -30,12 +30,17 @@ class DMLoaiDongHoController extends Controller
      */
     public function store(Request $request)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Loại đồng hồ đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
             'ten_loai_dong_ho' => 'required|unique:dm_loaidongho,ten_loai_dong_ho',
-          ]);
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Loại đồng hồ đã tồn tại!'
+                'message' => $validator->errors(),
                 ]);
         }
         $loai_dong_ho = new DMLoaiDongHoModel; 
@@ -74,12 +79,17 @@ class DMLoaiDongHoController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Loại đồng hồ đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
-            'ten_loai_dong_ho' => 'required',
-          ]);
+            'ten_loai_dong_ho' => 'required|unique:dm_loaidongho,ten_loai_dong_ho',
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Xin hãy điền đủ thông tin!'
+                'message' => $validator->errors(),
                 ]);
         }
         $loai_dong_ho = DMLoaiDongHoModel::find($id); 

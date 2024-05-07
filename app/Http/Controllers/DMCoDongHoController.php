@@ -30,12 +30,17 @@ class DMCoDongHoController extends Controller
      */
     public function store(Request $request)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Cỡ đồng hồ đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
             'ten_co_dong_ho' => 'required|unique:dm_codongho,ten_co_dong_ho',
-          ]);
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Loại đồng hồ đã tồn tại!'
+                'message' => $validator->errors(),
                 ]);
         }
         $co_dong_ho = new DMCoDongHoModel; 
@@ -74,12 +79,17 @@ class DMCoDongHoController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Cỡ đồng hồ đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
-            'ten_co_dong_ho' => 'required',
-          ]);
+            'ten_co_dong_ho' => 'required|unique:dm_codongho,ten_co_dong_ho',
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Xin hãy điền đủ thông tin!'
+                'message' => $validator->errors(),
                 ]);
         }
         $co_dong_ho = DMCoDongHoModel::find($id); 

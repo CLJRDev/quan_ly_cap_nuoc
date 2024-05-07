@@ -30,12 +30,17 @@ class DMNhaCungCapController extends Controller
      */
     public function store(Request $request)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Nhà cung cấp đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
             'ten_nha_cung_cap' => 'required|unique:dm_nhacungcap,ten_nha_cung_cap',
-          ]);
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Chi nhánh đã tồn tại!'
+                'message' => $validator->errors(),
                 ]);
         }
         $nha_cung_cap = new DMNhaCungCapModel; 
@@ -76,12 +81,17 @@ class DMNhaCungCapController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Nhà cung cấp đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
-            'ten_nha_cung_cap' => 'required',
-          ]);
+            'ten_nha_cung_cap' => 'required|unique:dm_nhacungcap,ten_nha_cung_cap',
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Xin hãy điền đủ thông tin!'
+                'message' => $validator->errors(),
                 ]);
         }
         $nha_cung_cap = DMNhaCungCapModel::find($id); 

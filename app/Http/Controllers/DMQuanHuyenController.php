@@ -30,12 +30,17 @@ class DMQuanHuyenController extends Controller
      */
     public function store(Request $request)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Quận huyện đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
             'ten_quan_huyen' => 'required|unique:dm_quanhuyen,ten_quan_huyen',
-          ]);
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Quận huyện đã tồn tại!'
+                'message' => $validator->errors(),
                 ]);
         }
         $quan_huyen = new DMQuanHuyenModel; 
@@ -74,12 +79,17 @@ class DMQuanHuyenController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Quận huyện đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
-            'ten_quan_huyen' => 'required',
-          ]);
+            'ten_quan_huyen' => 'required|unique:dm_quanhuyen,ten_quan_huyen',
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Xin hãy điền đủ thông tin!'
+                'message' => $validator->errors(),
                 ]);
         }
         $quan_huyen = DMQuanHuyenModel::find($id); 

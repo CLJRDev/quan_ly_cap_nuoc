@@ -35,13 +35,26 @@ class QLPhanQuyenController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),[
-            'ma_nhan_vien' => 'required',
-            'ma_quyen' => 'required',
-          ]);
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Phân quyền đã tồn tại!',
+        ];
+        foreach($request->ma_quyen as $quyen){
+            $validator = Validator::make($request->all(),[
+                'ma_nhan_vien' => 'required|unique:ql_phanquyen,ma_nhan_vien,NULL,ma_phan_quyen,ma_quyen,' . $quyen,
+                'ma_quyen' => 'required',
+              ],$message);
+            
+            if($validator->fails()){
+                return response()->json([
+                    'message' => $validator->errors(),
+                    ]);
+            }
+        }
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Xin hãy điền đủ thông tin!'
+                'message' => $validator->errors(),
                 ]);
         }
         foreach($request->ma_quyen as $quyen ){
@@ -100,15 +113,21 @@ class QLPhanQuyenController extends Controller
      */
     public function update(Request $request)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Phân quyền đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
-            'ma_nhan_vien' => 'required',
+            'ma_nhan_vien' => 'required|unique:ql_phanquyen,ma_nhan_vien,NULL,ma_phan_quyen,ma_quyen,' . $request->ma_quyen,
             'ma_quyen' => 'required',
-          ]);
+            ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Xin hãy điền thông tin!'
+                'message' => $validator->errors(),
                 ]);
         }
+        
         $phan_quyen = QLPhanQuyenModel::where('ma_nhan_vien',$request->ma_nhan_vien)->where('ma_quyen',$request->ma_quyen)->firstOrFail(); 
         if(isset($request->ma_quyen_moi)){
             $phan_quyen->ma_quyen=$request->ma_quyen_moi;
@@ -136,7 +155,7 @@ class QLPhanQuyenController extends Controller
             $result = $phan_quyen->delete();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Nhân viên không tồn tại!'
+               'message' => 'Phân quyền không tồn tại!'
             ]);
         }
         if($result){

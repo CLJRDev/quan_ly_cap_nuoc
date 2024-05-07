@@ -32,13 +32,18 @@ class DMPhuongXaController extends Controller
      */
     public function store(Request $request)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Phường xã đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
             'ten_phuong_xa' => 'required|unique:dm_phuongxa,ten_phuong_xa',
             'ma_quan_huyen' => 'required',
-          ]);
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Phường xã đã tồn tại!'
+                'message' => $validator->errors(),
                 ]);
         }
         $phuong_xa = new DMPhuongXaModel; 
@@ -80,13 +85,18 @@ class DMPhuongXaController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Phường xã đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
-            'ten_phuong_xa' => 'required',
+            'ten_phuong_xa' => 'required|unique:dm_phuongxa,ten_phuong_xa',
             'ma_quan_huyen' => 'required',
-          ]);
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Xin hãy điền đủ thông tin!'
+                'message' => $validator->errors(),
                 ]);
         }
         $phuong_xa = DMPhuongXaModel::find($id); 

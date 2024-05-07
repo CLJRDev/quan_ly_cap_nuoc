@@ -30,12 +30,17 @@ class DMLoaiKhachHangController extends Controller
      */
     public function store(Request $request)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Loại khách hàng đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
             'ten_loai_khach_hang' => 'required|unique:dm_loaikhachhang,ten_loai_khach_hang',
-          ]);
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Phương thức đã tồn tại!'
+                'message' => $validator->errors(),
                 ]);
         }
         $loai_khach_hang = new DMLoaiKhachHangModel; 
@@ -74,12 +79,17 @@ class DMLoaiKhachHangController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Loại khách hàng đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
-            'ten_loai_khach_hang' => 'required',
-          ]);
+            'ten_loai_khach_hang' => 'required|unique:dm_loaikhachhang,ten_loai_khach_hang',
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Xin hãy điền đủ thông tin!'
+                'message' => $validator->errors(),
                 ]);
         }
         $loai_khach_hang = DMLoaiKhachHangModel::find($id); 

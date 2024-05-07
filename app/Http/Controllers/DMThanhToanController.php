@@ -30,12 +30,17 @@ class DMThanhToanController extends Controller
      */
     public function store(Request $request)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Tổ quản lý đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
             'ten_phuong_thuc' => 'required|unique:dm_ptthanhtoan,ten_phuong_thuc',
-          ]);
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Phương thức đã tồn tại!'
+                'message' => $validator->errors(),
                 ]);
         }
         $phuong_thuc = new DMThanhToanModel; 
@@ -74,12 +79,17 @@ class DMThanhToanController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $message = [
+            'required' => 'Xin hãy điền đủ thông tin!',
+            'unique' => 'Phương thức thanh toán đã tồn tại!',
+        ];
         $validator = Validator::make($request->all(),[
-            'ten_phuong_thuc' => 'required',
-          ]);
+            'ten_phuong_thuc' => 'required|unique:dm_ptthanhtoan,ten_phuong_thuc',
+          ],$message);
+        
         if($validator->fails()){
             return response()->json([
-                'message' => 'Xin hãy điền đủ thông tin!'
+                'message' => $validator->errors(),
                 ]);
         }
         $phuong_thuc = DMThanhToanModel::find($id); 
