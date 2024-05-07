@@ -31,10 +31,10 @@ export default function Login() {
     <div className="login-form animated fadeInDown">
       <div className="form">
         <form onSubmit={handleSubmit}>
-          <h2 className="title">Đăng nhập tài khoản</h2>
+          <h3 className="title">Đăng nhập</h3>
           <input ref={maNhanVienRef} type="text" placeholder="Mã nhân viên" />
-          <input ref={matKhauRef} type="password" placeholder="Mật khẩu" />
-          <button className="btn btn-block">Đăng nhập</button>
+          <input ref={matKhauRef} type="password" className="mt-2" placeholder="Mật khẩu" />
+          <button className="btn btn-block mt-2">Đăng nhập</button>
         </form>
       </div>
     </div>

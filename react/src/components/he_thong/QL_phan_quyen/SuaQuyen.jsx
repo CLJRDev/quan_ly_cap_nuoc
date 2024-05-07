@@ -29,13 +29,20 @@ export default function SuaQuyen() {
     })
   }
 
+
   const suaQuyen = async () => {
     const formData = new FormData()
     formData.append('_method', 'PUT')
     formData.append('ten_quyen', quyen.ten_quyen)
-    //formData.append('trang_thai', quyen.trang_thai)
+    formData.append('trang_thai', quyen.trang_thai)
 
-    const response = await axios.post(`http://127.0.0.1:8000/api/quyen/1`, formData)
+    try{
+      const response = await axios.post(`http://127.0.0.1:8000/api/quyen/${id}`, formData)
+      console.log(response.data.message)
+      navigate('/quyen')
+    }catch(error){
+      console.log(error.response.data.error)
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -52,11 +59,11 @@ export default function SuaQuyen() {
           <input type="text" id='ten_quyen' name='ten_quyen' value={quyen.ten_quyen} onChange={handleChange} />
         </div>
         <div>
-          {/* <label htmlFor="trang_thai">Trạng thái</label>
-          <select name="trang_thai" id="trang_thai" onChange={handleChange} value={quyen.trang_thai} onChange={handleChange}>
+          <label htmlFor="trang_thai">Trạng thái</label>
+          <select name="trang_thai" id="trang_thai" onChange={handleChange} value={quyen.trang_thai}>
             <option value="1">Kích hoạt</option>
             <option value="0">Khóa</option>
-          </select> */}
+          </select>
         </div>
         <div>
           <button type="submit" className="btn-edit">

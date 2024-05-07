@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import { MdOutlineEdit } from "react-icons/md";
 
@@ -10,13 +10,13 @@ export default function SuaNguoiDung() {
   const [user, setUser] = useState({
     ho_ten: '',
     chuc_vu: '',
-    mat_khau: '',
-    xac_nhan_mat_khau: '',
     ngay_sinh: '',
     sdt: '',
     email: '',
     trang_thai: '1'
   })
+  const matKhauRef = useRef()
+  const xacNhanMatKhauRef = useRef()
 
   useEffect(() => {
     axios.get(`http://127.0.0.1:8000/api/tai_khoan/${id}`)
@@ -44,9 +44,9 @@ export default function SuaNguoiDung() {
     formData.append('sdt', user.sdt)
     formData.append('email', user.email)
     formData.append('trang_thai', user.trang_thai)
-    if (user.mat_khau != '') {
-      formData.append('mat_khau', user.mat_khau)
-      formData.append('xac_nhan_mat_khau', user.xac_nhan_mat_khau)
+    if (matKhauRef.current.value != '') {
+      formData.append('mat_khau', matKhauRef.current.value)
+      formData.append('xac_nhan_mat_khau', xacNhanMatKhauRef.current.value)
     }
 
     try {
@@ -54,7 +54,7 @@ export default function SuaNguoiDung() {
       console.log(response.data.message)
       navigate('/nguoi_dung')
     } catch (er) {
-
+      console.log(er.response.data.error)
     }
   }
 
@@ -85,11 +85,11 @@ export default function SuaNguoiDung() {
         </div>
         <div>
           <label htmlFor="mat_khau">Mật khẩu</label>
-          <input type="password" id='mat_khau' name='mat_khau' onChange={handleChange} />
+          <input type="password" id='mat_khau' name='mat_khau' ref={matKhauRef} />
         </div>
         <div>
           <label htmlFor="xac_nhan_mat_khau">Xác nhận mật khẩu</label>
-          <input type="password" id='xac_nhan_mat_khau' name='xac_nhan_mat_khau' onChange={handleChange} />
+          <input type="password" id='xac_nhan_mat_khau' name='xac_nhan_mat_khau' ref={xacNhanMatKhauRef} />
         </div>
         <div>
           <label htmlFor="ngay_sinh">Ngày sinh</label>

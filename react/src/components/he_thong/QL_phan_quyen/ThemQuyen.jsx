@@ -9,14 +9,18 @@ export default function ThemQuyen() {
   const [quyens, setQuyens] = useState(null)
   const [quyen, setQuyen] = useState({
     ten_quyen: '',
-    trang_thai: ''
+    trang_thai: '1'
   })
 
+  const fetchData = async() => {
+    await axios.get(`http://127.0.0.1:8000/api/quyen`)
+            .then(response => {
+              setQuyens(response.data)
+            })
+  }
+
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/quyen`)
-      .then(response => {
-        setQuyens(response.data)
-      })
+    fetchData()
   }, [])
 
   if (!quyens) return null
@@ -62,9 +66,15 @@ export default function ThemQuyen() {
   const themQuyen = async () => {
     const formData = new FormData()
     formData.append('ten_quyen', quyen.ten_quyen)
-    //formData.append('trang_thai', quyen.trang_thai)
+    formData.append('trang_thai', quyen.trang_thai)
 
-    const response = await axios.post(``)
+    try{
+      const response = await axios.post(`http://127.0.0.1:8000/api/quyen`, formData)
+      console.log(response.data.message)
+      fetchData()
+    }catch(error){
+      console.log(error.response.data.error)
+    }    
   }
 
   const handleSubmit = async (e) => {
@@ -81,11 +91,11 @@ export default function ThemQuyen() {
           <input type="text" id='ten_quyen' name='ten_quyen' onChange={handleChange} />
         </div>
         <div>
-          {/* <label htmlFor="trang_thai">Trạng thái</label>
-          <select name="trang_thai" id="trang_thai" onChange={handleChange}>
+          <label htmlFor="trang_thai">Trạng thái</label>
+          <select name="trang_thai" id="trang_thai" onChange={handleChange} value={quyen.trang_thai}>
             <option value="1">Kích hoạt</option>
             <option value="0">Khóa</option>
-          </select> */}
+          </select>
         </div>
         <div>
           <button className="btn-add" type="submit">
