@@ -176,7 +176,9 @@ class QLPhanQuyenController extends Controller
     }
     public function search(Request $request)
     {
-        $query = QLPhanQuyenModel::query()->select('ma_phan_quyen','ql_phanquyen.ma_quyen','dm_quyen.ten_quyen','ql_phanquyen.ma_nhan_vien','ql_taikhoan.ho_ten','ql_taikhoan.chuc_vu');
+        $query = QLPhanQuyenModel::query()->select('ma_phan_quyen','ql_phanquyen.ma_quyen','dm_quyen.ten_quyen','ql_phanquyen.ma_nhan_vien','ql_taikhoan.ho_ten','ql_taikhoan.chuc_vu')
+            ->join('dm_quyen','dm_quyen.ma_quyen','=','ql_phanquyen.ma_quyen')
+            ->join('ql_taikhoan','ql_taikhoan.ma_nhan_vien','=','ql_phanquyen.ma_nhan_vien');
         if($request->has('ma_nhan_vien')){
             $query->where('ma_nhan_vien',"like","%".$request->ma_nhan_vien."%");
         }
