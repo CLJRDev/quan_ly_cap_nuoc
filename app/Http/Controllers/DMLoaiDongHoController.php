@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DMLoaiDongHoModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;  
 
 class DMLoaiDongHoController extends Controller
 {
@@ -63,7 +64,13 @@ class DMLoaiDongHoController extends Controller
      */
     public function show(string $id)
     {
-        return DMLoaiDongHoModel::where("ma_loai_dong_ho",$id)->first();
+        try{
+            return DMLoaiDongHoModel::where("ma_loai_dong_ho",$id)->firstOrFail();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Loại đồng hồ không tồn tại!'
+            ]);
+        }
     }
 
     /**
@@ -92,11 +99,17 @@ class DMLoaiDongHoController extends Controller
                 'message' => $validator->errors(),
                 ]);
         }
-        $loai_dong_ho = DMLoaiDongHoModel::find($id); 
-        if(isset($request->ten_loai_dong_ho)){
-            $loai_dong_ho->ten_loai_dong_ho=$request->ten_loai_dong_ho;
+        try{
+            $loai_dong_ho = DMLoaiDongHoModel::findOrFail($id); 
+            if(isset($request->ten_loai_dong_ho)){
+                $loai_dong_ho->ten_loai_dong_ho=$request->ten_loai_dong_ho;
+            }
+            $result = $loai_dong_ho->save();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Loại đồng hồ không tồn tại!'
+            ]);
         }
-        $result = $loai_dong_ho->save();
         if($result){
             return response()->json([
                 'message' => 'Cập nhật thành công!'
@@ -114,8 +127,14 @@ class DMLoaiDongHoController extends Controller
      */
     public function destroy(string $id)
     {
-        $loai_dong_ho = DMLoaiDongHoModel::find($id);
-        $result = $loai_dong_ho->delete();
+        try{
+            $loai_dong_ho = DMLoaiDongHoModel::findOrFail($id);
+            $result = $loai_dong_ho->delete();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Loại đồng hồ không tồn tại!'
+            ]);
+        }
         if($result){
             return response()->json([
                 'message' => 'Xóa thành công!'

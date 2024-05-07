@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DMNhaCungCapModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;  
 
 class DMNhaCungCapController extends Controller
 {
@@ -65,7 +66,13 @@ class DMNhaCungCapController extends Controller
      */
     public function show(string $id)
     {
-        return DMNhaCungCapModel::where("ma_nha_cung_cap",$id)->first();
+        try{
+            return DMNhaCungCapModel::where("ma_nha_cung_cap",$id)->firstOrFail();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Nhà cung cấp không tồn tại!'
+            ]);
+        }
     }
 
     /**
@@ -94,17 +101,23 @@ class DMNhaCungCapController extends Controller
                 'message' => $validator->errors(),
                 ]);
         }
-        $nha_cung_cap = DMNhaCungCapModel::find($id); 
-        if(isset($request->ten_nha_cung_cap)){
-            $nha_cung_cap->ten_nha_cung_cap=$request->ten_nha_cung_cap;
+        try{
+            $nha_cung_cap = DMNhaCungCapModel::findOrFail($id); 
+            if(isset($request->ten_nha_cung_cap)){
+                $nha_cung_cap->ten_nha_cung_cap=$request->ten_nha_cung_cap;
+            }
+            if(isset($request->dia_chi)){
+                $nha_cung_cap->dia_chi=$request->dia_chi;
+            }
+            if(isset($request->sdt)){
+                $nha_cung_cap->sdt=$request->sdt;
+            }
+            $result = $nha_cung_cap->save();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Nhà cung cấp không tồn tại!'
+            ]);
         }
-        if(isset($request->dia_chi)){
-            $nha_cung_cap->dia_chi=$request->dia_chi;
-        }
-        if(isset($request->sdt)){
-            $nha_cung_cap->sdt=$request->sdt;
-        }
-        $result = $nha_cung_cap->save();
         if($result){
             return response()->json([
                 'message' => 'Cập nhật thành công!'
@@ -122,8 +135,14 @@ class DMNhaCungCapController extends Controller
      */
     public function destroy(string $id)
     {
-        $nha_cung_cap = DMNhaCungCapModel::find($id);
-        $result = $nha_cung_cap->delete();
+        try{
+            $nha_cung_cap = DMNhaCungCapModel::findOrFail($id);
+            $result = $nha_cung_cap->delete();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Nhà cung cấp không tồn tại!'
+            ]);
+        }
         if($result){
             return response()->json([
                 'message' => 'Xóa thành công!'

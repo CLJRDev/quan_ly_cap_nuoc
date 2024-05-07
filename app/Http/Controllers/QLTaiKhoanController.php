@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\QLTaiKhoanModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;  
 
 class QLTaiKhoanController extends Controller
 {
@@ -77,7 +78,14 @@ class QLTaiKhoanController extends Controller
    */
   public function show(string $id)
   {
-    return QLTaiKhoanModel::where("ma_nhan_vien", $id)->first();
+    try{
+        return QLTaiKhoanModel::where("ma_nhan_vien", $id)->firstOrFail();
+    }catch (ModelNotFoundException $e) {
+        return response()->json([
+           'message' => 'Tài khoản không tồn tại!'
+        ]);
+    }
+    
   }
 
   /**
@@ -115,29 +123,36 @@ class QLTaiKhoanController extends Controller
                 'message' => $validator->errors(),
                 ]);
         }
-        $tai_khoan = QLTaiKhoanModel::find($id); 
-        if(isset($request->mat_khau)){
-            $tai_khoan->mat_khau=$request->mat_khau;
+        try{
+            $tai_khoan = QLTaiKhoanModel::findOrFail($id); 
+            if(isset($request->mat_khau)){
+                $tai_khoan->mat_khau=$request->mat_khau;
+            }
+            if(isset($request->email)){
+                $tai_khoan->email=$request->email;
+            }
+            if(isset($request->sdt)){
+                $tai_khoan->sdt=$request->sdt;
+            }
+            if(isset($request->trang_thai)){
+                $tai_khoan->trang_thai=$request->trang_thai;
+            }
+            if(isset($request->chuc_vu)){
+                $tai_khoan->chuc_vu=$request->chuc_vu;
+            }
+            if(isset($request->ho_ten)){
+                $tai_khoan->ho_ten=$request->ho_ten;
+            }
+            if(isset($request->ngay_sinh)){
+                $tai_khoan->ngay_sinh=$request->ngay_sinh;
+            }
+            $result = $tai_khoan->save();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Tài khoản không tồn tại!'
+            ]);
         }
-        if(isset($request->email)){
-            $tai_khoan->email=$request->email;
-        }
-        if(isset($request->sdt)){
-            $tai_khoan->sdt=$request->sdt;
-        }
-        if(isset($request->trang_thai)){
-            $tai_khoan->trang_thai=$request->trang_thai;
-        }
-        if(isset($request->chuc_vu)){
-            $tai_khoan->chuc_vu=$request->chuc_vu;
-        }
-        if(isset($request->ho_ten)){
-            $tai_khoan->ho_ten=$request->ho_ten;
-        }
-        if(isset($request->ngay_sinh)){
-            $tai_khoan->ngay_sinh=$request->ngay_sinh;
-        }
-        $result = $tai_khoan->save();
+        
         if($result){
             return response()->json([
                 'message' => 'Cập nhật thành công!'
@@ -155,8 +170,15 @@ class QLTaiKhoanController extends Controller
    */
   public function destroy(string $id)
   {
-    $tai_khoan = QLTaiKhoanModel::find($id);
-    $result = $tai_khoan->delete();
+    try{
+        $tai_khoan = QLTaiKhoanModel::findOrFail($id);
+        $result = $tai_khoan->delete();
+    }catch (ModelNotFoundException $e) {
+        return response()->json([
+           'message' => 'Tài khoản không tồn tại!'
+        ]);
+    }
+    
     if ($result) {
       return response()->json([
         'message' => 'Xóa thành công!'
@@ -209,7 +231,7 @@ class QLTaiKhoanController extends Controller
       }
     }
     if (session('bao_loi') == '') {
-      session()->flash('status', 'Task was successful!');
+      session()->flash('status', 'Đăng nhập thành công!');
       return response()->json([
         // 'message' => 'Đăng nhập thành công!',
         'message' => session('status'),

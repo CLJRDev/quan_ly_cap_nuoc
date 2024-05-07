@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DMQuanHuyenModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;  
 
 class DMQuanHuyenController extends Controller
 {
@@ -63,7 +64,13 @@ class DMQuanHuyenController extends Controller
      */
     public function show(string $id)
     {
-        return DMQuanHuyenModel::where("ma_quan_huyen",$id)->first();
+        try{
+            return DMQuanHuyenModel::where("ma_quan_huyen",$id)->firstOrFail();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Quận huyện không tồn tại!'
+            ]);
+        }
     }
 
     /**
@@ -92,11 +99,17 @@ class DMQuanHuyenController extends Controller
                 'message' => $validator->errors(),
                 ]);
         }
-        $quan_huyen = DMQuanHuyenModel::find($id); 
-        if(isset($request->ten_quan_huyen)){
-            $quan_huyen->ten_quan_huyen=$request->ten_quan_huyen;
+        try{
+            $quan_huyen = DMQuanHuyenModel::findOrFail($id); 
+            if(isset($request->ten_quan_huyen)){
+                $quan_huyen->ten_quan_huyen=$request->ten_quan_huyen;
+            }
+            $result = $quan_huyen->save();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Quận huyện không tồn tại!'
+            ]);
         }
-        $result = $quan_huyen->save();
         if($result){
             return response()->json([
                 'message' => 'Cập nhật thành công!'
@@ -114,8 +127,14 @@ class DMQuanHuyenController extends Controller
      */
     public function destroy(string $id)
     {
-        $quan_huyen = DMQuanHuyenModel::find($id);
-        $result = $quan_huyen->delete();
+        try{
+            $quan_huyen = DMQuanHuyenModel::findOrFail($id);
+            $result = $quan_huyen->delete();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Quận huyện không tồn tại!'
+            ]);
+        }
         if($result){
             return response()->json([
                 'message' => 'Xóa thành công!'

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DMChiNhanhModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;  
 
 class DMChiNhanhController extends Controller
 {
@@ -64,7 +65,13 @@ class DMChiNhanhController extends Controller
      */
     public function show(string $id)
     {
-        return DMChiNhanhModel::where("ma_chi_nhanh",$id)->first();
+        try{
+            return DMChiNhanhModel::where("ma_chi_nhanh",$id)->firstOrFail();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Chi nhánh không tồn tại!'
+            ]);
+        }
     }
 
     /**
@@ -93,14 +100,20 @@ class DMChiNhanhController extends Controller
                 'message' => $validator->errors(),
                 ]);
         }
-        $chi_nhanh = DMChiNhanhModel::find($id); 
-        if(isset($request->ten_chi_nhanh)){
-            $chi_nhanh->ten_chi_nhanh=$request->ten_chi_nhanh;
+        try{
+            $chi_nhanh = DMChiNhanhModel::findOrFail($id); 
+            if(isset($request->ten_chi_nhanh)){
+                $chi_nhanh->ten_chi_nhanh=$request->ten_chi_nhanh;
+            }
+            if(isset($request->dia_chi)){
+                $chi_nhanh->dia_chi=$request->dia_chi;
+            }
+            $result = $chi_nhanh->save();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Chi nhánh không tồn tại!'
+            ]);
         }
-        if(isset($request->dia_chi)){
-            $chi_nhanh->dia_chi=$request->dia_chi;
-        }
-        $result = $chi_nhanh->save();
         if($result){
             return response()->json([
                 'message' => 'Cập nhật thành công!'
@@ -118,8 +131,14 @@ class DMChiNhanhController extends Controller
      */
     public function destroy(string $id)
     {
-        $chi_nhanh = DMChiNhanhModel::find($id);
-        $result = $chi_nhanh->delete();
+        try{
+            $chi_nhanh = DMChiNhanhModel::findOrFail($id);
+            $result = $chi_nhanh->delete();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Chi nhánh không tồn tại!'
+            ]);
+        }
         if($result){
             return response()->json([
                 'message' => 'Xóa thành công!'

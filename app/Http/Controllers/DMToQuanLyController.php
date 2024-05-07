@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DMToQuanLyModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;  
 
 class DMToQuanLyController extends Controller
 {
@@ -67,9 +68,15 @@ class DMToQuanLyController extends Controller
      */
     public function show(string $id)
     {
-        return DMToQuanLyModel::select('ma_to_quan_ly','ten_to_quan_ly','dm_toquanly.ma_chi_nhanh','dm_chinhanh.ten_chi_nhanh','dm_chinhanh.dia_chi')
-        ->join('dm_chinhanh','dm_chinhanh.ma_chi_nhanh','=','dm_toquanly.ma_chi_nhanh')
-        ->where("ma_to_quan_ly",$id)->first();
+        try{
+            return DMToQuanLyModel::select('ma_to_quan_ly','ten_to_quan_ly','dm_toquanly.ma_chi_nhanh','dm_chinhanh.ten_chi_nhanh','dm_chinhanh.dia_chi')
+                ->join('dm_chinhanh','dm_chinhanh.ma_chi_nhanh','=','dm_toquanly.ma_chi_nhanh')
+                ->where("ma_to_quan_ly",$id)->firstOrFail();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Tổ quản lý không tồn tại!'
+            ]);
+        }
     }
 
     /**
@@ -99,14 +106,20 @@ class DMToQuanLyController extends Controller
                 'message' => $validator->errors(),
                 ]);
         }
-        $to_quan_ly = DMToQuanLyModel::find($id); 
-        if(isset($request->ten_to_quan_ly)){
-            $to_quan_ly->ten_to_quan_ly=$request->ten_to_quan_ly;
+        try{
+            $to_quan_ly = DMToQuanLyModel::findOrFail($id); 
+            if(isset($request->ten_to_quan_ly)){
+                $to_quan_ly->ten_to_quan_ly=$request->ten_to_quan_ly;
+            }
+            if(isset($request->ma_chi_nhanh)){
+                $to_quan_ly->ma_chi_nhanh=$request->ma_chi_nhanh;
+            }
+            $result = $to_quan_ly->save();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Tổ quản lý không tồn tại!'
+            ]);
         }
-        if(isset($request->ma_chi_nhanh)){
-            $to_quan_ly->ma_chi_nhanh=$request->ma_chi_nhanh;
-        }
-        $result = $to_quan_ly->save();
         if($result){
             return response()->json([
                 'message' => 'Cập nhật thành công!'
@@ -124,8 +137,14 @@ class DMToQuanLyController extends Controller
      */
     public function destroy(string $id)
     {
-        $to_quan_ly = DMToQuanLyModel::find($id);
-        $result = $to_quan_ly->delete();
+        try{
+            $to_quan_ly = DMToQuanLyModel::find($id);
+            $result = $to_quan_ly->delete();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Tổ quản lý không tồn tại!'
+            ]);
+        }
         if($result){
             return response()->json([
                 'message' => 'Xóa thành công!'

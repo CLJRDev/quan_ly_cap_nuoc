@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DMThanhToanModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;  
 
 class DMThanhToanController extends Controller
 {
@@ -63,7 +64,13 @@ class DMThanhToanController extends Controller
      */
     public function show(string $id)
     {
-        return DMThanhToanModel::where("ma_phuong_thuc",$id)->first();
+        try{
+            return DMThanhToanModel::where("ma_phuong_thuc",$id)->firstOrFail();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Phương thức thanh toán không tồn tại!'
+            ]);
+        }
     }
 
     /**
@@ -92,11 +99,17 @@ class DMThanhToanController extends Controller
                 'message' => $validator->errors(),
                 ]);
         }
-        $phuong_thuc = DMThanhToanModel::find($id); 
-        if(isset($request->ten_phuong_thuc)){
-            $phuong_thuc->ten_phuong_thuc=$request->ten_phuong_thuc;
+        try{
+            $phuong_thuc = DMThanhToanModel::findOrFail($id); 
+            if(isset($request->ten_phuong_thuc)){
+                $phuong_thuc->ten_phuong_thuc=$request->ten_phuong_thuc;
+            }
+            $result = $phuong_thuc->save();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Phương thức thanh toán không tồn tại!'
+            ]);
         }
-        $result = $phuong_thuc->save();
         if($result){
             return response()->json([
                 'message' => 'Cập nhật thành công!'
@@ -114,8 +127,14 @@ class DMThanhToanController extends Controller
      */
     public function destroy(string $id)
     {
-        $phuong_thuc = DMThanhToanModel::find($id);
-        $result = $phuong_thuc->delete();
+        try{
+            $phuong_thuc = DMThanhToanModel::findOrFail($id);
+            $result = $phuong_thuc->delete();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Phương thức thanh toán không tồn tại!'
+            ]);
+        }
         if($result){
             return response()->json([
                 'message' => 'Xóa thành công!'

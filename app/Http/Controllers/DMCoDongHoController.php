@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DMCoDongHoModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;  
 
 class DMCoDongHoController extends Controller
 {
@@ -63,7 +64,13 @@ class DMCoDongHoController extends Controller
      */
     public function show(string $id)
     {
-        return DMCoDongHoModel::where("ma_co_dong_ho",$id)->first();
+        try{
+            return DMCoDongHoModel::where("ma_co_dong_ho",$id)->firstOrFail();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Cỡ đồng hồ không tồn tại!'
+            ]);
+        }
     }
 
     /**
@@ -92,11 +99,17 @@ class DMCoDongHoController extends Controller
                 'message' => $validator->errors(),
                 ]);
         }
-        $co_dong_ho = DMCoDongHoModel::find($id); 
-        if(isset($request->ten_co_dong_ho)){
-            $co_dong_ho->ten_co_dong_ho=$request->ten_co_dong_ho;
+        try{
+            $co_dong_ho = DMCoDongHoModel::findOrFail($id); 
+            if(isset($request->ten_co_dong_ho)){
+                $co_dong_ho->ten_co_dong_ho=$request->ten_co_dong_ho;
+            }
+            $result = $co_dong_ho->save();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Cỡ đồng hồ không tồn tại!'
+            ]);
         }
-        $result = $co_dong_ho->save();
         if($result){
             return response()->json([
                 'message' => 'Cập nhật thành công!'
@@ -114,8 +127,14 @@ class DMCoDongHoController extends Controller
      */
     public function destroy(string $id)
     {
-        $co_dong_ho = DMCoDongHoModel::find($id);
-        $result = $co_dong_ho->delete();
+        try{
+            $co_dong_ho = DMCoDongHoModel::findOrFail($id);
+            $result = $co_dong_ho->delete();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Cỡ đồng hồ không tồn tại!'
+            ]);
+        }
         if($result){
             return response()->json([
                 'message' => 'Xóa thành công!'

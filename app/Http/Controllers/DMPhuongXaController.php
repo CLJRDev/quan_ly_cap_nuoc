@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DMPhuongXaModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;  
 
 class DMPhuongXaController extends Controller
 {
@@ -67,9 +68,15 @@ class DMPhuongXaController extends Controller
      */
     public function show(string $id)
     {
-        return DMPhuongXaModel::select('ma_phuong_xa','ten_phuong_xa','dm_phuongxa.ma_quan_huyen','dm_quanhuyen.ten_quan_huyen')
-        ->join('dm_quanhuyen','dm_quanhuyen.ma_quan_huyen','=','dm_phuongxa.ma_quan_huyen')
-        ->where("ma_phuong_xa",$id)->first();
+        try{
+            return DMPhuongXaModel::select('ma_phuong_xa','ten_phuong_xa','dm_phuongxa.ma_quan_huyen','dm_quanhuyen.ten_quan_huyen')
+            ->join('dm_quanhuyen','dm_quanhuyen.ma_quan_huyen','=','dm_phuongxa.ma_quan_huyen')
+            ->where("ma_phuong_xa",$id)->firstOrFail();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Phường xã không tồn tại!'
+            ]);
+        }
     }
 
     /**
@@ -99,14 +106,20 @@ class DMPhuongXaController extends Controller
                 'message' => $validator->errors(),
                 ]);
         }
-        $phuong_xa = DMPhuongXaModel::find($id); 
-        if(isset($request->ten_phuong_xa)){
-            $phuong_xa->ten_phuong_xa=$request->ten_phuong_xa;
+        try{
+            $phuong_xa = DMPhuongXaModel::findOrFail($id); 
+            if(isset($request->ten_phuong_xa)){
+                $phuong_xa->ten_phuong_xa=$request->ten_phuong_xa;
+            }
+            if(isset($request->ma_quan_huyen)){
+                $phuong_xa->ma_quan_huyen=$request->ma_quan_huyen;
+            }
+            $result = $phuong_xa->save();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Phường xã không tồn tại!'
+            ]);
         }
-        if(isset($request->ma_quan_huyen)){
-            $phuong_xa->ma_quan_huyen=$request->ma_quan_huyen;
-        }
-        $result = $phuong_xa->save();
         if($result){
             return response()->json([
                 'message' => 'Cập nhật thành công!'
@@ -124,8 +137,14 @@ class DMPhuongXaController extends Controller
      */
     public function destroy(string $id)
     {
-        $phuong_xa = DMPhuongXaModel::find($id);
-        $result = $phuong_xa->delete();
+        try{
+            $phuong_xa = DMPhuongXaModel::findOrFail($id);
+            $result = $phuong_xa->delete();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Phường xã không tồn tại!'
+            ]);
+        }
         if($result){
             return response()->json([
                 'message' => 'Xóa thành công!'

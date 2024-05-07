@@ -24,8 +24,6 @@ Route::apiResource("quyen",DMQuyenController::class);
 Route::get('/quyen_search',[DMQuyenController::class,'search']);
 //phan quyen
 Route::apiResource("phan_quyen",QLPhanQuyenController::class);
-Route::get('/phan_quyen/{mnv}/{mq}',[QLPhanQuyenController::class,'show']);
-Route::delete('/phan_quyen/{mnv}/{mq}',[QLPhanQuyenController::class,'destroy']);
 Route::get('/phan_quyen_search',[QLPhanQuyenController::class,'search']);
 //tai khoan
 Route::apiResource("tai_khoan",QLTaiKhoanController::class);

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DMTuyenDocModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;  
 
 class DMTuyenDocController extends Controller
 {
@@ -70,10 +71,17 @@ class DMTuyenDocController extends Controller
      */
     public function show(string $id)
     {
-        return DMTuyenDocModel::select('ma_tuyen','ten_tuyen','dm_tuyendoc.ma_phuong_xa','dm_phuongxa.ten_phuong_xa','dm_tuyendoc.ma_to_quan_ly','dm_toquanly.ten_to_quan_ly','dm_toquanly.dia_chi')
-        ->join('dm_toquanly','dm_toquanly.ma_to_quan_ly','=','dm_tuyendoc.ma_to_quan_ly')
-        ->join('dm_phuongxa','dm_phuongxa.ma_phuong_xa','=','dm_tuyendoc.ma_phuong_xa')
-        ->where("ma_tuyen",$id)->first();
+        try{
+            return DMTuyenDocModel::select('ma_tuyen','ten_tuyen','dm_tuyendoc.ma_phuong_xa','dm_phuongxa.ten_phuong_xa','dm_tuyendoc.ma_to_quan_ly','dm_toquanly.ten_to_quan_ly','dm_toquanly.dia_chi')
+                ->join('dm_toquanly','dm_toquanly.ma_to_quan_ly','=','dm_tuyendoc.ma_to_quan_ly')
+                ->join('dm_phuongxa','dm_phuongxa.ma_phuong_xa','=','dm_tuyendoc.ma_phuong_xa')
+                ->where("ma_tuyen",$id)->firstOrFail();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Tuyến đọc không tồn tại!'
+            ]);
+        }
+        
     }
 
     /**
@@ -104,17 +112,23 @@ class DMTuyenDocController extends Controller
                 'message' => $validator->errors(),
                 ]);
         }
-        $tuyen = DMTuyenDocModel::find($id); 
-        if(isset($request->ten_tuyen)){
-            $tuyen->ten_tuyen=$request->ten_tuyen;
+        try{
+            $tuyen = DMTuyenDocModel::findOrFail($id); 
+            if(isset($request->ten_tuyen)){
+                $tuyen->ten_tuyen=$request->ten_tuyen;
+            }
+            if(isset($request->ma_to_quan_ly)){
+                $tuyen->ma_to_quan_ly=$request->ma_to_quan_ly;
+            }
+            if(isset($request->ma_phuong_xa)){
+                $tuyen->ma_phuong_xa=$request->ma_phuong_xa;
+            }
+            $result = $tuyen->save();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Tuyến đọc không tồn tại!'
+            ]);
         }
-        if(isset($request->ma_to_quan_ly)){
-            $tuyen->ma_to_quan_ly=$request->ma_to_quan_ly;
-        }
-        if(isset($request->ma_phuong_xa)){
-            $tuyen->ma_phuong_xa=$request->ma_phuong_xa;
-        }
-        $result = $tuyen->save();
         if($result){
             return response()->json([
                 'message' => 'Cập nhật thành công!'
@@ -132,8 +146,14 @@ class DMTuyenDocController extends Controller
      */
     public function destroy(string $id)
     {
-        $tuyen = DMTuyenDocModel::find($id);
-        $result = $tuyen->delete();
+        try{
+            $tuyen = DMTuyenDocModel::findOrFail($id);
+            $result = $tuyen->delete();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Tuyến đọc không tồn tại!'
+            ]);
+        }
         if($result){
             return response()->json([
                 'message' => 'Xóa thành công!'

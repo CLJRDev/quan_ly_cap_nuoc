@@ -16,7 +16,7 @@ class QLPhanQuyenController extends Controller
      */
     public function index()
     {
-        return QLPhanQuyenModel::select('ql_phanquyen.ma_quyen','dm_quyen.ten_quyen','ql_phanquyen.ma_nhan_vien','ql_taikhoan.ho_ten')
+        return QLPhanQuyenModel::select('ma_phan_quyen','ql_phanquyen.ma_quyen','dm_quyen.ten_quyen','ql_phanquyen.ma_nhan_vien','ql_taikhoan.ho_ten','ql_taikhoan.chuc_vu')
         ->join('dm_quyen','dm_quyen.ma_quyen','=','ql_phanquyen.ma_quyen')
         ->join('ql_taikhoan','ql_taikhoan.ma_nhan_vien','=','ql_phanquyen.ma_nhan_vien')
         ->orderBy('ma_nhan_vien', 'ASC')->get();
@@ -84,18 +84,17 @@ class QLPhanQuyenController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $mnv,string $mq)
+    public function show(string $id)
     {
         try {
-            $phan_quyen = QLPhanQuyenModel::select('ql_phanquyen.ma_quyen','dm_quyen.ten_quyen','ql_phanquyen.ma_nhan_vien','ql_taikhoan.ho_ten')
+            $phan_quyen = QLPhanQuyenModel::select('ma_phan_quyen','ql_phanquyen.ma_quyen','dm_quyen.ten_quyen','ql_phanquyen.ma_nhan_vien','ql_taikhoan.ho_ten','ql_taikhoan.chuc_vu')
             ->join('dm_quyen','dm_quyen.ma_quyen','=','ql_phanquyen.ma_quyen')
             ->join('ql_taikhoan','ql_taikhoan.ma_nhan_vien','=','ql_phanquyen.ma_nhan_vien')
-            ->where('ql_phanquyen.ma_nhan_vien',$mnv)
-            ->where('ql_phanquyen.ma_quyen',$mq)->firstOrFail();
+            ->findOrFail($id);
             return $phan_quyen;
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Nhân viên không tồn tại!'
+               'message' => 'Phân quyền không tồn tại!'
             ]);
         }
     }
@@ -111,7 +110,7 @@ class QLPhanQuyenController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, string $id)
     {
         $message = [
             'required' => 'Xin hãy điền đủ thông tin!',
@@ -127,12 +126,18 @@ class QLPhanQuyenController extends Controller
                 'message' => $validator->errors(),
                 ]);
         }
-        
-        $phan_quyen = QLPhanQuyenModel::where('ma_nhan_vien',$request->ma_nhan_vien)->where('ma_quyen',$request->ma_quyen)->firstOrFail(); 
-        if(isset($request->ma_quyen_moi)){
-            $phan_quyen->ma_quyen=$request->ma_quyen_moi;
+        try{
+            $phan_quyen = QLPhanQuyenModel::findOrFail($id); 
+            if(isset($request->ma_quyen_moi)){
+                $phan_quyen->ma_quyen=$request->ma_quyen_moi;
+            }
+            $result = $phan_quyen->save();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Phân quyền không tồn tại!'
+            ]);
         }
-        $result = $phan_quyen->save();
+        
         if($result){
             return response()->json([
                 'message' => 'Cập nhật thành công!'
@@ -148,10 +153,10 @@ class QLPhanQuyenController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $mnv, string $mq)
+    public function destroy(string $id)
     {
         try{
-            $phan_quyen = QLPhanQuyenModel::where('ma_nhan_vien',$mnv)->where('ma_quyen',$mq)->firstOrFail();
+            $phan_quyen = QLPhanQuyenModel::findOrFail($id);
             $result = $phan_quyen->delete();
         }catch (ModelNotFoundException $e) {
             return response()->json([
@@ -171,7 +176,7 @@ class QLPhanQuyenController extends Controller
     }
     public function search(Request $request)
     {
-        $query = QLPhanQuyenModel::query();
+        $query = QLPhanQuyenModel::query()->select('ma_phan_quyen','ql_phanquyen.ma_quyen','dm_quyen.ten_quyen','ql_phanquyen.ma_nhan_vien','ql_taikhoan.ho_ten','ql_taikhoan.chuc_vu');
         if($request->has('ma_nhan_vien')){
             $query->where('ma_nhan_vien',"like","%".$request->ma_nhan_vien."%");
         }

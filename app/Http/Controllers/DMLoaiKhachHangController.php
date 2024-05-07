@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DMLoaiKhachHangModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;  
 
 class DMLoaiKhachHangController extends Controller
 {
@@ -63,7 +64,13 @@ class DMLoaiKhachHangController extends Controller
      */
     public function show(string $id)
     {
-        return DMLoaiKhachHangModel::where("ma_loai_khach_hang",$id)->first();
+        try{
+            return DMLoaiKhachHangModel::where("ma_loai_khach_hang",$id)->firstOrFail();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Loại khách hàng không tồn tại!'
+            ]);
+        }
     }
 
     /**

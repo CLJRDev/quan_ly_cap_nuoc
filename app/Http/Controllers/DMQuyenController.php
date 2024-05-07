@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DMQuyenModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;  
 
 class DMQuyenController extends Controller
 {
@@ -63,7 +64,13 @@ class DMQuyenController extends Controller
      */
     public function show(string $id)
     {
-        return DMQuyenModel::where("ma_quyen",$id)->first();
+        try{
+            return DMQuyenModel::where("ma_quyen",$id)->firstOrFail();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Quyền không tồn tại!'
+            ]);
+        }
     }
 
     /**
@@ -92,11 +99,17 @@ class DMQuyenController extends Controller
                 'message' => $validator->errors(),
                 ]);
         }
-        $quyen = DMQuyenModel::find($id); 
-        if(isset($request->ten_quyen)){
-            $quyen->ten_quyen=$request->ten_quyen;
+        try{
+            $quyen = DMQuyenModel::findOrFail($id); 
+            if(isset($request->ten_quyen)){
+                $quyen->ten_quyen=$request->ten_quyen;
+            }
+            $result = $quyen->save();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Quyền không tồn tại!'
+            ]);
         }
-        $result = $quyen->save();
         if($result){
             return response()->json([
                 'message' => 'Cập nhật thành công!'
@@ -114,8 +127,14 @@ class DMQuyenController extends Controller
      */
     public function destroy(string $id)
     {
-        $quyen = DMQuyenModel::find($id);
-        $result = $quyen->delete();
+        try{
+            $quyen = DMQuyenModel::findOrFail($id);
+            $result = $quyen->delete();
+        }catch (ModelNotFoundException $e) {
+            return response()->json([
+               'message' => 'Quyền không tồn tại!'
+            ]);
+        }
         if($result){
             return response()->json([
                 'message' => 'Xóa thành công!'
