@@ -21,7 +21,7 @@ export const SidebarData = [
       },
       {
         title: 'Phân quyền',
-        path: '/phan_quyen',
+        path: '/quan_ly_phan_quyen',
         icon: <TbIcons.TbSubtask />,
       },
     ]

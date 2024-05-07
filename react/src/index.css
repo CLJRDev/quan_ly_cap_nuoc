@@ -32,6 +32,27 @@ body {
   margin-top: 0.5rem;
 }
 
+.login-form{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form .form {
+  width: 360px;
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 360px;
+  padding: 34px;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.login-form .title {
+  margin-bottom: 1rem;
+}
+
 .title {
   text-align: center;
   font-weight: bold;
@@ -96,6 +117,12 @@ table>tbody>tr>td {
 
 .btn-delete {
   background-color: #b72424;
+}
+
+.btn:hover,
+.btn:active,
+.btn:focus {
+    background: var(--primary-color);
 }
 
 /* .btn-logout {

@@ -51,7 +51,8 @@ export default function Sidebar() {
             {SidebarData.map((item, index) => {
               return <SubMenu item={item} key={index} />
             })}
-          </SidebarWrap>
+            {/* <button className='btn btn-block'>Đăng xuất</button> */}
+          </SidebarWrap>          
         </SidebarNav>
       </IconContext.Provider>
     </>

@@ -103,7 +103,7 @@ export default function SuaNguoiDung() {
           </select>
         </div>
         <div>
-          <button type='submit' className='btn-add'>
+          <button type='submit' className='btn-edit'>
             <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
             &nbsp;Sửa người dùng
           </button>

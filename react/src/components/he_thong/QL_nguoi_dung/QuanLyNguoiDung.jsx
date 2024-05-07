@@ -29,6 +29,21 @@ export default function QuanLyNguoiDung() {
 
   if (!users) return null
 
+  const xoaNguoiDung = id => {
+    if (!window.confirm('Bạn có chắc chắn muốn xóa người dùng này?'))
+      return
+    axios.delete(`http://127.0.0.1:8000/api/tai_khoan/${id}`)
+      .then(response => {
+        console.log(response.data.message);
+        setUsers(users.filter(user => {
+          return user.ma_nhan_vien != id;
+        }));
+      })
+      .catch(error => {
+
+      });
+  }
+
   const userElements = users.map((item, index) => {
     return <tr key={index}>
       <td>{item.ma_nhan_vien}</td>
@@ -41,7 +56,7 @@ export default function QuanLyNguoiDung() {
       <td>
         <Link className="btn-edit" to={`/nguoi_dung/sua/${item.ma_nhan_vien}`}>Sửa</Link>
         &nbsp;
-        <button className="btn-delete">Xóa</button>
+        <button onClick={() => xoaNguoiDung(item.ma_nhan_vien)} className="btn-delete">Xóa</button>
       </td>
     </tr>
   })
@@ -128,7 +143,7 @@ export default function QuanLyNguoiDung() {
       </form>
       <div className="table-container animated fadeInDown">
         <div className="title" style={{ marginBottom: '5px' }}>Danh sách người dùng</div>
-        <table className='table'>
+        <table>
           <thead>
             <tr>
               <th>Mã nhân viên</th>
