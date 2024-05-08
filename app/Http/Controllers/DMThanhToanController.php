@@ -7,6 +7,7 @@ use App\Models\DMThanhToanModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;  
+use Illuminate\Validation\Rule;
 
 class DMThanhToanController extends Controller
 {
@@ -91,7 +92,10 @@ class DMThanhToanController extends Controller
             'unique' => 'Phương thức thanh toán đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
-            'ten_phuong_thuc' => 'required|unique:dm_ptthanhtoan,ten_phuong_thuc',
+            'ten_phuong_thuc' => [
+                'required',
+                Rule::unique('dm_ptthanhtoan', 'ten_phuong_thuc')->ignore($id, 'ma_phuong_thuc')
+              ],,
           ],$message);
         
         if($validator->fails()){

@@ -7,6 +7,7 @@ use App\Models\DMChiNhanhModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;  
+use Illuminate\Validation\Rule;
 
 class DMChiNhanhController extends Controller
 {
@@ -41,8 +42,8 @@ class DMChiNhanhController extends Controller
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         $chi_nhanh = new DMChiNhanhModel; 
         $chi_nhanh->ten_chi_nhanh=$request->ten_chi_nhanh;
@@ -55,8 +56,8 @@ class DMChiNhanhController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 
@@ -69,8 +70,8 @@ class DMChiNhanhController extends Controller
             return DMChiNhanhModel::where("ma_chi_nhanh",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Chi nhánh không tồn tại!'
-            ]);
+               'error' => 'Chi nhánh không tồn tại!'
+            ],422);
         }
     }
 
@@ -92,13 +93,16 @@ class DMChiNhanhController extends Controller
             'unique' => 'Chi nhánh đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
-            'ten_chi_nhanh' => 'required|unique:dm_chinhanh,ten_chi_nhanh',
+            'ten_chi_nhanh' => [
+                'required',
+                Rule::unique('dm_chinhanh', 'ten_chi_nhanh')->ignore($id, 'ma_chi_nhanh')
+              ],
           ],$message);
         
         if($validator->fails()){
             return response()->json([
-                'message' => $validator->errors(),
-                ]);
+                'error' => $validator->errors(),
+                ],422);
         }
         try{
             $chi_nhanh = DMChiNhanhModel::findOrFail($id); 
@@ -111,8 +115,8 @@ class DMChiNhanhController extends Controller
             $result = $chi_nhanh->save();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'message' => 'Chi nhánh không tồn tại!'
-            ]);
+               'error' => 'Chi nhánh không tồn tại!'
+            ],422);
         }
         if($result){
             return response()->json([
@@ -121,8 +125,8 @@ class DMChiNhanhController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Lỗi!'
-              ]);
+                'error' => 'Lỗi!'
+              ],422);
         }
     }
 

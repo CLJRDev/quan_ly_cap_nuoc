@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\QLGiaNuocModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
-use Illuminate\Database\Eloquent\ModelNotFoundException;  
+use Illuminate\Database\Eloquent\ModelNotFoundException; 
+use Illuminate\Validation\Rule;
 
 class QLGiaNuocController extends Controller
 {
@@ -113,14 +114,20 @@ class QLGiaNuocController extends Controller
             'unique' => 'Cỡ đồng hồ đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
-            'ten_nhom_gia' => 'required|unique:ql_nhomgia,ten_nhom_gia',
+            'ten_nhom_gia' => [
+                'required',
+                Rule::unique('ql_nhomgia', 'ten_nhom_gia')->ignore($id, 'ma_nhom_gia')
+              ],
             'gia_duoi_10m' => 'required_if:gia_rieng,NULL',
             'gia_tu_10m_den_20m' => 'required_if:gia_rieng,NULL',
             'gia_tu_20m_den_30m' => 'required_if:gia_rieng,NULL',
             'gia_tren_30m' => 'required_if:gia_rieng,NULL',
             'gia_rieng' => 'required_if:gia_duoi_10m,NULL',
             'gia_goc' => 'required',
-            'ma_loai_khach_hang' => 'required|unique:ql_nhomgia,ma_loai_khach_hang',
+            'ma_loai_khach_hang' => [
+                'required',
+                Rule::unique('ql_nhomgia', 'ma_loai_khach_hang')->ignore($id, 'ma_nhom_gia')
+              ],
           ],$message);
         
         if($validator->fails()){

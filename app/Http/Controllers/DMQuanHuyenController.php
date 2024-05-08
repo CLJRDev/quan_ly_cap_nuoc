@@ -7,6 +7,7 @@ use App\Models\DMQuanHuyenModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;  
+use Illuminate\Validation\Rule;
 
 class DMQuanHuyenController extends Controller
 {
@@ -91,7 +92,10 @@ class DMQuanHuyenController extends Controller
             'unique' => 'Quận huyện đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
-            'ten_quan_huyen' => 'required|unique:dm_quanhuyen,ten_quan_huyen',
+            'ten_quan_huyen' => [
+                'required',
+                Rule::unique('dm_quanhuyen', 'ten_quan_huyen')->ignore($id, 'ma_quan_huyen')
+              ],,
           ],$message);
         
         if($validator->fails()){

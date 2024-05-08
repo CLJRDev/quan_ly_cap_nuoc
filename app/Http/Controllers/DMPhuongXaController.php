@@ -7,6 +7,7 @@ use App\Models\DMPhuongXaModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;  
+use Illuminate\Validation\Rule;
 
 class DMPhuongXaController extends Controller
 {
@@ -97,7 +98,10 @@ class DMPhuongXaController extends Controller
             'unique' => 'Phường xã đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
-            'ten_phuong_xa' => 'required|unique:dm_phuongxa,ten_phuong_xa',
+            'ten_phuong_xa' => [
+                'required',
+                Rule::unique('dm_phuongxa', 'ten_phuong_xa')->ignore($id, 'ma_phuong_xa')
+              ],
             'ma_quan_huyen' => 'required',
           ],$message);
         

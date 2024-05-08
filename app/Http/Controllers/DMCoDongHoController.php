@@ -7,6 +7,7 @@ use App\Models\DMCoDongHoModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;  
+use Illuminate\Validation\Rule;
 
 class DMCoDongHoController extends Controller
 {
@@ -91,7 +92,10 @@ class DMCoDongHoController extends Controller
             'unique' => 'Cỡ đồng hồ đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
-            'ten_co_dong_ho' => 'required|unique:dm_codongho,ten_co_dong_ho',
+            'ten_co_dong_ho' => [
+                'required',
+                Rule::unique('dm_codongho', 'ten_co_dong_ho')->ignore($id, 'ma_co_dong_ho')
+              ],
           ],$message);
         
         if($validator->fails()){

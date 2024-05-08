@@ -8,6 +8,7 @@ use App\Models\QLTaiKhoanModel;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;  
 use \Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class QLPhanQuyenController extends Controller
 {
@@ -111,8 +112,8 @@ class QLPhanQuyenController extends Controller
             'unique' => 'Phân quyền đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
-            'ma_nhan_vien' => 'required|unique:ql_phanquyen,ma_nhan_vien,NULL,ma_phan_quyen,ma_quyen,' . $request->ma_quyen,
-            'ma_quyen' => 'required',
+            'ma_nhan_vien' => 'required',
+            'ma_quyen' => 'required|unique:ql_phanquyen,ma_quyen,NULL,ma_phan_quyen,ma_nhan_vien,' . $request->ma_nhan_vien,
             ],$message);
         
         if($validator->fails()){
@@ -122,8 +123,8 @@ class QLPhanQuyenController extends Controller
         }
         try{
             $phan_quyen = QLPhanQuyenModel::findOrFail($id); 
-            if(isset($request->ma_quyen_moi)){
-                $phan_quyen->ma_quyen=$request->ma_quyen_moi;
+            if(isset($request->ma_quyen)){
+                $phan_quyen->ma_quyen=$request->ma_quyen;
             }
             $result = $phan_quyen->save();
         }catch (ModelNotFoundException $e) {

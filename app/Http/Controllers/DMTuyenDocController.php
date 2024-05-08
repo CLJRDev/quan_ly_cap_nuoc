@@ -7,6 +7,7 @@ use App\Models\DMTuyenDocModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;  
+use Illuminate\Validation\Rule;
 
 class DMTuyenDocController extends Controller
 {
@@ -102,7 +103,10 @@ class DMTuyenDocController extends Controller
             'unique' => 'Tuyến đọc đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
-            'ten_tuyen' => 'required|unique:dm_tuyendoc,ten_tuyen',
+            'ten_tuyen' => [
+                'required',
+                Rule::unique('dm_tuyen', 'ten_tuyen')->ignore($id, 'ma_tuyen')
+              ],
             'ma_to_quan_ly' => 'required',
             'ma_phuong_xa' => 'required',
           ],$message);

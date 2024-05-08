@@ -7,6 +7,7 @@ use App\Models\DMToQuanLyModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;  
+use Illuminate\Validation\Rule;
 
 class DMToQuanLyController extends Controller
 {
@@ -97,7 +98,10 @@ class DMToQuanLyController extends Controller
             'unique' => 'Tổ quản lý đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
-            'ten_to_quan_ly' => 'required|unique:dm_toquanly,ten_to_quan_ly',
+            'ten_to_quan_ly' => [
+                'required',
+                Rule::unique('dm_toquanly', 'ten_to_quan_ly')->ignore($id, 'ma_to_quan_ly')
+              ],
             'ma_chi_nhanh' => 'required',
           ],$message);
         

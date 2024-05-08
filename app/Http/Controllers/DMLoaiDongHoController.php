@@ -7,6 +7,7 @@ use App\Models\DMLoaiDongHoModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;  
+use Illuminate\Validation\Rule;
 
 class DMLoaiDongHoController extends Controller
 {
@@ -91,7 +92,10 @@ class DMLoaiDongHoController extends Controller
             'unique' => 'Loại đồng hồ đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
-            'ten_loai_dong_ho' => 'required|unique:dm_loaidongho,ten_loai_dong_ho',
+            'ten_loai_dong_ho' => [
+                'required',
+                Rule::unique('dm_loaidongho', 'ten_loai_dong_ho')->ignore($id, 'ma_loai_dong_ho')
+              ],
           ],$message);
         
         if($validator->fails()){

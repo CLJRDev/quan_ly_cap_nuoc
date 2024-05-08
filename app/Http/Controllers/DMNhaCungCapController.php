@@ -7,6 +7,7 @@ use App\Models\DMNhaCungCapModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;  
+use Illuminate\Validation\Rule;
 
 class DMNhaCungCapController extends Controller
 {
@@ -93,7 +94,10 @@ class DMNhaCungCapController extends Controller
             'unique' => 'Nhà cung cấp đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
-            'ten_nha_cung_cap' => 'required|unique:dm_nhacungcap,ten_nha_cung_cap',
+            'ten_nha_cung_cap' => [
+                'required',
+                Rule::unique('dm_nhacungcap', 'ten_nha_cung_cap')->ignore($id, 'ma_nha_cung_cap')
+              ],,
           ],$message);
         
         if($validator->fails()){
