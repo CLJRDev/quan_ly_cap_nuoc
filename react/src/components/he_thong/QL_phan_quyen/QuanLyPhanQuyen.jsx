@@ -31,7 +31,7 @@ export default function QuanLyPhanQuyen() {
       <td>{item.ho_ten}</td>
       <td>{item.chuc_vu}</td>
       <td>
-        <Link className="btn-edit" to={`/phan_quyen/sua/${item.id}`}>Sửa</Link>&nbsp;
+        <Link className="btn-edit" to={`/quan_ly_phan_quyen/sua/${item.ma_phan_quyen}`}>Sửa</Link>&nbsp;
         <button className="btn-delete">Xóa</button>
       </td>
     </tr>
@@ -100,7 +100,7 @@ export default function QuanLyPhanQuyen() {
           </Link>
           &nbsp;
           <Link className="btn-add" to='/quan_ly_phan_quyen/them'>&nbsp;
-            <TbSubtask />&nbsp;
+            <TbSubtask style={{ transform: 'scale(1.2)' }}/>&nbsp;
             Phân quyền
           </Link>
         </div>

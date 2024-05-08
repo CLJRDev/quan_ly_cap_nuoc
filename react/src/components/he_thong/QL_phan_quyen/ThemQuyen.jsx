@@ -2,8 +2,6 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { IoIosAddCircleOutline } from "react-icons/io"
 import { Link } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 export default function ThemQuyen() {
   const [quyens, setQuyens] = useState(null)

@@ -29,7 +29,6 @@ export default function SuaQuyen() {
     })
   }
 
-
   const suaQuyen = async () => {
     const formData = new FormData()
     formData.append('_method', 'PUT')
