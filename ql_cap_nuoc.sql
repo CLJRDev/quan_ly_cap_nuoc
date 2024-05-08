@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 06, 2024 at 07:13 PM
+-- Generation Time: May 09, 2024 at 01:25 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -72,6 +72,14 @@ CREATE TABLE `dm_loaikhachhang` (
   `ma_loai_khach_hang` int(11) NOT NULL,
   `ten_loai_khach_hang` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `dm_loaikhachhang`
+--
+
+INSERT INTO `dm_loaikhachhang` (`ma_loai_khach_hang`, `ten_loai_khach_hang`) VALUES
+(2, 'Doanh nghiệp'),
+(1, 'Khách hàng');
 
 -- --------------------------------------------------------
 
@@ -144,20 +152,21 @@ INSERT INTO `dm_quanhuyen` (`ma_quan_huyen`, `ten_quan_huyen`) VALUES
 
 CREATE TABLE `dm_quyen` (
   `ma_quyen` int(11) NOT NULL,
-  `ten_quyen` varchar(50) NOT NULL
+  `ten_quyen` varchar(50) NOT NULL,
+  `trang_thai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `dm_quyen`
 --
 
-INSERT INTO `dm_quyen` (`ma_quyen`, `ten_quyen`) VALUES
-(5, 'Nhân viên'),
-(7, 'Quản lý'),
-(1, 'Quản trị viên'),
-(8, 'Thanh tra'),
-(2, 'Thu ngân'),
-(6, 'Trưởng phòng');
+INSERT INTO `dm_quyen` (`ma_quyen`, `ten_quyen`, `trang_thai`) VALUES
+(1, 'Quản trị viên', 1),
+(2, 'Thu ngân', 0),
+(5, 'Nhân viên', 0),
+(6, 'Trưởng phòng', 1),
+(7, 'Quản lý', 1),
+(8, 'Thanh tra', 1);
 
 -- --------------------------------------------------------
 
@@ -194,6 +203,24 @@ CREATE TABLE `dm_tuyendoc` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ql_nhomgia`
+--
+
+CREATE TABLE `ql_nhomgia` (
+  `ma_nhom_gia` int(11) NOT NULL,
+  `ten_nhom_gia` text NOT NULL,
+  `gia_duoi_10m` double DEFAULT NULL,
+  `gia_tu_10m_den_20m` double DEFAULT NULL,
+  `gia_tu_20m_den_30m` double DEFAULT NULL,
+  `gia_tren_30m` double DEFAULT NULL,
+  `gia_rieng` double DEFAULT NULL,
+  `gia_goc` double NOT NULL,
+  `ma_loai_khach_hang` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ql_phanquyen`
 --
 
@@ -210,8 +237,7 @@ CREATE TABLE `ql_phanquyen` (
 INSERT INTO `ql_phanquyen` (`ma_phan_quyen`, `ma_nhan_vien`, `ma_quyen`) VALUES
 (1, 100000, 1),
 (2, 100000, 2),
-(3, 100000, 5),
-(6, 100000, 6),
+(6, 100000, 5),
 (8, 100001, 2),
 (7, 100001, 6);
 
@@ -239,7 +265,7 @@ CREATE TABLE `ql_taikhoan` (
 INSERT INTO `ql_taikhoan` (`ma_nhan_vien`, `mat_khau`, `trang_thai`, `email`, `sdt`, `chuc_vu`, `ho_ten`, `ngay_sinh`) VALUES
 (100000, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'manh@qlcn.com', 0, 'Giám đốc', 'Đỗ Đức Mạnh', '2000-04-14'),
 (100001, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'lam@qlcn.com', 0, 'Giám đốc', 'Nguyễn Công Lâm', '2002-11-05'),
-(100003, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'phuc@qlcn.com', 0, 'Trưởng phòng', 'Phạm Quang Phúc', '2000-08-06');
+(100003, 'c4ca4238a0b923820dcc509a6f75849b', 0, 'phuc@qlcn.com', 1, 'Trưởng phòng', 'Phạm Quang Phúc', '2000-08-06');
 
 --
 -- Indexes for dumped tables
@@ -325,6 +351,14 @@ ALTER TABLE `dm_tuyendoc`
   ADD KEY `ma_to_quan_ly` (`ma_to_quan_ly`);
 
 --
+-- Indexes for table `ql_nhomgia`
+--
+ALTER TABLE `ql_nhomgia`
+  ADD PRIMARY KEY (`ma_nhom_gia`),
+  ADD UNIQUE KEY `ten_nhom_gia` (`ten_nhom_gia`) USING HASH,
+  ADD UNIQUE KEY `ma_loai_khach_hang` (`ma_loai_khach_hang`);
+
+--
 -- Indexes for table `ql_phanquyen`
 --
 ALTER TABLE `ql_phanquyen`
@@ -364,7 +398,7 @@ ALTER TABLE `dm_loaidongho`
 -- AUTO_INCREMENT for table `dm_loaikhachhang`
 --
 ALTER TABLE `dm_loaikhachhang`
-  MODIFY `ma_loai_khach_hang` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ma_loai_khach_hang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `dm_nhacungcap`
@@ -409,10 +443,16 @@ ALTER TABLE `dm_tuyendoc`
   MODIFY `ma_tuyen` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `ql_nhomgia`
+--
+ALTER TABLE `ql_nhomgia`
+  MODIFY `ma_nhom_gia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `ql_phanquyen`
 --
 ALTER TABLE `ql_phanquyen`
-  MODIFY `ma_phan_quyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ma_phan_quyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `ql_taikhoan`
@@ -442,6 +482,12 @@ ALTER TABLE `dm_toquanly`
 ALTER TABLE `dm_tuyendoc`
   ADD CONSTRAINT `dm_tuyendoc_ibfk_1` FOREIGN KEY (`ma_phuong_xa`) REFERENCES `dm_phuongxa` (`ma_phuong_xa`) ON UPDATE CASCADE,
   ADD CONSTRAINT `dm_tuyendoc_ibfk_2` FOREIGN KEY (`ma_to_quan_ly`) REFERENCES `dm_toquanly` (`ma_to_quan_ly`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `ql_nhomgia`
+--
+ALTER TABLE `ql_nhomgia`
+  ADD CONSTRAINT `ql_nhomgia_ibfk_1` FOREIGN KEY (`ma_loai_khach_hang`) REFERENCES `dm_loaikhachhang` (`ma_loai_khach_hang`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `ql_phanquyen`
