@@ -90,16 +90,21 @@ table>tbody>tr>td {
   background: #0e4279;
   border: 0;
   text-decoration: none;
-  padding: 15px;
   color: #FFFFFF;
   font-size: 16px;
   -webkit-transition: all 0.3 ease;
   transition: all 0.3 ease;
   cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn:hover{
+  color: #fff;
 }
 
 .btn-block {
   width: 100%;
+  padding: 10px;
 }
 
 .btn-add,
@@ -108,22 +113,30 @@ table>tbody>tr>td {
 .btn-delete {
   padding: 0.5rem 0.75rem;
   font-size: 14px;
-  border-radius: 4px;
-}
-
-.btn-add {
-  background-color: #0e4279;
 }
 
 .btn-delete {
   background-color: #b72424;
 }
 
-.btn:hover,
-.btn:active,
-.btn:focus {
-    background: var(--primary-color);
+.btn-add:hover,
+.btn-search:hover,
+.btn-edit:hover,
+.btn-delete:hover{
+  opacity: 0.8;
 }
+
+.btn-add:active,
+.btn-search:active,
+.btn-edit:active,
+.btn-delete:active{
+  opacity: 0.6;
+}
+
+.btn:hover {
+  background: var(--primary-color);
+}
+
 
 /* .btn-logout {
   text-decoration: none;
@@ -154,11 +167,12 @@ input, select {
   outline: 0;
   background: #ffffff;
   width: 100%;
-  border: 2px solid #e6e6e6;
-  padding: 10px;
+  border: 1px solid #e6e6e6;
+  padding: 8px 10px;
   box-sizing: border-box;
   font-size: 14px;
   transition: all 0.3s;
+  border-radius: 5px;
 }
 
 input:focus {
