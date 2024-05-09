@@ -16,7 +16,7 @@ class DMTuyenDocController extends Controller
      */
     public function index()
     {
-        return DMTuyenDocModel::select('ma_tuyen','ten_tuyen','dm_tuyendoc.ma_phuong_xa','dm_phuongxa.ten_phuong_xa','dm_tuyendoc.ma_to_quan_ly','dm_toquanly.ten_to_quan_ly','dm_toquanly.dia_chi')
+        return DMTuyenDocModel::select('ma_tuyen','ten_tuyen','dm_tuyendoc.ma_phuong_xa','dm_phuongxa.ten_phuong_xa','dm_tuyendoc.ma_to_quan_ly','dm_toquanly.ten_to_quan_ly')
         ->join('dm_toquanly','dm_toquanly.ma_to_quan_ly','=','dm_tuyendoc.ma_to_quan_ly')
         ->join('dm_phuongxa','dm_phuongxa.ma_phuong_xa','=','dm_tuyendoc.ma_phuong_xa')
         ->orderBy('ma_tuyen', 'ASC')->get();
@@ -73,7 +73,7 @@ class DMTuyenDocController extends Controller
     public function show(string $id)
     {
         try{
-            return DMTuyenDocModel::select('ma_tuyen','ten_tuyen','dm_tuyendoc.ma_phuong_xa','dm_phuongxa.ten_phuong_xa','dm_tuyendoc.ma_to_quan_ly','dm_toquanly.ten_to_quan_ly','dm_toquanly.dia_chi')
+            return DMTuyenDocModel::select('ma_tuyen','ten_tuyen','dm_tuyendoc.ma_phuong_xa','dm_phuongxa.ten_phuong_xa','dm_tuyendoc.ma_to_quan_ly','dm_toquanly.ten_to_quan_ly')
                 ->join('dm_toquanly','dm_toquanly.ma_to_quan_ly','=','dm_tuyendoc.ma_to_quan_ly')
                 ->join('dm_phuongxa','dm_phuongxa.ma_phuong_xa','=','dm_tuyendoc.ma_phuong_xa')
                 ->where("ma_tuyen",$id)->firstOrFail();
@@ -105,7 +105,7 @@ class DMTuyenDocController extends Controller
         $validator = Validator::make($request->all(),[
             'ten_tuyen' => [
                 'required',
-                Rule::unique('dm_tuyen', 'ten_tuyen')->ignore($id, 'ma_tuyen')
+                Rule::unique('dm_tuyendoc', 'ten_tuyen')->ignore($id, 'ma_tuyen')
               ],
             'ma_to_quan_ly' => 'required',
             'ma_phuong_xa' => 'required',
