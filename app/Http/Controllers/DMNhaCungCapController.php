@@ -97,7 +97,7 @@ class DMNhaCungCapController extends Controller
             'ten_nha_cung_cap' => [
                 'required',
                 Rule::unique('dm_nhacungcap', 'ten_nha_cung_cap')->ignore($id, 'ma_nha_cung_cap')
-              ],,
+              ],
           ],$message);
         
         if($validator->fails()){
