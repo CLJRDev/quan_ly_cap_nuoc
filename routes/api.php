@@ -68,6 +68,9 @@ Route::get('/nhom_gia_search',[QLGiaNuocController::class,'search']);
 //khach hang
 Route::apiResource("khach_hang",QLKhachHangController::class);
 Route::get('/khach_hang_search',[QLKhachHangController::class,'search']);
+//hop dong
+Route::apiResource("hop_dong",QLKhachHangController::class);
+Route::get('/hop_dong_search',[QLKhachHangController::class,'search']);
 //404
 Route::fallback(function(){
     return response()->json([
