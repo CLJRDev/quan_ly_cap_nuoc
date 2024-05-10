@@ -94,11 +94,6 @@ export default function QuanLyPhanQuyen() {
             Tìm kiếm
           </button>
           &nbsp;
-          <Link className="btn-add" to='/quyen'>
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />&nbsp;
-            Quản lý quyền
-          </Link>
-          &nbsp;
           <Link className="btn-add" to='/quan_ly_phan_quyen/them'>&nbsp;
             <TbSubtask style={{ transform: 'scale(1.2)' }}/>&nbsp;
             Phân quyền

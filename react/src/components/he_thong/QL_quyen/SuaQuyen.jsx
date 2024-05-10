@@ -51,7 +51,7 @@ export default function SuaQuyen() {
 
   return (
     <div className="page">
-      <h2 className="title">Sửa quyền: {id}</h2>
+      <h2 className="title">Sửa quyền</h2>
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ten_quyen">Tên quyền</label>

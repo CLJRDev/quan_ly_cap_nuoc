@@ -95,7 +95,7 @@ class DMQuanHuyenController extends Controller
             'ten_quan_huyen' => [
                 'required',
                 Rule::unique('dm_quanhuyen', 'ten_quan_huyen')->ignore($id, 'ma_quan_huyen')
-              ],,
+              ],
           ],$message);
         
         if($validator->fails()){

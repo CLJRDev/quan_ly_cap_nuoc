@@ -126,7 +126,7 @@ export default function TuyenDoc() {
   return (
     <div className="page">
       <h2 className="title">Quản lý danh mục tuyến đọc</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
+      <form className="form-container animated fadeInDown" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="tuyen_doc">Tên tuyến đọc</label>
           <input type="text" id="tuyen_doc" name='tuyen_doc' onChange={handleInputChange} />

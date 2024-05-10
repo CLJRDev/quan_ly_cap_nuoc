@@ -5,6 +5,7 @@ import * as RiIcons from 'react-icons/ri'
 import * as TbIcons from 'react-icons/tb'
 import * as MdIcons from "react-icons/md"
 import * as BiIcons from "react-icons/bi"
+import * as IoIcons from "react-icons/io"
 
 export const SidebarData = [
   {
@@ -20,10 +21,15 @@ export const SidebarData = [
         icon: <FaIcons.FaUsers />,
       },
       {
+        title: 'Quyền',
+        path: '/quyen',
+        icon: <MdIcons.MdManageAccounts  />,
+      },
+      {
         title: 'Phân quyền',
         path: '/quan_ly_phan_quyen',
         icon: <TbIcons.TbSubtask />,
-      },
+      }
     ]
   },
   {
@@ -70,7 +76,7 @@ export const SidebarData = [
       },
       {
         title: 'Nhà cung cấp đồng hồ',
-        path: '/nha_cung_cap_dong_ho',
+        path: '/nha_cung_cap',
         icon: <TbIcons.TbBrandDatabricks />,
       },
       {
@@ -86,22 +92,36 @@ export const SidebarData = [
     ]
   },
   {
+    title: 'Khách Hàng',
+    // path: '/overview',
+    icon: <MdIcons.MdOutlinePayment />,
+    iconClosed: <RiIcons.RiArrowDownSFill />,
+    iconOpened: <RiIcons.RiArrowUpSFill />,
+    subNav: [
+      {
+        title: 'Giá Nước',
+        path: '/gia_nuoc',
+        icon: <IoIcons.IoIosPricetags />,
+      }
+    ]
+  },
+  {
     title: 'Đồng Hồ Và Lắp Đặt',
     // path: '/overview',
     icon: <FaIcons.FaStopwatch />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
     subNav: [
-      {
-        title: 'Người dùng',
-        path: '/nguoi_dung',
-        icon: <FaIcons.FaUser />,
-      },
-      {
-        title: 'Phân quyền',
-        path: '/phan_quyen',
-        icon: <TbIcons.TbSubtask />,
-      },
+      // {
+      //   title: 'Người dùng',
+      //   path: '/nguoi_dung',
+      //   icon: <FaIcons.FaUser />,
+      // },
+      // {
+      //   title: 'Phân quyền',
+      //   path: '/phan_quyen',
+      //   icon: <TbIcons.TbSubtask />,
+      // },
     ]
   },
 ]

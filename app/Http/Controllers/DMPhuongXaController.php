@@ -168,7 +168,7 @@ class DMPhuongXaController extends Controller
             $phuong_xa->where('ten_phuong_xa',"like","%".$request->ten_phuong_xa."%");
         }
         if($request->has('ma_quan_huyen')){
-            $phuong_xa->where('ma_quan_huyen',$request->ma_quan_huyen);
+            $phuong_xa->where('dm_phuongxa.ma_quan_huyen',$request->ma_quan_huyen);
         }
         return $phuong_xa->orderBy('ma_phuong_xa', 'ASC')->get();
     }

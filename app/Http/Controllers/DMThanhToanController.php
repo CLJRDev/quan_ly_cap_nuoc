@@ -95,7 +95,7 @@ class DMThanhToanController extends Controller
             'ten_phuong_thuc' => [
                 'required',
                 Rule::unique('dm_ptthanhtoan', 'ten_phuong_thuc')->ignore($id, 'ma_phuong_thuc')
-              ],,
+              ],
           ],$message);
         
         if($validator->fails()){

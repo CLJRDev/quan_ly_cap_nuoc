@@ -65,7 +65,7 @@ export default function SuaNguoiDung() {
 
   return (
     <div className="page">
-      <h2 className="title">Sửa người dùng: {id}</h2>
+      <h2 className="title">Sửa người dùng</h2>
       <form className="form-container" onSubmit={handleSubmit} >
         <div>
           <label htmlFor="ho_ten">Họ tên</label>

@@ -7,9 +7,10 @@ import Select from 'react-select'
 export default function PhanQuyenTaiKhoan() {
   const navigate = useNavigate()
   const [quyens, setQuyens] = useState(null)
+  const [nhanViens, setNhanViens] = useState(null)
   const [phanQuyenData, setPhanQuyenData] = useState({
-    ma_nhan_vien: '',
-    selected_quyens: []
+    ma_nhan_vien: {},
+    quyens: []
   })
 
   useEffect(() => {
@@ -19,41 +20,52 @@ export default function PhanQuyenTaiKhoan() {
       })
   }, [])
 
+  useEffect(() => {
+    axios.get(`http://127.0.0.1:8000/api/tai_khoan`)
+      .then(response => {
+        setNhanViens(response.data)
+      })
+  }, [])
+
   if (!quyens) return null
-  
-  const options = []
+  if (!nhanViens) return null
+
+  const quyenOptions = []
+  const nhanVienOptions = []
+
   quyens.forEach(item => {
     if(item.trang_thai == 1){
-      options.push({
+      quyenOptions.push({
         value: item.ma_quyen,
         label: item.ten_quyen   
       })
     }
   })
 
-  const handleNhanVien = (e) => {
-    setPhanQuyenData(preQuyen => {
-      return {
-        ...preQuyen,
-        ma_nhan_vien: e.target.value
-      }
-    })
-  }
+  nhanViens.forEach(item => {
+    if(item.trang_thai == 1){
+      nhanVienOptions.push({
+        value: item.ma_nhan_vien,
+        label: item.ma_nhan_vien   
+      })
+    }
+  })
 
-  const handleQuyen = (selectedOptions) => {
+  const handleChange = (selectedOptions, event) => {
+    const name = event.name
     setPhanQuyenData(preQuyen => {
       return {
         ...preQuyen,
-        selected_quyens: selectedOptions
+        [name]: selectedOptions
       }
     })
   }
 
   const themPhanQuyen = async () => {
     const formData = new FormData()
-    formData.append('ma_nhan_vien', phanQuyenData.ma_nhan_vien)
+    formData.append('ma_nhan_vien', phanQuyenData.ma_nhan_vien.value)
 
-    phanQuyenData.selected_quyens.forEach((maQuyen) => {
+    phanQuyenData.quyens.forEach((maQuyen) => {
       formData.append('ma_quyen[]', maQuyen.value);
     });
 
@@ -76,17 +88,20 @@ export default function PhanQuyenTaiKhoan() {
       <h2 className="title">Phân quyền tài khoản</h2>
       <form onSubmit={handleSubmit} className="form-container">
         <div>
-          <label htmlFor="ma_nhan_vien">Mã nhân viên</label>
-          <input id='ma_nhan_vien' name='ma_nhan_vien' type="number" onChange={handleNhanVien} />
+          <label htmlFor="">Mã nhân viên</label>
+          <Select             
+            options={nhanVienOptions}
+            name='ma_nhan_vien'
+            onChange={handleChange}
+          />          
         </div>
         <div>
-          <label htmlFor="quyens">Tên quyền</label>
+          <label htmlFor="">Tên quyền</label>
           <Select  
             isMulti
-            id='quyens'
-            name="quyens"
-            options={options}            
-            onChange={handleQuyen}         
+            name='quyens'
+            options={quyenOptions}            
+            onChange={handleChange}         
           />
         </div>
         <div>
