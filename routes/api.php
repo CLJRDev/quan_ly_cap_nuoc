@@ -14,6 +14,7 @@ use App\Http\Controllers\DMThanhToanController;
 use App\Http\Controllers\DMToQuanLyController;
 use App\Http\Controllers\DMtuyendocController;
 use App\Http\Controllers\QLGiaNuocController;
+use App\Http\Controllers\QLKhachHangController;
 use App\Http\Controllers\QLPhanQuyenController;
 use App\Http\Controllers\QLTaiKhoanController;
 
@@ -64,6 +65,12 @@ Route::get('/nha_cung_cap_search',[DMNhaCungCapController::class,'search']);
 //gia nuoc
 Route::apiResource("nhom_gia",QLGiaNuocController::class);
 Route::get('/nhom_gia_search',[QLGiaNuocController::class,'search']);
+//khach hang
+Route::apiResource("khach_hang",QLKhachHangController::class);
+Route::get('/khach_hang_search',[QLKhachHangController::class,'search']);
+//hop dong
+Route::apiResource("hop_dong",QLKhachHangController::class);
+Route::get('/hop_dong_search',[QLKhachHangController::class,'search']);
 //404
 Route::fallback(function(){
     return response()->json([
