@@ -13,4 +13,8 @@ class QLHopDongModel extends Model
     protected $primaryKey = 'ma_hop_dong';
     protected $keytype = 'int';
     public $timestamps = false;
+    public function khach_hang()
+    {
+      return $this->hasOne(QLKhachHangModel::class);
+    }
 }

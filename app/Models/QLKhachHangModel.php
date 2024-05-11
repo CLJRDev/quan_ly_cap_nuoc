@@ -13,8 +13,8 @@ class QLKhachHangModel extends Model
     protected $primaryKey = 'ma_khach_hang';
     protected $keytype = 'int';
     public $timestamps = false;
-    // public function quyen(): BelongsToMany
-    // {
-    //   return $this->belongsToMany(DMQuyenModel::class,'ql_phanquyen', 'ma_nhan_vien', 'ma_quyen');
-    // }
+    public function hop_dong()
+    {
+      return $this->hasMany(QLHopDongModel::class);
+    }
 }

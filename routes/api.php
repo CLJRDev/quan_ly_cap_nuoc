@@ -13,7 +13,9 @@ use App\Http\Controllers\DMQuyenController;
 use App\Http\Controllers\DMThanhToanController;
 use App\Http\Controllers\DMToQuanLyController;
 use App\Http\Controllers\DMtuyendocController;
+use App\Http\Controllers\QLDongHoKhoiController;
 use App\Http\Controllers\QLGiaNuocController;
+use App\Http\Controllers\QLHopDongController;
 use App\Http\Controllers\QLKhachHangController;
 use App\Http\Controllers\QLPhanQuyenController;
 use App\Http\Controllers\QLTaiKhoanController;
@@ -69,8 +71,11 @@ Route::get('/nhom_gia_search',[QLGiaNuocController::class,'search']);
 Route::apiResource("khach_hang",QLKhachHangController::class);
 Route::get('/khach_hang_search',[QLKhachHangController::class,'search']);
 //hop dong
-Route::apiResource("hop_dong",QLKhachHangController::class);
-Route::get('/hop_dong_search',[QLKhachHangController::class,'search']);
+Route::apiResource("hop_dong",QLHopDongController::class);
+Route::get('/hop_dong_search',[QLHopDongController::class,'search']);
+//hop dong
+Route::apiResource("dong_ho_khoi",QLDongHoKhoiController::class);
+Route::get('/dong_ho_khoi_search',[QLDongHoKhoiController::class,'search']);
 //404
 Route::fallback(function(){
     return response()->json([
