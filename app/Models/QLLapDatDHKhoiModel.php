@@ -5,16 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class QLDongHoKhoiModel extends Model
+class QLLapDatDHKhoiModel extends Model
 {
     use HasFactory;
-    protected $table = 'ql_donghokhoi';
+    protected $table = 'ql_lapdatdhkhoi';
     public $incrementing = true;
-    protected $primaryKey = 'ma_dong_ho';
+    protected $primaryKey = 'ma_lap_dat';
     protected $keytype = 'int';
     public $timestamps = false;
-    // public function loai_khach_hang()
-    // {
-    //   return $this->hasOne(DMLoaiKhachHangModel::class);
-    // }
 }
