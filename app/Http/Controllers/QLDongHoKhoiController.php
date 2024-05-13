@@ -124,8 +124,8 @@ class QLDongHoKhoiController extends Controller
                 Rule::unique('ql_donghokhoi', 'ten_dong_ho')->ignore($id, 'ma_dong_ho')
               ],
               'tinh_trang' => 'required',
-              'ngay_nhap' => 'required,date',
-              'ngay_kiem_dinh' => 'required,date',
+              'ngay_nhap' => 'required|date',
+              'ngay_kiem_dinh' => 'required|date',
               'so_nam_hieu_luc' => 'required',
               'so_thang_bao_hanh' => 'required',
               'ma_loai_dong_ho' => 'required',

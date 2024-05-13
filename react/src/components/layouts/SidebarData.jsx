@@ -112,16 +112,16 @@ export const SidebarData = [
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
     subNav: [
-      // {
-      //   title: 'Người dùng',
-      //   path: '/nguoi_dung',
-      //   icon: <FaIcons.FaUser />,
-      // },
-      // {
-      //   title: 'Phân quyền',
-      //   path: '/phan_quyen',
-      //   icon: <TbIcons.TbSubtask />,
-      // },
+      {
+        title: 'Đồng hồ khối',
+        path: '/dong_ho_khoi',
+        icon: <FaIcons.FaStopwatch />,
+      },
+      {
+        title: 'Lắp đặt ĐH khối',
+        path: '/lap_dat_dh_khoi',
+        icon: <IoIcons.IoMdBuild  />,
+      }
     ]
   },
 ]
