@@ -15,9 +15,10 @@ class QLHopDongController extends Controller
      */
     public function index()
     {
-      return QLHopDongModel::select('*','ql_nhomgia.ten_nhom_gia','ql_khachhang.ten_khach_hang')
+      return QLHopDongModel::select('*','ql_nhomgia.ten_nhom_gia','ql_khachhang.ten_khach_hang','ql_donghokhach.*')
       ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hopdong.ma_nhom_gia')
       ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
+      ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_hopdong.ma_dong_ho')
       ->orderBy('ma_hop_dong', 'ASC')->get();
     }
   
