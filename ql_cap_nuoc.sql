@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2024 at 01:15 PM
+-- Generation Time: May 13, 2024 at 01:56 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -51,6 +51,14 @@ CREATE TABLE `dm_codongho` (
   `ten_co_dong_ho` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `dm_codongho`
+--
+
+INSERT INTO `dm_codongho` (`ma_co_dong_ho`, `ten_co_dong_ho`) VALUES
+(1, 'A'),
+(2, 'B');
+
 -- --------------------------------------------------------
 
 --
@@ -61,6 +69,14 @@ CREATE TABLE `dm_loaidongho` (
   `ma_loai_dong_ho` int(11) NOT NULL,
   `ten_loai_dong_ho` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `dm_loaidongho`
+--
+
+INSERT INTO `dm_loaidongho` (`ma_loai_dong_ho`, `ten_loai_dong_ho`) VALUES
+(1, 'A'),
+(2, 'B');
 
 -- --------------------------------------------------------
 
@@ -93,6 +109,14 @@ CREATE TABLE `dm_nhacungcap` (
   `dia_chi` text DEFAULT NULL,
   `sdt` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `dm_nhacungcap`
+--
+
+INSERT INTO `dm_nhacungcap` (`ma_nha_cung_cap`, `ten_nha_cung_cap`, `dia_chi`, `sdt`) VALUES
+(1, 'A', 'AAA', NULL),
+(2, 'B', 'BBB', NULL);
 
 -- --------------------------------------------------------
 
@@ -200,6 +224,14 @@ CREATE TABLE `dm_tuyendoc` (
   `ma_to_quan_ly` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `dm_tuyendoc`
+--
+
+INSERT INTO `dm_tuyendoc` (`ma_tuyen`, `ten_tuyen`, `ma_phuong_xa`, `ma_to_quan_ly`) VALUES
+(1, 'A', 1, 1),
+(2, 'B', 2, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -217,6 +249,17 @@ CREATE TABLE `ls_donghokhoi` (
   `so_tieu_thu` int(11) NOT NULL,
   `ma_dong_ho` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ls_donghokhoi`
+--
+
+INSERT INTO `ls_donghokhoi` (`ma_lich_su`, `ky_chi_so`, `tu_ngay`, `den_ngay`, `khoa`, `chi_so_cu`, `chi_so_moi`, `so_tieu_thu`, `ma_dong_ho`) VALUES
+(1, '1A', '2024-04-02', '2024-04-10', 1, 0, 10, 10, 1),
+(2, '1B', '2024-04-10', '2024-06-10', 1, 10, 20, 10, 1),
+(3, '2A', '2024-04-02', '2024-04-10', 1, 0, 15, 15, 2),
+(4, '2B', '2024-04-10', '2024-06-10', 1, 15, 20, 5, 2),
+(5, '1C', '2024-04-10', '2024-06-10', 1, 20, 30, 10, 1);
 
 -- --------------------------------------------------------
 
@@ -236,6 +279,14 @@ CREATE TABLE `ql_donghokhoi` (
   `ma_nha_cung_cap` int(11) NOT NULL,
   `ma_co_dong_ho` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ql_donghokhoi`
+--
+
+INSERT INTO `ql_donghokhoi` (`ma_dong_ho`, `ten_dong_ho`, `tinh_trang`, `ngay_nhap`, `ngay_kiem_dinh`, `so_nam_hieu_luc`, `so_thang_bao_hanh`, `ma_loai_dong_ho`, `ma_nha_cung_cap`, `ma_co_dong_ho`) VALUES
+(1, 'A', 1, '2020-10-19', '2021-10-19', 3, 14, 1, 2, 2),
+(2, 'B', 1, '2020-10-19', '2021-10-19', 3, 14, 2, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -300,6 +351,14 @@ CREATE TABLE `ql_lapdatdhkhoi` (
   `ma_tuyen` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `ql_lapdatdhkhoi`
+--
+
+INSERT INTO `ql_lapdatdhkhoi` (`ma_lap_dat`, `chi_so_dau`, `chi_so_cuoi`, `so_tieu_thu`, `trang_thai`, `ngay_lap_dat`, `ngay_ket_thuc`, `ma_dong_ho`, `ma_tuyen`) VALUES
+(1, 0, NULL, NULL, 1, '2024-05-10', NULL, 1, 1),
+(2, 0, NULL, NULL, 1, '2024-05-08', NULL, 2, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -309,12 +368,12 @@ CREATE TABLE `ql_lapdatdhkhoi` (
 CREATE TABLE `ql_nhomgia` (
   `ma_nhom_gia` int(11) NOT NULL,
   `ten_nhom_gia` text NOT NULL,
-  `gia_duoi_10m` double DEFAULT NULL,
-  `gia_tu_10m_den_20m` double DEFAULT NULL,
-  `gia_tu_20m_den_30m` double DEFAULT NULL,
-  `gia_tren_30m` double DEFAULT NULL,
-  `gia_rieng` double DEFAULT NULL,
-  `gia_goc` double NOT NULL,
+  `hs_duoi_10m` double DEFAULT NULL,
+  `hs_tu_10m_den_20m` double DEFAULT NULL,
+  `hs_tu_20m_den_30m` double DEFAULT NULL,
+  `hs_tren_30m` double DEFAULT NULL,
+  `hs_rieng` double DEFAULT NULL,
+  `gia_ban` double NOT NULL,
   `ma_loai_khach_hang` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -322,7 +381,7 @@ CREATE TABLE `ql_nhomgia` (
 -- Dumping data for table `ql_nhomgia`
 --
 
-INSERT INTO `ql_nhomgia` (`ma_nhom_gia`, `ten_nhom_gia`, `gia_duoi_10m`, `gia_tu_10m_den_20m`, `gia_tu_20m_den_30m`, `gia_tren_30m`, `gia_rieng`, `gia_goc`, `ma_loai_khach_hang`) VALUES
+INSERT INTO `ql_nhomgia` (`ma_nhom_gia`, `ten_nhom_gia`, `hs_duoi_10m`, `hs_tu_10m_den_20m`, `hs_tu_20m_den_30m`, `hs_tren_30m`, `hs_rieng`, `gia_ban`, `ma_loai_khach_hang`) VALUES
 (3, 'Dân dụng', 1, 0.8, 0.7, 0.6, NULL, 13000, 1);
 
 -- --------------------------------------------------------
@@ -532,13 +591,13 @@ ALTER TABLE `dm_chinhanh`
 -- AUTO_INCREMENT for table `dm_codongho`
 --
 ALTER TABLE `dm_codongho`
-  MODIFY `ma_co_dong_ho` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ma_co_dong_ho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `dm_loaidongho`
 --
 ALTER TABLE `dm_loaidongho`
-  MODIFY `ma_loai_dong_ho` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ma_loai_dong_ho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `dm_loaikhachhang`
@@ -550,7 +609,7 @@ ALTER TABLE `dm_loaikhachhang`
 -- AUTO_INCREMENT for table `dm_nhacungcap`
 --
 ALTER TABLE `dm_nhacungcap`
-  MODIFY `ma_nha_cung_cap` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ma_nha_cung_cap` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `dm_phuongxa`
@@ -586,19 +645,19 @@ ALTER TABLE `dm_toquanly`
 -- AUTO_INCREMENT for table `dm_tuyendoc`
 --
 ALTER TABLE `dm_tuyendoc`
-  MODIFY `ma_tuyen` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ma_tuyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ls_donghokhoi`
 --
 ALTER TABLE `ls_donghokhoi`
-  MODIFY `ma_lich_su` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ma_lich_su` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `ql_donghokhoi`
 --
 ALTER TABLE `ql_donghokhoi`
-  MODIFY `ma_dong_ho` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ma_dong_ho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ql_hopdong`
@@ -616,7 +675,7 @@ ALTER TABLE `ql_khachhang`
 -- AUTO_INCREMENT for table `ql_lapdatdhkhoi`
 --
 ALTER TABLE `ql_lapdatdhkhoi`
-  MODIFY `ma_lap_dat` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ma_lap_dat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ql_nhomgia`

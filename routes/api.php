@@ -84,6 +84,7 @@ Route::get('/lap_dat_dh_khoi_search',[QLLapDatDHKhoiController::class,'search'])
 //lich su dh khoi
 Route::apiResource("lich_su_dh_khoi",LSDongHoKhoiController::class);
 Route::get('/lich_su_dh_khoi_search',[LSDongHoKhoiController::class,'search']);
+Route::get('/ds_ls_dhkhoi',[LSDongHoKhoiController::class,'get_list_dhkhoi']);
 //404
 Route::fallback(function(){
     return response()->json([

@@ -41,12 +41,12 @@ class QLGiaNuocController extends Controller
         ];
         $validator = Validator::make($request->all(),[
             'ten_nhom_gia' => 'required|unique:ql_nhomgia,ten_nhom_gia',
-            'gia_duoi_10m' => 'required_if:gia_rieng,NULL',
-            'gia_tu_10m_den_20m' => 'required_if:gia_rieng,NULL',
-            'gia_tu_20m_den_30m' => 'required_if:gia_rieng,NULL',
-            'gia_tren_30m' => 'required_if:gia_rieng,NULL',
-            'gia_rieng' => 'required_if:gia_duoi_10m,NULL',
-            'gia_goc' => 'required',
+            'hs_duoi_10m' => 'required_if:hs_rieng,NULL',
+            'hs_tu_10m_den_20m' => 'required_if:hs_rieng,NULL',
+            'hs_tu_20m_den_30m' => 'required_if:hs_rieng,NULL',
+            'hs_tren_30m' => 'required_if:hs_rieng,NULL',
+            'hs_rieng' => 'required_if:hs_duoi_10m,NULL',
+            'gia_ban' => 'required',
             'ma_loai_khach_hang' => 'required|unique:ql_nhomgia,ma_loai_khach_hang',
           ],$message);
         
@@ -57,16 +57,16 @@ class QLGiaNuocController extends Controller
         }
         $nhom_gia = new QLGiaNuocModel; 
         $nhom_gia->ten_nhom_gia=$request->ten_nhom_gia;
-        if($request->has('gia_duoi_10m')&&$request->has('gia_tu_10m_den_20m')&&$request->has('gia_tu_20m_den_30m')&&$request->has('gia_tren_30m')){
-            $nhom_gia->gia_duoi_10m=$request->gia_duoi_10m;
-            $nhom_gia->gia_tu_10m_den_20m=$request->gia_tu_10m_den_20m;
-            $nhom_gia->gia_tu_20m_den_30m=$request->gia_tu_20m_den_30m;
-            $nhom_gia->gia_tren_30m=$request->gia_tren_30m;
+        if($request->has('hs_duoi_10m')&&$request->has('hs_tu_10m_den_20m')&&$request->has('hs_tu_20m_den_30m')&&$request->has('hs_tren_30m')){
+            $nhom_gia->hs_duoi_10m=$request->hs_duoi_10m;
+            $nhom_gia->hs_tu_10m_den_20m=$request->hs_tu_10m_den_20m;
+            $nhom_gia->hs_tu_20m_den_30m=$request->hs_tu_20m_den_30m;
+            $nhom_gia->hs_tren_30m=$request->hs_tren_30m;
         }
         else{
-            $nhom_gia->gia_rieng=$request->gia_rieng;
+            $nhom_gia->hs_rieng=$request->hs_rieng;
         }
-        $nhom_gia->gia_goc=$request->gia_goc;
+        $nhom_gia->gia_ban=$request->gia_ban;
         $nhom_gia->ma_loai_khach_hang=$request->ma_loai_khach_hang;
         $result = $nhom_gia->save();
         if($result){
@@ -118,12 +118,12 @@ class QLGiaNuocController extends Controller
                 'required',
                 Rule::unique('ql_nhomgia', 'ten_nhom_gia')->ignore($id, 'ma_nhom_gia')
               ],
-            'gia_duoi_10m' => 'required_if:gia_rieng,NULL',
-            'gia_tu_10m_den_20m' => 'required_if:gia_rieng,NULL',
-            'gia_tu_20m_den_30m' => 'required_if:gia_rieng,NULL',
-            'gia_tren_30m' => 'required_if:gia_rieng,NULL',
-            'gia_rieng' => 'required_if:gia_duoi_10m,NULL',
-            'gia_goc' => 'required',
+            'hs_duoi_10m' => 'required_if:hs_rieng,NULL',
+            'hs_tu_10m_den_20m' => 'required_if:hs_rieng,NULL',
+            'hs_tu_20m_den_30m' => 'required_if:hs_rieng,NULL',
+            'hs_tren_30m' => 'required_if:hs_rieng,NULL',
+            'hs_rieng' => 'required_if:hs_duoi_10m,NULL',
+            'gia_ban' => 'required',
             'ma_loai_khach_hang' => [
                 'required',
                 Rule::unique('ql_nhomgia', 'ma_loai_khach_hang')->ignore($id, 'ma_nhom_gia')
@@ -141,23 +141,23 @@ class QLGiaNuocController extends Controller
                 $nhom_gia->ten_nhom_gia=$request->ten_nhom_gia;
             }
             $nhom_gia->ten_nhom_gia=$request->ten_nhom_gia;
-            if(isset($request->gia_duoi_10m)){
-                $nhom_gia->gia_duoi_10m=$request->gia_duoi_10m;
+            if(isset($request->hs_duoi_10m)){
+                $nhom_gia->hs_duoi_10m=$request->hs_duoi_10m;
             }
-            if(isset($request->gia_tu_10m_den_20m)){
-                $nhom_gia->gia_tu_10m_den_20m=$request->gia_tu_10m_den_20m;
+            if(isset($request->hs_tu_10m_den_20m)){
+                $nhom_gia->hs_tu_10m_den_20m=$request->hs_tu_10m_den_20m;
             }
-            if(isset($request->gia_tu_20m_den_30m)){
-                $nhom_gia->gia_tu_20m_den_30m=$request->gia_tu_20m_den_30m;
+            if(isset($request->hs_tu_20m_den_30m)){
+                $nhom_gia->hs_tu_20m_den_30m=$request->hs_tu_20m_den_30m;
             }
-            if(isset($request->gia_tren_30m)){
-                $nhom_gia->gia_tren_30m=$request->gia_tren_30m;
+            if(isset($request->hs_tren_30m)){
+                $nhom_gia->hs_tren_30m=$request->hs_tren_30m;
             }
-            if(isset($request->gia_rieng)){
-                $nhom_gia->gia_rieng=$request->gia_rieng;
+            if(isset($request->hs_rieng)){
+                $nhom_gia->hs_rieng=$request->hs_rieng;
             }
-            if(isset($request->gia_goc)){
-                $nhom_gia->gia_goc=$request->gia_goc;
+            if(isset($request->gia_ban)){
+                $nhom_gia->gia_ban=$request->gia_ban;
             }
             if(isset($request->ma_loai_khach_hang)){
                 $nhom_gia->ma_loai_khach_hang=$request->ma_loai_khach_hang;

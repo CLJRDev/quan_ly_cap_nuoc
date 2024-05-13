@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException; 
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class LSDongHoKhoiController extends Controller
 {
@@ -15,7 +16,7 @@ class LSDongHoKhoiController extends Controller
      */
     public function index()
     {
-        return LSDongHoKhoiModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','ql_lapdatdhkhoi.ten_tuyen')
+        return LSDongHoKhoiModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
         ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ls_donghokhoi.ma_dong_ho')
         ->join('ql_lapdatdhkhoi','ql_lapdatdhkhoi.ma_dong_ho','=','ls_donghokhoi.ma_dong_ho')
         ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen')
@@ -38,6 +39,7 @@ class LSDongHoKhoiController extends Controller
         $message = [
             'required' => 'Xin hãy điền đủ thông tin!',
             'unique' => 'Đồng hồ khối đã tồn tại!',
+            'numeric' => 'Chỉ số mới không hợp lệ',
             'tu_ngay.date' => 'Ngày từ không hợp lệ',
             'den_ngay.date' => 'Ngày đến không hợp lệ',
         ];
@@ -45,9 +47,7 @@ class LSDongHoKhoiController extends Controller
             'ky_chi_so' => 'required',
             'tu_ngay' => 'required|date',
             'den_ngay' => 'required|date',
-            'chi_so_cu' => 'required',
             'chi_so_moi' => 'required',
-            'so_tieu_thu' => 'required',
             'ma_dong_ho' => 'required',
           ],$message);
         
@@ -56,18 +56,21 @@ class LSDongHoKhoiController extends Controller
                 'error' => $validator->errors(),
                 ],422);
         }
-        $lich_su_cu = LSDongHoKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->orderBy('den_ngay','DESC')->first();
+        $lich_su_cu = LSDongHoKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->orderBy('ma_lich_su','DESC')->first();
         $lich_su = new LSDongHoKhoiModel; 
         $lich_su->ky_chi_so=$request->ky_chi_so;
         if(empty($lich_su_cu)){
-            
+            $lich_su->chi_so_cu=0;
         }
+        else{
+            $lich_su->chi_so_cu=$lich_su_cu->chi_so_moi;
+        }
+        $lich_su->khoa=1;
         $lich_su->tu_ngay=$request->tu_ngay;
         $lich_su->den_ngay=$request->den_ngay;
-        $lich_su->chi_so_cu=$request->ngay_kiem_dinh;
-        $lich_su->chi_so_moi=$request->so_nam_hieu_luc;
-        $lich_su->so_tieu_thu=$request->so_thang_bao_hanh;
-        $lich_su->ma_dong_ho=$request->ma_loai_dong_ho;
+        $lich_su->chi_so_moi=$request->chi_so_moi;
+        $lich_su->so_tieu_thu=$lich_su->chi_so_moi-$lich_su->chi_so_cu;
+        $lich_su->ma_dong_ho=$request->ma_dong_ho;
         $result = $lich_su->save();
         if($result){
             return response()->json([
@@ -87,10 +90,13 @@ class LSDongHoKhoiController extends Controller
     public function show(string $id)
     {
         try{
-            return LSDongHoKhoiModel::where("ma_dong_ho",$id)->firstOrFail();
+            return LSDongHoKhoiModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','ql_lapdatdhkhoi.ten_tuyen')
+            ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ls_donghokhoi.ma_dong_ho')
+            ->join('ql_lapdatdhkhoi','ql_lapdatdhkhoi.ma_dong_ho','=','ls_donghokhoi.ma_dong_ho')
+            ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen')->where("ma_lich_su",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'error' => 'Đồng hồ khối không tồn tại!'
+               'error' => 'Lịch sử đồng hồ không tồn tại!'
             ],422);
         }
     }
@@ -110,23 +116,15 @@ class LSDongHoKhoiController extends Controller
     {
         $message = [
             'required' => 'Xin hãy điền đủ thông tin!',
-            'unique' => 'Đồng hồ khối đã tồn tại!',
-            'ngay_nhap.date' => 'Ngày nhập không hợp lệ',
-            'ngay_kiem_dinh.date' => 'Ngày kiểm định không hợp lệ',
+            'numeric' => 'Chỉ số mới không hợp lệ',
+            'tu_ngay.date' => 'Ngày từ không hợp lệ',
+            'den_ngay.date' => 'Ngày đến không hợp lệ',
         ];
         $validator = Validator::make($request->all(),[
-            'ten_dong_ho' => [
-                'required',
-                Rule::unique('ql_donghokhoi', 'ten_dong_ho')->ignore($id, 'ma_dong_ho')
-              ],
-              'tinh_trang' => 'required',
-              'ngay_nhap' => 'required,date',
-              'ngay_kiem_dinh' => 'required,date',
-              'so_nam_hieu_luc' => 'required',
-              'so_thang_bao_hanh' => 'required',
-              'ma_loai_dong_ho' => 'required',
-              'ma_nha_cung_cap' => 'required',
-              'ma_co_dong_ho' => 'required',
+            'ky_chi_so' => 'required',
+            'tu_ngay' => 'required|date',
+            'den_ngay' => 'required|date',
+            'chi_so_moi' => 'required|numeric',
           ],$message);
         
         if($validator->fails()){
@@ -136,37 +134,26 @@ class LSDongHoKhoiController extends Controller
         }
         try{
             $lich_su = LSDongHoKhoiModel::findOrFail($id); 
-            if(isset($request->ten_dong_ho)){
-                $lich_su->ten_dong_ho=$request->ten_dong_ho;
+            if(isset($request->ky_chi_so)){
+                $lich_su->ky_chi_so=$request->ky_chi_so;
             }
-            if(isset($request->tinh_trang)){
-                $lich_su->tinh_trang=$request->tinh_trang;
+            if(isset($request->tu_ngay)){
+                $lich_su->tu_ngay=$request->tu_ngay;
             }
-            if(isset($request->ngay_nhap)){
-                $lich_su->ngay_nhap=$request->ngay_nhap;
+            if(isset($request->den_ngay)){
+                $lich_su->den_ngay=$request->den_ngay;
             }
-            if(isset($request->ngay_kiem_dinh)){
-                $lich_su->ngay_kiem_dinh=$request->ngay_kiem_dinh;
+            if(isset($request->chi_so_moi)){
+                $lich_su->chi_so_moi=$request->chi_so_moi;
             }
-            if(isset($request->so_nam_hieu_luc)){
-                $lich_su->so_nam_hieu_luc=$request->so_nam_hieu_luc;
+            if(isset($request->khoa)){
+                $lich_su->khoa=$request->khoa;
             }
-            if(isset($request->so_thang_bao_hanh)){
-                $lich_su->so_thang_bao_hanh=$request->so_thang_bao_hanh;
-            }
-            if(isset($request->ma_loai_dong_ho)){
-                $lich_su->ma_loai_dong_ho=$request->ma_loai_dong_ho;
-            }
-            if(isset($request->ma_nha_cung_cap)){
-                $lich_su->ma_nha_cung_cap=$request->ma_nha_cung_cap;
-            }
-            if(isset($request->ma_co_dong_ho)){
-                $lich_su->ma_co_dong_ho=$request->ma_co_dong_ho;
-            }
+            $lich_su->so_tieu_thu=$lich_su->chi_so_moi-$lich_su->chi_so_cu;
             $result = $lich_su->save();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'error' => 'Đồng hồ khối không tồn tại!'
+               'error' => 'Lịch sử đồng hồ không tồn tại!'
             ],422);
         }
         if($result){
@@ -191,7 +178,7 @@ class LSDongHoKhoiController extends Controller
             $result = $lich_su->delete();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'error' => 'Đồng hồ khối không tồn tại!'
+               'error' => 'Lịch sử đồng hồ không tồn tại!'
             ],422);
         }
         if($result){
@@ -207,29 +194,38 @@ class LSDongHoKhoiController extends Controller
     }
     public function search(Request $request)
     {
-        $query =  LSDongHoKhoiModel::query()->select('*','dm_loaidongho.ten_loai_dong_ho','dm_codongho.ten_co_dong_ho','dm_nhacungcap.ten_nha_cung_cap')
-        ->join('dm_loaidongho','dm_loaidongho.ma_loai_dong_ho','=','ql_donghokhoi.ma_loai_dong_ho')
-        ->join('dm_codongho','dm_codongho.ma_co_dong_ho','=','ql_donghokhoi.ma_co_dong_ho')
-        ->join('dm_nhacungcap','dm_nhacungcap.ma_nha_cung_cap','=','ql_donghokhoi.ma_nha_cung_cap');
-        if($request->has('ten_dong_ho')){
-            $query->where("ten_dong_ho","like","%".$request->ten_dong_ho."%");
-        }
+        $query =  LSDongHoKhoiModel::query()->select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','ql_lapdatdhkhoi.ten_tuyen')
+        ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ls_donghokhoi.ma_dong_ho')
+        ->join('ql_lapdatdhkhoi','ql_lapdatdhkhoi.ma_dong_ho','=','ls_donghokhoi.ma_dong_ho')
+        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen');
         if($request->has('ma_dong_ho')){
-            $query->where("ma_dong_ho",$request->ma_dong);
+            $query->where("ma_dong_ho",$request->ma_dong_ho);
         }
-        if($request->has('ma_loai_dong_ho')){
-            $query->where("ma_loai_dong_ho",$request->ma_loai_dong_ho);
-        }
-        if($request->has('ma_co_dong_ho')){
-            $query->where("ma_co_dong_ho",$request->ma_co_dong_ho);
-        }
-        if($request->has('so_nam_hieu_luc')){
-            $query->where("so_nam_hieu_luc",$request->so_nam_hieu_luc);
-        }
-        if($request->has('tinh_trang')){
-            $query->where("tinh_trang",$request->tinh_trang);
-        }
-        $result = $query->orderBy('ma_lich_su', 'ASC')->get();
+        $result = $query->orderBy('ma_lich_su', 'DESC')->get();
         return $result;
+    }
+    public function get_list_dhkhoi(Request $request)
+    {
+        $query = DB::table('ls_donghokhoi as ls_donghokhoi')
+            ->select('ls_donghokhoi.*','dm_loaidongho.ten_loai_dong_ho','dm_codongho.ten_co_dong_ho','dm_nhacungcap.ten_nha_cung_cap','dm_tuyendoc.ten_tuyen','ql_donghokhoi.tinh_trang')
+            ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ls_donghokhoi.ma_dong_ho')
+            ->join('dm_loaidongho','dm_loaidongho.ma_loai_dong_ho','=','ql_donghokhoi.ma_loai_dong_ho')
+            ->join('dm_codongho','dm_codongho.ma_co_dong_ho','=','ql_donghokhoi.ma_co_dong_ho')
+            ->join('dm_nhacungcap','dm_nhacungcap.ma_nha_cung_cap','=','ql_donghokhoi.ma_nha_cung_cap')
+            ->join('ql_lapdatdhkhoi','ql_lapdatdhkhoi.ma_dong_ho','=','ql_donghokhoi.ma_dong_ho')
+            ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen');
+        if($request->has('ma_dong_ho')){
+            $query->where("ls_donghokhoi.ma_dong_ho",$request->ma_dong_ho);
+        }
+        if($request->has('ma_tuyen')){
+            $query->where("ql_lapdatdhkhoi.ma_tuyen",$request->ma_tuyen);
+        }
+        $query=$query->leftJoin('ls_donghokhoi as n', function ($join) {
+                $join->on('ls_donghokhoi.ma_dong_ho', '=', 'n.ma_dong_ho')
+                    ->whereRaw(DB::raw('ls_donghokhoi.ma_lich_su < n.ma_lich_su'));
+            })
+            ->whereNull('n.ma_dong_ho')
+            ->get();
+        return $query;
     }
 }

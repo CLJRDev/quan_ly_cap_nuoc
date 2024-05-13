@@ -15,7 +15,7 @@ class QLDongHoKhoiController extends Controller
      */
     public function index()
     {
-        return QLDongHoKhoiModel::select('*','dm_loaidongho.ten_loai_dong_ho','dm_codongho.ten_co_dong_ho','dm_nhacungcap.ten_nha_cung_cap')
+        return QLDongHoKhoiModel::select('ql_donghokhoi.*','dm_loaidongho.ten_loai_dong_ho','dm_codongho.ten_co_dong_ho','dm_nhacungcap.ten_nha_cung_cap')
         ->join('dm_loaidongho','dm_loaidongho.ma_loai_dong_ho','=','ql_donghokhoi.ma_loai_dong_ho')
         ->join('dm_codongho','dm_codongho.ma_co_dong_ho','=','ql_donghokhoi.ma_co_dong_ho')
         ->join('dm_nhacungcap','dm_nhacungcap.ma_nha_cung_cap','=','ql_donghokhoi.ma_nha_cung_cap')
@@ -44,8 +44,8 @@ class QLDongHoKhoiController extends Controller
         $validator = Validator::make($request->all(),[
             'ten_dong_ho' => 'required|unique:ql_donghokhoi,ten_dong_ho',
             'tinh_trang' => 'required',
-            'ngay_nhap' => 'required,date',
-            'ngay_kiem_dinh' => 'required,date',
+            'ngay_nhap' => 'required|date',
+            'ngay_kiem_dinh' => 'required|date',
             'so_nam_hieu_luc' => 'required',
             'so_thang_bao_hanh' => 'required',
             'ma_loai_dong_ho' => 'required',
@@ -87,7 +87,11 @@ class QLDongHoKhoiController extends Controller
     public function show(string $id)
     {
         try{
-            return QLDongHoKhoiModel::where("ma_dong_ho",$id)->firstOrFail();
+            return QLDongHoKhoiModel::select('*','dm_loaidongho.ten_loai_dong_ho','dm_codongho.ten_co_dong_ho','dm_nhacungcap.ten_nha_cung_cap')
+            ->join('dm_loaidongho','dm_loaidongho.ma_loai_dong_ho','=','ql_donghokhoi.ma_loai_dong_ho')
+            ->join('dm_codongho','dm_codongho.ma_co_dong_ho','=','ql_donghokhoi.ma_co_dong_ho')
+            ->join('dm_nhacungcap','dm_nhacungcap.ma_nha_cung_cap','=','ql_donghokhoi.ma_nha_cung_cap')
+            ->where("ma_dong_ho",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
                'error' => 'Đồng hồ khối không tồn tại!'
