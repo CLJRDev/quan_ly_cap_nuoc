@@ -37,7 +37,7 @@ class QLGiaNuocController extends Controller
         $message = [
             'required' => 'Xin hãy điền đủ thông tin!',
             'required_if' => 'Xin hãy điền đủ thông tin!',
-            'unique' => 'Cỡ đồng hồ đã tồn tại!',
+            'unique' => 'Nhóm giá đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
             'ten_nhom_gia' => 'required|unique:ql_nhomgia,ten_nhom_gia',
@@ -87,7 +87,9 @@ class QLGiaNuocController extends Controller
     public function show(string $id)
     {
         try{
-            return QLGiaNuocModel::where("ma_nhom_gia",$id)->firstOrFail();
+            return QLGiaNuocModel::select('*', 'dm_loaikhachhang.ten_loai_khach_hang')
+            ->join('dm_loaikhachhang', 'dm_loaikhachhang.ma_loai_khach_hang', '=', 'ql_nhomgia.ma_loai_khach_hang')
+            ->where("ma_nhom_gia",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
                'error' => 'Nhóm giá không tồn tại!'
@@ -111,7 +113,7 @@ class QLGiaNuocController extends Controller
         $message = [
             'required' => 'Xin hãy điền đủ thông tin!',
             'required_if' => 'Xin hãy điền đủ thông tin!',
-            'unique' => 'Cỡ đồng hồ đã tồn tại!',
+            'unique' => 'Nhóm giá đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
             'ten_nhom_gia' => [
@@ -211,8 +213,8 @@ class QLGiaNuocController extends Controller
         if($request->has('ten_nhom_gia')){
             $query->where("ten_nhom_gia","like","%".$request->ten_nhom_gia."%");
         }
-        if($request->has('ma_nhom_gia')){
-            $query->where("ma_nhom_gia",$request->ma_nhom_gia);
+        if ($request->has('ma_loai_khach_hang')) {
+            $query->where("dm_loaikhachhang.ma_loai_khach_hang", $request->ma_loai_khach_hang);
         }
         $result = $query->orderBy('ma_nhom_gia', 'ASC')->get();
         return $result;

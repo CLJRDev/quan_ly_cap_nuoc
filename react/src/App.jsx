@@ -29,8 +29,10 @@ import CoDongHo from './components/danh_muc/CoDongHo'
 import SuaCoDongHo from './components/danh_muc/SuaCoDongHo'
 import PhuongThucThanhToan from './components/danh_muc/PhuongThucThanhToan'
 import SuaPhuongThucThanhToan from './components/danh_muc/SuaPhuongThucThanhToan'
+import QuanLyGiaNuoc from './components/khach_hang_thanh_toan/QL_gia_nuoc/QuanLyGiaNuoc'
+import ThemGia from './components/khach_hang_thanh_toan/QL_gia_nuoc/ThemGia'
+import SuaGia from './components/khach_hang_thanh_toan/QL_gia_nuoc/SuaGia'
 
-import QuanLyGiaNuoc from './components/khach_hang_thanh_toan/QuanLyGiaNuoc'
 
 import { Routes, Route, useLocation } from 'react-router-dom'
 
@@ -70,8 +72,10 @@ function App() {
         <Route path='/co_dong_ho/sua/:id' element={<SuaCoDongHo />} />
         <Route path='/phuong_thuc_thanh_toan' element={<PhuongThucThanhToan />} />
         <Route path='/phuong_thuc_thanh_toan/sua/:id' element={<SuaPhuongThucThanhToan />} />
-
         <Route path='/gia_nuoc' element={<QuanLyGiaNuoc />} />
+        <Route path='/gia_nuoc/them' element={<ThemGia />} />
+        <Route path='/gia_nuoc/sua/:id' element={<SuaGia />} />
+
         <Route path='/login' element={<Login />} />
       </Routes>
     </>
