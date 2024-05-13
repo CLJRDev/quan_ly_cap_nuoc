@@ -214,9 +214,6 @@ class QLGiaNuocController extends Controller
         if($request->has('ma_nhom_gia')){
             $query->where("ma_nhom_gia",$request->ma_nhom_gia);
         }
-        if($request->has('ma_loai_khach_hang')){
-            $query->where("ma_loai_khach_hang",$request->ma_loai_khach_hang);
-        }
         $result = $query->orderBy('ma_nhom_gia', 'ASC')->get();
         return $result;
     }

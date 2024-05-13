@@ -13,11 +13,14 @@ use App\Http\Controllers\DMQuyenController;
 use App\Http\Controllers\DMThanhToanController;
 use App\Http\Controllers\DMToQuanLyController;
 use App\Http\Controllers\DMtuyendocController;
+use App\Http\Controllers\LSDongHoKhachController;
 use App\Http\Controllers\LSDongHoKhoiController;
+use App\Http\Controllers\QLDongHoKhachController;
 use App\Http\Controllers\QLDongHoKhoiController;
 use App\Http\Controllers\QLGiaNuocController;
 use App\Http\Controllers\QLHopDongController;
 use App\Http\Controllers\QLKhachHangController;
+use App\Http\Controllers\QLLapDatDHKhachController;
 use App\Http\Controllers\QLLapDatDHKhoiController;
 use App\Http\Controllers\QLPhanQuyenController;
 use App\Http\Controllers\QLTaiKhoanController;
@@ -85,6 +88,16 @@ Route::get('/lap_dat_dh_khoi_search',[QLLapDatDHKhoiController::class,'search'])
 Route::apiResource("lich_su_dh_khoi",LSDongHoKhoiController::class);
 Route::get('/lich_su_dh_khoi_search',[LSDongHoKhoiController::class,'search']);
 Route::get('/ds_ls_dhkhoi',[LSDongHoKhoiController::class,'get_list_dhkhoi']);
+//dong ho khach hang
+Route::apiResource("dong_ho_khach",QLDongHoKhachController::class);
+Route::get('/dong_ho_khach_search',[QLDongHoKhachController::class,'search']);
+//lap dat dh khach
+Route::apiResource("lap_dat_dh_khach",QLLapDatDHKhachController::class);
+Route::get('/lap_dat_dh_khach_search',[QLLapDatDHKhachController::class,'search']);
+//lich su dh khach
+Route::apiResource("lich_su_dh_khach",LSDongHoKhachController::class);
+Route::get('/lich_su_dh_khach_search',[LSDongHoKhachController::class,'search']);
+Route::get('/ds_ls_dhkhach',[LSDongHoKhachController::class,'get_list_dhkhach']);
 //404
 Route::fallback(function(){
     return response()->json([

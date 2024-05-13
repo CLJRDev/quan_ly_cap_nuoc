@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\QLDongHoKhoiModel;
+use App\Http\Controllers\Controller;
+use App\Models\QLDongHoKhachModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException; 
 use Illuminate\Validation\Rule;
 
-class QLDongHoKhoiController extends Controller
+class QLDongHoKhachController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return QLDongHoKhoiModel::select('ql_donghokhoi.*','dm_loaidongho.ten_loai_dong_ho','dm_codongho.ten_co_dong_ho','dm_nhacungcap.ten_nha_cung_cap')
-        ->join('dm_loaidongho','dm_loaidongho.ma_loai_dong_ho','=','ql_donghokhoi.ma_loai_dong_ho')
-        ->join('dm_codongho','dm_codongho.ma_co_dong_ho','=','ql_donghokhoi.ma_co_dong_ho')
-        ->join('dm_nhacungcap','dm_nhacungcap.ma_nha_cung_cap','=','ql_donghokhoi.ma_nha_cung_cap')
+        return QLDongHoKhachModel::select('ql_donghokhach.*','dm_loaidongho.ten_loai_dong_ho','dm_codongho.ten_co_dong_ho','dm_nhacungcap.ten_nha_cung_cap')
+        ->join('dm_loaidongho','dm_loaidongho.ma_loai_dong_ho','=','ql_donghokhach.ma_loai_dong_ho')
+        ->join('dm_codongho','dm_codongho.ma_co_dong_ho','=','ql_donghokhach.ma_co_dong_ho')
+        ->join('dm_nhacungcap','dm_nhacungcap.ma_nha_cung_cap','=','ql_donghokhach.ma_nha_cung_cap')
         ->orderBy('ma_dong_ho', 'ASC')->get();
     }
 
@@ -37,13 +38,15 @@ class QLDongHoKhoiController extends Controller
     {
         $message = [
             'required' => 'Xin hãy điền đủ thông tin!',
-            'unique' => 'Đồng hồ khối đã tồn tại!',
+            'unique' => 'Đồng hồ khách hàng đã tồn tại!',
             'ngay_nhap.date' => 'Ngày nhập không hợp lệ',
             'ngay_kiem_dinh.date' => 'Ngày kiểm định không hợp lệ',
         ];
         $validator = Validator::make($request->all(),[
-            'ten_dong_ho' => 'required|unique:ql_donghokhoi,ten_dong_ho',
+            'ten_dong_ho' => 'required|unique:ql_donghokhach,ten_dong_ho',
             'tinh_trang' => 'required',
+            'nam_san_xuat' => 'required',
+            'so_seri' => 'required|unique:ql_donghokhach,so_seri',
             'ngay_nhap' => 'required|date',
             'ngay_kiem_dinh' => 'required|date',
             'so_nam_hieu_luc' => 'required',
@@ -58,17 +61,19 @@ class QLDongHoKhoiController extends Controller
                 'error' => $validator->errors(),
                 ],422);
         }
-        $dong_ho_khoi = new QLDongHoKhoiModel; 
-        $dong_ho_khoi->ten_dong_ho=$request->ten_dong_ho;
-        $dong_ho_khoi->tinh_trang=$request->tinh_trang;
-        $dong_ho_khoi->ngay_nhap=$request->ngay_nhap;
-        $dong_ho_khoi->ngay_kiem_dinh=$request->ngay_kiem_dinh;
-        $dong_ho_khoi->so_nam_hieu_luc=$request->so_nam_hieu_luc;
-        $dong_ho_khoi->so_thang_bao_hanh=$request->so_thang_bao_hanh;
-        $dong_ho_khoi->ma_loai_dong_ho=$request->ma_loai_dong_ho;
-        $dong_ho_khoi->ma_nha_cung_cap=$request->ma_nha_cung_cap;
-        $dong_ho_khoi->ma_co_dong_ho=$request->ma_co_dong_ho;
-        $result = $dong_ho_khoi->save();
+        $dong_ho_khach = new QLDongHoKhachModel; 
+        $dong_ho_khach->ten_dong_ho=$request->ten_dong_ho;
+        $dong_ho_khach->tinh_trang=$request->tinh_trang;
+        $dong_ho_khach->nam_san_xuat=$request->nam_san_xuat;
+        $dong_ho_khach->so_seri=$request->so_seri;
+        $dong_ho_khach->ngay_nhap=$request->ngay_nhap;
+        $dong_ho_khach->ngay_kiem_dinh=$request->ngay_kiem_dinh;
+        $dong_ho_khach->so_nam_hieu_luc=$request->so_nam_hieu_luc;
+        $dong_ho_khach->so_thang_bao_hanh=$request->so_thang_bao_hanh;
+        $dong_ho_khach->ma_loai_dong_ho=$request->ma_loai_dong_ho;
+        $dong_ho_khach->ma_nha_cung_cap=$request->ma_nha_cung_cap;
+        $dong_ho_khach->ma_co_dong_ho=$request->ma_co_dong_ho;
+        $result = $dong_ho_khach->save();
         if($result){
             return response()->json([
                 'message' => 'Tạo thành công!'
@@ -87,14 +92,14 @@ class QLDongHoKhoiController extends Controller
     public function show(string $id)
     {
         try{
-            return QLDongHoKhoiModel::select('*','dm_loaidongho.ten_loai_dong_ho','dm_codongho.ten_co_dong_ho','dm_nhacungcap.ten_nha_cung_cap')
-            ->join('dm_loaidongho','dm_loaidongho.ma_loai_dong_ho','=','ql_donghokhoi.ma_loai_dong_ho')
-            ->join('dm_codongho','dm_codongho.ma_co_dong_ho','=','ql_donghokhoi.ma_co_dong_ho')
-            ->join('dm_nhacungcap','dm_nhacungcap.ma_nha_cung_cap','=','ql_donghokhoi.ma_nha_cung_cap')
+            return QLDongHoKhachModel::select('*','dm_loaidongho.ten_loai_dong_ho','dm_codongho.ten_co_dong_ho','dm_nhacungcap.ten_nha_cung_cap')
+            ->join('dm_loaidongho','dm_loaidongho.ma_loai_dong_ho','=','ql_donghokhach.ma_loai_dong_ho')
+            ->join('dm_codongho','dm_codongho.ma_co_dong_ho','=','ql_donghokhach.ma_co_dong_ho')
+            ->join('dm_nhacungcap','dm_nhacungcap.ma_nha_cung_cap','=','ql_donghokhach.ma_nha_cung_cap')
             ->where("ma_dong_ho",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'error' => 'Đồng hồ khối không tồn tại!'
+               'error' => 'Đồng hồ khách hàng không tồn tại!'
             ],422);
         }
     }
@@ -114,23 +119,28 @@ class QLDongHoKhoiController extends Controller
     {
         $message = [
             'required' => 'Xin hãy điền đủ thông tin!',
-            'unique' => 'Đồng hồ khối đã tồn tại!',
+            'unique' => 'Đồng hồ khách hàng đã tồn tại!',
             'ngay_nhap.date' => 'Ngày nhập không hợp lệ',
             'ngay_kiem_dinh.date' => 'Ngày kiểm định không hợp lệ',
         ];
         $validator = Validator::make($request->all(),[
             'ten_dong_ho' => [
                 'required',
-                Rule::unique('ql_donghokhoi', 'ten_dong_ho')->ignore($id, 'ma_dong_ho')
+                Rule::unique('ql_donghokhach', 'ten_dong_ho')->ignore($id, 'ma_dong_ho')
               ],
-              'tinh_trang' => 'required',
-              'ngay_nhap' => 'required|date',
-              'ngay_kiem_dinh' => 'required|date',
-              'so_nam_hieu_luc' => 'required',
-              'so_thang_bao_hanh' => 'required',
-              'ma_loai_dong_ho' => 'required',
-              'ma_nha_cung_cap' => 'required',
-              'ma_co_dong_ho' => 'required',
+            'tinh_trang' => 'required',
+            'nam_san_xuat' => 'required',
+            'so_seri' => [
+                'required',
+                Rule::unique('ql_donghokhach', 'so_seri')->ignore($id, 'ma_dong_ho')
+              ],
+            'ngay_nhap' => 'required|date',
+            'ngay_kiem_dinh' => 'required|date',
+            'so_nam_hieu_luc' => 'required',
+            'so_thang_bao_hanh' => 'required',
+            'ma_loai_dong_ho' => 'required',
+            'ma_nha_cung_cap' => 'required',
+            'ma_co_dong_ho' => 'required',
           ],$message);
         
         if($validator->fails()){
@@ -139,38 +149,44 @@ class QLDongHoKhoiController extends Controller
                 ],422);
         }
         try{
-            $dong_ho_khoi = QLDongHoKhoiModel::findOrFail($id); 
+            $dong_ho_khach = QLDongHoKhachModel::findOrFail($id); 
             if(isset($request->ten_dong_ho)){
-                $dong_ho_khoi->ten_dong_ho=$request->ten_dong_ho;
+                $dong_ho_khach->ten_dong_ho=$request->ten_dong_ho;
             }
             if(isset($request->tinh_trang)){
-                $dong_ho_khoi->tinh_trang=$request->tinh_trang;
+                $dong_ho_khach->tinh_trang=$request->tinh_trang;
+            }
+            if(isset($request->nam_san_xuat)){
+                $dong_ho_khach->nam_san_xuat=$request->nam_san_xuat;
+            }
+            if(isset($request->so_seri)){
+                $dong_ho_khach->so_seri=$request->so_seri;
             }
             if(isset($request->ngay_nhap)){
-                $dong_ho_khoi->ngay_nhap=$request->ngay_nhap;
+                $dong_ho_khach->ngay_nhap=$request->ngay_nhap;
             }
             if(isset($request->ngay_kiem_dinh)){
-                $dong_ho_khoi->ngay_kiem_dinh=$request->ngay_kiem_dinh;
+                $dong_ho_khach->ngay_kiem_dinh=$request->ngay_kiem_dinh;
             }
             if(isset($request->so_nam_hieu_luc)){
-                $dong_ho_khoi->so_nam_hieu_luc=$request->so_nam_hieu_luc;
+                $dong_ho_khach->so_nam_hieu_luc=$request->so_nam_hieu_luc;
             }
             if(isset($request->so_thang_bao_hanh)){
-                $dong_ho_khoi->so_thang_bao_hanh=$request->so_thang_bao_hanh;
+                $dong_ho_khach->so_thang_bao_hanh=$request->so_thang_bao_hanh;
             }
             if(isset($request->ma_loai_dong_ho)){
-                $dong_ho_khoi->ma_loai_dong_ho=$request->ma_loai_dong_ho;
+                $dong_ho_khach->ma_loai_dong_ho=$request->ma_loai_dong_ho;
             }
             if(isset($request->ma_nha_cung_cap)){
-                $dong_ho_khoi->ma_nha_cung_cap=$request->ma_nha_cung_cap;
+                $dong_ho_khach->ma_nha_cung_cap=$request->ma_nha_cung_cap;
             }
             if(isset($request->ma_co_dong_ho)){
-                $dong_ho_khoi->ma_co_dong_ho=$request->ma_co_dong_ho;
+                $dong_ho_khach->ma_co_dong_ho=$request->ma_co_dong_ho;
             }
-            $result = $dong_ho_khoi->save();
+            $result = $dong_ho_khach->save();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'error' => 'Đồng hồ khối không tồn tại!'
+               'error' => 'Đồng hồ khách hàng không tồn tại!'
             ],422);
         }
         if($result){
@@ -191,11 +207,11 @@ class QLDongHoKhoiController extends Controller
     public function destroy(string $id)
     {
         try{
-            $dong_ho_khoi = QLDongHoKhoiModel::findOrFail($id);
-            $result = $dong_ho_khoi->delete();
+            $dong_ho_khach = QLDongHoKhachModel::findOrFail($id);
+            $result = $dong_ho_khach->delete();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'error' => 'Đồng hồ khối không tồn tại!'
+               'error' => 'Đồng hồ khách hàng không tồn tại!'
             ],422);
         }
         if($result){
@@ -211,10 +227,10 @@ class QLDongHoKhoiController extends Controller
     }
     public function search(Request $request)
     {
-        $query =  QLDongHoKhoiModel::query()->select('*','dm_loaidongho.ten_loai_dong_ho','dm_codongho.ten_co_dong_ho','dm_nhacungcap.ten_nha_cung_cap')
-        ->join('dm_loaidongho','dm_loaidongho.ma_loai_dong_ho','=','ql_donghokhoi.ma_loai_dong_ho')
-        ->join('dm_codongho','dm_codongho.ma_co_dong_ho','=','ql_donghokhoi.ma_co_dong_ho')
-        ->join('dm_nhacungcap','dm_nhacungcap.ma_nha_cung_cap','=','ql_donghokhoi.ma_nha_cung_cap');
+        $query =  QLDongHoKhachModel::query()->select('*','dm_loaidongho.ten_loai_dong_ho','dm_codongho.ten_co_dong_ho','dm_nhacungcap.ten_nha_cung_cap')
+        ->join('dm_loaidongho','dm_loaidongho.ma_loai_dong_ho','=','ql_donghokhach.ma_loai_dong_ho')
+        ->join('dm_codongho','dm_codongho.ma_co_dong_ho','=','ql_donghokhach.ma_co_dong_ho')
+        ->join('dm_nhacungcap','dm_nhacungcap.ma_nha_cung_cap','=','ql_donghokhach.ma_nha_cung_cap');
         if($request->has('ten_dong_ho')){
             $query->where("ten_dong_ho","like","%".$request->ten_dong_ho."%");
         }
@@ -233,7 +249,7 @@ class QLDongHoKhoiController extends Controller
         if($request->has('tinh_trang')){
             $query->where("tinh_trang",$request->tinh_trang);
         }
-        $result = $query->orderBy('ma_dong_ho_khoi', 'ASC')->get();
+        $result = $query->orderBy('ma_dong_ho_khach', 'ASC')->get();
         return $result;
     }
 }

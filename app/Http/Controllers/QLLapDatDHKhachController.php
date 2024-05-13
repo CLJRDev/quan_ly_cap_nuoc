@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\QLLapDatDHKhoiModel;
+use App\Http\Controllers\Controller;
+use App\Models\QLLapDatDHKhachModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException; 
 use Illuminate\Validation\Rule;
 
-class QLLapDatDHKhoiController extends Controller
+class QLLapDatDHKhachController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return QLLapDatDHKhoiModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
-        ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
+        return QLLapDatDHKhachModel::select('*','ql_donghokhach.ten_dong_ho','ql_donghokhach.tinh_trang','ql_donghokhach.ten_dong_ho','dm_tuyendoc.ten_tuyen')
+        ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
         ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen')
         ->orderBy('ma_lap_dat', 'ASC')->get();
     }
@@ -56,7 +57,7 @@ class QLLapDatDHKhoiController extends Controller
                 'error' => $validator->errors(),
                 ],422);
         }
-        $lap_dat = new QLLapDatDHKhoiModel; 
+        $lap_dat = new QLLapDatDHKhachModel; 
         $lap_dat->chi_so_dau=$request->chi_so_dau;
         if($request->has('chi_so_cuoi')){
             $lap_dat->chi_so_cuoi=$request->chi_so_cuoi;
@@ -88,8 +89,8 @@ class QLLapDatDHKhoiController extends Controller
     public function show(string $id)
     {
         try{
-            return QLLapDatDHKhoiModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
-            ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
+            return QLLapDatDHKhachModel::select('*','ql_donghokhach.ten_dong_ho','ql_donghokhach.tinh_trang','ql_donghokhach.ten_dong_ho','dm_tuyendoc.ten_tuyen')
+            ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
             ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen')->where("ma_lap_dat",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
@@ -134,7 +135,7 @@ class QLLapDatDHKhoiController extends Controller
                 ],422);
         }
         try{
-            $lap_dat = QLLapDatDHKhoiModel::findOrFail($id); 
+            $lap_dat = QLLapDatDHKhachModel::findOrFail($id); 
             if(isset($request->chi_so_dau)){
                 $lap_dat->chi_so_dau=$request->chi_so_dau;
             }
@@ -181,7 +182,7 @@ class QLLapDatDHKhoiController extends Controller
     public function destroy(string $id)
     {
         try{
-            $lap_dat = QLLapDatDHKhoiModel::findOrFail($id);
+            $lap_dat = QLLapDatDHKhachModel::findOrFail($id);
             $result = $lap_dat->delete();
         }catch (ModelNotFoundException $e) {
             return response()->json([
@@ -201,8 +202,8 @@ class QLLapDatDHKhoiController extends Controller
     }
     public function search(Request $request)
     {
-        $query =  QLLapDatDHKhoiModel::query()->select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
-        ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
+        $query =  QLLapDatDHKhachModel::query()->select('*','ql_donghokhach.ten_dong_ho','ql_donghokhach.tinh_trang','ql_donghokhach.ten_dong_ho','dm_tuyendoc.ten_tuyen')
+        ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
         ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen');
         if($request->has('ten_dong_ho')){
             $query->where("ten_dong_ho","like","%".$request->ten_dong_ho."%");

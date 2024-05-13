@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class QLDongHoKhoiModel extends Model
+class QLDongHoKhachModel extends Model
 {
     use HasFactory;
-    protected $table = 'ql_donghokhoi';
+    protected $table = 'ql_donghokhach';
     public $incrementing = true;
     protected $primaryKey = 'ma_dong_ho';
     protected $keytype = 'int';
@@ -25,12 +25,12 @@ class QLDongHoKhoiModel extends Model
     {
       return $this->hasOne(DMNhaCungCapModel::class);
     }
-    public function lap_dat()
-    {
-      return $this->hasMany(QLLapDatDHKhoiModel::class);
-    }
-    public function chi_so()
-    {
-      return $this->hasMany(LSDongHoKhoiModel::class);
-    }
+    // public function lap_dat()
+    // {
+    //   return $this->hasMany(QLLapDatDHKhoiModel::class);
+    // }
+    // public function chi_so()
+    // {
+    //   return $this->hasMany(LSDongHoKhoiModel::class);
+    // }
 }
