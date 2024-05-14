@@ -174,6 +174,9 @@ class QLKhachHangController extends Controller
     if ($request->has('ten_khach_hang')) {
       $query->where('ten_khach_hang', "like", "%" . $request->ten_khach_hang . "%");
     }
+    if ($request->has('dia_chi')) {
+      $query->where('dia_chi', "like", "%" . $request->dia_chi . "%");
+    }
     if ($request->has('email')) {
       $query->where('email', "like", "%" . $request->email . "%");
     }

@@ -102,6 +102,11 @@ export const SidebarData = [
         title: 'Giá Nước',
         path: '/gia_nuoc',
         icon: <IoIcons.IoIosPricetags />,
+      },
+      {
+        title: 'Khách Hàng',
+        path: '/khach_hang',
+        icon: <Fa6Icons.FaPeopleGroup  />,
       }
     ]
   },

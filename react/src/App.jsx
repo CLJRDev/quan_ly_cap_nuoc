@@ -35,6 +35,10 @@ import SuaGia from './components/khach_hang_thanh_toan/QL_gia_nuoc/SuaGia'
 import QuanLyDongHoKhoi from './components/dong_ho/QL_dong_ho_khoi/QuanLyDongHoKhoi'
 import ThemDongHoKhoi from './components/dong_ho/QL_dong_ho_khoi/ThemDongHoKhoi'
 import SuaDongHoKhoi from './components/dong_ho/QL_dong_ho_khoi/SuaDongHoKhoi'
+import QuanLyKhachHang from './components/khach_hang_thanh_toan/QL_khach_hang/QuanLyKhachHang'
+import ThemKhachHang from './components/khach_hang_thanh_toan/QL_khach_hang/ThemKhachHang'
+import SuaKhachHang from './components/khach_hang_thanh_toan/QL_khach_hang/SuaKhachHang'
+
 
 import { Routes, Route, useLocation } from 'react-router-dom'
 
@@ -80,6 +84,9 @@ function App() {
         <Route path='/dong_ho_khoi' element={<QuanLyDongHoKhoi />} />
         <Route path='/dong_ho_khoi/them' element={<ThemDongHoKhoi />} />
         <Route path='/dong_ho_khoi/sua/:id' element={<SuaDongHoKhoi />} />
+        <Route path='/khach_hang' element={<QuanLyKhachHang />} />
+        <Route path='/khach_hang/them' element={<ThemKhachHang />} />
+        <Route path='/khach_hang/sua/:id' element={<SuaKhachHang />} />
 
         <Route path='/login' element={<Login />} />
       </Routes>
