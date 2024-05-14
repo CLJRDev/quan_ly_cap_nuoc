@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 13, 2024 at 01:56 PM
+-- Generation Time: May 14, 2024 at 01:06 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -264,6 +264,27 @@ INSERT INTO `ls_donghokhoi` (`ma_lich_su`, `ky_chi_so`, `tu_ngay`, `den_ngay`, `
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ql_donghokhach`
+--
+
+CREATE TABLE `ql_donghokhach` (
+  `ma_dong_ho` int(11) NOT NULL,
+  `ten_dong_ho` varchar(50) NOT NULL,
+  `tinh_trang` int(11) NOT NULL,
+  `nam_san_xuat` int(11) NOT NULL,
+  `so_seri` int(11) NOT NULL,
+  `ngay_nhap` date NOT NULL,
+  `ngay_kiem_dinh` date NOT NULL,
+  `so_nam_hieu_luc` int(11) NOT NULL,
+  `so_thang_bao_hanh` int(11) NOT NULL,
+  `ma_loai_dong_ho` int(11) NOT NULL,
+  `ma_nha_cung_cap` int(11) NOT NULL,
+  `ma_co_dong_ho` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ql_donghokhoi`
 --
 
@@ -336,6 +357,24 @@ INSERT INTO `ql_khachhang` (`ma_khach_hang`, `ten_khach_hang`, `dia_chi`, `sdt`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ql_lapdatdhkhach`
+--
+
+CREATE TABLE `ql_lapdatdhkhach` (
+  `ma_lap_dat` int(11) NOT NULL,
+  `chi_so_dau` int(11) NOT NULL,
+  `chi_so_cuoi` int(11) DEFAULT NULL,
+  `so_tieu_thu` int(11) DEFAULT NULL,
+  `trang_thai` int(11) NOT NULL,
+  `ngay_lap_dat` date NOT NULL,
+  `ngay_ket_thuc` date DEFAULT NULL,
+  `ma_dong_ho` int(11) NOT NULL,
+  `ma_tuyen` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ql_lapdatdhkhoi`
 --
 
@@ -382,7 +421,8 @@ CREATE TABLE `ql_nhomgia` (
 --
 
 INSERT INTO `ql_nhomgia` (`ma_nhom_gia`, `ten_nhom_gia`, `hs_duoi_10m`, `hs_tu_10m_den_20m`, `hs_tu_20m_den_30m`, `hs_tren_30m`, `hs_rieng`, `gia_ban`, `ma_loai_khach_hang`) VALUES
-(3, 'Dân dụng', 1, 0.8, 0.7, 0.6, NULL, 13000, 1);
+(3, 'Dân dụng', 1, 0.8, 0.7, 0.6, NULL, 13000, 1),
+(4, 'Giá reing', NULL, NULL, NULL, NULL, 1, 13000, 2);
 
 -- --------------------------------------------------------
 
@@ -406,6 +446,18 @@ INSERT INTO `ql_phanquyen` (`ma_phan_quyen`, `ma_nhan_vien`, `ma_quyen`) VALUES
 (6, 100000, 5),
 (8, 100001, 2),
 (7, 100001, 6);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ql_quanhehopdong`
+--
+
+CREATE TABLE `ql_quanhehopdong` (
+  `ma_quan_he` int(11) NOT NULL,
+  `ma_hop_dong` int(11) NOT NULL,
+  `ma_dong_ho` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -524,6 +576,15 @@ ALTER TABLE `ls_donghokhoi`
   ADD KEY `ma_dong_ho` (`ma_dong_ho`);
 
 --
+-- Indexes for table `ql_donghokhach`
+--
+ALTER TABLE `ql_donghokhach`
+  ADD PRIMARY KEY (`ma_dong_ho`),
+  ADD UNIQUE KEY `ten_dong_ho` (`ten_dong_ho`),
+  ADD UNIQUE KEY `so_seri` (`so_seri`),
+  ADD UNIQUE KEY `ten_dong_ho_2` (`ten_dong_ho`);
+
+--
 -- Indexes for table `ql_donghokhoi`
 --
 ALTER TABLE `ql_donghokhoi`
@@ -548,6 +609,14 @@ ALTER TABLE `ql_khachhang`
   ADD PRIMARY KEY (`ma_khach_hang`);
 
 --
+-- Indexes for table `ql_lapdatdhkhach`
+--
+ALTER TABLE `ql_lapdatdhkhach`
+  ADD PRIMARY KEY (`ma_lap_dat`),
+  ADD KEY `ma_tuyen` (`ma_tuyen`),
+  ADD KEY `ma_dong_ho` (`ma_dong_ho`);
+
+--
 -- Indexes for table `ql_lapdatdhkhoi`
 --
 ALTER TABLE `ql_lapdatdhkhoi`
@@ -570,6 +639,14 @@ ALTER TABLE `ql_phanquyen`
   ADD PRIMARY KEY (`ma_phan_quyen`),
   ADD UNIQUE KEY `ma_nhan_vien` (`ma_nhan_vien`,`ma_quyen`),
   ADD KEY `ma_quyen` (`ma_quyen`);
+
+--
+-- Indexes for table `ql_quanhehopdong`
+--
+ALTER TABLE `ql_quanhehopdong`
+  ADD PRIMARY KEY (`ma_quan_he`),
+  ADD KEY `ma_hop_dong` (`ma_hop_dong`),
+  ADD KEY `ma_dong_ho` (`ma_dong_ho`);
 
 --
 -- Indexes for table `ql_taikhoan`
@@ -654,6 +731,12 @@ ALTER TABLE `ls_donghokhoi`
   MODIFY `ma_lich_su` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `ql_donghokhach`
+--
+ALTER TABLE `ql_donghokhach`
+  MODIFY `ma_dong_ho` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `ql_donghokhoi`
 --
 ALTER TABLE `ql_donghokhoi`
@@ -672,6 +755,12 @@ ALTER TABLE `ql_khachhang`
   MODIFY `ma_khach_hang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `ql_lapdatdhkhach`
+--
+ALTER TABLE `ql_lapdatdhkhach`
+  MODIFY `ma_lap_dat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `ql_lapdatdhkhoi`
 --
 ALTER TABLE `ql_lapdatdhkhoi`
@@ -681,13 +770,19 @@ ALTER TABLE `ql_lapdatdhkhoi`
 -- AUTO_INCREMENT for table `ql_nhomgia`
 --
 ALTER TABLE `ql_nhomgia`
-  MODIFY `ma_nhom_gia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ma_nhom_gia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `ql_phanquyen`
 --
 ALTER TABLE `ql_phanquyen`
   MODIFY `ma_phan_quyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `ql_quanhehopdong`
+--
+ALTER TABLE `ql_quanhehopdong`
+  MODIFY `ma_quan_he` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ql_taikhoan`
@@ -758,6 +853,13 @@ ALTER TABLE `ql_nhomgia`
 ALTER TABLE `ql_phanquyen`
   ADD CONSTRAINT `ql_phanquyen_ibfk_1` FOREIGN KEY (`ma_quyen`) REFERENCES `dm_quyen` (`ma_quyen`),
   ADD CONSTRAINT `ql_phanquyen_ibfk_2` FOREIGN KEY (`ma_nhan_vien`) REFERENCES `ql_taikhoan` (`ma_nhan_vien`);
+
+--
+-- Constraints for table `ql_quanhehopdong`
+--
+ALTER TABLE `ql_quanhehopdong`
+  ADD CONSTRAINT `ql_quanhehopdong_ibfk_1` FOREIGN KEY (`ma_hop_dong`) REFERENCES `ql_hopdong` (`ma_hop_dong`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `ql_quanhehopdong_ibfk_2` FOREIGN KEY (`ma_dong_ho`) REFERENCES `ql_donghokhach` (`ma_dong_ho`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
