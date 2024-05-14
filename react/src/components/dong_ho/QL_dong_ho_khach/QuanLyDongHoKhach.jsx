@@ -6,12 +6,11 @@ import { useState, useEffect } from "react"
 import Select from 'react-select'
 import { format } from 'date-fns'
 
-
-export default function QuanLyDongHoKhoi() {
+export default function QuanLyDongHoKhach() {
   const [loaiDongHos, setLoaiDongHos] = useState(null)
   const [coDongHos, setCoDongHos] = useState(null)
   const [nhaCungCaps, setNhaCungCaps] = useState(null)
-  const [dongHoKhois, setDongHoKhois] = useState(null)
+  const [dongHoKhachs, setDongHoKhachs] = useState(null)
 
   useEffect(() => {
     axios.get(`http://127.0.0.1:8000/api/loai_dong_ho`)
@@ -34,22 +33,22 @@ export default function QuanLyDongHoKhoi() {
       })
   }, [])
 
-  const fetchData = () => {
-    axios.get(`http://127.0.0.1:8000/api/dong_ho_khoi`)
-      .then(response => {
-        setDongHoKhois(response.data)
-      })
-  }
+  // const fetchData = () => {
+  //   axios.get(`http://127.0.0.1:8000/api/dong_ho_khach`)
+  //     .then(response => {
+  //       setDongHoKhachs(response.data)
+  //     })
+  // }
 
-  useEffect(() => {
-    fetchData()
-  }, [])
+  // useEffect(() => {
+  //   fetchData()
+  // }, [])
 
 
   if (!loaiDongHos) return null
   if (!coDongHos) return null
   if (!nhaCungCaps) return null
-  if (!dongHoKhois) return null
+  // if (!dongHoKhachs) return null
 
   const loaiDongHoOptions = []
   const coDongHoOptions = []
@@ -82,58 +81,65 @@ export default function QuanLyDongHoKhoi() {
     { value: 0, label: 'Khóa' },
   ]
 
-  const xoa = id => {
-    if (!window.confirm('Bạn có chắc chắn muốn xóa đồng hồ này này?'))
-      return
-    axios.delete(`http://127.0.0.1:8000/api/dong_ho_khoi/${id}`)
-      .then(response => {
-        console.log(response.data.message);
-        fetchData()
-      })
-      .catch(error => {
-        console.log(error.response.data.error)
-      });
+  // const xoa = id => {
+  //   if (!window.confirm('Bạn có chắc chắn muốn xóa đồng hồ này này?'))
+  //     return
+  //   axios.delete(`http://127.0.0.1:8000/api/dong_ho_khach/${id}`)
+  //     .then(response => {
+  //       console.log(response.data.message);
+  //       fetchData()
+  //     })
+  //     .catch(error => {
+  //       console.log(error.response.data.error)
+  //     });
+  // }
+
+  // const dongHoKhachElements = dongHoKhachs.map((item, index) => {
+  //   return <tr key={index}>
+  //     <td>{item.ten_dong_ho}</td>
+  //     <td>{item.nam_san_xuat}</td>
+  //     <td>{item.so_seri}</td>
+  //     <td>{item.ten_loai_dong_ho}</td>
+  //     <td>{item.ten_nha_cung_cap}</td>
+  //     <td>{item.ten_co_dong_ho}</td>
+  //     <td>{item.tinh_trang == 1 ? 'Đang lắp đặt' : 'Trống'}</td>
+  //     <td>{format(new Date(item.ngay_nhap), 'dd-MM-yyyy')}</td>
+  //     <td>{format(new Date(item.ngay_kiem_dinh), 'dd-MM-yyyy')}</td>
+  //     <td>{item.so_nam_hieu_luc}</td>
+  //     <td>{item.so_thang_bao_hanh}</td>
+  //     <td>
+  //       <Link className="btn-edit" to={`/dong_ho_khach/sua/${item.ma_dong_ho}`}>Sửa</Link>
+  //       &nbsp;
+  //       <button onClick={() => xoa(item.ma_dong_ho)} className="btn-delete">Xóa</button>
+  //     </td>
+  //   </tr>
+  // })
+
+  const handleInputChange = e => {
+
   }
 
-  const dongHoKhoiElements = dongHoKhois.map((item, index) => {
-    return <tr key={index}>
-      <td>{item.ten_dong_ho}</td>
-      <td>{item.ten_loai_dong_ho}</td>
-      <td>{item.ten_nha_cung_cap}</td>
-      <td>{item.ten_co_dong_ho}</td>
-      <td>{item.tinh_trang == 1 ? 'Đang lắp đặt' : 'Trống'}</td>
-      <td>{format(new Date(item.ngay_nhap), 'dd-MM-yyyy')}</td>
-      <td>{format(new Date(item.ngay_kiem_dinh), 'dd-MM-yyyy')}</td>
-      <td>{item.so_nam_hieu_luc}</td>
-      <td>{item.so_thang_bao_hanh}</td>
-      <td>
-        <Link className="btn-edit" to={`/dong_ho_khoi/sua/${item.ma_dong_ho}`}>Sửa</Link>
-        &nbsp;
-        <button onClick={() => xoa(item.ma_dong_ho)} className="btn-delete">Xóa</button>
-      </td>
-    </tr>
-  })
-
-  const handleInputChange = (e) => {
-
-  }
-
-  const handleSelectChange = (option) => {
+  const handleSelectChange = (option, e) => {
 
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    await timKiem()
+
   }
+
+
 
   return (
     <div className="page">
-      <h2 className="title">Quản lý đồng hồ khối</h2>
+      <h2 className="title">Quản lý đồng hồ khách hàng</h2>
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ten_dong_ho">Tên đồng hồ</label>
           <input type="text" id='ten_dong_ho' name='ten_dong_ho' onChange={handleInputChange} />
+        </div>
+        <div>
+          <label htmlFor="so_seri">Số seri</label>
+          <input type="number" id='so_seri' name='so_seri' onChange={handleInputChange} />
         </div>
         <div>
           <label htmlFor="">Loại đồng hồ</label>
@@ -183,25 +189,26 @@ export default function QuanLyDongHoKhoi() {
           <label htmlFor="so_thang_bao_hanh">Số tháng bảo hành</label>
           <input type="number" id='so_thang_bao_hanh' name='so_thang_bao_hanh' onChange={handleInputChange} />
         </div>
-        <div></div>
         <div>
           <button type="submit" className="btn-search">
             <IoMdSearch style={{ transform: 'scale(1.2)' }} />
             &nbsp; Tìm kiếm
           </button>
           &nbsp;
-          <Link to='/dong_ho_khoi/them' className="btn-add">
+          <Link to='/dong_ho_khach/them' className="btn-add">
             <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
             &nbsp; Thêm đồng hồ
           </Link>
         </div>
       </form>
       <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách đồng hồ khối</div>
+        <div className="title" style={{ marginBottom: '5px' }}>Danh sách đồng hồ khách hàng</div>
         <table>
           <thead>
             <tr>
               <th>Tên đồng hồ</th>
+              <th>Năm sản xuất</th>
+              <th>Số seri</th>
               <th>Loại đồng hồ</th>
               <th>Nhà cung cấp</th>
               <th>Kích cỡ</th>
@@ -214,7 +221,7 @@ export default function QuanLyDongHoKhoi() {
             </tr>
           </thead>
           <tbody>
-            {dongHoKhoiElements}
+            {/* {dongHoKhachElements} */}
           </tbody>
         </table>
       </div>

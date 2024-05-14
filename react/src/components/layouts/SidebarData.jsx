@@ -126,7 +126,12 @@ export const SidebarData = [
         title: 'Lắp đặt ĐH khối',
         path: '/lap_dat_dh_khoi',
         icon: <IoIcons.IoMdBuild  />,
-      }
+      },
+      {
+        title: 'Đồng hồ khách hàng',
+        path: '/dong_ho_khach',
+        icon: <FaIcons.FaStopwatch />,
+      },
     ]
   },
 ]
