@@ -18,8 +18,7 @@ class LSDongHoKhoiController extends Controller
     {
         return LSDongHoKhoiModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
         ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ls_donghokhoi.ma_dong_ho')
-        ->join('ql_lapdatdhkhoi','ql_lapdatdhkhoi.ma_dong_ho','=','ls_donghokhoi.ma_dong_ho')
-        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen')
+        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ls_donghokhoi.ma_tuyen')
         ->orderBy('ma_lich_su', 'ASC')->get();
     }
 
@@ -49,6 +48,7 @@ class LSDongHoKhoiController extends Controller
             'den_ngay' => 'required|date',
             'chi_so_moi' => 'required',
             'ma_dong_ho' => 'required',
+            'ma_tuyen' => 'required',
           ],$message);
         
         if($validator->fails()){
@@ -65,12 +65,13 @@ class LSDongHoKhoiController extends Controller
         else{
             $lich_su->chi_so_cu=$lich_su_cu->chi_so_moi;
         }
-        $lich_su->khoa=1;
+        $lich_su->khoa=$request->khoa;
         $lich_su->tu_ngay=$request->tu_ngay;
         $lich_su->den_ngay=$request->den_ngay;
         $lich_su->chi_so_moi=$request->chi_so_moi;
         $lich_su->so_tieu_thu=$lich_su->chi_so_moi-$lich_su->chi_so_cu;
         $lich_su->ma_dong_ho=$request->ma_dong_ho;
+        $lich_su->ma_tuyen=$request->ma_tuyen;
         $result = $lich_su->save();
         if($result){
             return response()->json([
@@ -90,10 +91,9 @@ class LSDongHoKhoiController extends Controller
     public function show(string $id)
     {
         try{
-            return LSDongHoKhoiModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','ql_lapdatdhkhoi.ten_tuyen')
+            return LSDongHoKhoiModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
             ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ls_donghokhoi.ma_dong_ho')
-            ->join('ql_lapdatdhkhoi','ql_lapdatdhkhoi.ma_dong_ho','=','ls_donghokhoi.ma_dong_ho')
-            ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen')->where("ma_lich_su",$id)->firstOrFail();
+        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ls_donghokhoi.ma_tuyen')->where("ma_lich_su",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
                'error' => 'Lịch sử đồng hồ không tồn tại!'
@@ -125,6 +125,7 @@ class LSDongHoKhoiController extends Controller
             'tu_ngay' => 'required|date',
             'den_ngay' => 'required|date',
             'chi_so_moi' => 'required|numeric',
+            'khoa' => 'required',
           ],$message);
         
         if($validator->fails()){
@@ -194,10 +195,9 @@ class LSDongHoKhoiController extends Controller
     }
     public function search(Request $request)
     {
-        $query =  LSDongHoKhoiModel::query()->select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','ql_lapdatdhkhoi.ten_tuyen')
+        $query =  LSDongHoKhoiModel::query()->select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
         ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ls_donghokhoi.ma_dong_ho')
-        ->join('ql_lapdatdhkhoi','ql_lapdatdhkhoi.ma_dong_ho','=','ls_donghokhoi.ma_dong_ho')
-        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen');
+        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ls_donghokhoi.ma_tuyen');
         if($request->has('ma_dong_ho')){
             $query->where("ma_dong_ho",$request->ma_dong_ho);
         }
@@ -212,13 +212,12 @@ class LSDongHoKhoiController extends Controller
             ->join('dm_loaidongho','dm_loaidongho.ma_loai_dong_ho','=','ql_donghokhoi.ma_loai_dong_ho')
             ->join('dm_codongho','dm_codongho.ma_co_dong_ho','=','ql_donghokhoi.ma_co_dong_ho')
             ->join('dm_nhacungcap','dm_nhacungcap.ma_nha_cung_cap','=','ql_donghokhoi.ma_nha_cung_cap')
-            ->join('ql_lapdatdhkhoi','ql_lapdatdhkhoi.ma_dong_ho','=','ql_donghokhoi.ma_dong_ho')
-            ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen');
+            ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ls_donghokhoi.ma_tuyen');
         if($request->has('ma_dong_ho')){
             $query->where("ls_donghokhoi.ma_dong_ho",$request->ma_dong_ho);
         }
         if($request->has('ma_tuyen')){
-            $query->where("ql_lapdatdhkhoi.ma_tuyen",$request->ma_tuyen);
+            $query->where("ls_donghokhoi.ma_tuyen",$request->ma_tuyen);
         }
         $query=$query->leftJoin('ls_donghokhoi as n', function ($join) {
                 $join->on('ls_donghokhoi.ma_dong_ho', '=', 'n.ma_dong_ho')

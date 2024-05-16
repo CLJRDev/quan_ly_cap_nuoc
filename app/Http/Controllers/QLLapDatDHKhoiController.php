@@ -43,10 +43,7 @@ class QLLapDatDHKhoiController extends Controller
         ];
         $validator = Validator::make($request->all(),[
             'chi_so_dau' => 'required|numeric',
-            'chi_so_cuoi' => 'required|numeric',
-            'trang_thai' => 'required',
-            'ngay_lap_dat' => 'required|date',
-            'ngay_ket_thuc' => 'date',
+            'tu_ngay' => 'required|date',
             'ma_dong_ho' => 'required',
             'ma_tuyen' => 'required',
           ],$message);
@@ -56,17 +53,10 @@ class QLLapDatDHKhoiController extends Controller
                 'error' => $validator->errors(),
                 ],422);
         }
+        $lap_dat_cu = QLLapDatDHKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->orderBy('ma_lap_dat','DESC')->latest();
         $lap_dat = new QLLapDatDHKhoiModel; 
         $lap_dat->chi_so_dau=$request->chi_so_dau;
-        if($request->has('chi_so_cuoi')){
-            $lap_dat->chi_so_cuoi=$request->chi_so_cuoi;
-            $lap_dat->so_tieu_thu=$request->chi_so_cuoi-$request->chi_so_dau;
-        }
-        $lap_dat->trang_thai=$request->trang_thai;
         $lap_dat->ngay_lap_dat=$request->ngay_lap_dat;
-        if($request->has('ngay_ket_thuc')){
-            $lap_dat->ngay_ket_thuc=$request->ngay_ket_thuc;
-        }
         $lap_dat->ma_dong_ho=$request->ma_dong_ho;
         $lap_dat->ma_tuyen=$request->ma_tuyen;
         $result = $lap_dat->save();
@@ -114,16 +104,12 @@ class QLLapDatDHKhoiController extends Controller
         $message = [
             'required' => 'Xin hãy điền đủ thông tin!',
             'chi_so_dau.number' => 'Chỉ số đầu không hợp lệ',
-            'chi_so_cuoi.number' => 'Chỉ số cuối không hợp lệ',
             'ngay_lap_dat.date' => 'Ngày lắp đặt không hợp lệ',
             'ngay_ket_thuc.date' => 'Ngày kết thúc không hợp lệ',
         ];
         $validator = Validator::make($request->all(),[
             'chi_so_dau' => 'required',
-            'chi_so_cuoi' => 'required',
-            'trang_thai' => 'required',
             'ngay_lap_dat' => 'required|date',
-            'ngay_ket_thuc' => 'date',
             'ma_dong_ho' => 'required',
             'ma_tuyen' => 'required',
           ],$message);

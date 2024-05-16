@@ -46,6 +46,7 @@ class QLGiaNuocController extends Controller
             'hs_tu_20m_den_30m' => 'required_if:hs_rieng,NULL',
             'hs_tren_30m' => 'required_if:hs_rieng,NULL',
             'hs_rieng' => 'required_if:hs_duoi_10m,NULL',
+            'hs_thue' => 'required',
             'gia_ban' => 'required',
             'ma_loai_khach_hang' => 'required|unique:ql_nhomgia,ma_loai_khach_hang',
           ],$message);
@@ -66,6 +67,7 @@ class QLGiaNuocController extends Controller
         else{
             $nhom_gia->hs_rieng=$request->hs_rieng;
         }
+        $nhom_gia->gia_ban=$request->hs_thue;
         $nhom_gia->gia_ban=$request->gia_ban;
         $nhom_gia->ma_loai_khach_hang=$request->ma_loai_khach_hang;
         $result = $nhom_gia->save();
@@ -125,6 +127,7 @@ class QLGiaNuocController extends Controller
             'hs_tu_20m_den_30m' => 'required_if:hs_rieng,NULL',
             'hs_tren_30m' => 'required_if:hs_rieng,NULL',
             'hs_rieng' => 'required_if:hs_duoi_10m,NULL',
+            'hs_thue' => 'required',
             'gia_ban' => 'required',
             'ma_loai_khach_hang' => [
                 'required',
@@ -157,6 +160,9 @@ class QLGiaNuocController extends Controller
             }
             if(isset($request->hs_rieng)){
                 $nhom_gia->hs_rieng=$request->hs_rieng;
+            }
+            if(isset($request->hs_thue)){
+                $nhom_gia->hs_thue=$request->hs_thue;
             }
             if(isset($request->gia_ban)){
                 $nhom_gia->gia_ban=$request->gia_ban;
