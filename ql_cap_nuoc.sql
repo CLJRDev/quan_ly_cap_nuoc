@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 17, 2024 at 09:04 PM
+-- Generation Time: May 17, 2024 at 09:47 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -423,7 +423,7 @@ INSERT INTO `ql_lapdatdhkhoi` (`ma_lap_dat`, `chi_so_dau`, `chi_so_cuoi`, `so_ti
 
 CREATE TABLE `ql_nhomgia` (
   `ma_nhom_gia` int(11) NOT NULL,
-  `ten_nhom_gia` text NOT NULL,
+  `ten_nhom_gia` varchar(1000) NOT NULL,
   `hs_duoi_10m` double DEFAULT NULL,
   `hs_tu_10m_den_20m` double DEFAULT NULL,
   `hs_tu_20m_den_30m` double DEFAULT NULL,
