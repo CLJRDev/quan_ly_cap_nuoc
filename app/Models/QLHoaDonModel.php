@@ -17,4 +17,8 @@ class QLHoaDonModel extends Model
     {
       return $this->hasOne(QLLapDatDHKhachModel::class);
     }
+    public function thanh_toan()
+    {
+      return $this->hasOne(DMThanhToanModel::class);
+    }
 }
