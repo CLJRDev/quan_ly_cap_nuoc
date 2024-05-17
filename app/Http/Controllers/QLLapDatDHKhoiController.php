@@ -19,7 +19,7 @@ class QLLapDatDHKhoiController extends Controller
         return QLLapDatDHKhoiModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','dm_tuyendoc.ten_tuyen')
         ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
         ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen')
-        ->orderBy('ma_lap_dat', 'ASC')->get();
+        ->orderBy('ma_lap_dat', 'DESC')->get();
     }
 
     /**
