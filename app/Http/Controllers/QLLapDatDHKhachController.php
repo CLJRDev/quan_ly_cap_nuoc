@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\QLDongHoKhachModel;
+use App\Models\QLHoaDonModel;
 use App\Models\QLLapDatDHKhachModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
@@ -184,7 +185,8 @@ class QLLapDatDHKhachController extends Controller
         try{
             $lap_dat = QLLapDatDHKhachModel::findOrFail($id);
             $lap_dat_moi_nhat = QLLapDatDHKhachModel::where('ma_dong_ho',$lap_dat->ma_dong_ho)->orderBy('ma_lap_dat', 'DESC')->first();
-            if($lap_dat_moi_nhat->ma_lap_dat == $id){
+            $chi_so = QLHoaDonModel::where('ma_hoa_don',$id)->get();
+            if($lap_dat_moi_nhat->ma_lap_dat == $id&&count($chi_so)==0){
                 $result = $lap_dat->delete();
                 $dong_ho = QLDongHoKhachModel::where('ma_dong_ho',$lap_dat->ma_dong_ho)->first();
                 $dong_ho->tinh_trang=0;
@@ -217,7 +219,9 @@ class QLLapDatDHKhachController extends Controller
         $query =  QLLapDatDHKhachModel::query()->select('ql_lapdatdhkhach.*','ql_donghokhach.ten_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen')
         ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
         ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
-        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_hopdong.ma_tuyen');
+        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_hopdong.ma_tuyen')
+        // ->join('ql_hoadon','ql_hoadon.ma_lap_dat','=','ql_lapdatdhkhach.ma_lap_dat')
+        ;
         if($request->has('ten_dong_ho')){
             $query->where("ten_dong_ho","like","%".$request->ten_dong_ho."%");
         }

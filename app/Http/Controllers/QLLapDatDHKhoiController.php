@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LSDongHoKhoiModel;
 use App\Models\QLDongHoKhoiModel;
 use App\Models\QLLapDatDHKhoiModel;
 use Illuminate\Http\Request;
@@ -180,7 +181,8 @@ class QLLapDatDHKhoiController extends Controller
         try{
             $lap_dat = QLLapDatDHKhoiModel::findOrFail($id);
             $lap_dat_moi_nhat = QLLapDatDHKhoiModel::where('ma_dong_ho',$lap_dat->ma_dong_ho)->orderBy('ma_lap_dat', 'DESC')->first();
-            if($lap_dat_moi_nhat->ma_lap_dat == $id){
+            $chi_so = LSDongHoKhoiModel::where('ma_lap_dat',$id)->get();
+            if($lap_dat_moi_nhat->ma_lap_dat == $id&&count($chi_so)==0){
                 $result = $lap_dat->delete();
                 $dong_ho = QLDongHoKhoiModel::where('ma_dong_ho',$lap_dat->ma_dong_ho)->first();
                 $dong_ho->tinh_trang=0;

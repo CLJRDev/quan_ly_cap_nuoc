@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\QLDongHoKhachModel;
 use App\Models\QLHoaDonModel;
+use App\Models\QLHopDongModel;
 use App\Models\QLLapDatDHKhachModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
@@ -19,11 +20,11 @@ class QLHoaDonController extends Controller
      */
     public function index()
     {
-        return QLHoaDonModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
-        ->join('ql_lapdatdhkhoi','ql_lapdatdhkhoi.ma_lap_dat','=','ls_donghokhoi.ma_lap_dat')
-        ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
-        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen')
-        ->orderBy('ma_lich_su', 'DESC')->get();
+        return QLHoaDonModel::select('*','ql_donghokhach.ten_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen')
+        ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
+        ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
+        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhach.ma_tuyen')
+        ->orderBy('ma_hoa_don', 'DESC')->get();
     }
 
     /**
@@ -59,25 +60,48 @@ class QLHoaDonController extends Controller
                 'error' => $validator->errors(),
                 ],422);
         }
-        $lich_su_cu = QLHoaDonModel::where('ma_lap_dat',$request->ma_lap_dat)->orderBy('ma_lich_su','DESC')->first();
-        $lich_su = new QLHoaDonModel;
-        $lich_su->ky_hoa_don=$request->ky_hoa_don;
-        if(empty($lich_su_cu)){
-            $lich_su->chi_so_cu=0;
+        $hoa_don_cu = QLHoaDonModel::where('ma_lap_dat',$request->ma_lap_dat)->orderBy('ma_hoa_don','DESC')->first();
+        $hoa_don = new QLHoaDonModel;
+        $nhom_gia = QLLapDatDHKhachModel::select('ql_nhomgia.*')
+            ->join('ql_hop_dong','ql_hop_dong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
+            ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hop_dong.ma_nhom_gia')
+            ->where('ma_lap_dat',$request->ma_lap_dat)->first();
+        $hoa_don->ky_hoa_don=$request->ky_hoa_don;
+        if(empty($hoa_don_cu)){
+            $hoa_don->chi_so_cu=0;
         }
         else{
-            $lich_su->chi_so_cu=$lich_su_cu->chi_so_moi;
-            $lich_su_cu->khoa=1;
-            $lich_su_cu->save();
+            $hoa_don->chi_so_cu=$hoa_don_cu->chi_so_moi;
+            $hoa_don_cu->khoa=1;
+            $hoa_don_cu->save();
         }
-        $lich_su->khoa=0;
-        $lich_su->tu_ngay=$request->tu_ngay;
-        $lich_su->den_ngay=$request->den_ngay;
-        $lich_su->chi_so_moi=$request->chi_so_moi;
-        $lich_su->so_tieu_thu=$lich_su->chi_so_moi-$lich_su->chi_so_cu;
-        $lich_su->so_tieu_thu=$lich_su->chi_so_moi-$lich_su->chi_so_cu;
-        $lich_su->ma_lap_dat=$request->ma_lap_dat;
-        $result = $lich_su->save();
+        $hoa_don->khoa=0;
+        $hoa_don->tu_ngay=$request->tu_ngay;
+        $hoa_don->den_ngay=$request->den_ngay;
+        $hoa_don->chi_so_moi=$request->chi_so_moi;
+        $hoa_don->so_tieu_thu=$hoa_don->chi_so_moi-$hoa_don->chi_so_cu;
+        if($nhom_gia->hs_rieng!=null){
+            $hoa_don->tong_tien_truoc_thue=($nhom_gia->hs_rieng*$nhom_gia->gia_ban)*$hoa_don->so_tieu_thu;
+        }
+        else{
+            if($hoa_don->so_tieu_thu<10){
+                $hoa_don->tong_tien_truoc_thue=($nhom_gia->hs_duoi_10m*$nhom_gia->gia_ban)*$hoa_don->so_tieu_thu;
+            }
+            elseif($hoa_don->so_tieu_thu>=10&&$hoa_don->so_tieu_thu<20){
+                $hoa_don->tong_tien_truoc_thue=(($nhom_gia->hs_tu_10m_den_20m*$nhom_gia->gia_ban)*($hoa_don->so_tieu_thu-9))+(($nhom_gia->hs_duoi_10m*$nhom_gia->gia_ban)*9);
+            }
+            elseif($hoa_don->so_tieu_thu>=20&&$hoa_don->so_tieu_thu<30){
+                $hoa_don->tong_tien_truoc_thue=(($nhom_gia->hs_tu_20m_den_30m*$nhom_gia->gia_ban)*($hoa_don->so_tieu_thu-19))+(($nhom_gia->hs_tu_10m_den_20m*$nhom_gia->gia_ban)*10)+(($nhom_gia->hs_duoi_10m*$nhom_gia->gia_ban)*9);
+            }
+            else{
+                $hoa_don->tong_tien_truoc_thue=(($nhom_gia->hs_tren_30m*$nhom_gia->gia_ban)*($hoa_don->so_tieu_thu-29))+(($nhom_gia->hs_tu_20m_den_30m*$nhom_gia->gia_ban)*10)+(($nhom_gia->hs_tu_10m_den_20m*$nhom_gia->gia_ban)*10)+(($nhom_gia->hs_duoi_10m*$nhom_gia->gia_ban)*9);
+            }
+        }
+        $hoa_don->tong_tien_thue=$hoa_don->tong_tien_truoc_thue*$nhom_gia->hs_thue;
+        $hoa_don->tong_cong=$hoa_don->tong_tien_truoc_thue-$hoa_don->tong_tien_thue;
+        $hoa_don->trang_thai=$request->trang_thai;
+        $hoa_don->ma_lap_dat=$request->ma_lap_dat;
+        $result = $hoa_don->save();
         if($result){
             return response()->json([
                 'message' => 'Tạo thành công!'
@@ -96,13 +120,13 @@ class QLHoaDonController extends Controller
     public function show(string $id)
     {
         try{
-            return QLHoaDonModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
-            ->join('ql_lapdatdhkhoi','ql_lapdatdhkhoi.ma_lap_dat','=','ls_donghokhoi.ma_lap_dat')
-            ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
-            ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen')->where("ma_lich_su",$id)->firstOrFail();
+            return QLHoaDonModel::select('*','ql_donghokhach.ten_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen')
+            ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
+            ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
+            ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhach.ma_tuyen')->where("ma_hoa_don",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'error' => 'Lịch sử đồng hồ không tồn tại!'
+               'error' => 'Hóa đơn không tồn tại!'
             ],422);
         }
     }
@@ -137,45 +161,66 @@ class QLHoaDonController extends Controller
                 ],422);
         }
         try{
-            $lich_su = QLHoaDonModel::findOrFail($id);
-            $lich_su_moi_nhat = QLHoaDonModel::where('ma_lap_dat',$lich_su->ma_lap_dat)->orderBy('ma_lich_su', 'DESC')->first();
-            $lap_dat = QLLapDatDHKhachModel::where('ma_lap_dat',$lich_su->ma_lap_dat)->first();
-            
-            if($lich_su_moi_nhat->ma_lich_su == $id){
+            $hoa_don = QLHoaDonModel::findOrFail($id);
+            $hoa_don_moi_nhat = QLHoaDonModel::where('ma_lap_dat',$hoa_don->ma_lap_dat)->orderBy('ma_hoa_don', 'DESC')->first();
+            $lap_dat = QLLapDatDHKhachModel::where('ma_lap_dat',$hoa_don->ma_lap_dat)->first();
+            $nhom_gia = QLLapDatDHKhachModel::select('ql_nhomgia.*')
+            ->join('ql_hop_dong','ql_hop_dong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
+            ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hop_dong.ma_nhom_gia')
+            ->where('ma_lap_dat',$request->ma_lap_dat)->first();
+            if($hoa_don_moi_nhat->ma_hoa_don == $id){
                 if(isset($request->ky_hoa_don)){
-                    $lich_su->ky_hoa_don=$request->ky_hoa_don;
+                    $hoa_don->ky_hoa_don=$request->ky_hoa_don;
                 }
                 if(isset($request->tu_ngay)){
-                    $lich_su->tu_ngay=$request->tu_ngay;
+                    $hoa_don->tu_ngay=$request->tu_ngay;
                 }
                 if(isset($request->den_ngay)){
-                    $lich_su->den_ngay=$request->den_ngay;
+                    $hoa_don->den_ngay=$request->den_ngay;
                     if($lap_dat->dong_ho_khoi->tinh_trang == 0){
                         $lap_dat->den_ngay=$request->den_ngay;
                         $lap_dat->save();
                     }   
                 }
                 if(isset($request->chi_so_moi)){
-                    $lich_su->chi_so_moi=$request->chi_so_moi;
+                    $hoa_don->chi_so_moi=$request->chi_so_moi;
                     if($lap_dat->dong_ho_khoi->tinh_trang == 0){
                         $lap_dat->chi_so_cuoi=$request->chi_so_cuoi;
                         $lap_dat->save();
                     }
                 }
                 if(isset($request->khoa)){
-                    $lich_su->khoa=$request->khoa;
+                    $hoa_don->khoa=$request->khoa;
                 }
-                $lich_su->so_tieu_thu=$lich_su->chi_so_moi-$lich_su->chi_so_cu;
-                $result = $lich_su->save();
+                if($nhom_gia->hs_rieng!=null){
+                    $hoa_don->tong_tien_truoc_thue=($nhom_gia->hs_rieng*$nhom_gia->gia_ban)*$hoa_don->so_tieu_thu;
+                }
+                else{
+                    if($hoa_don->so_tieu_thu<10){
+                        $hoa_don->tong_tien_truoc_thue=($nhom_gia->hs_duoi_10m*$nhom_gia->gia_ban)*$hoa_don->so_tieu_thu;
+                    }
+                    elseif($hoa_don->so_tieu_thu>=10&&$hoa_don->so_tieu_thu<20){
+                        $hoa_don->tong_tien_truoc_thue=(($nhom_gia->hs_tu_10m_den_20m*$nhom_gia->gia_ban)*($hoa_don->so_tieu_thu-9))+(($nhom_gia->hs_duoi_10m*$nhom_gia->gia_ban)*9);
+                    }
+                    elseif($hoa_don->so_tieu_thu>=20&&$hoa_don->so_tieu_thu<30){
+                        $hoa_don->tong_tien_truoc_thue=(($nhom_gia->hs_tu_20m_den_30m*$nhom_gia->gia_ban)*($hoa_don->so_tieu_thu-19))+(($nhom_gia->hs_tu_10m_den_20m*$nhom_gia->gia_ban)*10)+(($nhom_gia->hs_duoi_10m*$nhom_gia->gia_ban)*9);
+                    }
+                    else{
+                        $hoa_don->tong_tien_truoc_thue=(($nhom_gia->hs_tren_30m*$nhom_gia->gia_ban)*($hoa_don->so_tieu_thu-29))+(($nhom_gia->hs_tu_20m_den_30m*$nhom_gia->gia_ban)*10)+(($nhom_gia->hs_tu_10m_den_20m*$nhom_gia->gia_ban)*10)+(($nhom_gia->hs_duoi_10m*$nhom_gia->gia_ban)*9);
+                    }
+                }
+                $hoa_don->tong_tien_thue=$hoa_don->tong_tien_truoc_thue*$nhom_gia->hs_thue;
+                $hoa_don->tong_cong=$hoa_don->tong_tien_truoc_thue-$hoa_don->tong_tien_thue;
+                $result = $hoa_don->save();
             }
             else{
                 return response()->json([
-                    'error' => 'Lịch sử đồng hồ không thể cập nhật!'
+                    'error' => 'Hóa đơn không thể cập nhật!'
                   ],422);
             }
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'error' => 'Lịch sử đồng hồ không tồn tại!'
+               'error' => 'Hóa đơn không tồn tại!'
             ],422);
         }
         if($result){
@@ -196,27 +241,27 @@ class QLHoaDonController extends Controller
     public function destroy(string $id)
     {
         try{
-            $lich_su = QLHoaDonModel::findOrFail($id);
-            $lich_su_moi_nhat = QLHoaDonModel::where('ma_lap_dat',$lich_su->ma_lap_dat)->orderBy('ma_lich_su', 'DESC')->first();
-            $lich_su_moi_nhi = QLHoaDonModel::where('ma_lap_dat',$lich_su->ma_lap_dat)->orderBy('ma_lich_su', 'DESC')->skip(1)->first();
-            if($lich_su_moi_nhat->ma_lich_su == $id){
-                $result = $lich_su->delete();
-                $dong_ho = QLDongHoKhachModel::where('ma_dong_ho',$lich_su->lapdat->ma_dong_ho)->first();
+            $hoa_don = QLHoaDonModel::findOrFail($id);
+            $hoa_don_moi_nhat = QLHoaDonModel::where('ma_lap_dat',$hoa_don->ma_lap_dat)->orderBy('ma_hoa_don', 'DESC')->first();
+            $hoa_don_moi_nhi = QLHoaDonModel::where('ma_lap_dat',$hoa_don->ma_lap_dat)->orderBy('ma_hoa_don', 'DESC')->skip(1)->first();
+            if($hoa_don_moi_nhat->ma_hoa_don == $id&&$hoa_don->trang_thai !=1){
+                $result = $hoa_don->delete();
+                $dong_ho = QLDongHoKhachModel::where('ma_dong_ho',$hoa_don->lapdat->ma_dong_ho)->first();
                 if($dong_ho->tinh_trang=0){
-                    $lap_dat = QLLapDatDHKhachModel::where('ma_lap_dat',$lich_su->ma_lap_dat)->orderBy('ma_lap_dat', 'DESC')->first();
-                    $lap_dat->den_ngay = $lich_su_moi_nhi->den_ngay;
-                    $lap_dat->chi_so_cuoi = $lich_su_moi_nhi->chi_so_moi;
+                    $lap_dat = QLLapDatDHKhachModel::where('ma_lap_dat',$hoa_don->ma_lap_dat)->orderBy('ma_lap_dat', 'DESC')->first();
+                    $lap_dat->den_ngay = $hoa_don_moi_nhi->den_ngay;
+                    $lap_dat->chi_so_cuoi = $hoa_don_moi_nhi->chi_so_moi;
                     $lap_dat->save(); 
                 }
             }
             else{
                 return response()->json([
-                    'error' => 'Lịch sử ghi chỉ số không thể xóa!'
+                    'error' => 'Hóa đơn không thể xóa!'
                   ],422);
             }
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'error' => 'Lịch sử ghi chỉ số không tồn tại!'
+               'error' => 'Hóa đơn không tồn tại!'
             ],422);
         }
         if($result){
@@ -232,35 +277,35 @@ class QLHoaDonController extends Controller
     }
     public function search(Request $request)
     {
-        $query =  QLHoaDonModel::query()->select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
-        ->join('ql_lapdatdhkhoi','ql_lapdatdhkhoi.ma_lap_dat','=','ls_donghokhoi.ma_lap_dat')
-        ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
-        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen');
+        $query =  QLHoaDonModel::query()->select('*','ql_donghokhach.ten_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen')
+        ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
+        ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
+        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhach.ma_tuyen');
         if($request->has('ma_dong_ho')){
-            $query->where("ql_lapdatdhkhoi.ma_dong_ho",$request->ma_dong_ho);
+            $query->where("ql_lapdatdhkhach.ma_dong_ho",$request->ma_dong_ho);
         }
-        $result = $query->orderBy('ma_lich_su', 'DESC')->get();
+        $result = $query->orderBy('ma_hoa_don', 'DESC')->get();
         return $result;
     }
-    public function get_list_dhkhoi(Request $request)
+    public function get_list_dhkhach(Request $request)
     {
-        $query = DB::table('ls_donghokhoi as ls_donghokhoi')
-            ->select('ls_donghokhoi.*','dm_loaidongho.ten_loai_dong_ho','dm_codongho.ten_co_dong_ho','dm_nhacungcap.ten_nha_cung_cap','dm_tuyendoc.ten_tuyen','ql_donghokhoi.tinh_trang')
-            ->join('ql_lapdatdhkhoi','ql_lapdatdhkhoi.ma_lap_dat','=','ls_donghokhoi.ma_lap_dat')
-            ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
-            ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen')
-            ->join('dm_loaidongho','dm_loaidongho.ma_loai_dong_ho','=','ql_donghokhoi.ma_loai_dong_ho')
-            ->join('dm_codongho','dm_codongho.ma_co_dong_ho','=','ql_donghokhoi.ma_co_dong_ho')
-            ->join('dm_nhacungcap','dm_nhacungcap.ma_nha_cung_cap','=','ql_donghokhoi.ma_nha_cung_cap');
+        $query = DB::table('ql_hoadon as ql_hoadon')
+            ->select('ql_hoadon.*','dm_loaidongho.ten_loai_dong_ho','dm_codongho.ten_co_dong_ho','dm_nhacungcap.ten_nha_cung_cap','dm_tuyendoc.ten_tuyen','ql_donghokhach.tinh_trang')
+            ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
+            ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
+            ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhach.ma_tuyen')
+            ->join('dm_loaidongho','dm_loaidongho.ma_loai_dong_ho','=','ql_donghokhach.ma_loai_dong_ho')
+            ->join('dm_codongho','dm_codongho.ma_co_dong_ho','=','ql_donghokhach.ma_co_dong_ho')
+            ->join('dm_nhacungcap','dm_nhacungcap.ma_nha_cung_cap','=','ql_donghokhach.ma_nha_cung_cap');
         if($request->has('ma_dong_ho')){
-            $query->where("ql_lapdatdhkhoi.ma_dong_ho",$request->ma_dong_ho);
+            $query->where("ql_lapdatdhkhach.ma_dong_ho",$request->ma_dong_ho);
         }
         if($request->has('ma_tuyen')){
-            $query->where("ql_lapdatdhkhoi.ma_tuyen",$request->ma_tuyen);
+            $query->where("ql_lapdatdhkhach.ma_tuyen",$request->ma_tuyen);
         }
-        $query=$query->leftJoin('ls_donghokhoi as n', function ($join) {
-                $join->on('ls_donghokhoi.ma_lap_dat', '=', 'n.ma_lap_dat')
-                    ->whereRaw(DB::raw('ls_donghokhoi.ma_lich_su < n.ma_lich_su'));
+        $query=$query->leftJoin('ql_hoadon as n', function ($join) {
+                $join->on('ql_hoadon.ma_lap_dat', '=', 'n.ma_lap_dat')
+                    ->whereRaw(DB::raw('ql_hoadon.ma_hoa_don < n.ma_hoa_don'));
             })
             ->whereNull('n.ma_lap_dat')
             ->get();

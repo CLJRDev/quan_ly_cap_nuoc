@@ -141,10 +141,18 @@ class QLDongHoKhoiController extends Controller
             if(isset($request->tinh_trang)){
                 if($dong_ho_khoi->tinh_trang==1&&$request->tinh_trang==0){
                     $dong_ho_khoi->tinh_trang=$request->tinh_trang;
-                    $lap_dat->chi_so_cuoi=$chi_so->chi_so_moi;
-                    $lap_dat->den_ngay=$chi_so->den_ngay;
-                    $lap_dat->so_tieu_thu=$lap_dat->chi_so_cuoi-$lap_dat->chi_so_dau;
-                    $lap_dat->save();
+                    if(empty($chi_so)){
+                        $lap_dat->chi_so_cuoi=$lap_dat->chi_so_dau;
+                        $lap_dat->den_ngay=$lap_dat->tu_ngay;
+                        $lap_dat->so_tieu_thu=$lap_dat->chi_so_cuoi-$lap_dat->chi_so_dau;
+                        $lap_dat->save();
+                    }
+                    else{
+                        $lap_dat->chi_so_cuoi=$chi_so->chi_so_moi;
+                        $lap_dat->den_ngay=$chi_so->den_ngay;
+                        $lap_dat->so_tieu_thu=$lap_dat->chi_so_cuoi-$lap_dat->chi_so_dau;
+                        $lap_dat->save();
+                    }
                 }
             }
             if(isset($request->ngay_nhap)){
