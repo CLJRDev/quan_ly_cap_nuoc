@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 17, 2024 at 01:12 PM
+-- Generation Time: May 17, 2024 at 09:04 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -308,7 +308,8 @@ CREATE TABLE `ql_donghokhoi` (
 INSERT INTO `ql_donghokhoi` (`ma_dong_ho`, `ten_dong_ho`, `tinh_trang`, `ngay_nhap`, `ngay_kiem_dinh`, `so_nam_hieu_luc`, `so_thang_bao_hanh`, `ma_loai_dong_ho`, `ma_nha_cung_cap`, `ma_co_dong_ho`) VALUES
 (3, 'Đồng hồ 1', 1, '2023-10-10', '2023-10-20', 4, 24, 1, 2, 2),
 (4, 'Đồng hồ 2', 0, '2023-10-10', '2023-10-20', 3, 12, 2, 1, 2),
-(5, 'Đồng hồ 3', 1, '2023-10-10', '2023-10-20', 5, 12, 2, 2, 1);
+(5, 'Đồng hồ 3', 1, '2023-10-10', '2023-10-20', 5, 12, 2, 2, 1),
+(6, 'Đồng hồ 4', 0, '2023-10-10', '2023-10-20', 5, 12, 2, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -330,8 +331,7 @@ CREATE TABLE `ql_hoadon` (
   `tong_cong` double NOT NULL,
   `trang_thai` int(11) NOT NULL,
   `ma_phuong_thuc` int(11) NOT NULL,
-  `ma_hop_dong` int(11) NOT NULL,
-  `ma_dong_ho` int(11) NOT NULL
+  `ma_lap_dat` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -348,7 +348,6 @@ CREATE TABLE `ql_hopdong` (
   `ngay_lap` date NOT NULL,
   `ma_khach_hang` int(11) NOT NULL,
   `ma_tuyen` int(11) NOT NULL,
-  `ma_hoa_don` int(11) NOT NULL,
   `ma_nhom_gia` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -383,6 +382,7 @@ CREATE TABLE `ql_lapdatdhkhach` (
   `ma_lap_dat` int(11) NOT NULL,
   `chi_so_dau` int(11) NOT NULL,
   `chi_so_cuoi` int(11) DEFAULT NULL,
+  `so_tieu_thu` int(11) DEFAULT NULL,
   `tu_ngay` date NOT NULL,
   `den_ngay` date DEFAULT NULL,
   `ma_dong_ho` int(11) NOT NULL,
@@ -399,6 +399,7 @@ CREATE TABLE `ql_lapdatdhkhoi` (
   `ma_lap_dat` int(11) NOT NULL,
   `chi_so_dau` int(11) NOT NULL,
   `chi_so_cuoi` int(11) DEFAULT NULL,
+  `so_tieu_thu` int(11) DEFAULT NULL,
   `tu_ngay` date NOT NULL,
   `den_ngay` date DEFAULT NULL,
   `ma_dong_ho` int(11) NOT NULL,
@@ -409,10 +410,10 @@ CREATE TABLE `ql_lapdatdhkhoi` (
 -- Dumping data for table `ql_lapdatdhkhoi`
 --
 
-INSERT INTO `ql_lapdatdhkhoi` (`ma_lap_dat`, `chi_so_dau`, `chi_so_cuoi`, `tu_ngay`, `den_ngay`, `ma_dong_ho`, `ma_tuyen`) VALUES
-(3, 0, NULL, '2023-12-31', NULL, 3, 2),
-(4, 0, 25, '2023-12-31', '2024-02-01', 4, 1),
-(5, 0, NULL, '2023-12-31', NULL, 5, 2);
+INSERT INTO `ql_lapdatdhkhoi` (`ma_lap_dat`, `chi_so_dau`, `chi_so_cuoi`, `so_tieu_thu`, `tu_ngay`, `den_ngay`, `ma_dong_ho`, `ma_tuyen`) VALUES
+(3, 0, NULL, 0, '2023-12-31', NULL, 3, 2),
+(4, 0, 25, 0, '2023-12-31', '2024-02-01', 4, 1),
+(5, 0, NULL, 0, '2023-12-31', NULL, 5, 2);
 
 -- --------------------------------------------------------
 
@@ -463,18 +464,6 @@ INSERT INTO `ql_phanquyen` (`ma_phan_quyen`, `ma_nhan_vien`, `ma_quyen`) VALUES
 (6, 100000, 5),
 (8, 100001, 2),
 (7, 100001, 6);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ql_quanhehopdong`
---
-
-CREATE TABLE `ql_quanhehopdong` (
-  `ma_quan_he` int(11) NOT NULL,
-  `ma_hop_dong` int(11) NOT NULL,
-  `ma_dong_ho` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -598,7 +587,10 @@ ALTER TABLE `ls_donghokhoi`
 ALTER TABLE `ql_donghokhach`
   ADD PRIMARY KEY (`ma_dong_ho`),
   ADD UNIQUE KEY `ten_dong_ho` (`ten_dong_ho`),
-  ADD UNIQUE KEY `so_seri` (`so_seri`);
+  ADD UNIQUE KEY `so_seri` (`so_seri`),
+  ADD KEY `ma_co_dong_ho` (`ma_co_dong_ho`),
+  ADD KEY `ma_loai_dong_ho` (`ma_loai_dong_ho`),
+  ADD KEY `ma_nha_cung_cap` (`ma_nha_cung_cap`);
 
 --
 -- Indexes for table `ql_donghokhoi`
@@ -615,8 +607,7 @@ ALTER TABLE `ql_donghokhoi`
 --
 ALTER TABLE `ql_hoadon`
   ADD PRIMARY KEY (`ma_hoa_don`),
-  ADD KEY `ma_dong_ho` (`ma_dong_ho`),
-  ADD KEY `ma_hop_dong` (`ma_hop_dong`),
+  ADD KEY `ma_hop_dong` (`ma_lap_dat`),
   ADD KEY `ma_phuong_thuc` (`ma_phuong_thuc`);
 
 --
@@ -665,14 +656,6 @@ ALTER TABLE `ql_phanquyen`
   ADD PRIMARY KEY (`ma_phan_quyen`),
   ADD UNIQUE KEY `ma_nhan_vien` (`ma_nhan_vien`,`ma_quyen`),
   ADD KEY `ma_quyen` (`ma_quyen`);
-
---
--- Indexes for table `ql_quanhehopdong`
---
-ALTER TABLE `ql_quanhehopdong`
-  ADD PRIMARY KEY (`ma_quan_he`),
-  ADD KEY `ma_hop_dong` (`ma_hop_dong`),
-  ADD KEY `ma_dong_ho` (`ma_dong_ho`);
 
 --
 -- Indexes for table `ql_taikhoan`
@@ -766,7 +749,7 @@ ALTER TABLE `ql_donghokhach`
 -- AUTO_INCREMENT for table `ql_donghokhoi`
 --
 ALTER TABLE `ql_donghokhoi`
-  MODIFY `ma_dong_ho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ma_dong_ho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `ql_hoadon`
@@ -811,12 +794,6 @@ ALTER TABLE `ql_phanquyen`
   MODIFY `ma_phan_quyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `ql_quanhehopdong`
---
-ALTER TABLE `ql_quanhehopdong`
-  MODIFY `ma_quan_he` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `ql_taikhoan`
 --
 ALTER TABLE `ql_taikhoan`
@@ -852,6 +829,14 @@ ALTER TABLE `ls_donghokhoi`
   ADD CONSTRAINT `ls_donghokhoi_ibfk_1` FOREIGN KEY (`ma_lap_dat`) REFERENCES `ql_lapdatdhkhoi` (`ma_lap_dat`) ON UPDATE CASCADE;
 
 --
+-- Constraints for table `ql_donghokhach`
+--
+ALTER TABLE `ql_donghokhach`
+  ADD CONSTRAINT `ql_donghokhach_ibfk_1` FOREIGN KEY (`ma_co_dong_ho`) REFERENCES `dm_codongho` (`ma_co_dong_ho`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `ql_donghokhach_ibfk_2` FOREIGN KEY (`ma_loai_dong_ho`) REFERENCES `dm_loaidongho` (`ma_loai_dong_ho`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `ql_donghokhach_ibfk_3` FOREIGN KEY (`ma_nha_cung_cap`) REFERENCES `dm_nhacungcap` (`ma_nha_cung_cap`) ON UPDATE CASCADE;
+
+--
 -- Constraints for table `ql_donghokhoi`
 --
 ALTER TABLE `ql_donghokhoi`
@@ -863,9 +848,8 @@ ALTER TABLE `ql_donghokhoi`
 -- Constraints for table `ql_hoadon`
 --
 ALTER TABLE `ql_hoadon`
-  ADD CONSTRAINT `ql_hoadon_ibfk_1` FOREIGN KEY (`ma_dong_ho`) REFERENCES `ql_donghokhach` (`ma_dong_ho`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `ql_hoadon_ibfk_2` FOREIGN KEY (`ma_hop_dong`) REFERENCES `ql_hopdong` (`ma_hop_dong`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `ql_hoadon_ibfk_3` FOREIGN KEY (`ma_phuong_thuc`) REFERENCES `dm_ptthanhtoan` (`ma_phuong_thuc`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `ql_hoadon_ibfk_3` FOREIGN KEY (`ma_phuong_thuc`) REFERENCES `dm_ptthanhtoan` (`ma_phuong_thuc`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `ql_hoadon_ibfk_4` FOREIGN KEY (`ma_lap_dat`) REFERENCES `ql_lapdatdhkhach` (`ma_lap_dat`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `ql_hopdong`
@@ -901,13 +885,6 @@ ALTER TABLE `ql_nhomgia`
 ALTER TABLE `ql_phanquyen`
   ADD CONSTRAINT `ql_phanquyen_ibfk_1` FOREIGN KEY (`ma_quyen`) REFERENCES `dm_quyen` (`ma_quyen`),
   ADD CONSTRAINT `ql_phanquyen_ibfk_2` FOREIGN KEY (`ma_nhan_vien`) REFERENCES `ql_taikhoan` (`ma_nhan_vien`);
-
---
--- Constraints for table `ql_quanhehopdong`
---
-ALTER TABLE `ql_quanhehopdong`
-  ADD CONSTRAINT `ql_quanhehopdong_ibfk_1` FOREIGN KEY (`ma_hop_dong`) REFERENCES `ql_hopdong` (`ma_hop_dong`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `ql_quanhehopdong_ibfk_2` FOREIGN KEY (`ma_dong_ho`) REFERENCES `ql_donghokhach` (`ma_dong_ho`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
