@@ -16,7 +16,7 @@ class QLLapDatDHKhoiController extends Controller
      */
     public function index()
     {
-        return QLLapDatDHKhoiModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
+        return QLLapDatDHKhoiModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','dm_tuyendoc.ten_tuyen')
         ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
         ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen')
         ->orderBy('ma_lap_dat', 'ASC')->get();
@@ -53,7 +53,7 @@ class QLLapDatDHKhoiController extends Controller
         $lap_dat = new QLLapDatDHKhoiModel; 
         $lap_dat_cu = QLLapDatDHKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->orderBy('ma_lap_dat','DESC')->first();
         $dong_ho = QLDongHoKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->first();
-        $tat_ca_lap_dat = QLLapDatDHKhoiModel::where(['ma_dong_ho'=>$request->ma_dong_ho,'ma_tuyen'=>$request->ma_tuyen])->get();
+        $tat_ca_lap_dat = QLLapDatDHKhoiModel::where(['ma_dong_ho'=>$request->ma_dong_ho,'ma_tuyen'=>$request->ma_tuyen])->whereBetween($request->tu_ngay,[$lap_dat_cu->tu_ngay,$lap_dat_cu->den_ngay])->get();
         if(count($tat_ca_lap_dat)==0){
             $lap_dat->ma_tuyen=$request->ma_tuyen;
         }
@@ -64,11 +64,18 @@ class QLLapDatDHKhoiController extends Controller
         }
         if(empty($lap_dat_cu)){
             $lap_dat->chi_so_dau=0;
+            if(strtotime($request->tu_ngay)>strtotime($lap_dat_cu->den_ngay)){
+                $lap_dat->tu_ngay=$request->tu_ngay;
+            }
+            else{
+                return response()->json([
+                    'error' => 'Đồng hồ đã được lắp đặt vào thời gian này!'
+                  ],422);
+            }
         }
         else{
             $lap_dat->chi_so_dau=$lap_dat_cu->chi_so_cuoi;
         }
-        $lap_dat->tu_ngay=$request->tu_ngay;
         if($dong_ho->tinh_trang==0){
             $lap_dat->ma_dong_ho=$request->ma_dong_ho;
             $dong_ho->tinh_trang=1;
@@ -99,7 +106,7 @@ class QLLapDatDHKhoiController extends Controller
     public function show(string $id)
     {
         try{
-            return QLLapDatDHKhoiModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
+            return QLLapDatDHKhoiModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','dm_tuyendoc.ten_tuyen')
             ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
             ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen')->where("ma_lap_dat",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
@@ -140,17 +147,6 @@ class QLLapDatDHKhoiController extends Controller
             if($lap_dat_moi_nhat->ma_lap_dat == $id){
                 if(isset($request->ngay_lap_dat)){
                     $lap_dat->ngay_lap_dat=$request->ngay_lap_dat;
-                }
-                if(isset($request->ma_tuyen)){
-                    $tat_ca_lap_dat = QLLapDatDHKhoiModel::where(['ma_dong_ho'=>$lap_dat->ma_dong_ho,'ma_tuyen'=>$request->ma_tuyen])->get();
-                    if(count($tat_ca_lap_dat)==0){
-                        $lap_dat->ma_tuyen=$request->ma_tuyen;
-                    }
-                    else{
-                        return response()->json([
-                            'error' => 'Đồng hồ đã được lắp đặt vào tuyến này!'
-                          ],422);
-                    }
                 }
                 $result = $lap_dat->save();
             }
@@ -214,7 +210,7 @@ class QLLapDatDHKhoiController extends Controller
     }
     public function search(Request $request)
     {
-        $query =  QLLapDatDHKhoiModel::query()->select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
+        $query =  QLLapDatDHKhoiModel::query()->select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','dm_tuyendoc.ten_tuyen')
         ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
         ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen');
         if($request->has('ten_dong_ho')){

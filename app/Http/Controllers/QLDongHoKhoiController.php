@@ -143,6 +143,7 @@ class QLDongHoKhoiController extends Controller
                     $dong_ho_khoi->tinh_trang=$request->tinh_trang;
                     $lap_dat->chi_so_cuoi=$chi_so->chi_so_moi;
                     $lap_dat->den_ngay=$chi_so->den_ngay;
+                    $lap_dat->so_tieu_thu=$lap_dat->chi_so_cuoi-$lap_dat->chi_so_dau;
                     $lap_dat->save();
                 }
             }
@@ -192,7 +193,15 @@ class QLDongHoKhoiController extends Controller
     {
         try{
             $dong_ho_khoi = QLDongHoKhoiModel::findOrFail($id);
-            $result = $dong_ho_khoi->delete();
+            $lap_dat = QLLapDatDHKhoiModel::where('ma_dong_ho',$id)->orderBy('ma_lap_dat','DESC')->get();
+            if(count($lap_dat)==0){
+                $result = $dong_ho_khoi->delete();
+            }
+            else{
+                return response()->json([
+                    'error' => 'Đồng hồ khối đang được sử dụng!'
+                ],422);
+            }
         }catch (ModelNotFoundException $e) {
             return response()->json([
                'error' => 'Đồng hồ khối không tồn tại!'

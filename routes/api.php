@@ -18,6 +18,7 @@ use App\Http\Controllers\LSDongHoKhoiController;
 use App\Http\Controllers\QLDongHoKhachController;
 use App\Http\Controllers\QLDongHoKhoiController;
 use App\Http\Controllers\QLGiaNuocController;
+use App\Http\Controllers\QLHoaDonController;
 use App\Http\Controllers\QLHopDongController;
 use App\Http\Controllers\QLKhachHangController;
 use App\Http\Controllers\QLLapDatDHKhachController;
@@ -94,10 +95,10 @@ Route::get('/dong_ho_khach_search',[QLDongHoKhachController::class,'search']);
 //lap dat dh khach
 Route::apiResource("lap_dat_dh_khach",QLLapDatDHKhachController::class);
 Route::get('/lap_dat_dh_khach_search',[QLLapDatDHKhachController::class,'search']);
-//lich su dh khach
-Route::apiResource("lich_su_dh_khach",LSDongHoKhachController::class);
-Route::get('/lich_su_dh_khach_search',[LSDongHoKhachController::class,'search']);
-Route::get('/ds_ls_dhkhach',[LSDongHoKhachController::class,'get_list_dhkhach']);
+// //hoa don
+Route::apiResource("hoa_don",QLHoaDonController::class);
+Route::get('/hoa_don_search',[QLHoaDonController::class,'search']);
+Route::get('/ds_ls_dhkhach',[QLHoaDonController::class,'get_list_dhkhach']);
 //404
 Route::fallback(function(){
     return response()->json([

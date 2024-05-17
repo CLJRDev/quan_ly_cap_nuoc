@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LSDongHoKhoiModel;
-use App\Models\QLDongHoKhoiModel;
-use App\Models\QLLapDatDHKhoiModel;
+use App\Http\Controllers\Controller;
+use App\Models\QLDongHoKhachModel;
+use App\Models\QLHoaDonModel;
+use App\Models\QLLapDatDHKhachModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException; 
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
-class LSDongHoKhoiController extends Controller
+class QLHoaDonController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return LSDongHoKhoiModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
+        return QLHoaDonModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
         ->join('ql_lapdatdhkhoi','ql_lapdatdhkhoi.ma_lap_dat','=','ls_donghokhoi.ma_lap_dat')
         ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
         ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen')
@@ -46,7 +47,7 @@ class LSDongHoKhoiController extends Controller
             'den_ngay.date' => 'Ngày đến không hợp lệ',
         ];
         $validator = Validator::make($request->all(),[
-            'ky_chi_so' => 'required',
+            'ky_hoa_don' => 'required',
             'tu_ngay' => 'required|date',
             'den_ngay' => 'required|date',
             'chi_so_moi' => 'required|numeric',
@@ -58,9 +59,9 @@ class LSDongHoKhoiController extends Controller
                 'error' => $validator->errors(),
                 ],422);
         }
-        $lich_su_cu = LSDongHoKhoiModel::where('ma_lap_dat',$request->ma_lap_dat)->orderBy('ma_lich_su','DESC')->first();
-        $lich_su = new LSDongHoKhoiModel;
-        $lich_su->ky_chi_so=$request->ky_chi_so;
+        $lich_su_cu = QLHoaDonModel::where('ma_lap_dat',$request->ma_lap_dat)->orderBy('ma_lich_su','DESC')->first();
+        $lich_su = new QLHoaDonModel;
+        $lich_su->ky_hoa_don=$request->ky_hoa_don;
         if(empty($lich_su_cu)){
             $lich_su->chi_so_cu=0;
         }
@@ -73,6 +74,7 @@ class LSDongHoKhoiController extends Controller
         $lich_su->tu_ngay=$request->tu_ngay;
         $lich_su->den_ngay=$request->den_ngay;
         $lich_su->chi_so_moi=$request->chi_so_moi;
+        $lich_su->so_tieu_thu=$lich_su->chi_so_moi-$lich_su->chi_so_cu;
         $lich_su->so_tieu_thu=$lich_su->chi_so_moi-$lich_su->chi_so_cu;
         $lich_su->ma_lap_dat=$request->ma_lap_dat;
         $result = $lich_su->save();
@@ -94,7 +96,7 @@ class LSDongHoKhoiController extends Controller
     public function show(string $id)
     {
         try{
-            return LSDongHoKhoiModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
+            return QLHoaDonModel::select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
             ->join('ql_lapdatdhkhoi','ql_lapdatdhkhoi.ma_lap_dat','=','ls_donghokhoi.ma_lap_dat')
             ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
             ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen')->where("ma_lich_su",$id)->firstOrFail();
@@ -135,13 +137,13 @@ class LSDongHoKhoiController extends Controller
                 ],422);
         }
         try{
-            $lich_su = LSDongHoKhoiModel::findOrFail($id);
-            $lich_su_moi_nhat = LSDongHoKhoiModel::where('ma_lap_dat',$lich_su->ma_lap_dat)->orderBy('ma_lich_su', 'DESC')->first();
-            $lap_dat = QLLapDatDHKhoiModel::where('ma_lap_dat',$lich_su->ma_lap_dat)->first();
+            $lich_su = QLHoaDonModel::findOrFail($id);
+            $lich_su_moi_nhat = QLHoaDonModel::where('ma_lap_dat',$lich_su->ma_lap_dat)->orderBy('ma_lich_su', 'DESC')->first();
+            $lap_dat = QLLapDatDHKhachModel::where('ma_lap_dat',$lich_su->ma_lap_dat)->first();
             
             if($lich_su_moi_nhat->ma_lich_su == $id){
-                if(isset($request->ky_chi_so)){
-                    $lich_su->ky_chi_so=$request->ky_chi_so;
+                if(isset($request->ky_hoa_don)){
+                    $lich_su->ky_hoa_don=$request->ky_hoa_don;
                 }
                 if(isset($request->tu_ngay)){
                     $lich_su->tu_ngay=$request->tu_ngay;
@@ -194,14 +196,14 @@ class LSDongHoKhoiController extends Controller
     public function destroy(string $id)
     {
         try{
-            $lich_su = LSDongHoKhoiModel::findOrFail($id);
-            $lich_su_moi_nhat = LSDongHoKhoiModel::where('ma_lap_dat',$lich_su->ma_lap_dat)->orderBy('ma_lich_su', 'DESC')->first();
-            $lich_su_moi_nhi = LSDongHoKhoiModel::where('ma_lap_dat',$lich_su->ma_lap_dat)->orderBy('ma_lich_su', 'DESC')->skip(1)->first();
+            $lich_su = QLHoaDonModel::findOrFail($id);
+            $lich_su_moi_nhat = QLHoaDonModel::where('ma_lap_dat',$lich_su->ma_lap_dat)->orderBy('ma_lich_su', 'DESC')->first();
+            $lich_su_moi_nhi = QLHoaDonModel::where('ma_lap_dat',$lich_su->ma_lap_dat)->orderBy('ma_lich_su', 'DESC')->skip(1)->first();
             if($lich_su_moi_nhat->ma_lich_su == $id){
                 $result = $lich_su->delete();
-                $dong_ho = QLDongHoKhoiModel::where('ma_dong_ho',$lich_su->lapdat->ma_dong_ho)->first();
+                $dong_ho = QLDongHoKhachModel::where('ma_dong_ho',$lich_su->lapdat->ma_dong_ho)->first();
                 if($dong_ho->tinh_trang=0){
-                    $lap_dat = QLLapDatDHKhoiModel::where('ma_lap_dat',$lich_su->ma_lap_dat)->orderBy('ma_lap_dat', 'DESC')->first();
+                    $lap_dat = QLLapDatDHKhachModel::where('ma_lap_dat',$lich_su->ma_lap_dat)->orderBy('ma_lap_dat', 'DESC')->first();
                     $lap_dat->den_ngay = $lich_su_moi_nhi->den_ngay;
                     $lap_dat->chi_so_cuoi = $lich_su_moi_nhi->chi_so_moi;
                     $lap_dat->save(); 
@@ -230,7 +232,7 @@ class LSDongHoKhoiController extends Controller
     }
     public function search(Request $request)
     {
-        $query =  LSDongHoKhoiModel::query()->select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
+        $query =  QLHoaDonModel::query()->select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
         ->join('ql_lapdatdhkhoi','ql_lapdatdhkhoi.ma_lap_dat','=','ls_donghokhoi.ma_lap_dat')
         ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
         ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen');

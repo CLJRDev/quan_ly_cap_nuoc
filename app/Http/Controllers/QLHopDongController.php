@@ -80,7 +80,11 @@ class QLHopDongController extends Controller
     public function show(string $id)
     {
       try{
-          return QLHopDongModel::where("ma_hop_dong", $id)->firstOrFail();
+          return QLHopDongModel::select('*','ql_nhomgia.ten_nhom_gia','ql_khachhang.ten_khach_hang','ql_donghokhach.*')
+          ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hopdong.ma_nhom_gia')
+          ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
+          ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_hopdong.ma_dong_ho')
+          ->where("ma_hop_dong", $id)->firstOrFail();
       }catch (ModelNotFoundException $e) {
           return response()->json([
              'error' => 'Hợp đồng không tồn tại!'
@@ -183,9 +187,10 @@ class QLHopDongController extends Controller
     }
     public function search(Request $request)
     {
-      $query = QLHopDongModel::query()->select('*','ql_nhomgia.ten_nhom_gia','ql_khachhang.ten_khach_hang')
+      $query = QLHopDongModel::query()->select('*','ql_nhomgia.ten_nhom_gia','ql_khachhang.ten_khach_hang','ql_donghokhach.*')
       ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hopdong.ma_nhom_gia')
-      ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang');
+      ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
+      ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_hopdong.ma_dong_ho');
       if ($request->has('ma_hop_dong')) {
         $query->where('ma_hop_dong', "like", "%" . $request->ma_hop_dong . "%");
       }

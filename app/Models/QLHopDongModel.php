@@ -17,6 +17,10 @@ class QLHopDongModel extends Model
     {
       return $this->hasOne(QLKhachHangModel::class);
     }
+    public function tuyen_doc()
+    {
+      return $this->hasOne(DMTuyenDocModel::class);
+    }
     public function nhom_gia()
     {
       return $this->hasOne(QLGiaNuocModel::class);

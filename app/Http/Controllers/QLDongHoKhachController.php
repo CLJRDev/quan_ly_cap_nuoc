@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\QLDongHoKhachModel;
+use App\Models\QLHoaDonModel;
+use App\Models\QLLapDatDHKhachModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException; 
@@ -38,17 +40,16 @@ class QLDongHoKhachController extends Controller
     {
         $message = [
             'required' => 'Xin hãy điền đủ thông tin!',
-            'unique' => 'Đồng hồ khách hàng đã tồn tại!',
+            'unique' => 'Đồng hồ khối đã tồn tại!',
             'ngay_nhap.date' => 'Ngày nhập không hợp lệ',
             'ngay_kiem_dinh.date' => 'Ngày kiểm định không hợp lệ',
         ];
         $validator = Validator::make($request->all(),[
             'ten_dong_ho' => 'required|unique:ql_donghokhach,ten_dong_ho',
-            'tinh_trang' => 'required',
-            'nam_san_xuat' => 'required',
-            'so_seri' => 'required|unique:ql_donghokhach,so_seri',
             'ngay_nhap' => 'required|date',
             'ngay_kiem_dinh' => 'required|date',
+            'nam_san_xuat' => 'required',
+            'so_seri' => 'required',
             'so_nam_hieu_luc' => 'required',
             'so_thang_bao_hanh' => 'required',
             'ma_loai_dong_ho' => 'required',
@@ -63,7 +64,7 @@ class QLDongHoKhachController extends Controller
         }
         $dong_ho_khach = new QLDongHoKhachModel; 
         $dong_ho_khach->ten_dong_ho=$request->ten_dong_ho;
-        $dong_ho_khach->tinh_trang=$request->tinh_trang;
+        $dong_ho_khach->tinh_trang=0;
         $dong_ho_khach->nam_san_xuat=$request->nam_san_xuat;
         $dong_ho_khach->so_seri=$request->so_seri;
         $dong_ho_khach->ngay_nhap=$request->ngay_nhap;
@@ -99,7 +100,7 @@ class QLDongHoKhachController extends Controller
             ->where("ma_dong_ho",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
-               'error' => 'Đồng hồ khách hàng không tồn tại!'
+               'error' => 'Đồng hồ khối không tồn tại!'
             ],422);
         }
     }
@@ -118,29 +119,16 @@ class QLDongHoKhachController extends Controller
     public function update(Request $request, string $id)
     {
         $message = [
-            'required' => 'Xin hãy điền đủ thông tin!',
             'unique' => 'Đồng hồ khách hàng đã tồn tại!',
             'ngay_nhap.date' => 'Ngày nhập không hợp lệ',
             'ngay_kiem_dinh.date' => 'Ngày kiểm định không hợp lệ',
         ];
         $validator = Validator::make($request->all(),[
             'ten_dong_ho' => [
-                'required',
                 Rule::unique('ql_donghokhach', 'ten_dong_ho')->ignore($id, 'ma_dong_ho')
               ],
-            'tinh_trang' => 'required',
-            'nam_san_xuat' => 'required',
-            'so_seri' => [
-                'required',
-                Rule::unique('ql_donghokhach', 'so_seri')->ignore($id, 'ma_dong_ho')
-              ],
-            'ngay_nhap' => 'required|date',
-            'ngay_kiem_dinh' => 'required|date',
-            'so_nam_hieu_luc' => 'required',
-            'so_thang_bao_hanh' => 'required',
-            'ma_loai_dong_ho' => 'required',
-            'ma_nha_cung_cap' => 'required',
-            'ma_co_dong_ho' => 'required',
+              'ngay_nhap' => 'date',
+              'ngay_kiem_dinh' => 'date',
           ],$message);
         
         if($validator->fails()){
@@ -150,23 +138,31 @@ class QLDongHoKhachController extends Controller
         }
         try{
             $dong_ho_khach = QLDongHoKhachModel::findOrFail($id); 
+            $lap_dat = QLLapDatDHKhachModel::where('ma_dong_ho',$id)->orderBy('ma_lap_dat','DESC')->first();
+            $chi_so = QLHoaDonModel::where('ma_lap_dat',$lap_dat->ma_lap_dat)->orderBy('ma_hoa_don','DESC')->first();
             if(isset($request->ten_dong_ho)){
                 $dong_ho_khach->ten_dong_ho=$request->ten_dong_ho;
             }
             if(isset($request->tinh_trang)){
-                $dong_ho_khach->tinh_trang=$request->tinh_trang;
-            }
-            if(isset($request->nam_san_xuat)){
-                $dong_ho_khach->nam_san_xuat=$request->nam_san_xuat;
-            }
-            if(isset($request->so_seri)){
-                $dong_ho_khach->so_seri=$request->so_seri;
+                if($dong_ho_khach->tinh_trang==1&&$request->tinh_trang==0){
+                    $dong_ho_khach->tinh_trang=$request->tinh_trang;
+                    $lap_dat->chi_so_cuoi=$chi_so->chi_so_moi;
+                    $lap_dat->den_ngay=$chi_so->den_ngay;
+                    $lap_dat->so_tieu_thu=$lap_dat->chi_so_cuoi-$lap_dat->chi_so_dau;
+                    $lap_dat->save();
+                }
             }
             if(isset($request->ngay_nhap)){
                 $dong_ho_khach->ngay_nhap=$request->ngay_nhap;
             }
             if(isset($request->ngay_kiem_dinh)){
                 $dong_ho_khach->ngay_kiem_dinh=$request->ngay_kiem_dinh;
+            }
+            if(isset($request->nam_san_xuat)){
+                $dong_ho_khach->nam_san_xuat=$request->nam_san_xuat;
+            }
+            if(isset($request->so_seri)){
+                $dong_ho_khach->so_seri=$request->so_seri;
             }
             if(isset($request->so_nam_hieu_luc)){
                 $dong_ho_khach->so_nam_hieu_luc=$request->so_nam_hieu_luc;
@@ -208,7 +204,15 @@ class QLDongHoKhachController extends Controller
     {
         try{
             $dong_ho_khach = QLDongHoKhachModel::findOrFail($id);
-            $result = $dong_ho_khach->delete();
+            $lap_dat = QLLapDatDHKhachModel::where('ma_dong_ho',$id)->orderBy('ma_lap_dat','DESC')->get();
+            if(count($lap_dat)==0){
+                $result = $dong_ho_khach->delete();
+            }
+            else{
+                return response()->json([
+                    'error' => 'Đồng hồ khách hàng đang được sử dụng!'
+                ],422);
+            }
         }catch (ModelNotFoundException $e) {
             return response()->json([
                'error' => 'Đồng hồ khách hàng không tồn tại!'

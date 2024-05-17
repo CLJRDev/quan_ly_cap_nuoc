@@ -25,12 +25,8 @@ class QLDongHoKhachModel extends Model
     {
       return $this->hasOne(DMNhaCungCapModel::class);
     }
-    // public function lap_dat()
-    // {
-    //   return $this->hasMany(QLLapDatDHKhoiModel::class);
-    // }
-    // public function chi_so()
-    // {
-    //   return $this->hasMany(LSDongHoKhoiModel::class);
-    // }
+    public function lap_dat()
+    {
+      return $this->hasMany(QLLapDatDHKhachModel::class);
+    }
 }
