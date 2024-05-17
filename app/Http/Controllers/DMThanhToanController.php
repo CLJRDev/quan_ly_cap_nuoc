@@ -88,12 +88,10 @@ class DMThanhToanController extends Controller
     public function update(Request $request, string $id)
     {
         $message = [
-            'required' => 'Xin hãy điền đủ thông tin!',
             'unique' => 'Phương thức thanh toán đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
             'ten_phuong_thuc' => [
-                'required',
                 Rule::unique('dm_ptthanhtoan', 'ten_phuong_thuc')->ignore($id, 'ma_phuong_thuc')
               ],
           ],$message);

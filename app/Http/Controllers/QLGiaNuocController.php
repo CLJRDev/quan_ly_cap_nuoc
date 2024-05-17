@@ -113,13 +113,11 @@ class QLGiaNuocController extends Controller
     public function update(Request $request, string $id)
     {
         $message = [
-            'required' => 'Xin hãy điền đủ thông tin!',
             'required_if' => 'Xin hãy điền đủ thông tin!',
             'unique' => 'Nhóm giá đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
             'ten_nhom_gia' => [
-                'required',
                 Rule::unique('ql_nhomgia', 'ten_nhom_gia')->ignore($id, 'ma_nhom_gia')
               ],
             'hs_duoi_10m' => 'required_if:hs_rieng,NULL',
@@ -127,10 +125,7 @@ class QLGiaNuocController extends Controller
             'hs_tu_20m_den_30m' => 'required_if:hs_rieng,NULL',
             'hs_tren_30m' => 'required_if:hs_rieng,NULL',
             'hs_rieng' => 'required_if:hs_duoi_10m,NULL',
-            'hs_thue' => 'required',
-            'gia_ban' => 'required',
             'ma_loai_khach_hang' => [
-                'required',
                 Rule::unique('ql_nhomgia', 'ma_loai_khach_hang')->ignore($id, 'ma_nhom_gia')
               ],
           ],$message);

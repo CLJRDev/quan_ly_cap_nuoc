@@ -19,8 +19,4 @@ class DMQuyenModel extends Model
     {
       return $this->belongsToMany(QLTaiKhoanModel::class,'ql_phanquyen', 'ma_quyen', 'ma_nhan_vien');
     }
-    // public function tai_khoan(): HasManyThrough
-    // {
-    //   return $this->hasManyThrough(QLTaiKhoanModel::class,QLPhanQuyenModel::class);
-    // }
 }

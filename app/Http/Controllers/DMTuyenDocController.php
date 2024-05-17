@@ -99,16 +99,12 @@ class DMTuyenDocController extends Controller
     public function update(Request $request, string $id)
     {
         $message = [
-            'required' => 'Xin hãy điền đủ thông tin!',
             'unique' => 'Tuyến đọc đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
             'ten_tuyen' => [
-                'required',
                 Rule::unique('dm_tuyendoc', 'ten_tuyen')->ignore($id, 'ma_tuyen')
               ],
-            'ma_to_quan_ly' => 'required',
-            'ma_phuong_xa' => 'required',
           ],$message);
         
         if($validator->fails()){

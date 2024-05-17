@@ -13,8 +13,8 @@ class LSDongHoKhoiModel extends Model
     protected $primaryKey = 'ma_lich_su';
     protected $keytype = 'int';
     public $timestamps = false;
-    // public function loai_khach_hang()
-    // {
-    //   return $this->hasOne(DMLoaiKhachHangModel::class);
-    // }
+    public function lap_dat()
+    {
+      return $this->hasOne(QLLapDatDHKhoiModel::class);
+    }
 }

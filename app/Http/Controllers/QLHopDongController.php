@@ -107,13 +107,7 @@ class QLHopDongController extends Controller
               'date' => 'Ngày lắp không hợp lệ!'
           ];
           $validator = Validator::make($request->all(),[
-            'ten_nguoi_dai_dien' => 'required',
-            'dia_chi' => 'required',
-            'ngay_lap' => 'required|date',
-            'ma_khach_hang' => 'required',
-            'chuc_vu_nguoi_dai_dien' => 'required',
-            'ma_dong_ho' => 'required',
-            'ma_nhom_gia' => 'required',
+            'ngay_lap' => 'date',
             ],$message);
           
           if($validator->fails()){

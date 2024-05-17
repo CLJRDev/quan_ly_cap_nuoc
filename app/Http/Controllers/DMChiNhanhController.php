@@ -89,12 +89,10 @@ class DMChiNhanhController extends Controller
     public function update(Request $request, string $id)
     {
         $message = [
-            'required' => 'Xin hãy điền đủ thông tin!',
             'unique' => 'Chi nhánh đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
             'ten_chi_nhanh' => [
-                'required',
                 Rule::unique('dm_chinhanh', 'ten_chi_nhanh')->ignore($id, 'ma_chi_nhanh')
               ],
           ],$message);

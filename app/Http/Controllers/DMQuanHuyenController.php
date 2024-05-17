@@ -88,12 +88,10 @@ class DMQuanHuyenController extends Controller
     public function update(Request $request, string $id)
     {
         $message = [
-            'required' => 'Xin hãy điền đủ thông tin!',
             'unique' => 'Quận huyện đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
             'ten_quan_huyen' => [
-                'required',
                 Rule::unique('dm_quanhuyen', 'ten_quan_huyen')->ignore($id, 'ma_quan_huyen')
               ],
           ],$message);

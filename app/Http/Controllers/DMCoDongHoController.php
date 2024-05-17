@@ -88,12 +88,10 @@ class DMCoDongHoController extends Controller
     public function update(Request $request, string $id)
     {
         $message = [
-            'required' => 'Xin hãy điền đủ thông tin!',
             'unique' => 'Cỡ đồng hồ đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
             'ten_co_dong_ho' => [
-                'required',
                 Rule::unique('dm_codongho', 'ten_co_dong_ho')->ignore($id, 'ma_co_dong_ho')
               ],
           ],$message);

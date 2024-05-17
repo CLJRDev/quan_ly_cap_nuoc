@@ -29,8 +29,4 @@ class QLDongHoKhoiModel extends Model
     {
       return $this->hasMany(QLLapDatDHKhoiModel::class);
     }
-    public function chi_so()
-    {
-      return $this->hasMany(LSDongHoKhoiModel::class);
-    }
 }

@@ -17,4 +17,8 @@ class QLGiaNuocModel extends Model
     {
       return $this->hasOne(DMLoaiKhachHangModel::class);
     }
+    public function hop_dong()
+    {
+      return $this->hasMany(QLHopDongModel::class);
+    }
 }

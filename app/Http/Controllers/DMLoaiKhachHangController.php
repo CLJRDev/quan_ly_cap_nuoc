@@ -88,12 +88,10 @@ class DMLoaiKhachHangController extends Controller
     public function update(Request $request, string $id)
     {
         $message = [
-            'required' => 'Xin hãy điền đủ thông tin!',
             'unique' => 'Loại khách hàng đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
             'ten_loai_khach_hang' => [
-                'required',
                 Rule::unique('dm_loaikhachhang', 'ten_loai_khach_hang')->ignore($id, 'ma_loai_khach_hang')
               ],
           ],$message);

@@ -88,12 +88,10 @@ class DMLoaiDongHoController extends Controller
     public function update(Request $request, string $id)
     {
         $message = [
-            'required' => 'Xin hãy điền đủ thông tin!',
             'unique' => 'Loại đồng hồ đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
             'ten_loai_dong_ho' => [
-                'required',
                 Rule::unique('dm_loaidongho', 'ten_loai_dong_ho')->ignore($id, 'ma_loai_dong_ho')
               ],
           ],$message);

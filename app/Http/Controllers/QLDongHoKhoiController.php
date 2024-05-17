@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LSDongHoKhoiModel;
 use App\Models\QLDongHoKhoiModel;
+use App\Models\QLLapDatDHKhoiModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException; 
@@ -43,7 +45,6 @@ class QLDongHoKhoiController extends Controller
         ];
         $validator = Validator::make($request->all(),[
             'ten_dong_ho' => 'required|unique:ql_donghokhoi,ten_dong_ho',
-            'tinh_trang' => 'required',
             'ngay_nhap' => 'required|date',
             'ngay_kiem_dinh' => 'required|date',
             'so_nam_hieu_luc' => 'required',
@@ -60,7 +61,7 @@ class QLDongHoKhoiController extends Controller
         }
         $dong_ho_khoi = new QLDongHoKhoiModel; 
         $dong_ho_khoi->ten_dong_ho=$request->ten_dong_ho;
-        $dong_ho_khoi->tinh_trang=$request->tinh_trang;
+        $dong_ho_khoi->tinh_trang=0;
         $dong_ho_khoi->ngay_nhap=$request->ngay_nhap;
         $dong_ho_khoi->ngay_kiem_dinh=$request->ngay_kiem_dinh;
         $dong_ho_khoi->so_nam_hieu_luc=$request->so_nam_hieu_luc;
@@ -113,24 +114,16 @@ class QLDongHoKhoiController extends Controller
     public function update(Request $request, string $id)
     {
         $message = [
-            'required' => 'Xin hãy điền đủ thông tin!',
             'unique' => 'Đồng hồ khối đã tồn tại!',
             'ngay_nhap.date' => 'Ngày nhập không hợp lệ',
             'ngay_kiem_dinh.date' => 'Ngày kiểm định không hợp lệ',
         ];
         $validator = Validator::make($request->all(),[
             'ten_dong_ho' => [
-                'required',
                 Rule::unique('ql_donghokhoi', 'ten_dong_ho')->ignore($id, 'ma_dong_ho')
               ],
-              'tinh_trang' => 'required',
-              'ngay_nhap' => 'required|date',
-              'ngay_kiem_dinh' => 'required|date',
-              'so_nam_hieu_luc' => 'required',
-              'so_thang_bao_hanh' => 'required',
-              'ma_loai_dong_ho' => 'required',
-              'ma_nha_cung_cap' => 'required',
-              'ma_co_dong_ho' => 'required',
+              'ngay_nhap' => 'date',
+              'ngay_kiem_dinh' => 'date',
           ],$message);
         
         if($validator->fails()){
@@ -140,11 +133,18 @@ class QLDongHoKhoiController extends Controller
         }
         try{
             $dong_ho_khoi = QLDongHoKhoiModel::findOrFail($id); 
+            $lap_dat = QLLapDatDHKhoiModel::where('ma_dong_ho',$id)->orderBy('ma_lap_dat','DESC')->first();
+            $chi_so = LSDongHoKhoiModel::where('ma_lap_dat',$lap_dat->ma_lap_dat)->orderBy('ma_lich_su','DESC')->first();
             if(isset($request->ten_dong_ho)){
                 $dong_ho_khoi->ten_dong_ho=$request->ten_dong_ho;
             }
             if(isset($request->tinh_trang)){
-                $dong_ho_khoi->tinh_trang=$request->tinh_trang;
+                if($dong_ho_khoi->tinh_trang==1&&$request->tinh_trang==0){
+                    $dong_ho_khoi->tinh_trang=$request->tinh_trang;
+                    $lap_dat->chi_so_cuoi=$chi_so->chi_so_moi;
+                    $lap_dat->den_ngay=$chi_so->den_ngay;
+                    $lap_dat->save();
+                }
             }
             if(isset($request->ngay_nhap)){
                 $dong_ho_khoi->ngay_nhap=$request->ngay_nhap;

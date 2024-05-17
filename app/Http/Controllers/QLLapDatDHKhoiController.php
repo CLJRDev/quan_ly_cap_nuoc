@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\QLDongHoKhoiModel;
 use App\Models\QLLapDatDHKhoiModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
@@ -36,13 +37,9 @@ class QLLapDatDHKhoiController extends Controller
     {
         $message = [
             'required' => 'Xin hãy điền đủ thông tin!',
-            'chi_so_dau.numeric' => 'Chỉ số đầu không hợp lệ',
-            'chi_so_cuoi.numeric' => 'Chỉ số cuối không hợp lệ',
-            'ngay_lap_dat.date' => 'Ngày lắp đặt không hợp lệ',
-            'ngay_ket_thuc.date' => 'Ngày kết thúc không hợp lệ',
+            'tu_ngay.date' => 'Ngày lắp đặt không hợp lệ',
         ];
         $validator = Validator::make($request->all(),[
-            'chi_so_dau' => 'required|numeric',
             'tu_ngay' => 'required|date',
             'ma_dong_ho' => 'required',
             'ma_tuyen' => 'required',
@@ -53,12 +50,36 @@ class QLLapDatDHKhoiController extends Controller
                 'error' => $validator->errors(),
                 ],422);
         }
-        $lap_dat_cu = QLLapDatDHKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->orderBy('ma_lap_dat','DESC')->latest();
         $lap_dat = new QLLapDatDHKhoiModel; 
-        $lap_dat->chi_so_dau=$request->chi_so_dau;
-        $lap_dat->ngay_lap_dat=$request->ngay_lap_dat;
-        $lap_dat->ma_dong_ho=$request->ma_dong_ho;
-        $lap_dat->ma_tuyen=$request->ma_tuyen;
+        $lap_dat_cu = QLLapDatDHKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->orderBy('ma_lap_dat','DESC')->first();
+        $dong_ho = QLDongHoKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->first();
+        $tat_ca_lap_dat = QLLapDatDHKhoiModel::where(['ma_dong_ho'=>$request->ma_dong_ho,'ma_tuyen'=>$request->ma_tuyen])->get();
+        if(count($tat_ca_lap_dat)==0){
+            $lap_dat->ma_tuyen=$request->ma_tuyen;
+        }
+        else{
+            return response()->json([
+                'error' => 'Đồng hồ đã được lắp đặt tuyến này!'
+              ],422);
+        }
+        if(empty($lap_dat_cu)){
+            $lap_dat->chi_so_dau=0;
+        }
+        else{
+            $lap_dat->chi_so_dau=$lap_dat_cu->chi_so_cuoi;
+        }
+        $lap_dat->tu_ngay=$request->tu_ngay;
+        if($dong_ho->tinh_trang==0){
+            $lap_dat->ma_dong_ho=$request->ma_dong_ho;
+            $dong_ho->tinh_trang=1;
+            $dong_ho->save();
+        }
+        else{
+            return response()->json([
+                'error' => 'Đồng hồ đã được lắp đặt!'
+              ],422);
+        }
+        
         $result = $lap_dat->save();
         if($result){
             return response()->json([
@@ -102,16 +123,10 @@ class QLLapDatDHKhoiController extends Controller
     public function update(Request $request, string $id)
     {
         $message = [
-            'required' => 'Xin hãy điền đủ thông tin!',
-            'chi_so_dau.number' => 'Chỉ số đầu không hợp lệ',
-            'ngay_lap_dat.date' => 'Ngày lắp đặt không hợp lệ',
-            'ngay_ket_thuc.date' => 'Ngày kết thúc không hợp lệ',
+            'tu_ngay.date' => 'Ngày lắp đặt không hợp lệ',
         ];
         $validator = Validator::make($request->all(),[
-            'chi_so_dau' => 'required',
-            'ngay_lap_dat' => 'required|date',
-            'ma_dong_ho' => 'required',
-            'ma_tuyen' => 'required',
+            'tu_ngay' => 'date',
           ],$message);
         
         if($validator->fails()){
@@ -121,29 +136,29 @@ class QLLapDatDHKhoiController extends Controller
         }
         try{
             $lap_dat = QLLapDatDHKhoiModel::findOrFail($id); 
-            if(isset($request->chi_so_dau)){
-                $lap_dat->chi_so_dau=$request->chi_so_dau;
+            $lap_dat_moi_nhat = QLLapDatDHKhoiModel::where('ma_dong_ho',$lap_dat->ma_dong_ho)->orderBy('ma_lap_dat', 'DESC')->first();
+            if($lap_dat_moi_nhat->ma_lap_dat == $id){
+                if(isset($request->ngay_lap_dat)){
+                    $lap_dat->ngay_lap_dat=$request->ngay_lap_dat;
+                }
+                if(isset($request->ma_tuyen)){
+                    $tat_ca_lap_dat = QLLapDatDHKhoiModel::where(['ma_dong_ho'=>$lap_dat->ma_dong_ho,'ma_tuyen'=>$request->ma_tuyen])->get();
+                    if(count($tat_ca_lap_dat)==0){
+                        $lap_dat->ma_tuyen=$request->ma_tuyen;
+                    }
+                    else{
+                        return response()->json([
+                            'error' => 'Đồng hồ đã được lắp đặt vào tuyến này!'
+                          ],422);
+                    }
+                }
+                $result = $lap_dat->save();
             }
-            if(isset($request->chi_so_cuoi)){
-                $lap_dat->chi_so_cuoi=$request->chi_so_cuoi;
-                $lap_dat->so_tieu_thu=$request->chi_so_cuoi-$lap_dat->chi_so_dau;
+            else{
+                return response()->json([
+                    'error' => 'Lịch sử lắp đặt không thể cập nhật!'
+                  ],422);
             }
-            if(isset($request->trang_thai)){
-                $lap_dat->trang_thai=$request->trang_thai;
-            }
-            if(isset($request->ngay_lap_dat)){
-                $lap_dat->ngay_lap_dat=$request->ngay_lap_dat;
-            }
-            if(isset($request->ngay_ket_thuc)){
-                $lap_dat->ngay_ket_thuc=$request->ngay_ket_thuc;
-            }
-            if(isset($request->ma_dong_ho)){
-                $lap_dat->ma_dong_ho=$request->ma_dong_ho;
-            }
-            if(isset($request->ma_tuyen)){
-                $lap_dat->ma_tuyen=$request->ma_tuyen;
-            }
-            $result = $lap_dat->save();
         }catch (ModelNotFoundException $e) {
             return response()->json([
                'error' => 'Lịch sử lắp đặt không tồn tại!'
@@ -168,7 +183,19 @@ class QLLapDatDHKhoiController extends Controller
     {
         try{
             $lap_dat = QLLapDatDHKhoiModel::findOrFail($id);
-            $result = $lap_dat->delete();
+            $lap_dat_moi_nhat = QLLapDatDHKhoiModel::where('ma_dong_ho',$lap_dat->ma_dong_ho)->orderBy('ma_lap_dat', 'DESC')->first();
+            if($lap_dat_moi_nhat->ma_lap_dat == $id){
+                $result = $lap_dat->delete();
+                $dong_ho = QLDongHoKhoiModel::where('ma_dong_ho',$lap_dat->ma_dong_ho)->first();
+                $dong_ho->tinh_trang=0;
+                $dong_ho->save();
+            }
+            else{
+                return response()->json([
+                    'error' => 'Lịch sử lắp đặt không thể xóa!'
+                  ],422);
+            }
+            
         }catch (ModelNotFoundException $e) {
             return response()->json([
                'error' => 'Lịch sử lắp đặt không tồn tại!'
@@ -200,7 +227,7 @@ class QLLapDatDHKhoiController extends Controller
             $query->where("ql_lapdatdhkhoi.ma_tuyen",$request->ma_tuyen);
         }
         if($request->has('tinh_trang')){
-            $query->where("tinh_trang",$request->tinh_trang);
+            $query->where("ql_donghokhoi.tinh_trang",$request->tinh_trang);
         }
         $result = $query->orderBy('ma_lap_dat', 'ASC')->get();
         return $result;

@@ -108,12 +108,10 @@ class QLPhanQuyenController extends Controller
     public function update(Request $request, string $id)
     {
         $message = [
-            'required' => 'Xin hãy điền đủ thông tin!',
             'unique' => 'Phân quyền đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
-            'ma_nhan_vien' => 'required',
-            'ma_quyen' => 'required|unique:ql_phanquyen,ma_quyen,NULL,ma_phan_quyen,ma_nhan_vien,' . $request->ma_nhan_vien,
+            'ma_quyen' => 'unique:ql_phanquyen,ma_quyen,NULL,ma_phan_quyen,ma_nhan_vien,' . $request->ma_nhan_vien,
             ],$message);
         
         if($validator->fails()){

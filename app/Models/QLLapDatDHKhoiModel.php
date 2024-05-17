@@ -13,4 +13,16 @@ class QLLapDatDHKhoiModel extends Model
     protected $primaryKey = 'ma_lap_dat';
     protected $keytype = 'int';
     public $timestamps = false;
+    public function dong_ho_khoi()
+    {
+      return $this->hasOne(QLDongHoKhoiModel::class);
+    }
+    public function tuyen_doc()
+    {
+      return $this->hasOne(DMTuyenDocModel::class);
+    }
+    public function chi_so()
+    {
+      return $this->hasMany(LSDongHoKhoiModel::class);
+    }
 }

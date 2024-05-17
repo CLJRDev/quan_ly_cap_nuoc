@@ -90,12 +90,10 @@ class DMNhaCungCapController extends Controller
     public function update(Request $request, string $id)
     {
         $message = [
-            'required' => 'Xin hãy điền đủ thông tin!',
             'unique' => 'Nhà cung cấp đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
             'ten_nha_cung_cap' => [
-                'required',
                 Rule::unique('dm_nhacungcap', 'ten_nha_cung_cap')->ignore($id, 'ma_nha_cung_cap')
               ],
           ],$message);

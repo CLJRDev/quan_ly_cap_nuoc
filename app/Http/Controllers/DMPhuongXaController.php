@@ -94,15 +94,12 @@ class DMPhuongXaController extends Controller
     public function update(Request $request, string $id)
     {
         $message = [
-            'required' => 'Xin hãy điền đủ thông tin!',
             'unique' => 'Phường xã đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
             'ten_phuong_xa' => [
-                'required',
                 Rule::unique('dm_phuongxa', 'ten_phuong_xa')->ignore($id, 'ma_phuong_xa')
               ],
-            'ma_quan_huyen' => 'required',
           ],$message);
         
         if($validator->fails()){
