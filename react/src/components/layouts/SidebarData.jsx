@@ -107,6 +107,11 @@ export const SidebarData = [
         title: 'Khách Hàng',
         path: '/khach_hang',
         icon: <Fa6Icons.FaPeopleGroup  />,
+      },
+      {
+        title: 'Hợp đồng',
+        path: '/hop_dong',
+        icon: <FaIcons.FaFileContract   />,
       }
     ]
   },

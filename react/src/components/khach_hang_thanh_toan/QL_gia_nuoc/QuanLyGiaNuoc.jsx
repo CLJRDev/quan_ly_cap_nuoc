@@ -66,6 +66,7 @@ export default function QuanLyGiaNuoc() {
       <td>{!item.hs_tu_20m_den_30m ? '0' : item.hs_tu_20m_den_30m}</td>
       <td>{!item.hs_tren_30m ? '0' : item.hs_tren_30m}</td>
       <td>{!item.hs_rieng ? '0' : item.hs_rieng}</td>
+      <td>{item.hs_thue}</td>
       <td>{item.gia_ban}</td>
       <td>
         <Link className="btn-edit" to={`/gia_nuoc/sua/${item.ma_nhom_gia}`}>Sửa</Link>
@@ -148,6 +149,7 @@ export default function QuanLyGiaNuoc() {
               <th>HS 20m³ đến 30m³</th>
               <th>HS trên 30m³</th>
               <th>HS riêng</th>
+              <th>HS thuế</th>
               <th>Giá bán</th>
               <th>Hành động</th>
             </tr>

@@ -3,12 +3,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from "react"
 import Select from 'react-select'
+import LoaiDongHo from "../../select-option/LoaiDongHo"
+import CoDongHo from "../../select-option/CoDongHo"
+import NhaCungCap from "../../select-option/NhaCungCap"
 
 export default function ThemDongHoKhach() {
   const navigate = useNavigate()
-  const [loaiDongHos, setLoaiDongHos] = useState(null)
-  const [coDongHos, setCoDongHos] = useState(null)
-  const [nhaCungCaps, setNhaCungCaps] = useState(null)
   const [dongHo, setDongHo] = useState({
     ten_dong_ho: '',
     nam_san_xuat: '',
@@ -21,56 +21,6 @@ export default function ThemDongHoKhach() {
     ngay_kiem_dinh: '',
     so_nam_hieu_luc: '',
     so_thang_bao_hanh: ''
-  })
-
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/loai_dong_ho`)
-      .then(response => {
-        setLoaiDongHos(response.data)
-      })
-  }, [])
-
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/co_dong_ho`)
-      .then(response => {
-        setCoDongHos(response.data)
-      })
-  }, [])
-
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/nha_cung_cap`)
-      .then(response => {
-        setNhaCungCaps(response.data)
-      })
-  }, [])
-
-  if (!loaiDongHos) return null
-  if (!coDongHos) return null
-  if (!nhaCungCaps) return null
-
-  const loaiDongHoOptions = []
-  const coDongHoOptions = []
-  const nhaCungCapOptions = []
-
-  loaiDongHos.forEach(item => {
-    loaiDongHoOptions.push({
-      value: item.ma_loai_dong_ho,
-      label: item.ten_loai_dong_ho
-    })
-  })
-
-  coDongHos.forEach(item => {
-    coDongHoOptions.push({
-      value: item.ma_co_dong_ho,
-      label: item.ten_co_dong_ho
-    })
-  })
-
-  nhaCungCaps.forEach(item => {
-    nhaCungCapOptions.push({
-      value: item.ma_nha_cung_cap,
-      label: item.ten_nha_cung_cap
-    })
   })
 
   const trangThaiOptions = [
@@ -145,24 +95,21 @@ export default function ThemDongHoKhach() {
         </div>
         <div>
           <label htmlFor="">Loại đồng hồ</label>
-          <Select
-            options={loaiDongHoOptions}
+          <LoaiDongHo
             onChange={handleSelectChange}
             name="ma_loai_dong_ho"
           />
         </div>
         <div>
           <label htmlFor="">Nhà cung cấp</label>
-          <Select
-            options={nhaCungCapOptions}
+          <NhaCungCap
             onChange={handleSelectChange}
             name="ma_nha_cung_cap"
           />
         </div>
         <div>
           <label htmlFor="">Kích cỡ</label>
-          <Select
-            options={coDongHoOptions}
+          <CoDongHo
             onChange={handleSelectChange}
             name="ma_co_dong_ho"
           />

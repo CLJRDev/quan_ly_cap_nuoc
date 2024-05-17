@@ -5,34 +5,40 @@ import axios from 'axios'
 import { useState, useEffect } from "react"
 import Select from 'react-select'
 import { format } from 'date-fns'
+import DateRangeComp from "../../react-components/DateRangeComp"
+import SliderCom from "../../react-components/SliderCom"
+import LoaiDongHo from "../../select-option/LoaiDongHo"
+import CoDongHo from "../../select-option/CoDongHo"
+import NhaCungCap from "../../select-option/NhaCungCap"
 
 
 export default function QuanLyDongHoKhoi() {
-  const [loaiDongHos, setLoaiDongHos] = useState(null)
-  const [coDongHos, setCoDongHos] = useState(null)
-  const [nhaCungCaps, setNhaCungCaps] = useState(null)
   const [dongHoKhois, setDongHoKhois] = useState(null)
-
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/loai_dong_ho`)
-      .then(response => {
-        setLoaiDongHos(response.data)
-      })
-  }, [])
-
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/co_dong_ho`)
-      .then(response => {
-        setCoDongHos(response.data)
-      })
-  }, [])
-
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/nha_cung_cap`)
-      .then(response => {
-        setNhaCungCaps(response.data)
-      })
-  }, [])
+  const [searchData, setSearchData] = useState({
+    ten_dong_ho: '',
+    ma_loai_dong_ho: '',
+    ma_nha_cung_cap: '',
+    ma_co_dong_ho: '',
+    tinh_trang: '',
+    // ngay_nhap_tu: '',
+    // ngay_nhap_den: '',
+    // ngay_kiem_dinh_tu: '',
+    // ngay_kiem_dinh_den: '',
+    so_nam_hieu_luc_tu: '',
+    so_nam_hieu_luc_den: '',
+    so_thang_bao_hanh_tu: '',
+    so_thang_bao_hanh_den: ''
+  })
+  const [ngayNhapRange, setNgayNhapRange] = useState([{
+    startDate: null,
+    endDate: null,
+    key: 'selection'
+  }])
+  const [ngayKiemDinhRange, setNgayKiemDinhRange] = useState([{
+    startDate: null,
+    endDate: null,
+    key: 'selection'
+  }])
 
   const fetchData = () => {
     axios.get(`http://127.0.0.1:8000/api/dong_ho_khoi`)
@@ -45,36 +51,7 @@ export default function QuanLyDongHoKhoi() {
     fetchData()
   }, [])
 
-
-  if (!loaiDongHos) return null
-  if (!coDongHos) return null
-  if (!nhaCungCaps) return null
   if (!dongHoKhois) return null
-
-  const loaiDongHoOptions = []
-  const coDongHoOptions = []
-  const nhaCungCapOptions = []
-
-  loaiDongHos.forEach(item => {
-    loaiDongHoOptions.push({
-      value: item.ma_loai_dong_ho,
-      label: item.ten_loai_dong_ho
-    })
-  })
-
-  coDongHos.forEach(item => {
-    coDongHoOptions.push({
-      value: item.ma_co_dong_ho,
-      label: item.ten_co_dong_ho
-    })
-  })
-
-  nhaCungCaps.forEach(item => {
-    nhaCungCapOptions.push({
-      value: item.ma_nha_cung_cap,
-      label: item.ten_nha_cung_cap
-    })
-  })
 
   const trangThaiOptions = [
     { value: '', label: 'Tất cả' },
@@ -115,11 +92,60 @@ export default function QuanLyDongHoKhoi() {
   })
 
   const handleInputChange = (e) => {
-
+    const { name, value } = e.target
+    setSearchData(pre => {
+      return {
+        ...pre,
+        [name]: value
+      }
+    })
   }
 
-  const handleSelectChange = (option) => {
+  const handleSelectChange = (option, event) => {
+    const name = event.name
+    setSearchData(pre => {
+      return {
+        ...pre,
+        [name]: option.value
+      }
+    })
+  }
 
+  const handleNgayNhapChange = (newRange) => {
+    setNgayNhapRange(newRange)
+  }
+
+  const handleNgayKiemDinhChange = (newRange) => {
+    setNgayKiemDinhRange(newRange)
+  }
+
+  const handleNamHieuLucChange = (value) => {
+    setSearchData(pre => {
+      return {
+        ...pre,
+        so_nam_hieu_luc_tu: value[0],
+        so_nam_hieu_luc_den: value[1]
+      }
+    })
+  }
+
+  const handleThangBaoHanhChange = (value) => {
+    setSearchData(pre => {
+      return {
+        ...pre,
+        so_thang_bao_hanh_tu: value[0],
+        so_thang_bao_hanh_den: value[1]
+      }
+    })
+  }
+
+  const timKiem = async () => {
+    if (!ngayNhapRange[0].startDate) {
+      console.log('Ngủ')
+    } else {
+      console.log(ngayNhapRange[0].startDate)
+      console.log(ngayKiemDinhRange[0].startDate)
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -137,26 +163,26 @@ export default function QuanLyDongHoKhoi() {
         </div>
         <div>
           <label htmlFor="">Loại đồng hồ</label>
-          <Select
-            options={loaiDongHoOptions}
+          <LoaiDongHo
             onChange={handleSelectChange}
-            name="loai_dong_ho"
+            isSearch={true}
+            name='ma_loai_dong_ho'
           />
         </div>
         <div>
           <label htmlFor="">Nhà cung cấp</label>
-          <Select
-            options={nhaCungCapOptions}
+          <NhaCungCap
             onChange={handleSelectChange}
-            name="nha_cung_cap"
+            isSearch={true}
+            name='ma_nha_cung_cap'
           />
         </div>
         <div>
           <label htmlFor="">Kích cỡ</label>
-          <Select
-            options={coDongHoOptions}
+          <CoDongHo
             onChange={handleSelectChange}
-            name="kich_co"
+            isSearch={true}
+            name='ma_co_dong_ho'
           />
         </div>
         <div>
@@ -168,23 +194,35 @@ export default function QuanLyDongHoKhoi() {
           />
         </div>
         <div>
-          <label htmlFor="ngay_nhap">Ngày nhập</label>
-          <input type="date" id='ngay_nhap' name='ngay_nhap' onChange={handleInputChange} />
+          <label htmlFor="">Ngày nhập</label>
+          <DateRangeComp onDateChange={handleNgayNhapChange} />
         </div>
         <div>
-          <label htmlFor="ngay_kiem_dinh">Ngày kiểm định</label>
-          <input type="date" id='ngay_kiem_dinh' name='ngay_kiem_dinh' onChange={handleInputChange} />
+          <label htmlFor="">Ngày kiểm định</label>
+          <DateRangeComp onDateChange={handleNgayKiemDinhChange} />
         </div>
         <div>
-          <label htmlFor="so_nam_hieu_luc">Số năm hiệu lực</label>
-          <input type="number" id='so_nam_hieu_luc' name='so_nam_hieu_luc' onChange={handleInputChange} />
+          <label htmlFor="">Số năm hiệu lực</label>
+          <SliderCom
+            defaultValue={[0, 20]}
+            minDistance={1}
+            min={1}
+            max={20}
+            onChange={handleNamHieuLucChange}
+          />
         </div>
         <div>
-          <label htmlFor="so_thang_bao_hanh">Số tháng bảo hành</label>
-          <input type="number" id='so_thang_bao_hanh' name='so_thang_bao_hanh' onChange={handleInputChange} />
+          <label htmlFor="">Số tháng bảo hành</label>
+          <SliderCom
+            defaultValue={[0, 99]}
+            minDistance={5}
+            min={1}
+            max={99}
+            onChange={handleThangBaoHanhChange}
+          />
         </div>
         <div></div>
-        <div>
+        <div style={{ marginTop: '25px' }}>
           <button type="submit" className="btn-search">
             <IoMdSearch style={{ transform: 'scale(1.2)' }} />
             &nbsp; Tìm kiếm

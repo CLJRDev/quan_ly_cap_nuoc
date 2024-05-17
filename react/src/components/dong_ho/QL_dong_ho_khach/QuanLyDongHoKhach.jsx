@@ -5,75 +5,56 @@ import axios from 'axios'
 import { useState, useEffect } from "react"
 import Select from 'react-select'
 import { format } from 'date-fns'
+import LoaiDongHo from "../../select-option/LoaiDongHo"
+import CoDongHo from "../../select-option/CoDongHo"
+import NhaCungCap from "../../select-option/NhaCungCap"
+import DateRangeComp from "../../react-components/DateRangeComp"
+import SliderCom from "../../react-components/SliderCom"
 
 export default function QuanLyDongHoKhach() {
-  const [loaiDongHos, setLoaiDongHos] = useState(null)
-  const [coDongHos, setCoDongHos] = useState(null)
-  const [nhaCungCaps, setNhaCungCaps] = useState(null)
+
   const [dongHoKhachs, setDongHoKhachs] = useState(null)
+  const [searchData, setSearchData] = useState({
+    ten_dong_ho: '',
+    nam_san_xuat: '',
+    so_seri: '',
+    ma_loai_dong_ho: '',
+    ma_nha_cung_cap: '',
+    ma_co_dong_ho: '',
+    tinh_trang: '',
+    // ngay_nhap_tu: '',
+    // ngay_nhap_den: '',
+    // ngay_kiem_dinh_tu: '',
+    // ngay_kiem_dinh_den: '',
+    so_nam_hieu_luc_tu: '',
+    so_nam_hieu_luc_den: '',
+    so_thang_bao_hanh_tu: '',
+    so_thang_bao_hanh_den: ''
+  })
+  const [ngayNhapRange, setNgayNhapRange] = useState([{
+    startDate: null,
+    endDate: null,
+    key: 'selection'
+  }])
+  const [ngayKiemDinhRange, setNgayKiemDinhRange] = useState([{
+    startDate: null,
+    endDate: null,
+    key: 'selection'
+  }])
+
+  const fetchData = () => {
+    axios.get(`http://127.0.0.1:8000/api/dong_ho_khach`)
+      .then(response => {
+        setDongHoKhachs(response.data)
+      })
+  }
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/loai_dong_ho`)
-      .then(response => {
-        setLoaiDongHos(response.data)
-      })
+    fetchData()
   }, [])
 
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/co_dong_ho`)
-      .then(response => {
-        setCoDongHos(response.data)
-      })
-  }, [])
+  if (!dongHoKhachs) return null
 
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/nha_cung_cap`)
-      .then(response => {
-        setNhaCungCaps(response.data)
-      })
-  }, [])
-
-  // const fetchData = () => {
-  //   axios.get(`http://127.0.0.1:8000/api/dong_ho_khach`)
-  //     .then(response => {
-  //       setDongHoKhachs(response.data)
-  //     })
-  // }
-
-  // useEffect(() => {
-  //   fetchData()
-  // }, [])
-
-
-  if (!loaiDongHos) return null
-  if (!coDongHos) return null
-  if (!nhaCungCaps) return null
-  // if (!dongHoKhachs) return null
-
-  const loaiDongHoOptions = []
-  const coDongHoOptions = []
-  const nhaCungCapOptions = []
-
-  loaiDongHos.forEach(item => {
-    loaiDongHoOptions.push({
-      value: item.ma_loai_dong_ho,
-      label: item.ten_loai_dong_ho
-    })
-  })
-
-  coDongHos.forEach(item => {
-    coDongHoOptions.push({
-      value: item.ma_co_dong_ho,
-      label: item.ten_co_dong_ho
-    })
-  })
-
-  nhaCungCaps.forEach(item => {
-    nhaCungCapOptions.push({
-      value: item.ma_nha_cung_cap,
-      label: item.ten_nha_cung_cap
-    })
-  })
 
   const trangThaiOptions = [
     { value: '', label: 'Tất cả' },
@@ -81,53 +62,91 @@ export default function QuanLyDongHoKhach() {
     { value: 0, label: 'Khóa' },
   ]
 
-  // const xoa = id => {
-  //   if (!window.confirm('Bạn có chắc chắn muốn xóa đồng hồ này này?'))
-  //     return
-  //   axios.delete(`http://127.0.0.1:8000/api/dong_ho_khach/${id}`)
-  //     .then(response => {
-  //       console.log(response.data.message);
-  //       fetchData()
-  //     })
-  //     .catch(error => {
-  //       console.log(error.response.data.error)
-  //     });
-  // }
+  const xoa = id => {
+    if (!window.confirm('Bạn có chắc chắn muốn xóa đồng hồ này này?'))
+      return
+    axios.delete(`http://127.0.0.1:8000/api/dong_ho_khach/${id}`)
+      .then(response => {
+        console.log(response.data.message);
+        fetchData()
+      })
+      .catch(error => {
+        console.log(error.response.data.error)
+      });
+  }
 
-  // const dongHoKhachElements = dongHoKhachs.map((item, index) => {
-  //   return <tr key={index}>
-  //     <td>{item.ten_dong_ho}</td>
-  //     <td>{item.nam_san_xuat}</td>
-  //     <td>{item.so_seri}</td>
-  //     <td>{item.ten_loai_dong_ho}</td>
-  //     <td>{item.ten_nha_cung_cap}</td>
-  //     <td>{item.ten_co_dong_ho}</td>
-  //     <td>{item.tinh_trang == 1 ? 'Đang lắp đặt' : 'Trống'}</td>
-  //     <td>{format(new Date(item.ngay_nhap), 'dd-MM-yyyy')}</td>
-  //     <td>{format(new Date(item.ngay_kiem_dinh), 'dd-MM-yyyy')}</td>
-  //     <td>{item.so_nam_hieu_luc}</td>
-  //     <td>{item.so_thang_bao_hanh}</td>
-  //     <td>
-  //       <Link className="btn-edit" to={`/dong_ho_khach/sua/${item.ma_dong_ho}`}>Sửa</Link>
-  //       &nbsp;
-  //       <button onClick={() => xoa(item.ma_dong_ho)} className="btn-delete">Xóa</button>
-  //     </td>
-  //   </tr>
-  // })
+  const dongHoKhachElements = dongHoKhachs.map((item, index) => {
+    return <tr key={index}>
+      <td>{item.ten_dong_ho}</td>
+      <td>{item.nam_san_xuat}</td>
+      <td>{item.so_seri}</td>
+      <td>{item.ten_loai_dong_ho}</td>
+      <td>{item.ten_nha_cung_cap}</td>
+      <td>{item.ten_co_dong_ho}</td>
+      <td>{item.tinh_trang == 1 ? 'Đang lắp đặt' : 'Trống'}</td>
+      <td>{format(new Date(item.ngay_nhap), 'dd-MM-yyyy')}</td>
+      <td>{format(new Date(item.ngay_kiem_dinh), 'dd-MM-yyyy')}</td>
+      <td>{item.so_nam_hieu_luc}</td>
+      <td>{item.so_thang_bao_hanh}</td>
+      <td>
+        <Link className="btn-edit" to={`/dong_ho_khach/sua/${item.ma_dong_ho}`}>Sửa</Link>
+        &nbsp;
+        <button onClick={() => xoa(item.ma_dong_ho)} className="btn-delete">Xóa</button>
+      </td>
+    </tr>
+  })
 
   const handleInputChange = e => {
-
+    const { name, value } = e.target
+    setSearchData(pre => {
+      return {
+        ...pre,
+        [name]: value
+      }
+    })
   }
 
   const handleSelectChange = (option, e) => {
+    const name = e.name
+    setSearchData(pre => {
+      return {
+        ...pre,
+        [name]: option.value
+      }
+    })
+  }
 
+  const handleNgayNhapChange = (newRange) => {
+    setNgayNhapRange(newRange)
+  }
+
+  const handleNgayKiemDinhChange = (newRange) => {
+    setNgayKiemDinhRange(newRange)
+  }
+
+  const handleNamHieuLucChange = (value) => {
+    setSearchData(pre => {
+      return {
+        ...pre,
+        so_nam_hieu_luc_tu: value[0],
+        so_nam_hieu_luc_den: value[1]
+      }
+    })
+  }
+
+  const handleThangBaoHanhChange = (value) => {
+    setSearchData(pre => {
+      return {
+        ...pre,
+        so_thang_bao_hanh_tu: value[0],
+        so_thang_bao_hanh_den: value[1]
+      }
+    })
   }
 
   const handleSubmit = async (e) => {
-
+    
   }
-
-
 
   return (
     <div className="page">
@@ -143,26 +162,26 @@ export default function QuanLyDongHoKhach() {
         </div>
         <div>
           <label htmlFor="">Loại đồng hồ</label>
-          <Select
-            options={loaiDongHoOptions}
+          <LoaiDongHo
+            isSearch={true}
             onChange={handleSelectChange}
-            name="loai_dong_ho"
+            name="ma_loai_dong_ho"
           />
         </div>
         <div>
           <label htmlFor="">Nhà cung cấp</label>
-          <Select
-            options={nhaCungCapOptions}
+          <NhaCungCap
+            isSearch={true}
             onChange={handleSelectChange}
-            name="nha_cung_cap"
+            name="ma_nha_cung_cap"
           />
         </div>
         <div>
           <label htmlFor="">Kích cỡ</label>
-          <Select
-            options={coDongHoOptions}
+          <CoDongHo
+            isSearch={true}
             onChange={handleSelectChange}
-            name="kich_co"
+            name="ma_co_dong_ho"
           />
         </div>
         <div>
@@ -174,22 +193,34 @@ export default function QuanLyDongHoKhach() {
           />
         </div>
         <div>
-          <label htmlFor="ngay_nhap">Ngày nhập</label>
-          <input type="date" id='ngay_nhap' name='ngay_nhap' onChange={handleInputChange} />
+          <label htmlFor="">Ngày nhập</label>
+          <DateRangeComp onDateChange={handleNgayNhapChange} />
         </div>
         <div>
-          <label htmlFor="ngay_kiem_dinh">Ngày kiểm định</label>
-          <input type="date" id='ngay_kiem_dinh' name='ngay_kiem_dinh' onChange={handleInputChange} />
+          <label htmlFor="">Ngày kiểm định</label>
+          <DateRangeComp onDateChange={handleNgayKiemDinhChange} />
         </div>
         <div>
-          <label htmlFor="so_nam_hieu_luc">Số năm hiệu lực</label>
-          <input type="number" id='so_nam_hieu_luc' name='so_nam_hieu_luc' onChange={handleInputChange} />
+          <label htmlFor="">Số năm hiệu lực</label>
+          <SliderCom
+            defaultValue={[0, 20]}
+            minDistance={1}
+            min={1}
+            max={20}
+            onChange={handleNamHieuLucChange}
+          />
         </div>
         <div>
-          <label htmlFor="so_thang_bao_hanh">Số tháng bảo hành</label>
-          <input type="number" id='so_thang_bao_hanh' name='so_thang_bao_hanh' onChange={handleInputChange} />
+          <label htmlFor="">Số tháng bảo hành</label>
+          <SliderCom
+            defaultValue={[0, 99]}
+            minDistance={5}
+            min={1}
+            max={99}
+            onChange={handleThangBaoHanhChange}
+          />
         </div>
-        <div>
+        <div style={{ marginTop: '25px' }}>
           <button type="submit" className="btn-search">
             <IoMdSearch style={{ transform: 'scale(1.2)' }} />
             &nbsp; Tìm kiếm
@@ -221,7 +252,7 @@ export default function QuanLyDongHoKhach() {
             </tr>
           </thead>
           <tbody>
-            {/* {dongHoKhachElements} */}
+            {dongHoKhachElements}
           </tbody>
         </table>
       </div>

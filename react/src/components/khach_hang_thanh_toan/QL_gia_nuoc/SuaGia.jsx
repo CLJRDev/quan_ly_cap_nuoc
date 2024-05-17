@@ -15,6 +15,7 @@ export default function SuaGia() {
     hs_tu_20m_den_30m: '',
     hs_tren_30m: '',
     hs_rieng: '',
+    hs_thue: '',
     gia_ban: ''
   })
   const [selectedOption, setSelectedOption] = useState({})
@@ -69,6 +70,7 @@ export default function SuaGia() {
     }else{
       formData.append('hs_rieng', gia.hs_rieng)
     }
+    formData.append('hs_thue', gia.hs_thue)
     formData.append('gia_ban', gia.gia_ban)
     formData.append('ma_loai_khach_hang', selectedOption.value)
 
@@ -123,9 +125,14 @@ export default function SuaGia() {
           <input type="number" id='hs_rieng' step='0.01' name='hs_rieng' onChange={handleInputChange} value={!gia.hs_rieng ? '' : gia.hs_rieng} />
         </div>
         <div>
+          <label htmlFor="hs_thue">Hệ số thuế</label>
+          <input type="number" id='hs_thue' step='0.01' name='hs_thue' onChange={handleInputChange} value={gia.hs_thue} />
+        </div>
+        <div>
           <label htmlFor="gia_ban">Giá bán</label>
           <input type="number" id='gia_ban' step='0.01' name='gia_ban' onChange={handleInputChange} value={gia.gia_ban} />
         </div>
+        <div></div>
         <div>
           <button className="btn-add">
             <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />

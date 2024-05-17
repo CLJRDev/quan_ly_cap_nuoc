@@ -3,13 +3,13 @@ import axios from 'axios'
 import { useState, useEffect } from "react"
 import Select from 'react-select'
 import { MdOutlineEdit } from "react-icons/md";
+import LoaiDongHo from "../../select-option/LoaiDongHo"
+import CoDongHo from "../../select-option/CoDongHo"
+import NhaCungCap from "../../select-option/NhaCungCap"
 
 export default function SuaDongHoKhoi() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const [loaiDongHos, setLoaiDongHos] = useState(null)
-  const [coDongHos, setCoDongHos] = useState(null)
-  const [nhaCungCaps, setNhaCungCaps] = useState(null)
   const [dongHo, setDongHo] = useState({
     ten_dong_ho: '',
     ngay_nhap: '',
@@ -36,56 +36,6 @@ export default function SuaDongHoKhoi() {
         })
       })
   }, [])
-
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/loai_dong_ho`)
-      .then(response => {
-        setLoaiDongHos(response.data)
-      })
-  }, [])
-
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/co_dong_ho`)
-      .then(response => {
-        setCoDongHos(response.data)
-      })
-  }, [])
-
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/nha_cung_cap`)
-      .then(response => {
-        setNhaCungCaps(response.data)
-      })
-  }, [])
-
-  if (!loaiDongHos) return null
-  if (!coDongHos) return null
-  if (!nhaCungCaps) return null
-
-  const loaiDongHoOptions = []
-  const coDongHoOptions = []
-  const nhaCungCapOptions = []
-
-  loaiDongHos.forEach(item => {
-    loaiDongHoOptions.push({
-      value: item.ma_loai_dong_ho,
-      label: item.ten_loai_dong_ho
-    })
-  })
-
-  coDongHos.forEach(item => {
-    coDongHoOptions.push({
-      value: item.ma_co_dong_ho,
-      label: item.ten_co_dong_ho
-    })
-  })
-
-  nhaCungCaps.forEach(item => {
-    nhaCungCapOptions.push({
-      value: item.ma_nha_cung_cap,
-      label: item.ten_nha_cung_cap
-    })
-  })
 
   const trangThaiOptions = [
     { value: 1, label: 'Đang lắp đặt' },
@@ -149,8 +99,7 @@ export default function SuaDongHoKhoi() {
         </div>
         <div>
           <label htmlFor="">Loại đồng hồ</label>
-          <Select
-            options={loaiDongHoOptions}
+          <LoaiDongHo
             onChange={handleSelectChange}
             name="loai_dong_ho"
             value={selectedOptions.loai_dong_ho}
@@ -158,8 +107,7 @@ export default function SuaDongHoKhoi() {
         </div>
         <div>
           <label htmlFor="">Nhà cung cấp</label>
-          <Select
-            options={nhaCungCapOptions}
+          <NhaCungCap
             onChange={handleSelectChange}
             name="nha_cung_cap"
             value={selectedOptions.nha_cung_cap}
@@ -167,8 +115,7 @@ export default function SuaDongHoKhoi() {
         </div>
         <div>
           <label htmlFor="">Kích cỡ</label>
-          <Select
-            options={coDongHoOptions}
+          <CoDongHo
             onChange={handleSelectChange}
             name="co_dong_ho"
             value={selectedOptions.co_dong_ho}

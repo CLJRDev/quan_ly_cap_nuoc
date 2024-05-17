@@ -15,6 +15,7 @@ export default function ThemGia() {
     hs_tu_20m_den_30m: '',
     hs_tren_30m: '',
     hs_rieng: '',
+    hs_thue: '',
     gia_ban: '',
     loai_khach_hang: {}
   })
@@ -54,8 +55,6 @@ export default function ThemGia() {
     })
   }
 
-  console.log(gia)
-
   const them = async () => {
     const formData = new FormData()
     formData.append('ten_nhom_gia', gia.ten_nhom_gia)
@@ -67,14 +66,15 @@ export default function ThemGia() {
     } else {
       formData.append('hs_rieng', gia.hs_rieng)
     }
+    formData.append('hs_thue', gia.hs_thue)
     formData.append('gia_ban', gia.gia_ban)
     formData.append('ma_loai_khach_hang', gia.loai_khach_hang.value)
 
-    try{
-      const response = await axios.post(`http://127.0.0.1:8000/api/nhom_gia`, formData)      
+    try {
+      const response = await axios.post(`http://127.0.0.1:8000/api/nhom_gia`, formData)
       console.log(response.data.message)
       navigate('/gia_nuoc')
-    }catch(error){
+    } catch (error) {
       console.log(error.message.data.error)
     }
   }
@@ -120,9 +120,14 @@ export default function ThemGia() {
           <input type="number" id='hs_rieng' step='0.01' name='hs_rieng' onChange={handleInputChange} />
         </div>
         <div>
+          <label htmlFor="hs_thue">Hệ số thuế</label>
+          <input type="number" id='hs_thue' step='0.01' name='hs_thue' onChange={handleInputChange} />
+        </div>
+        <div>
           <label htmlFor="gia_ban">Giá bán</label>
           <input type="number" id='gia_ban' step='0.01' name='gia_ban' onChange={handleInputChange} />
         </div>
+        <div></div>
         <div>
           <button className="btn-add" type="submit">
             <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />

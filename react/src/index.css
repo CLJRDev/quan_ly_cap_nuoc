@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
-:root{
+:root {
   --primary-color: #0051a9;
 }
 
@@ -32,7 +32,7 @@ body {
   margin-top: 0.5rem;
 }
 
-.login-form{
+.login-form {
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -98,7 +98,7 @@ table>tbody>tr>td {
   border-radius: 4px;
 }
 
-.btn:hover{
+.btn:hover {
   color: #fff;
 }
 
@@ -122,14 +122,14 @@ table>tbody>tr>td {
 .btn-add:hover,
 .btn-search:hover,
 .btn-edit:hover,
-.btn-delete:hover{
+.btn-delete:hover {
   opacity: 0.8;
 }
 
 .btn-add:active,
 .btn-search:active,
 .btn-edit:active,
-.btn-delete:active{
+.btn-delete:active {
   opacity: 0.6;
 }
 
@@ -163,7 +163,8 @@ table>tbody>tr>td {
   gap: 16px;
 }
 
-input, select {
+input,
+select {
   outline: 0;
   background: #ffffff;
   width: 100%;
@@ -177,6 +178,19 @@ input, select {
 
 input:focus {
   border-color: #0e4279;
+}
+
+.calendarWrap {
+  position: relative;
+}
+
+.calendarElement {
+  position: absolute;
+  left: 30%;
+  transform: translateX(-50%);
+  top: 40px;
+  border: 1px solid #ccc;
+  z-index: 999;
 }
 
 label {
@@ -198,12 +212,13 @@ label {
 
 @keyframes fadeInDown {
   0% {
-      opacity: 0;
-      transform: translateY(-20px);
+    opacity: 0;
+    transform: translateY(-20px);
   }
+
   100% {
-      opacity: 1;
-      transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -220,6 +235,31 @@ label {
   align-items: center;
 }
 
-.logo{
+.logo {
   width: 100%;
+}
+
+
+.horizontal-slider .example-track {
+  top: 15px;
+  height: 10px;
+  border-radius: 5px;
+  border: 1px solid #e6e6e6;
+}
+
+.example-track.example-track-1 {
+  background: var(--primary-color);
+}
+
+.horizontal-slider .example-thumb {
+  top: 5px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  font-size: 14px;
+  text-align: center;
+  background-color: var(--primary-color);
+  color: #fff;
+  cursor: pointer;
+  border: 2px solid #e6e6e6;
 }
