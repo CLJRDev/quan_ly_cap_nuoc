@@ -32,7 +32,7 @@ export default function SuaDongHoKhoi() {
           loai_dong_ho: { value: response.data.ma_loai_dong_ho, label: response.data.ten_loai_dong_ho },
           nha_cung_cap: { value: response.data.ma_nha_cung_cap, label: response.data.ten_nha_cung_cap },
           co_dong_ho: { value: response.data.ma_co_dong_ho, label: response.data.ten_co_dong_ho },
-          tinh_trang: { value: response.data.tinh_trang, label: response.data.ten_co_dong_ho == 1 ? 'Đang lắp đặt' : 'Trống' }
+          tinh_trang: { value: response.data.tinh_trang, label: response.data.tinh_trang == 1 ? 'Đang lắp đặt' : 'Trống' }
         })
       })
   }, [])
@@ -80,7 +80,7 @@ export default function SuaDongHoKhoi() {
       console.log(response.data.message)
       navigate('/dong_ho_khoi')
     } catch (error) {
-      console.log(error.message.data.error)
+      console.log(error.response.data.error)
     }
   }
 

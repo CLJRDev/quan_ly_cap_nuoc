@@ -229,7 +229,7 @@ class QLLapDatDHKhoiController extends Controller
         if($request->has('tinh_trang')){
             $query->where("ql_donghokhoi.tinh_trang",$request->tinh_trang);
         }
-        $result = $query->orderBy('ma_lap_dat', 'ASC')->get();
+        $result = $query->orderBy('ma_lap_dat', 'DESC')->get();
         return $result;
     }
 }

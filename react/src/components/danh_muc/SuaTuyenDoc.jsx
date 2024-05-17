@@ -36,7 +36,6 @@ export default function SuaTuyenDoc() {
       })
   }, [])
 
-  if (!tuyenDoc) return null
   if (!toQuanLys) return null
   if (!phuongXas) return null
 
@@ -82,7 +81,7 @@ export default function SuaTuyenDoc() {
       navigate('/tuyen_doc')
     } catch (error) {
       console.log(error.response.data.error)
-    } 
+    }
   }
 
   const handleSubmit = async (e) => {
