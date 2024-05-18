@@ -17,8 +17,9 @@ class QLHopDongController extends Controller
     {
       return QLHopDongModel::select('*','ql_nhomgia.ten_nhom_gia','ql_khachhang.ten_khach_hang','ql_donghokhach.*')
       ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hopdong.ma_nhom_gia')
+      ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hopdong.ma_lap_dat')
       ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
-      ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_hopdong.ma_dong_ho')
+      ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
       ->orderBy('ma_hop_dong', 'ASC')->get();
     }
   
@@ -82,8 +83,9 @@ class QLHopDongController extends Controller
       try{
           return QLHopDongModel::select('*','ql_nhomgia.ten_nhom_gia','ql_khachhang.ten_khach_hang','ql_donghokhach.*')
           ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hopdong.ma_nhom_gia')
+          ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hopdong.ma_lap_dat')
           ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
-          ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_hopdong.ma_dong_ho')
+          ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
           ->where("ma_hop_dong", $id)->firstOrFail();
       }catch (ModelNotFoundException $e) {
           return response()->json([
@@ -189,8 +191,9 @@ class QLHopDongController extends Controller
     {
       $query = QLHopDongModel::query()->select('*','ql_nhomgia.ten_nhom_gia','ql_khachhang.ten_khach_hang','ql_donghokhach.*')
       ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hopdong.ma_nhom_gia')
+      ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hopdong.ma_lap_dat')
       ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
-      ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_hopdong.ma_dong_ho');
+      ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho');
       if ($request->has('ma_hop_dong')) {
         $query->where('ma_hop_dong', "like", "%" . $request->ma_hop_dong . "%");
       }
