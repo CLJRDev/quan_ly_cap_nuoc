@@ -15,7 +15,7 @@ class QLHopDongController extends Controller
      */
     public function index()
     {
-      return QLHopDongModel::select('*','ql_nhomgia.ten_nhom_gia','ql_khachhang.ten_khach_hang','ql_donghokhach.*')
+      return QLHopDongModel::select('ql_hopdong.*','ql_nhomgia.*','ql_khachhang.*','ql_donghokhach.*')
       ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hopdong.ma_nhom_gia')
       ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_hop_dong','=','ql_hopdong.ma_hop_dong')
       ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
@@ -81,7 +81,7 @@ class QLHopDongController extends Controller
     public function show(string $id)
     {
       try{
-          return QLHopDongModel::select('*','ql_nhomgia.ten_nhom_gia','ql_khachhang.ten_khach_hang','ql_donghokhach.*')
+          return QLHopDongModel::select('ql_hopdong.*','ql_nhomgia.*','ql_khachhang.*','ql_donghokhach.*')
           ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hopdong.ma_nhom_gia')
           ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_hop_dong','=','ql_hopdong.ma_hop_dong')
           ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
@@ -189,7 +189,7 @@ class QLHopDongController extends Controller
     }
     public function search(Request $request)
     {
-      $query = QLHopDongModel::query()->select('*','ql_nhomgia.ten_nhom_gia','ql_khachhang.ten_khach_hang','ql_donghokhach.*')
+      $query = QLHopDongModel::query()->select('ql_hopdong.*','ql_nhomgia.*','ql_khachhang.*','ql_donghokhach.*')
       ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hopdong.ma_nhom_gia')
       ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_hop_dong','=','ql_hopdong.ma_hop_dong')
       ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
