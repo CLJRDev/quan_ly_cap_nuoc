@@ -54,17 +54,33 @@ class QLLapDatDHKhoiController extends Controller
         $lap_dat = new QLLapDatDHKhoiModel; 
         $lap_dat_cu = QLLapDatDHKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->orderBy('ma_lap_dat','DESC')->first();
         $dong_ho = QLDongHoKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->first();
-        $tat_ca_lap_dat = QLLapDatDHKhoiModel::where(['ma_dong_ho'=>$request->ma_dong_ho,'ma_tuyen'=>$request->ma_tuyen])->whereBetween($request->tu_ngay,[$lap_dat_cu->tu_ngay,$lap_dat_cu->den_ngay])->get();
-        if(count($tat_ca_lap_dat)==0){
+        $lap_dat_dong_ho = QLLapDatDHKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->get();
+        if(count($lap_dat_dong_ho)==0){
             $lap_dat->ma_tuyen=$request->ma_tuyen;
         }
         else{
-            return response()->json([
-                'error' => 'Đồng hồ đã được lắp đặt tuyến này!'
-              ],422);
+            $lap_dat_tuyen = QLLapDatDHKhoiModel::where(['ma_dong_ho'=>$request->ma_dong_ho,'ma_tuyen'=>$request->ma_tuyen])->get();
+            if(count($lap_dat_tuyen)==0){
+                $lap_dat->ma_tuyen=$request->ma_tuyen;
+            }
+            else{
+                $tat_ca_lap_dat = QLLapDatDHKhoiModel::where(['ma_dong_ho'=>$request->ma_dong_ho,'ma_tuyen'=>$request->ma_tuyen])->whereRaw($request->tu_ngay.'>='.$lap_dat_cu->tu_ngay)->whereRaw('('.$lap_dat_cu->den_ngay.'!='.null.'and'.$request->tu_ngay.'<='.$lap_dat_cu->den_ngay)->get();
+                if(count($tat_ca_lap_dat)==0){
+                    $lap_dat->ma_tuyen=$request->ma_tuyen;
+                }
+                else{
+                    return response()->json([
+                    'error' => 'Đồng hồ đã được lắp đặt tuyến này!'
+                ],422);
+                }
+            }
         }
         if(empty($lap_dat_cu)){
             $lap_dat->chi_so_dau=0;
+            $lap_dat->tu_ngay=$request->tu_ngay;
+        }
+        else{
+            $lap_dat->chi_so_dau=$lap_dat_cu->chi_so_cuoi;
             if(strtotime($request->tu_ngay)>strtotime($lap_dat_cu->den_ngay)){
                 $lap_dat->tu_ngay=$request->tu_ngay;
             }
@@ -73,9 +89,6 @@ class QLLapDatDHKhoiController extends Controller
                     'error' => 'Đồng hồ đã được lắp đặt vào thời gian này!'
                   ],422);
             }
-        }
-        else{
-            $lap_dat->chi_so_dau=$lap_dat_cu->chi_so_cuoi;
         }
         if($dong_ho->tinh_trang==0){
             $lap_dat->ma_dong_ho=$request->ma_dong_ho;
@@ -145,9 +158,23 @@ class QLLapDatDHKhoiController extends Controller
         try{
             $lap_dat = QLLapDatDHKhoiModel::findOrFail($id); 
             $lap_dat_moi_nhat = QLLapDatDHKhoiModel::where('ma_dong_ho',$lap_dat->ma_dong_ho)->orderBy('ma_lap_dat', 'DESC')->first();
+            $lap_dat_cu = QLLapDatDHKhoiModel::where('ma_dong_ho',$lap_dat->ma_dong_ho)->orderBy('ma_lap_dat', 'DESC')->skip(1)->first();
             if($lap_dat_moi_nhat->ma_lap_dat == $id){
-                if(isset($request->ngay_lap_dat)){
-                    $lap_dat->ngay_lap_dat=$request->ngay_lap_dat;
+                if(isset($request->tu_ngay)){
+                    if(empty($lap_dat_cu)){
+                        $lap_dat->tu_ngay=$request->tu_ngay;
+                    }
+                    else{
+                        if(strtotime($request->tu_ngay)>strtotime($lap_dat_cu->tu_ngay)){
+                            $lap_dat->tu_ngay=$request->tu_ngay;
+                        }
+                        else{
+                            return response()->json([
+                                'error' => 'Đồng hồ đã được lắp đặt vào thời gian này!'
+                             ],422);
+                        }
+                    }
+                    
                 }
                 $result = $lap_dat->save();
             }

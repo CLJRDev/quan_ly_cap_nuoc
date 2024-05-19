@@ -46,7 +46,7 @@ class QLHopDongController extends Controller
         'ngay_lap' => 'required|date',
         'ma_khach_hang' => 'required',
         'chuc_vu_nguoi_dai_dien' => 'required',
-        'ma_dong_ho' => 'required',
+        'ma_tuyen' => 'required',
         'ma_nhom_gia' => 'required',
       ], $message);
   
@@ -61,7 +61,7 @@ class QLHopDongController extends Controller
       $hop_dong->dia_chi = $request->dia_chi;
       $hop_dong->ngay_lap = $request->ngay_lap;
       $hop_dong->ma_khach_hang = $request->ma_khach_hang;
-      $hop_dong->ma_dong_ho = $request->ma_dong_ho;
+      $hop_dong->ma_tuyen = $request->ma_tuyen;
       $hop_dong->ma_nhom_gia  = $request->ma_nhom_gia ;
       $result = $hop_dong->save();
       if ($result) {
@@ -138,8 +138,8 @@ class QLHopDongController extends Controller
               if(isset($request->ma_khach_hang)){
                 $hop_dong->ma_khach_hang=$request->ma_khach_hang;
             }
-            if(isset($request->ma_dong_ho)){
-                $hop_dong->ma_dong_ho=$request->ma_dong_ho;
+            if(isset($request->ma_tuyen)){
+                $hop_dong->ma_tuyen=$request->ma_tuyen;
             }
             if(isset($request->ma_nhom_gia)){
                 $hop_dong->ma_nhom_gia=$request->ma_nhom_gia;

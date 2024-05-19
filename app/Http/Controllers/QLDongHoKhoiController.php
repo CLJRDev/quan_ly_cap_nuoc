@@ -134,12 +134,12 @@ class QLDongHoKhoiController extends Controller
         try{
             $dong_ho_khoi = QLDongHoKhoiModel::findOrFail($id); 
             $lap_dat = QLLapDatDHKhoiModel::where('ma_dong_ho',$id)->orderBy('ma_lap_dat','DESC')->first();
-            $chi_so = LSDongHoKhoiModel::where('ma_lap_dat',$lap_dat->ma_lap_dat)->orderBy('ma_lich_su','DESC')->first();
             if(isset($request->ten_dong_ho)){
                 $dong_ho_khoi->ten_dong_ho=$request->ten_dong_ho;
             }
             if(isset($request->tinh_trang)){
-                if($dong_ho_khoi->tinh_trang==1&&$request->tinh_trang==0){
+                if($dong_ho_khoi->tinh_trang==1&&$request->tinh_trang==0&&!empty($lap_dat)){
+                    $chi_so = LSDongHoKhoiModel::where('ma_lap_dat',$lap_dat->ma_lap_dat)->orderBy('ma_lich_su','DESC')->first();
                     $dong_ho_khoi->tinh_trang=$request->tinh_trang;
                     if(empty($chi_so)){
                         $lap_dat->chi_so_cuoi=$lap_dat->chi_so_dau;
@@ -153,6 +153,11 @@ class QLDongHoKhoiController extends Controller
                         $lap_dat->so_tieu_thu=$lap_dat->chi_so_cuoi-$lap_dat->chi_so_dau;
                         $lap_dat->save();
                     }
+                }
+                else{
+                    return response()->json([
+                        'error' => 'Không thể đổi tình trạng của đồng hồ!'
+                     ],422);
                 }
             }
             if(isset($request->ngay_nhap)){
