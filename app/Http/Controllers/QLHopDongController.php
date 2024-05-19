@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\QLHopDongModel;
+use App\Models\QLLapDatDHKhachModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;  
@@ -214,6 +215,15 @@ class QLHopDongController extends Controller
       }
       $result = $query->orderBy('ma_hop_dong', 'ASC')->get();
       return $result;
+    }
+    public function lookup_dh_khach(Request $request)
+    {
+        $query =  QLLapDatDHKhachModel::query()->select('*');
+        if($request->has('ma_dong_ho')&&$request->has('ma_hop_dong')){
+            $query->where(['ma_dong_ho'=>$request->ma_dong_ho,'ma_hop_dong'=>$request->ma_hop_dong,'den_ngay'=>null]);
+        }
+        $result = $query->orderBy('ma_lap_dat', 'DESC')->first();
+        return $result;
     }
   }
   

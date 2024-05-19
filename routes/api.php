@@ -89,6 +89,7 @@ Route::get('/lap_dat_dh_khoi_search',[QLLapDatDHKhoiController::class,'search'])
 Route::apiResource("lich_su_dh_khoi",LSDongHoKhoiController::class);
 Route::get('/lich_su_dh_khoi_search',[LSDongHoKhoiController::class,'search']);
 Route::get('/ds_ls_dhkhoi',[LSDongHoKhoiController::class,'get_list_dhkhoi']);
+Route::get('/lookup_dh_khoi',[LSDongHoKhoiController::class,'lookup_dh_khoi']);
 //dong ho khach hang
 Route::apiResource("dong_ho_khach",QLDongHoKhachController::class);
 Route::get('/dong_ho_khach_search',[QLDongHoKhachController::class,'search']);
@@ -99,6 +100,7 @@ Route::get('/lap_dat_dh_khach_search',[QLLapDatDHKhachController::class,'search'
 Route::apiResource("hoa_don",QLHoaDonController::class);
 Route::get('/hoa_don_search',[QLHoaDonController::class,'search']);
 Route::get('/ds_ls_dhkhach',[QLHoaDonController::class,'get_list_dhkhach']);
+Route::get('/lookup_dh_khach',[QLHoaDonController::class,'lookup_dh_khach']);
 //404
 Route::fallback(function(){
     return response()->json([
