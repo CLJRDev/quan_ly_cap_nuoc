@@ -311,4 +311,13 @@ class QLHoaDonController extends Controller
             ->get();
         return $query;
     }
+    public function lookup_dh_khach(Request $request)
+    {
+        $query =  QLLapDatDHKhachModel::query()->select('*');
+        if($request->has('ma_dong_ho')){
+            $query->where(['ma_dong_ho'=>$request->ma_dong_ho,'den_ngay'=>null]);
+        }
+        $result = $query->orderBy('ma_lap_dat', 'DESC')->first();
+        return $result;
+    }
 }

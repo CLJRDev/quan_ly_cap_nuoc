@@ -230,12 +230,15 @@ class LSDongHoKhoiController extends Controller
     }
     public function search(Request $request)
     {
-        $query =  LSDongHoKhoiModel::query()->select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
+        $query =  LSDongHoKhoiModel::query()->select('ls_donghokhoi.*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','ql_donghokhoi.ten_dong_ho','dm_tuyendoc.ten_tuyen')
         ->join('ql_lapdatdhkhoi','ql_lapdatdhkhoi.ma_lap_dat','=','ls_donghokhoi.ma_lap_dat')
         ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
         ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen');
         if($request->has('ma_dong_ho')){
             $query->where("ql_lapdatdhkhoi.ma_dong_ho",$request->ma_dong_ho);
+        }
+        if($request->has('ma_tuyen')){
+            $query->where("ql_lapdatdhkhoi.ma_tuyen",$request->ma_tuyen);
         }
         $result = $query->orderBy('ma_lich_su', 'DESC')->get();
         return $result;

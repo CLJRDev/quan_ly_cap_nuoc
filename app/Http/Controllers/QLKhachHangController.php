@@ -7,6 +7,7 @@ use App\Models\QLKhachHangModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;  
+use Illuminate\Validation\Rule;
 
 class QLKhachHangController extends Controller
 {
@@ -33,10 +34,13 @@ class QLKhachHangController extends Controller
   {
     $message = [
       'required' => 'Xin hãy điền đủ thông tin!',
-      'max' => 'Số điện thoại không hợp lệ!'
+      'sdt.max' => 'Số điện thoại không hợp lệ!',
+      'can_cuoc.max' => 'Số căn cước công dân không hợp lệ!',
+      'unique' => 'Số căn cước công dân đã tồn tại!'
     ];
     $validator = Validator::make($request->all(), [
       'ten_khach_hang' => 'required',
+      'can_cuoc' => 'required|max:12|unique',
       'dia_chi' => 'required',
       'email' => 'required',
       'sdt' => 'required|max:10',
@@ -49,6 +53,7 @@ class QLKhachHangController extends Controller
     }
     $khach_hang = new QLKhachHangModel;
     $khach_hang->ten_khach_hang = $request->ten_khach_hang;
+    $khach_hang->can_cuoc = $request->can_cuoc;
     $khach_hang->dia_chi = $request->dia_chi;
     $khach_hang->email = $request->email;
     $khach_hang->sdt = $request->sdt;
@@ -93,14 +98,15 @@ class QLKhachHangController extends Controller
     public function update(Request $request, string $id)
     {
         $message = [
-            'required' => 'Xin hãy điền đủ thông tin!',
-            'max' => 'Số điện thoại không hợp lệ!'
+          'sdt.max' => 'Số điện thoại không hợp lệ!',
+          'can_cuoc.max' => 'Số căn cước công dân không hợp lệ!',
+          'unique' => 'Số căn cước công dân đã tồn tại!'
         ];
         $validator = Validator::make($request->all(),[
-            'ten_khach_hang' => 'required',
-            'dia_chi' => 'required',
-            'email' => 'required',
-            'sdt' => 'required|max:10',
+            'sdt' => 'max:10',
+            'can_cuoc' => [
+              Rule::unique('ql_khachhang', 'can_cuoc')->ignore($id, 'ma_khach_hang')
+            ],
           ],$message);
         
         if($validator->fails()){
@@ -113,6 +119,9 @@ class QLKhachHangController extends Controller
             if(isset($request->ten_khach_hang)){
                 $khach_hang->ten_khach_hang=$request->ten_khach_hang;
             }
+            if(isset($request->can_cuoc)){
+              $khach_hang->can_cuoc=$request->can_cuoc;
+          }
             if(isset($request->email)){
                 $khach_hang->email=$request->email;
             }
@@ -174,8 +183,8 @@ class QLKhachHangController extends Controller
     if ($request->has('ten_khach_hang')) {
       $query->where('ten_khach_hang', "like", "%" . $request->ten_khach_hang . "%");
     }
-    if ($request->has('dia_chi')) {
-      $query->where('dia_chi', "like", "%" . $request->dia_chi . "%");
+    if ($request->has('can_cuoc')) {
+      $query->where('can_cuoc', "like", "%" . $request->can_cuoc . "%");
     }
     if ($request->has('email')) {
       $query->where('email', "like", "%" . $request->email . "%");

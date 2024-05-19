@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\QLHopDongModel;
+use App\Models\QLKhachHangModel;
 use App\Models\QLLapDatDHKhachModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
@@ -109,13 +110,11 @@ class QLHopDongController extends Controller
       public function update(Request $request, string $id)
       {
           $message = [
-              'required' => 'Xin hãy điền đủ thông tin!',
               'date' => 'Ngày lắp không hợp lệ!'
           ];
           $validator = Validator::make($request->all(),[
             'ngay_lap' => 'date',
             ],$message);
-          
           if($validator->fails()){
               return response()->json([
                   'error' => $validator->errors(),
@@ -215,14 +214,15 @@ class QLHopDongController extends Controller
       $result = $query->orderBy('ma_hop_dong', 'ASC')->get();
       return $result;
     }
-    public function lookup_dh_khach(Request $request)
+    public function lookup_khach_hang(Request $request)
     {
-        $query =  QLLapDatDHKhachModel::query()->select('*');
-        if($request->has('ma_dong_ho')){
-            $query->where(['ma_dong_ho'=>$request->ma_dong_ho,'den_ngay'=>null]);
-        }
-        $result = $query->orderBy('ma_lap_dat', 'DESC')->first();
-        return $result;
+      try{
+          return QLKhachHangModel::where("can_cuoc", $request->can_cuoc)->firstOrFail();
+      }catch (ModelNotFoundException $e) {
+          return response()->json([
+            'error' => 'Khách hàng không tồn tại!'
+          ],422);
+      }
     }
   }
   
