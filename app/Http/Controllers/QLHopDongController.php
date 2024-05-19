@@ -18,9 +18,8 @@ class QLHopDongController extends Controller
     {
       return QLHopDongModel::select('ql_hopdong.*','ql_hopdong.dia_chi as dia_chi_hop_dong','ql_nhomgia.*','ql_khachhang.*')
       ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hopdong.ma_nhom_gia')
-      // ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_hop_dong','=','ql_hopdong.ma_hop_dong')
+      ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_hopdong.ma_hop_dong')
       ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
-      // ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
       ->orderBy('ma_hop_dong', 'ASC')->get();
     }
   
