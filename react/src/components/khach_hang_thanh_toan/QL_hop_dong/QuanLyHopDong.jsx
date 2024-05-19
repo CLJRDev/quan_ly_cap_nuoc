@@ -11,12 +11,13 @@ export default function QuanLyHopDong() {
   const [searchData, setSearchData] = useState({
     ma_hop_dong: '',
     ten_nguoi_dai_dien: '',
+    chuc_vu_nguoi_dai_dien: '',
+    dia_chi: '',
+    ngay_lap: '',
     ma_khach_hang: '',
     ten_khach_hang: '',
     ma_dong_ho: '',
     ma_nhom_gia: '',
-    dia_chi: '',
-    ngay_lap: ''
   })
 
   const fetchData = () => {
@@ -27,7 +28,7 @@ export default function QuanLyHopDong() {
   }
 
   useEffect(() => {
-    //fetchData()
+    fetchData()
   }, [])
 
   // const xoa = id => {
@@ -43,23 +44,23 @@ export default function QuanLyHopDong() {
   //     });
   // }
 
-  // if (!hopDongs) return null
-  // const hopDongElements = hopDongs.map((item, index) => {
-  //   return <tr key={index}>
-  //     <td>{item.ma_hop_dong}</td>
-  //     <td>{item.ten_khach_hang}</td>
-  //     <td>{item.ngay_lap}</td>
-  //     <td>{item.ten_nguoi_dai_dien}</td>
-  //     <td>{item.ma_dong_ho}</td>
-  //     <td>{item.dia_chi}</td>
-  //     <td>{item.nhom_gia}</td>
-  //     <td>
-  //       <Link className="btn-edit" to={`/hop_dong/sua/${item.ma_hop_dong}`}>Sửa</Link>
-  //       &nbsp;
-  //       <button onClick={() => xoa(item.ma_hop_dong)} className="btn-delete">Xóa</button>
-  //     </td>
-  //   </tr>
-  // })
+  if (!hopDongs) return null
+  const hopDongElements = hopDongs.map((item, index) => {
+    return <tr key={index}>
+      <td>{item.ma_hop_dong}</td>
+      <td>{item.ten_khach_hang}</td>
+      <td>{item.ngay_lap}</td>
+      <td>{item.ten_nguoi_dai_dien}</td>
+      <td>{item.ten_tuyen}</td>
+      <td>{item.dia_chi_hop_dong}</td>
+      <td>{item.ten_nhom_gia}</td>
+      <td>
+        <Link className="btn-edit" to={`/hop_dong/sua/${item.ma_hop_dong}`}>Sửa</Link>
+        &nbsp;
+        <button onClick={() => xoa(item.ma_hop_dong)} className="btn-delete">Xóa</button>
+      </td>
+    </tr>
+  })
 
 
   const handleInputChange = (e) => {
@@ -173,18 +174,18 @@ export default function QuanLyHopDong() {
         <table>
           <thead>
             <tr>
-              <th>Mã hợp đồng</th>
+              <th>Mã HĐ</th>
               <th>Tên khách hàng</th>
               <th>Ngày lập</th>
               <th>Người đại diện</th>
-              <th>Mã đồng hồ</th>
+              <th>Tuyến đọc</th>
               <th>Địa chỉ</th>
               <th>Nhóm giá</th>
               <th>Hành động</th>
             </tr>
           </thead>
           <tbody>
-            { }
+            {hopDongElements}
           </tbody>
         </table>
       </div>

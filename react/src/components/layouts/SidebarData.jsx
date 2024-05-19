@@ -6,6 +6,7 @@ import * as TbIcons from 'react-icons/tb'
 import * as MdIcons from "react-icons/md"
 import * as BiIcons from "react-icons/bi"
 import * as IoIcons from "react-icons/io"
+import * as TfiIcons from "react-icons/tfi"
 
 export const SidebarData = [
   {
@@ -23,7 +24,7 @@ export const SidebarData = [
       {
         title: 'Quyền',
         path: '/quyen',
-        icon: <MdIcons.MdManageAccounts  />,
+        icon: <MdIcons.MdManageAccounts />,
       },
       {
         title: 'Phân quyền',
@@ -106,12 +107,12 @@ export const SidebarData = [
       {
         title: 'Khách Hàng',
         path: '/khach_hang',
-        icon: <Fa6Icons.FaPeopleGroup  />,
+        icon: <Fa6Icons.FaPeopleGroup />,
       },
       {
         title: 'Hợp đồng',
         path: '/hop_dong',
-        icon: <FaIcons.FaFileContract   />,
+        icon: <FaIcons.FaFileContract />,
       }
     ]
   },
@@ -130,12 +131,22 @@ export const SidebarData = [
       {
         title: 'Lắp đặt ĐH khối',
         path: '/lap_dat_dh_khoi',
-        icon: <IoIcons.IoMdBuild  />,
+        icon: <IoIcons.IoMdBuild />,
+      },
+      {
+        title: 'Ghi chỉ số ĐH khối',
+        path: '/ghi_chi_so_dh_khoi',
+        icon: <TfiIcons.TfiWrite />,
       },
       {
         title: 'Đồng hồ khách hàng',
         path: '/dong_ho_khach',
         icon: <FaIcons.FaStopwatch />,
+      },
+      {
+        title: 'Lắp đặt ĐH khách',
+        path: '/lap_dat_dh_khach',
+        icon: <IoIcons.IoMdBuild />,
       },
     ]
   },

@@ -84,7 +84,7 @@ export default function SuaDongHoKhach() {
       console.log(response.data.message)
       navigate('/dong_ho_khach')
     } catch (error) {
-      console.log(error.message.data.error)
+      console.log(error.response)
     }
   }
 

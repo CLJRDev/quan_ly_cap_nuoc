@@ -74,6 +74,7 @@ export default function QuanLyDongHoKhoi() {
 
   const dongHoKhoiElements = dongHoKhois.map((item, index) => {
     return <tr key={index}>
+      <td>{item.ma_dong_ho}</td>
       <td>{item.ten_dong_ho}</td>
       <td>{item.ten_loai_dong_ho}</td>
       <td>{item.ten_nha_cung_cap}</td>
@@ -239,6 +240,7 @@ export default function QuanLyDongHoKhoi() {
         <table>
           <thead>
             <tr>
+              <th>Mã đồng hồ</th>
               <th>Tên đồng hồ</th>
               <th>Loại đồng hồ</th>
               <th>Nhà cung cấp</th>

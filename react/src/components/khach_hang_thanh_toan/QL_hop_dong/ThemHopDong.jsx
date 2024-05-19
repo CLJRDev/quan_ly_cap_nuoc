@@ -3,53 +3,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from "react"
 import Select from 'react-select'
+import NhomGia from "../../select-option/NhomGia"
+import KhachHang from "../../select-option/KhachHang"
+import TuyenDoc from "../../select-option/TuyenDoc"
+
 
 export default function ThemHopDong() {
-  const [nhomGias, setNhomGias] = useState(null)
-  const [khachHangs, setKhachHangs] = useState(null)
-  const [dongHos, setDongHos] = useState(null)
+  const navigate = useNavigate()
   const [hopDong, setHopDong] = useState({})
-
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/nhom_gia`)
-      .then(response => {
-        setNhomGias(response.data)
-      })
-  }, [])
-
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/khach_hang`)
-      .then(response => {
-        setKhachHangs(response.data)
-      })
-  }, [])
-
-  // useEffect(() => {
-  //   axios.get(`http://127.0.0.1:8000/api/dong_ho_khach`)
-  //     .then(response => {
-  //       setDongHos(response.data)
-  //     })
-  // }, [])
-
-  if (!nhomGias) return null
-  if (!khachHangs) return null
-
-  const nhomGiaOption = []
-  const khachHangOption = []
-
-  nhomGias.forEach(item => {
-    nhomGiaOption.push({
-      value: item.ma_nhom_gia,
-      label: item.ten_nhom_gia
-    })
-  })
-
-  khachHangs.forEach(item => {
-    khachHangOption.push({
-      value: item.ma_khach_hang,
-      label: item.ma_khach_hang
-    })
-  })
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -71,12 +32,14 @@ export default function ThemHopDong() {
     })
   }
 
+  console.log(hopDong)
+
   const them = async () => {
     const formData = new FormData()
     formData.append('ma_khach_hang', hopDong.ma_khach_hang)
     formData.append('ten_nguoi_dai_dien', hopDong.ten_nguoi_dai_dien)
     formData.append('chuc_vu_nguoi_dai_dien', hopDong.chuc_vu_nguoi_dai_dien)
-    formData.append('ma_dong_ho', hopDong.ma_dong_ho)
+    formData.append('ma_tuyen', hopDong.ma_tuyen)
     formData.append('ma_nhom_gia', hopDong.ma_nhom_gia)
     formData.append('dia_chi', hopDong.dia_chi)
     formData.append('ngay_lap', hopDong.ngay_lap)
@@ -86,7 +49,7 @@ export default function ThemHopDong() {
       console.log(response.data.message)
       navigate('/hop_dong')
     } catch (error) {
-      console.log(error.message.data.error)
+      console.log(error.response)
     }
   }
 
@@ -101,8 +64,7 @@ export default function ThemHopDong() {
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="">Mã khách hàng</label>
-          <Select
-            options={khachHangOption}
+          <KhachHang
             onChange={handleSelectChange}
             name="ma_khach_hang"
           />
@@ -116,17 +78,15 @@ export default function ThemHopDong() {
           <input type="text" id='chuc_vu_nguoi_dai_dien' name='chuc_vu_nguoi_dai_dien' onChange={handleInputChange} />
         </div>
         <div>
-          <label htmlFor="">Mã đồng hồ</label>
-          <Select
-            options={nhomGiaOption}
+          <label htmlFor="">Tuyến đọc</label>
+          <TuyenDoc
             onChange={handleSelectChange}
-            name="ma_dong_ho"
+            name="ma_tuyen"
           />
         </div>
         <div>
           <label htmlFor="">Nhóm giá</label>
-          <Select
-            options={nhomGiaOption}
+          <NhomGia
             onChange={handleSelectChange}
             name="ma_nhom_gia"
           />

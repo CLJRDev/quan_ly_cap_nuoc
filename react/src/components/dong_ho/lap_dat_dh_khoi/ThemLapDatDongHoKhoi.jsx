@@ -35,6 +35,8 @@ export default function ThemLapDatDongHoKhoi() {
     })
   }
 
+  console.log(dongHo)
+
   const them = async () => {
     const formData = new FormData()
     formData.append('ma_dong_ho', dongHo.ma_dong_ho)
@@ -46,7 +48,7 @@ export default function ThemLapDatDongHoKhoi() {
       console.log(response.data.message)
       navigate('/lap_dat_dh_khoi')
     } catch (error) {
-      console.log(error.response.data.error)
+      console.log(error.response.data)
     }
   }
 
