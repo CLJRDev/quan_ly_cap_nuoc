@@ -267,8 +267,8 @@ class LSDongHoKhoiController extends Controller
     public function lookup_dh_khoi(Request $request)
     {
         $query =  QLLapDatDHKhoiModel::query()->select('*');
-        if($request->has('ma_dong_ho')&&$request->has('ma_tuyen')){
-            $query->where(['ma_dong_ho'=>$request->ma_dong_ho,'ma_tuyen'=>$request->ma_tuyen,'den_ngay'=>null]);
+        if($request->has('ma_dong_ho')){
+            $query->where(['ma_dong_ho'=>$request->ma_dong_ho,'den_ngay'=>null]);
         }
         $result = $query->orderBy('ma_lap_dat', 'DESC')->first();
         return $result;
