@@ -20,10 +20,11 @@ class QLHoaDonController extends Controller
      */
     public function index()
     {
-        return QLHoaDonModel::select('*','ql_donghokhach.ten_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen')
+        return QLHoaDonModel::select('ql_hoadon.*','ql_donghokhach.ten_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen')
         ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
         ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
-        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhach.ma_tuyen')
+        ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
+        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_hopdong.ma_tuyen')
         ->orderBy('ma_hoa_don', 'DESC')->get();
     }
 
@@ -120,10 +121,12 @@ class QLHoaDonController extends Controller
     public function show(string $id)
     {
         try{
-            return QLHoaDonModel::select('*','ql_donghokhach.ten_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen')
+            return QLHoaDonModel::select('ql_hoadon.*','ql_donghokhach.ten_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen')
             ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
             ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
-            ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhach.ma_tuyen')->where("ma_hoa_don",$id)->firstOrFail();
+            ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
+            ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_hopdong.ma_tuyen')
+            ->where("ma_hoa_don",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
                'error' => 'Hóa đơn không tồn tại!'
@@ -180,7 +183,7 @@ class QLHoaDonController extends Controller
                     if($lap_dat->dong_ho_khoi->tinh_trang == 0){
                         $lap_dat->den_ngay=$request->den_ngay;
                         $lap_dat->save();
-                    }   
+                    }
                 }
                 if(isset($request->chi_so_moi)){
                     $hoa_don->chi_so_moi=$request->chi_so_moi;
@@ -249,9 +252,16 @@ class QLHoaDonController extends Controller
                 $dong_ho = QLDongHoKhachModel::where('ma_dong_ho',$hoa_don->lapdat->ma_dong_ho)->first();
                 if($dong_ho->tinh_trang=0){
                     $lap_dat = QLLapDatDHKhachModel::where('ma_lap_dat',$hoa_don->ma_lap_dat)->orderBy('ma_lap_dat', 'DESC')->first();
-                    $lap_dat->den_ngay = $hoa_don_moi_nhi->den_ngay;
-                    $lap_dat->chi_so_cuoi = $hoa_don_moi_nhi->chi_so_moi;
-                    $lap_dat->save(); 
+                    if(empty($hoa_don_moi_nhi)){
+                        $lap_dat->den_ngay = $lap_dat->tu_ngay;
+                        $lap_dat->chi_so_cuoi = $lap_dat->chi_so_dau;
+                        $lap_dat->save(); 
+                    }
+                    else{
+                        $lap_dat->den_ngay = $hoa_don_moi_nhi->den_ngay;
+                        $lap_dat->chi_so_cuoi = $hoa_don_moi_nhi->chi_so_moi;
+                        $lap_dat->save(); 
+                    }
                 }
             }
             else{
@@ -277,12 +287,23 @@ class QLHoaDonController extends Controller
     }
     public function search(Request $request)
     {
-        $query =  QLHoaDonModel::query()->select('*','ql_donghokhach.ten_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen')
+        $query =  QLHoaDonModel::query()->select('ql_hoadon.*','ql_donghokhach.ten_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen')
         ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
         ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
-        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhach.ma_tuyen');
+        ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
+        ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
+        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_hopdong.ma_tuyen');
         if($request->has('ma_dong_ho')){
             $query->where("ql_lapdatdhkhach.ma_dong_ho",$request->ma_dong_ho);
+        }
+        if($request->has('ma_tuyen')){
+            $query->where("ql_hopdong.ma_tuyen",$request->ma_tuyen);
+        }
+        if($request->has('can_cuoc')){
+            $query->where("ql_khachhang.can_cuoc",$request->can_cuoc);
+        }
+        if($request->has('ma_hop_dong')){
+            $query->where("ql_lapdatdhkhach.ma_hop_dong",$request->ma_hop_dong);
         }
         $result = $query->orderBy('ma_hoa_don', 'DESC')->get();
         return $result;
@@ -290,18 +311,23 @@ class QLHoaDonController extends Controller
     public function get_list_dhkhach(Request $request)
     {
         $query = DB::table('ql_hoadon as ql_hoadon')
-            ->select('ql_hoadon.*','dm_loaidongho.ten_loai_dong_ho','dm_codongho.ten_co_dong_ho','dm_nhacungcap.ten_nha_cung_cap','dm_tuyendoc.ten_tuyen','ql_donghokhach.tinh_trang')
+            ->select('ql_hoadon.*','ql_donghokhach.ten_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen')
             ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
             ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
-            ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhach.ma_tuyen')
-            ->join('dm_loaidongho','dm_loaidongho.ma_loai_dong_ho','=','ql_donghokhach.ma_loai_dong_ho')
-            ->join('dm_codongho','dm_codongho.ma_co_dong_ho','=','ql_donghokhach.ma_co_dong_ho')
-            ->join('dm_nhacungcap','dm_nhacungcap.ma_nha_cung_cap','=','ql_donghokhach.ma_nha_cung_cap');
+            ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
+            ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
+            ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_hopdong.ma_tuyen');
         if($request->has('ma_dong_ho')){
             $query->where("ql_lapdatdhkhach.ma_dong_ho",$request->ma_dong_ho);
         }
         if($request->has('ma_tuyen')){
-            $query->where("ql_lapdatdhkhach.ma_tuyen",$request->ma_tuyen);
+            $query->where("ql_hopdong.ma_tuyen",$request->ma_tuyen);
+        }
+        if($request->has('can_cuoc')){
+            $query->where("ql_khachhang.can_cuoc",$request->can_cuoc);
+        }
+        if($request->has('ma_hop_dong')){
+            $query->where("ql_lapdatdhkhach.ma_hop_dong",$request->ma_hop_dong);
         }
         $query=$query->leftJoin('ql_hoadon as n', function ($join) {
                 $join->on('ql_hoadon.ma_lap_dat', '=', 'n.ma_lap_dat')

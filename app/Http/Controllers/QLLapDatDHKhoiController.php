@@ -52,7 +52,7 @@ class QLLapDatDHKhoiController extends Controller
                 ],422);
         }
         $lap_dat = new QLLapDatDHKhoiModel; 
-        $lap_dat_cu = QLLapDatDHKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->orderBy('ma_lap_dat','DESC')->first();
+        $lap_dat_cu = QLLapDatDHKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->first();
         $dong_ho = QLDongHoKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->first();
         $lap_dat_dong_ho = QLLapDatDHKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->get();
         $lap_dat_tuyen = QLLapDatDHKhoiModel::where('ma_tuyen',$request->ma_tuyen)->get();
