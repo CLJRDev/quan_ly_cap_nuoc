@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 17, 2024 at 09:47 PM
+-- Generation Time: May 19, 2024 at 08:07 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -306,9 +306,9 @@ CREATE TABLE `ql_donghokhoi` (
 --
 
 INSERT INTO `ql_donghokhoi` (`ma_dong_ho`, `ten_dong_ho`, `tinh_trang`, `ngay_nhap`, `ngay_kiem_dinh`, `so_nam_hieu_luc`, `so_thang_bao_hanh`, `ma_loai_dong_ho`, `ma_nha_cung_cap`, `ma_co_dong_ho`) VALUES
-(3, 'Đồng hồ 1', 1, '2023-10-10', '2023-10-20', 4, 24, 1, 2, 2),
+(3, 'Đồng hồ 1', 0, '2023-10-10', '2023-10-20', 4, 24, 1, 2, 2),
 (4, 'Đồng hồ 2', 0, '2023-10-10', '2023-10-20', 3, 12, 2, 1, 2),
-(5, 'Đồng hồ 3', 1, '2023-10-10', '2023-10-20', 5, 12, 2, 2, 1),
+(5, 'Đồng hồ 3', 0, '2023-10-10', '2023-10-20', 5, 12, 2, 2, 1),
 (6, 'Đồng hồ 4', 0, '2023-10-10', '2023-10-20', 5, 12, 2, 2, 1);
 
 -- --------------------------------------------------------
@@ -360,6 +360,7 @@ CREATE TABLE `ql_hopdong` (
 CREATE TABLE `ql_khachhang` (
   `ma_khach_hang` int(11) NOT NULL,
   `ten_khach_hang` varchar(50) NOT NULL,
+  `can_cuoc` varchar(12) NOT NULL,
   `dia_chi` text NOT NULL,
   `sdt` int(10) NOT NULL,
   `email` varchar(100) NOT NULL
@@ -369,8 +370,8 @@ CREATE TABLE `ql_khachhang` (
 -- Dumping data for table `ql_khachhang`
 --
 
-INSERT INTO `ql_khachhang` (`ma_khach_hang`, `ten_khach_hang`, `dia_chi`, `sdt`, `email`) VALUES
-(1, 'Phạm Thị Thu Hiền', '34/40', 23123222, 'hien@qlcn.com');
+INSERT INTO `ql_khachhang` (`ma_khach_hang`, `ten_khach_hang`, `can_cuoc`, `dia_chi`, `sdt`, `email`) VALUES
+(1, 'Phạm Thị Thu Hiền', '031300005030', '34/40', 23123222, 'hien@qlcn.com');
 
 -- --------------------------------------------------------
 
@@ -411,9 +412,10 @@ CREATE TABLE `ql_lapdatdhkhoi` (
 --
 
 INSERT INTO `ql_lapdatdhkhoi` (`ma_lap_dat`, `chi_so_dau`, `chi_so_cuoi`, `so_tieu_thu`, `tu_ngay`, `den_ngay`, `ma_dong_ho`, `ma_tuyen`) VALUES
-(3, 0, NULL, 0, '2023-12-31', NULL, 3, 2),
+(3, 0, 25, 25, '2023-12-31', '2024-03-01', 3, 2),
 (4, 0, 25, 0, '2023-12-31', '2024-02-01', 4, 1),
-(5, 0, NULL, 0, '2023-12-31', NULL, 5, 2);
+(5, 0, 16, 16, '2023-12-31', '2024-03-01', 5, 2),
+(6, 25, 25, 0, '2024-05-19', '2024-05-19', 4, 2);
 
 -- --------------------------------------------------------
 
@@ -623,7 +625,8 @@ ALTER TABLE `ql_hopdong`
 -- Indexes for table `ql_khachhang`
 --
 ALTER TABLE `ql_khachhang`
-  ADD PRIMARY KEY (`ma_khach_hang`);
+  ADD PRIMARY KEY (`ma_khach_hang`),
+  ADD UNIQUE KEY `can_cuoc` (`can_cuoc`);
 
 --
 -- Indexes for table `ql_lapdatdhkhach`
@@ -779,7 +782,7 @@ ALTER TABLE `ql_lapdatdhkhach`
 -- AUTO_INCREMENT for table `ql_lapdatdhkhoi`
 --
 ALTER TABLE `ql_lapdatdhkhoi`
-  MODIFY `ma_lap_dat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ma_lap_dat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `ql_nhomgia`
