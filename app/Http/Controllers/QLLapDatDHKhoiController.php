@@ -52,25 +52,26 @@ class QLLapDatDHKhoiController extends Controller
                 ],422);
         }
         $lap_dat = new QLLapDatDHKhoiModel; 
-        $lap_dat_cu = QLLapDatDHKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->orderBy('ma_lap_dat','DESC')->first();
+        $lap_dat_cu = QLLapDatDHKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->first();
         $dong_ho = QLDongHoKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->first();
         $lap_dat_dong_ho = QLLapDatDHKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->get();
-        if(count($lap_dat_dong_ho)==0){
+        $lap_dat_tuyen = QLLapDatDHKhoiModel::where('ma_tuyen',$request->ma_tuyen)->get();
+        if(count($lap_dat_dong_ho)==0&&count($lap_dat_tuyen)==0){
             $lap_dat->ma_tuyen=$request->ma_tuyen;
         }
         else{
-            $lap_dat_tuyen = QLLapDatDHKhoiModel::where(['ma_dong_ho'=>$request->ma_dong_ho,'ma_tuyen'=>$request->ma_tuyen])->get();
-            if(count($lap_dat_tuyen)==0){
+            $lap_dat_trung = QLLapDatDHKhoiModel::where(['ma_dong_ho'=>$request->ma_dong_ho,'ma_tuyen'=>$request->ma_tuyen])->get();
+            if(count($lap_dat_trung)==0){
                 $lap_dat->ma_tuyen=$request->ma_tuyen;
             }
             else{
-                $tat_ca_lap_dat = QLLapDatDHKhoiModel::where(['ma_dong_ho'=>$request->ma_dong_ho,'ma_tuyen'=>$request->ma_tuyen])->whereRaw($request->tu_ngay.'>='.$lap_dat_cu->tu_ngay)->whereRaw('('.$lap_dat_cu->den_ngay.'!='.null.'and'.$request->tu_ngay.'<='.$lap_dat_cu->den_ngay)->get();
-                if(count($tat_ca_lap_dat)==0){
+            $lap_dat_trung_mo = QLLapDatDHKhoiModel::where(['ma_dong_ho'=>$request->ma_dong_ho,'ma_tuyen'=>$request->ma_tuyen])->whereRaw($request->tu_ngay.'>='.$lap_dat_cu->tu_ngay)->whereRaw($lap_dat_cu->den_ngay==null?1:($request->tu_ngay.'<='.$lap_dat_cu->den_ngay))->get();
+                if(count($lap_dat_trung_mo)==0){
                     $lap_dat->ma_tuyen=$request->ma_tuyen;
                 }
                 else{
                     return response()->json([
-                    'error' => 'Đồng hồ đã được lắp đặt tuyến này!'
+                    'error' => 'Đồng hồ hoặc tuyến đã được lắp đặt!'
                 ],422);
                 }
             }
@@ -239,7 +240,7 @@ class QLLapDatDHKhoiController extends Controller
     }
     public function search(Request $request)
     {
-        $query =  QLLapDatDHKhoiModel::query()->select('*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','dm_tuyendoc.ten_tuyen')
+        $query =  QLLapDatDHKhoiModel::query()->select('ql_lapdatdhkhoi.*','ql_donghokhoi.ten_dong_ho','ql_donghokhoi.tinh_trang','dm_tuyendoc.ten_tuyen')
         ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
         ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen');
         if($request->has('ten_dong_ho')){

@@ -79,6 +79,7 @@ Route::get('/khach_hang_search',[QLKhachHangController::class,'search']);
 //hop dong
 Route::apiResource("hop_dong",QLHopDongController::class);
 Route::get('/hop_dong_search',[QLHopDongController::class,'search']);
+Route::get('/lookup_khach_hang',[QLHopDongController::class,'lookup_khach_hang']);
 //dong ho khoi
 Route::apiResource("dong_ho_khoi",QLDongHoKhoiController::class);
 Route::get('/dong_ho_khoi_search',[QLDongHoKhoiController::class,'search']);
