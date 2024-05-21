@@ -89,7 +89,7 @@ export default function QuanLyGhiChiSoDongHoKhoi() {
         </div>
       </form>
       <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Lịch sử ghi chỉ đồng hồ khối</div>
+        <div className="title" style={{ marginBottom: '5px' }}>Lịch sử ghi chỉ số đồng hồ khối</div>
         <table>
           <thead>
             <tr>

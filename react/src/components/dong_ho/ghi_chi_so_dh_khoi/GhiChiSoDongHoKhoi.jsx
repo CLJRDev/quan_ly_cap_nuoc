@@ -1,15 +1,35 @@
 import { useLocation } from 'react-router-dom'
 import { IoIosAddCircleOutline } from "react-icons/io"
 import DongHoKhoi from "../../select-option/DongHoKhoi"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Select from 'react-select'
 
 export default function GhiChiSoDongHoKhoi() {
   const location = useLocation();
   const { ky_chi_so, tu_ngay, den_ngay } = location.state || {};
+  const [dongHos, setDongHos] = useState(null)
   const [ghiChiSo, setGhiChiSo] = useState({
-    ma_dong_ho: '',
+    ma_lap_dat: '',
     chi_so_moi: ''
+  })
+
+  useEffect(() => {
+    axios.get(`http://127.0.0.1:8000/api/lookup_dh_khoi`)
+      .then(response => {
+        setDongHos(response.data)
+      })
+  }, [])
+
+  if (!dongHos) return null;
+
+  const dongHoOptions = []
+
+  dongHos.forEach(item => {
+    dongHoOptions.push({
+      value: item.ma_lap_dat,
+      label: item.ma_dong_ho
+    })
   })
 
   const handleInputChange = e => {
@@ -34,7 +54,7 @@ export default function GhiChiSoDongHoKhoi() {
 
   const resetInput = () => {
     setGhiChiSo({
-      ma_dong_ho: '',
+      ma_lap_dat: '',
       chi_so_moi: ''
     })
   }
@@ -45,14 +65,14 @@ export default function GhiChiSoDongHoKhoi() {
     formData.append('tu_ngay', tu_ngay)
     formData.append('den_ngay', den_ngay)
     formData.append('chi_so_moi', ghiChiSo.chi_so_moi)
-    formData.append('ma_dong_ho', ghiChiSo.ma_dong_ho)
+    formData.append('ma_lap_dat', ghiChiSo.ma_lap_dat)
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/lich_su_dh_khoi`, formData)
       console.log(response.data.message)
       resetInput()
     } catch (error) {
-      console.log(error.message.data.error)
+      console.log(error.response)
     }
   }
 
@@ -67,9 +87,10 @@ export default function GhiChiSoDongHoKhoi() {
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="">Mã đồng hồ</label>
-          <DongHoKhoi
+          <Select
+            options={dongHoOptions}
             onChange={handleSelectChange}
-            name='ma_dong_ho'            
+            name='ma_lap_dat'
           />
         </div>
         <div>

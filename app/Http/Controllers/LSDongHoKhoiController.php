@@ -264,13 +264,9 @@ class LSDongHoKhoiController extends Controller
             ->get();
         return $query;
     }
-    public function lookup_dh_khoi(Request $request)
+    public function lookup_dh_khoi()
     {
-        $query =  QLLapDatDHKhoiModel::query()->select('*');
-        if($request->has('ma_dong_ho')){
-            $query->where(['ma_dong_ho'=>$request->ma_dong_ho,'den_ngay'=>null]);
-        }
-        $result = $query->orderBy('ma_lap_dat', 'DESC')->first();
-        return $result;
+        $query =  QLLapDatDHKhoiModel::query()->select('*')->where('den_ngay',null)->get();       
+        return $query;
     }
 }
