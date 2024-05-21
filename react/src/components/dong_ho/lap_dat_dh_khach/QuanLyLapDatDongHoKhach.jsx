@@ -72,18 +72,6 @@ export default function QuanLyLapDatDongHoKhach() {
           <label htmlFor="ma_dong_ho">Mã đồng hồ</label>
           <input required type="number" id='ma_dong_ho' name='ma_dong_ho' onChange={handleInputChange} />
         </div>
-        {/* <div>
-          <label htmlFor="ten_dong_ho">Tên đồng hồ</label>
-          <input type="text" id='ten_dong_ho' name='ten_dong_ho' onChange={handleInputChange} />
-        </div> */}
-        {/* <div>
-          <label htmlFor="ma_tuyen">Hợp đồng</label>
-          <HopDong
-            onChange={handleSelectChange}
-            isSearch={true}
-            name='ma_tuyen'
-          />
-        </div> */}
         <div></div>
         <div>
           <button type="submit" className="btn-search">
@@ -98,7 +86,7 @@ export default function QuanLyLapDatDongHoKhach() {
         </div>
       </form>
       <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Lịch sử lắp đặt đồng hồ khối</div>
+        <div className="title" style={{ marginBottom: '5px' }}>Lịch sử lắp đặt đồng hồ khách hàng</div>
         <table>
           <thead>
             <tr>

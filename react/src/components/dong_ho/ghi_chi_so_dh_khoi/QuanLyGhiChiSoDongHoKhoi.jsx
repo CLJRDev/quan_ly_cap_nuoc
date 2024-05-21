@@ -41,8 +41,6 @@ export default function QuanLyGhiChiSoDongHoKhoi() {
     </tr>
   })
 
-
-
   const handleSelectChange = (option, e) => {
     const name = e.name
     setSearchData({ [name]: option.value })

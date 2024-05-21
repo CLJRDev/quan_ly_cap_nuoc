@@ -18,7 +18,7 @@ export default function DongHoKhach(props) {
 
   if (props.isSearch) {
     dongHoKhachOptions.push({
-      value: 0,
+      value: '',
       label: 'Tất cả'
     })
   }

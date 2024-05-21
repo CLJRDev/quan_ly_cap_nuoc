@@ -52,6 +52,10 @@ import ChonThoiGianDongHoKhoi from './components/dong_ho/ghi_chi_so_dh_khoi/Chon
 import GhiChiSoDongHoKhoi from './components/dong_ho/ghi_chi_so_dh_khoi/GhiChiSoDongHoKhoi'
 import SuaChiSoDongHoKhoi from './components/dong_ho/ghi_chi_so_dh_khoi/SuaChiSoDongHoKhoi'
 import QuanLyLapDatDongHoKhach from './components/dong_ho/lap_dat_dh_khach/QuanLyLapDatDongHoKhach'
+import ThemLapDatDongHoKhach from './components/dong_ho/lap_dat_dh_khach/ThemLapDatDongHoKhach'
+import QuanLyGhiChiSoDongHoKhach from './components/dong_ho/ghi_chi_so_dh_khach/QuanLyGhiChiSoDongHoKhach'
+import ChonThoiGianDongHoKhach from './components/dong_ho/ghi_chi_so_dh_khach/ChonThoiGianDongHoKhach'
+import GhiChiSoDongHoKhach from './components/dong_ho/ghi_chi_so_dh_khach/GhiChiSoDongHoKhach'
 
 
 import { Routes, Route, useLocation } from 'react-router-dom'
@@ -115,6 +119,10 @@ function App() {
         <Route path='/ghi_chi_so_dh_khoi/thoi_gian/ghi' element={<GhiChiSoDongHoKhoi />} />
         <Route path='/ghi_chi_so_dh_khoi/sua/:id' element={<SuaChiSoDongHoKhoi />} />
         <Route path='/lap_dat_dh_khach' element={<QuanLyLapDatDongHoKhach />} />
+        <Route path='/lap_dat_dh_khach/them' element={<ThemLapDatDongHoKhach />} />
+        <Route path='/ghi_chi_so_dh_khach' element={<QuanLyGhiChiSoDongHoKhach />} />
+        <Route path='/ghi_chi_so_dh_khach/thoi_gian' element={<ChonThoiGianDongHoKhach />} />
+        <Route path='/ghi_chi_so_dh_khach/thoi_gian/ghi' element={<GhiChiSoDongHoKhach />} />
 
         <Route path='/login' element={<Login />} />
       </Routes>

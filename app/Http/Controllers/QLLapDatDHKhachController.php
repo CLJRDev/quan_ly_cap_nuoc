@@ -245,21 +245,21 @@ class QLLapDatDHKhachController extends Controller
     public function search(Request $request)
     {
         $query =  QLLapDatDHKhachModel::query()->select('ql_lapdatdhkhach.*','ql_donghokhach.ten_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen')
-        ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
-        ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhoi.ma_hop_dong')
+        ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
+        ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
         ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
         ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_hopdong.ma_tuyen');
         if($request->has('ten_dong_ho')){
             $query->where("ten_dong_ho","like","%".$request->ten_dong_ho."%");
         }
         if($request->has('ma_dong_ho')){
-            $query->where("ql_lapdatdhkhoi.ma_dong_ho","like","%".$request->ma_dong_ho."%");
+            $query->where("ql_lapdatdhkhach.ma_dong_ho","like","%".$request->ma_dong_ho."%");
         }
         if($request->has('ma_tuyen')){
             $query->where("ql_hopdong.ma_tuyen",$request->ma_tuyen);
         }
         if($request->has('ma_hop_dong')){
-            $query->where("ql_lapdatdhkhoi.ma_hop_dong",$request->ma_hop_dong);
+            $query->where("ql_lapdatdhkhach.ma_hop_dong",$request->ma_hop_dong);
         }
         if($request->has('tinh_trang')){
             $query->where("ql_donghokhach.tinh_trang",$request->tinh_trang);

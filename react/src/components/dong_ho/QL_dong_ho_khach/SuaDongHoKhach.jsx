@@ -23,7 +23,6 @@ export default function SuaDongHoKhach() {
     loai_dong_ho: {},
     nha_cung_cap: {},
     co_dong_ho: {},
-    tinh_trang: {}
   })
 
   useEffect(() => {
@@ -33,16 +32,11 @@ export default function SuaDongHoKhach() {
         setSelectedOptions({
           loai_dong_ho: { value: response.data.ma_loai_dong_ho, label: response.data.ten_loai_dong_ho },
           nha_cung_cap: { value: response.data.ma_nha_cung_cap, label: response.data.ten_nha_cung_cap },
-          co_dong_ho: { value: response.data.ma_co_dong_ho, label: response.data.ten_co_dong_ho },
-          tinh_trang: { value: response.data.tinh_trang, label: response.data.ten_co_dong_ho == 1 ? 'Đang lắp đặt' : 'Trống' }
+          co_dong_ho: { value: response.data.ma_co_dong_ho, label: response.data.ten_co_dong_ho }
         })
       })
   }, [])
 
-  const trangThaiOptions = [
-    { value: 1, label: 'Đang lắp đặt' },
-    { value: 0, label: 'Trống' },
-  ]
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -77,7 +71,6 @@ export default function SuaDongHoKhach() {
     formData.append('ma_loai_dong_ho', selectedOptions.loai_dong_ho.value)
     formData.append('ma_nha_cung_cap', selectedOptions.nha_cung_cap.value)
     formData.append('ma_co_dong_ho', selectedOptions.co_dong_ho.value)
-    formData.append('tinh_trang', selectedOptions.tinh_trang.value)
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/dong_ho_khach/${id}`, formData)
@@ -134,15 +127,6 @@ export default function SuaDongHoKhach() {
           />
         </div>
         <div>
-          <label htmlFor="">Tình trạng</label>
-          <Select
-            options={trangThaiOptions}
-            onChange={handleSelectChange}
-            name="tinh_trang"
-            value={selectedOptions.tinh_trang}
-          />
-        </div>
-        <div>
           <label htmlFor="ngay_nhap">Ngày nhập</label>
           <input type="date" id='ngay_nhap' name='ngay_nhap' onChange={handleInputChange} value={dongHo.ngay_nhap} />
         </div>
@@ -158,7 +142,6 @@ export default function SuaDongHoKhach() {
           <label htmlFor="so_thang_bao_hanh">Số tháng bảo hành</label>
           <input type="number" id='so_thang_bao_hanh' name='so_thang_bao_hanh' onChange={handleInputChange} value={dongHo.so_thang_bao_hanh} />
         </div>
-        <div></div>
         <div>
           <button className="btn-edit" type="submit">
             <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />

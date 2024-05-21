@@ -64,8 +64,8 @@ class QLHoaDonController extends Controller
         $hoa_don_cu = QLHoaDonModel::where('ma_lap_dat',$request->ma_lap_dat)->orderBy('ma_hoa_don','DESC')->first();
         $hoa_don = new QLHoaDonModel;
         $nhom_gia = QLLapDatDHKhachModel::select('ql_nhomgia.*')
-            ->join('ql_hop_dong','ql_hop_dong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
-            ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hop_dong.ma_nhom_gia')
+            ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
+            ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hopdong.ma_nhom_gia')
             ->where('ma_lap_dat',$request->ma_lap_dat)->first();
         $hoa_don->ky_hoa_don=$request->ky_hoa_don;
         if(empty($hoa_don_cu)){
@@ -168,8 +168,8 @@ class QLHoaDonController extends Controller
             $hoa_don_moi_nhat = QLHoaDonModel::where('ma_lap_dat',$hoa_don->ma_lap_dat)->orderBy('ma_hoa_don', 'DESC')->first();
             $lap_dat = QLLapDatDHKhachModel::where('ma_lap_dat',$hoa_don->ma_lap_dat)->first();
             $nhom_gia = QLLapDatDHKhachModel::select('ql_nhomgia.*')
-            ->join('ql_hop_dong','ql_hop_dong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
-            ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hop_dong.ma_nhom_gia')
+            ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
+            ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hopdong.ma_nhom_gia')
             ->where('ma_lap_dat',$request->ma_lap_dat)->first();
             if($hoa_don_moi_nhat->ma_hoa_don == $id){
                 if(isset($request->ky_hoa_don)){
@@ -287,7 +287,7 @@ class QLHoaDonController extends Controller
     }
     public function search(Request $request)
     {
-        $query =  QLHoaDonModel::query()->select('ql_hoadon.*','ql_donghokhach.ten_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen')
+        $query =  QLHoaDonModel::query()->select('ql_hoadon.*','ql_donghokhach.ma_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen')
         ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
         ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
         ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
@@ -337,13 +337,9 @@ class QLHoaDonController extends Controller
             ->get();
         return $query;
     }
-    public function lookup_dh_khach(Request $request)
+    public function lookup_dh_khach()
     {
-        $query =  QLLapDatDHKhachModel::query()->select('*');
-        if($request->has('ma_dong_ho')){
-            $query->where(['ma_dong_ho'=>$request->ma_dong_ho,'den_ngay'=>null]);
-        }
-        $result = $query->orderBy('ma_lap_dat', 'DESC')->first();
-        return $result;
+        $query =  QLLapDatDHKhachModel::query()->select('*')->where('den_ngay',null)->get();    
+        return $query;
     }
 }

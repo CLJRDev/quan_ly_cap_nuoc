@@ -75,6 +75,22 @@ export default function QuanLyDongHoKhach() {
       });
   }
 
+  const goLapDat = async (id) => {
+    if (!window.confirm('Bạn có chắc chắn muốn gỡ lắp đặt đồng hồ này này?'))
+      return
+    const formData = new FormData()
+    formData.append('_method', 'PUT')
+    formData.append('tinh_trang', '0')
+
+    try {
+      const response = await axios.post(`http://127.0.0.1:8000/api/dong_ho_khach/${id}`, formData)
+      console.log(response.data.message)
+      fetchData()
+    } catch (error) {
+      console.log(error.response)
+    }
+  }
+
   const dongHoKhachElements = dongHoKhachs.map((item, index) => {
     return <tr key={index}>
       <td>{item.ten_dong_ho}</td>
@@ -90,6 +106,8 @@ export default function QuanLyDongHoKhach() {
       <td>{item.so_thang_bao_hanh}</td>
       <td>
         <Link className="btn-edit" to={`/dong_ho_khach/sua/${item.ma_dong_ho}`}>Sửa</Link>
+        &nbsp;
+        {item.tinh_trang == 1 && <button onClick={() => goLapDat(item.ma_dong_ho)} className="btn-edit">Gỡ</button>}
         &nbsp;
         <button onClick={() => xoa(item.ma_dong_ho)} className="btn-delete">Xóa</button>
       </td>
@@ -145,7 +163,7 @@ export default function QuanLyDongHoKhach() {
   }
 
   const handleSubmit = async (e) => {
-    
+
   }
 
   return (
@@ -246,8 +264,8 @@ export default function QuanLyDongHoKhach() {
               <th>Tình trạng</th>
               <th>Ngày nhập</th>
               <th>Ngày kiểm định</th>
-              <th>Số năm hiệu lực</th>
-              <th>Số tháng bảo hành</th>
+              <th>Năm hiệu lực</th>
+              <th>Tháng bảo hành</th>
               <th>Hành động</th>
             </tr>
           </thead>

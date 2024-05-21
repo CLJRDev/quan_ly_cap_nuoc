@@ -16,17 +16,11 @@ export default function ThemDongHoKhach() {
     ma_loai_dong_ho: '',
     ma_nha_cung_cap: '',
     ma_co_dong_ho: '',
-    tinh_trang: '',
     ngay_nhap: '',
     ngay_kiem_dinh: '',
     so_nam_hieu_luc: '',
     so_thang_bao_hanh: ''
   })
-
-  const trangThaiOptions = [
-    { value: 1, label: 'Đang lắp đặt' },
-    { value: 0, label: 'Trống' },
-  ]
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -56,7 +50,6 @@ export default function ThemDongHoKhach() {
     formData.append('ma_loai_dong_ho', dongHo.ma_loai_dong_ho)
     formData.append('ma_nha_cung_cap', dongHo.ma_nha_cung_cap)
     formData.append('ma_co_dong_ho', dongHo.ma_co_dong_ho)
-    formData.append('tinh_trang', dongHo.tinh_trang)
     formData.append('ngay_nhap', dongHo.ngay_nhap)
     formData.append('ngay_kiem_dinh', dongHo.ngay_kiem_dinh)
     formData.append('so_nam_hieu_luc', dongHo.so_nam_hieu_luc)
@@ -115,14 +108,6 @@ export default function ThemDongHoKhach() {
           />
         </div>
         <div>
-          <label htmlFor="">Tình trạng</label>
-          <Select
-            options={trangThaiOptions}
-            onChange={handleSelectChange}
-            name="tinh_trang"
-          />
-        </div>
-        <div>
           <label htmlFor="ngay_nhap">Ngày nhập</label>
           <input type="date" id='ngay_nhap' name='ngay_nhap' onChange={handleInputChange} />
         </div>
@@ -138,7 +123,6 @@ export default function ThemDongHoKhach() {
           <label htmlFor="so_thang_bao_hanh">Số tháng bảo hành</label>
           <input type="number" id='so_thang_bao_hanh' name='so_thang_bao_hanh' onChange={handleInputChange} />
         </div>
-        <div></div>
         <div>
           <button className="btn-add" type="submit">
             <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />

@@ -18,7 +18,7 @@ export default function HopDong(props) {
 
   if (props.isSearch) {
     hopDongOptions.push({
-      value: 0,
+      value: '',
       label: 'Tất cả'
     })
   }

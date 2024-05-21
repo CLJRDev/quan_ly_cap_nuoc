@@ -148,6 +148,11 @@ export const SidebarData = [
         path: '/lap_dat_dh_khach',
         icon: <IoIcons.IoMdBuild />,
       },
+      {
+        title: 'Ghi chỉ số ĐH khách',
+        path: '/ghi_chi_so_dh_khach',
+        icon: <TfiIcons.TfiWrite />,
+      },
     ]
   },
 ]
