@@ -39,6 +39,9 @@ Route::get('/phan_quyen_search',[QLPhanQuyenController::class,'search']);
 Route::apiResource("tai_khoan",QLTaiKhoanController::class);
 Route::get('/tai_khoan_search',[QLTaiKhoanController::class,'search']);
 Route::post('/login',[QLTaiKhoanController::class,'login']);
+Route::post('/send_confirmation',[QLTaiKhoanController::class,'send_confirmation']);
+Route::post('/verify_confirmation',[QLTaiKhoanController::class,'verify_confirmation']);
+Route::post('/reset_password',[QLTaiKhoanController::class,'reset_password']);
 //danh muc
 //quan huyen
 Route::apiResource("quan_huyen",DMQuanHuyenController::class);

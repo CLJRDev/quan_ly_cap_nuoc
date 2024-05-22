@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\GuiMailJob;
+use App\Mail\QuenMatKhauMail;
+use App\Models\QLKhachHangModel;
 use App\Models\QLTaiKhoanModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
-use Illuminate\Database\Eloquent\ModelNotFoundException;  
-
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 class QLTaiKhoanController extends Controller
 {
   /**
@@ -252,5 +256,69 @@ class QLTaiKhoanController extends Controller
       'message' => 'Đăng xuất thành công!',
       'login' => 'false'
     ]);
+  }
+  public function send_confirmation(Request $request)
+  {
+    $tai_khoan = QLTaiKhoanModel::where('email',$request->email)->first();
+    if(empty($tai_khoan)){
+      return response()->json([
+        'error' => 'Email không tồn tại!'
+      ],422);
+    }
+    else{
+      $code = rand(100000,999999);
+      $thong_tin = [
+        'email' => $request->email,
+        'code' => $code,
+      ];
+      session()->put('code',$code);
+      $result = Mail::to($request->email)->send(new QuenMatKhauMail($thong_tin));
+      if($result){
+        return response()->json([
+          'message' => 'Gửi mail thành công!'
+        ]);
+      }
+    }
+  }
+  public function verify_confirmation(Request $request)
+  {
+    $code = $request->code;
+    if($code == session('code')){
+      return response()->json([
+        'message' => 'Cập nhật mật khẩu thành công!',
+        'verify' => 'true',
+      ]);
+    }
+    else{
+      return response()->json([
+        'error' => 'Mã xác nhận không đúng!'
+      ],422);
+    }
+  }
+  public function reset_password(Request $request)
+  {
+    $message = [
+      'same' => 'Mật khẩu xác nhận không trùng với mật khẩu!',
+      'mat_khau.max' => 'Mật khẩu quá dài!',
+      'required' => 'Xin hãy điền đủ thông tin!'
+  ];
+  $validator = Validator::make($request->all(),[
+      'email' => 'required',
+      'mat_khau' => 'max:100|required',
+      'xac_nhan_mat_khau' => 'max:100|same:mat_khau|required',
+    ],$message);
+  if($validator->fails()){
+      return response()->json([
+          'error' => $validator->errors(),
+          ],422);
+  }
+    $tai_khoan = QLTaiKhoanModel::where('email',$request->email)->first();
+    $tai_khoan->mat_khau = md5($request->mat_khau);
+    $result = $tai_khoan->save();
+    if($result){
+      return response()->json([
+        'message' => 'Cập nhật mật khẩu thành công!'
+      ]);
+    }
   }
 }
