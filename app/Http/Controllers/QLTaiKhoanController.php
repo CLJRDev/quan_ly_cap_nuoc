@@ -21,13 +21,7 @@ class QLTaiKhoanController extends Controller
    */
   public function index()
   {
-    // return QLTaiKhoanModel::orderBy('ma_nhan_vien', 'ASC')->get();
-    $khach_hang = QLKhachHangModel::select('ql_khachhang.email','ql_hoadon.tu_ngay','ql_hoadon.den_ngay')
-            ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_khachhang.ma_hop_dong')
-            ->join('ql_lapdatdhkhach','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
-            ->join('ql_hoadon','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
-            ->where(['ql_hopdong.tu_ngay'<=date("Y-m-d"),'ql_hopdong.den_ngay'>=date("Y-m-d")])->get();
-    return $khach_hang;
+    return QLTaiKhoanModel::orderBy('ma_nhan_vien', 'ASC')->get();
   }
 
   /**

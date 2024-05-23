@@ -30,14 +30,11 @@ class HoaDon extends Command
     {
         info("Cron Job running at ". now());
         $khach_hang = QLKhachHangModel::select('ql_khachhang.email','ql_hoadon.tu_ngay','ql_hoadon.den_ngay')
-            ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_khachhang.ma_hop_dong')
+            ->join('ql_hopdong','ql_hopdong.ma_khach_hang','=','ql_khachhang.ma_khach_hang')
             ->join('ql_lapdatdhkhach','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
             ->join('ql_hoadon','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
-            ->where(['ql_hopdong.tu_ngay'<date("Y-m-d"),'ql_hopdong.den_ngay'>date("Y-m-d")])->get();
-        // if(count($khach_hang)==0){
-        //     print_r('no');
-        // }
-        // else{
+            ->whereRaw('ql_hoadon.tu_ngay<='.date("Y-m-d").' and ql_hoadon.den_ngay>='.date("Y-m-d"))->get();
+        // if(count($khach_hang)!=0){
         //     foreach($khach_hang as $hoa_don){
         //         $thong_tin = [
         //             'email' => $hoa_don->email,
@@ -48,5 +45,7 @@ class HoaDon extends Command
         //         return 'yes '.$hoa_don;
         //     }
         // }
+        $thong_tin = 1;
+        Mail::to('mashiro1420@gmail.com')->send(new HoaDonMail($thong_tin));
     }
 }
