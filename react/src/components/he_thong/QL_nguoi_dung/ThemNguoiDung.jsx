@@ -2,6 +2,10 @@ import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { IoIosAddCircleOutline } from "react-icons/io"
+import SuccessToast from '../../notification/SuccessToast'
+import WarningToast from '../../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ThemNguoiDung() {
   const navigate = useNavigate();
@@ -37,10 +41,18 @@ export default function ThemNguoiDung() {
     formData.append('trang_thai', user.trang_thai)
     formData.append('email', user.email)
 
-    const response = await axios.post(`http://127.0.0.1:8000/api/tai_khoan`, formData)
-    // console.log(response.data.message)
-    navigate('/nguoi_dung')
-
+    try {
+      const response = await axios.post(`http://127.0.0.1:8000/api/tai_khoan`, formData)
+      setTimeout(() => {
+        SuccessToast(response.data.message)
+      }, 500)
+      navigate('/nguoi_dung')
+    } catch (error) {
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -54,31 +66,31 @@ export default function ThemNguoiDung() {
       <form className="form-container" onSubmit={handleSubmit} >
         <div>
           <label htmlFor="ho_ten">Họ tên</label>
-          <input type="text" id='ho_ten' name='ho_ten' onChange={handleChange} />
+          <input type="text" id='ho_ten' required name='ho_ten' onChange={handleChange} />
         </div>
         <div>
           <label htmlFor="chuc_vu">Chức vụ</label>
-          <input type="text" id='chuc_vu' name='chuc_vu' onChange={handleChange} />
+          <input type="text" id='chuc_vu' required name='chuc_vu' onChange={handleChange} />
         </div>
         <div>
           <label htmlFor="email">Email</label>
-          <input type="text" id='email' name='email' onChange={handleChange} />
+          <input type="email" id='email' required name='email' onChange={handleChange} />
         </div>
         <div>
           <label htmlFor="sdt">Số điện thoại</label>
-          <input type="number" id='sdt' name='sdt' onChange={handleChange} />
+          <input type="number" id='sdt' required name='sdt' onChange={handleChange} />
         </div>
         <div>
           <label htmlFor="mat_khau">Mật khẩu</label>
-          <input type="password" id='mat_khau' name='mat_khau' onChange={handleChange} />
+          <input type="password" id='mat_khau' required name='mat_khau' onChange={handleChange} />
         </div>
         <div>
           <label htmlFor="xac_nhan_mat_khau">Xác nhận mật khẩu</label>
-          <input type="password" id='xac_nhan_mat_khau' name='xac_nhan_mat_khau' onChange={handleChange} />
+          <input type="password" id='xac_nhan_mat_khau' required name='xac_nhan_mat_khau' onChange={handleChange} />
         </div>
         <div>
           <label htmlFor="ngay_sinh">Ngày sinh</label>
-          <input type="date" id='ngay_sinh' name='ngay_sinh' onChange={handleChange} />
+          <input type="date" id='ngay_sinh' name='ngay_sinh' required onChange={handleChange} />
         </div>
         <div>
           <label htmlFor="trang_thai">Trạng thái</label>
@@ -94,6 +106,7 @@ export default function ThemNguoiDung() {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   )
 }

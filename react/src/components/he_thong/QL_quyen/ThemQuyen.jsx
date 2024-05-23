@@ -2,6 +2,11 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { IoIosAddCircleOutline } from "react-icons/io"
 import { Link } from 'react-router-dom'
+import SuccessToast from '../../notification/SuccessToast'
+import ErrorToast from '../../notification/ErrorToast'
+import WarningToast from '../../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ThemQuyen() {
   const [quyens, setQuyens] = useState(null)
@@ -10,11 +15,11 @@ export default function ThemQuyen() {
     trang_thai: '1'
   })
 
-  const fetchData = async() => {
+  const fetchData = async () => {
     await axios.get(`http://127.0.0.1:8000/api/quyen`)
-            .then(response => {
-              setQuyens(response.data)
-            })
+      .then(response => {
+        setQuyens(response.data)
+      })
   }
 
   useEffect(() => {
@@ -28,13 +33,11 @@ export default function ThemQuyen() {
       return
     axios.delete(`http://127.0.0.1:8000/api/quyen/${id}`)
       .then(response => {
-        console.log(response.data.message);
-        setQuyens(quyens.filter(quyen => {
-          return quyen.ma_quyen != id;
-        }));
+        SuccessToast(response.data.message)
+        fetchData()
       })
       .catch(error => {
-
+        ErrorToast('Không thể xóa quyền này!')
       });
   }
 
@@ -66,13 +69,16 @@ export default function ThemQuyen() {
     formData.append('ten_quyen', quyen.ten_quyen)
     formData.append('trang_thai', quyen.trang_thai)
 
-    try{
+    try {
       const response = await axios.post(`http://127.0.0.1:8000/api/quyen`, formData)
-      console.log(response.data.message)
+      SuccessToast(response.data.message)
       fetchData()
-    }catch(error){
-      console.log(error.response.data.error)
-    }    
+    } catch (error) {
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -118,6 +124,7 @@ export default function ThemQuyen() {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   )
 }
