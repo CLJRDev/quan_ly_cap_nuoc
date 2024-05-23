@@ -3,6 +3,12 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { TbSubtask } from "react-icons/tb";
 import Select from 'react-select'
+import SuccessToast from '../../notification/SuccessToast'
+import ErrorToast from '../../notification/ErrorToast'
+import WarningToast from '../../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function PhanQuyenTaiKhoan() {
   const navigate = useNavigate()
@@ -34,19 +40,19 @@ export default function PhanQuyenTaiKhoan() {
   const nhanVienOptions = []
 
   quyens.forEach(item => {
-    if(item.trang_thai == 1){
+    if (item.trang_thai == 1) {
       quyenOptions.push({
         value: item.ma_quyen,
-        label: item.ten_quyen   
+        label: item.ten_quyen
       })
     }
   })
 
   nhanViens.forEach(item => {
-    if(item.trang_thai == 1){
+    if (item.trang_thai == 1) {
       nhanVienOptions.push({
         value: item.ma_nhan_vien,
-        label: item.ma_nhan_vien   
+        label: item.ma_nhan_vien
       })
     }
   })
@@ -71,10 +77,15 @@ export default function PhanQuyenTaiKhoan() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/phan_quyen`, formData)
-      console.log(response.data.message)
+      setTimeout(() => {
+        SuccessToast(response.data.message)
+      }, 500)
       navigate('/quan_ly_phan_quyen')
     } catch (error) {
-      console.log(error.response.data.error)
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -89,19 +100,21 @@ export default function PhanQuyenTaiKhoan() {
       <form onSubmit={handleSubmit} className="form-container">
         <div>
           <label htmlFor="">Mã nhân viên</label>
-          <Select             
+          <Select
             options={nhanVienOptions}
             name='ma_nhan_vien'
+            required
             onChange={handleChange}
-          />          
+          />
         </div>
         <div>
           <label htmlFor="">Tên quyền</label>
-          <Select  
+          <Select
             isMulti
             name='quyens'
-            options={quyenOptions}            
-            onChange={handleChange}         
+            required
+            options={quyenOptions}
+            onChange={handleChange}
           />
         </div>
         <div>
@@ -111,6 +124,7 @@ export default function PhanQuyenTaiKhoan() {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   )
 }

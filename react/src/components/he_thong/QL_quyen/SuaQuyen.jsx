@@ -2,7 +2,11 @@ import axios from "axios"
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { MdOutlineEdit } from "react-icons/md";
-
+import SuccessToast from '../../notification/SuccessToast'
+import ErrorToast from '../../notification/ErrorToast'
+import WarningToast from '../../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function SuaQuyen() {
   const navigate = useNavigate()
@@ -35,12 +39,17 @@ export default function SuaQuyen() {
     formData.append('ten_quyen', quyen.ten_quyen)
     formData.append('trang_thai', quyen.trang_thai)
 
-    try{
+    try {
       const response = await axios.post(`http://127.0.0.1:8000/api/quyen/${id}`, formData)
-      console.log(response.data.message)
+      setTimeout(() => {
+        SuccessToast(response.data.message)
+      }, 500)
       navigate('/quyen')
-    }catch(error){
-      console.log(error.response.data.error)
+    } catch (error) {
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -71,6 +80,7 @@ export default function SuaQuyen() {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   )
 }

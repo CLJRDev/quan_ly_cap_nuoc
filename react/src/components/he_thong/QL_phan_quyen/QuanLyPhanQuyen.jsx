@@ -4,6 +4,11 @@ import { useState, useEffect } from "react"
 import { IoMdSearch } from "react-icons/io"
 import { IoIosAddCircleOutline } from "react-icons/io"
 import { TbSubtask } from "react-icons/tb";
+import SuccessToast from '../../notification/SuccessToast'
+import ErrorToast from '../../notification/ErrorToast'
+import WarningToast from '../../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function QuanLyPhanQuyen() {
   const [phanQuyens, setPhanQuyens] = useState(null)
@@ -14,12 +19,26 @@ export default function QuanLyPhanQuyen() {
     ho_ten: ''
   })
 
-  useEffect(() => {
+  const fetchData = () => {
     axios.get(`http://127.0.0.1:8000/api/phan_quyen`)
       .then(response => {
         setPhanQuyens(response.data)
       })
+  }
+
+  useEffect(() => {
+    fetchData()
   }, [])
+
+  const xoa = id => {
+    if (!window.confirm('Bạn có chắc chắn muốn xóa phân quyền này?'))
+      return
+    axios.delete(`http://127.0.0.1:8000/api/phan_quyen/${id}`)
+      .then(response => {
+        SuccessToast(response.data.message)
+        fetchData()
+      })
+  }
 
   if (!phanQuyens) return null
 
@@ -32,7 +51,7 @@ export default function QuanLyPhanQuyen() {
       <td>{item.chuc_vu}</td>
       <td>
         <Link className="btn-edit" to={`/quan_ly_phan_quyen/sua/${item.ma_phan_quyen}`}>Sửa</Link>&nbsp;
-        <button className="btn-delete">Xóa</button>
+        <button onClick={() => xoa(item.ma_phan_quyen)} className="btn-delete">Xóa</button>
       </td>
     </tr>
   })
@@ -95,7 +114,7 @@ export default function QuanLyPhanQuyen() {
           </button>
           &nbsp;
           <Link className="btn-add" to='/quan_ly_phan_quyen/them'>&nbsp;
-            <TbSubtask style={{ transform: 'scale(1.2)' }}/>&nbsp;
+            <TbSubtask style={{ transform: 'scale(1.2)' }} />&nbsp;
             Phân quyền
           </Link>
         </div>
@@ -118,6 +137,7 @@ export default function QuanLyPhanQuyen() {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   )
 }

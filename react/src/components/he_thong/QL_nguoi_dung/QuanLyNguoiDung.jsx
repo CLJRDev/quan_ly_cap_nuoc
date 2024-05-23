@@ -1,9 +1,13 @@
 import { IoMdSearch } from "react-icons/io"
 import { IoIosAddCircleOutline } from "react-icons/io"
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from "react"
 import { format } from 'date-fns'
+import SuccessToast from '../../notification/SuccessToast'
+import ErrorToast from '../../notification/ErrorToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function QuanLyNguoiDung() {
   const [users, setUsers] = useState(null)
@@ -16,14 +20,15 @@ export default function QuanLyNguoiDung() {
     trang_thai: ''
   })
 
-  useEffect(() => {
+  const fetchData = () => {
     axios.get(`http://127.0.0.1:8000/api/tai_khoan`)
       .then(response => {
         setUsers(response.data)
       })
-      .catch(error => {
-        console.error('Lỗi lấy dữ liệu người dùng: ', error)
-      })
+  }
+
+  useEffect(() => {
+    fetchData()
   }, [])
 
   if (!users) return null
@@ -33,14 +38,14 @@ export default function QuanLyNguoiDung() {
       return
     axios.delete(`http://127.0.0.1:8000/api/tai_khoan/${id}`)
       .then(response => {
-        console.log(response.data.message);
-        setUsers(users.filter(user => {
-          return user.ma_nhan_vien != id;
-        }));
+        SuccessToast(response.data.message)
+        fetchData()
       })
       .catch(error => {
-
-      });
+        console.log(error)
+        //ErrorToast(error.response.data.error)
+        ErrorToast('Không thể xóa người dùng này!')
+      })
   }
 
   const userElements = users.map((item, index) => {
@@ -93,6 +98,16 @@ export default function QuanLyNguoiDung() {
       queryString += `&trang_thai=${trang_thai}`
     }
     const response = await axios.get(`http://127.0.0.1:8000/api/tai_khoan_search/${queryString}`)
+    toast.success(response.data.message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
     setUsers(response.data)
   }
 
@@ -160,6 +175,7 @@ export default function QuanLyNguoiDung() {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   )
 }

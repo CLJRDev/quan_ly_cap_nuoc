@@ -2,6 +2,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import { MdOutlineEdit } from "react-icons/md";
+import SuccessToast from '../../notification/SuccessToast';
+import WarningToast from '../../notification/WarningToast';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function SuaNguoiDung() {
   const navigate = useNavigate()
@@ -51,10 +55,15 @@ export default function SuaNguoiDung() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/tai_khoan/${id}`, formData)
-      console.log(response.data.message)
+      setTimeout(() => {
+        SuccessToast(response.data.message)
+      }, 500)
       navigate('/nguoi_dung')
     } catch (er) {
-      console.log(er.response.data.error)
+      const errorsArray = Object.values(er.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -69,19 +78,19 @@ export default function SuaNguoiDung() {
       <form className="form-container" onSubmit={handleSubmit} >
         <div>
           <label htmlFor="ho_ten">Họ tên</label>
-          <input type="text" id='ho_ten' name='ho_ten' onChange={handleChange} value={user.ho_ten} />
+          <input type="text" id='ho_ten' name='ho_ten' required onChange={handleChange} value={user.ho_ten} />
         </div>
         <div>
           <label htmlFor="chuc_vu">Chức vụ</label>
-          <input type="text" id='chuc_vu' name='chuc_vu' onChange={handleChange} value={user.chuc_vu} />
+          <input type="text" id='chuc_vu' name='chuc_vu' required onChange={handleChange} value={user.chuc_vu} />
         </div>
         <div>
           <label htmlFor="email">Email</label>
-          <input type="text" id='email' name='email' onChange={handleChange} value={user.email} />
+          <input type="email" id='email' name='email' required onChange={handleChange} value={user.email} />
         </div>
         <div>
           <label htmlFor="sdt">Số điện thoại</label>
-          <input type="number" id='sdt' name='sdt' onChange={handleChange} value={user.sdt} />
+          <input type="number" id='sdt' name='sdt' required onChange={handleChange} value={user.sdt} />
         </div>
         <div>
           <label htmlFor="mat_khau">Mật khẩu</label>
@@ -93,11 +102,11 @@ export default function SuaNguoiDung() {
         </div>
         <div>
           <label htmlFor="ngay_sinh">Ngày sinh</label>
-          <input type="date" id='ngay_sinh' name='ngay_sinh' onChange={handleChange} value={user.ngay_sinh} />
+          <input type="date" id='ngay_sinh' name='ngay_sinh' required onChange={handleChange} value={user.ngay_sinh} />
         </div>
         <div>
           <label htmlFor="trang_thai">Trạng thái</label>
-          <select name="trang_thai" id="trang_thai" value={user.trang_thai} onChange={handleChange}>
+          <select name="trang_thai" id="trang_thai" required value={user.trang_thai} onChange={handleChange}>
             <option value="1">Kích hoạt</option>
             <option value="0">Khóa</option>
           </select>
@@ -109,6 +118,7 @@ export default function SuaNguoiDung() {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   )
 }
