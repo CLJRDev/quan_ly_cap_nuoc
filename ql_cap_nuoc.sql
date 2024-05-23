@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2024 at 03:50 PM
+-- Generation Time: May 23, 2024 at 04:24 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -471,7 +471,7 @@ CREATE TABLE `ql_khachhang` (
   `ten_khach_hang` varchar(50) NOT NULL,
   `can_cuoc` varchar(12) NOT NULL,
   `dia_chi` text NOT NULL,
-  `sdt` int(10) NOT NULL,
+  `sdt` varchar(10) NOT NULL,
   `email` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -480,7 +480,7 @@ CREATE TABLE `ql_khachhang` (
 --
 
 INSERT INTO `ql_khachhang` (`ma_khach_hang`, `ten_khach_hang`, `can_cuoc`, `dia_chi`, `sdt`, `email`) VALUES
-(1, 'Phạm Thị Thu Hiền', '031300005030', '34/40', 23123222, 'ddmanh1420@gmail.com');
+(1, 'Phạm Thị Thu Hiền', '031300005030', '34/40', '23123222', 'ddmanh1420@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -804,7 +804,8 @@ ALTER TABLE `ql_hopdong`
 --
 ALTER TABLE `ql_khachhang`
   ADD PRIMARY KEY (`ma_khach_hang`),
-  ADD UNIQUE KEY `can_cuoc` (`can_cuoc`);
+  ADD UNIQUE KEY `can_cuoc` (`can_cuoc`),
+  ADD UNIQUE KEY `sdt` (`sdt`,`email`);
 
 --
 -- Indexes for table `ql_lapdatdhkhach`

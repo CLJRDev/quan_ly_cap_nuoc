@@ -42,6 +42,7 @@ class QLTaiKhoanController extends Controller
       'sdt.max' => 'Số điện thoại không hợp lệ!',
       'sdt.min' => 'Số điện thoại không hợp lệ!',
       'sdt.unique' => 'Số điện thoại đã tồn tại!',
+      'sdt.numeric' => 'Số điện thoại không hợp lệ!',
       'email.unique' => 'Email đã tồn tại!',
     ];
     $validator = Validator::make($request->all(), [
@@ -49,7 +50,7 @@ class QLTaiKhoanController extends Controller
       'xac_nhan_mat_khau' => 'required|max:100|same:mat_khau',
       'trang_thai' => 'required',
       'email' => 'required|unique:ql_taikhoan,email',
-      'sdt' => 'required|max:10|min:10|unique:ql_taikhoan,sdt',
+      'sdt' => 'required|max:10|min:10|numeric|unique:ql_taikhoan,sdt',
       'chuc_vu' => 'required',
       'ho_ten' => 'required',
       'ngay_sinh' => 'required',
