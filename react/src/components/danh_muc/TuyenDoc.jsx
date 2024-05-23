@@ -3,6 +3,12 @@ import { useState, useEffect } from "react"
 import { IoIosAddCircleOutline } from "react-icons/io"
 import { Link } from "react-router-dom"
 import Select from 'react-select'
+import SuccessToast from '../notification/SuccessToast'
+import ErrorToast from '../notification/ErrorToast'
+import WarningToast from '../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function TuyenDoc() {
   const [tuyenDocs, setTuyenDocs] = useState(null)
@@ -83,11 +89,11 @@ export default function TuyenDoc() {
       return
     axios.delete(`http://127.0.0.1:8000/api/tuyen_doc/${id}`)
       .then(response => {
-        console.log(response.data.message);
+        SuccessToast(response.data.message);
         fetchData()
       })
       .catch(error => {
-        console.log(error.response.data.error)
+        ErrorToast('Không thể xóa tuyến đọc này!')
       });
   }
 
@@ -111,10 +117,13 @@ export default function TuyenDoc() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/tuyen_doc`, formData)
-      console.log(response.data.message)
+      SuccessToast(response.data.message)
       fetchData()
     } catch (error) {
-      console.log(error.response.data.error)
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -129,11 +138,12 @@ export default function TuyenDoc() {
       <form className="form-container animated fadeInDown" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="tuyen_doc">Tên tuyến đọc</label>
-          <input type="text" id="tuyen_doc" name='tuyen_doc' onChange={handleInputChange} />
+          <input required type="text" id="tuyen_doc" name='tuyen_doc' onChange={handleInputChange} />
         </div>
         <div>
           <label htmlFor="chi_nhanh">Tổ quản lý</label>
           <Select
+            required
             onChange={handleSelectChange}
             options={toQuanLyOptions}
             name="to_quan_ly"
@@ -142,6 +152,7 @@ export default function TuyenDoc() {
         <div>
           <label htmlFor="chi_nhanh">Phường xã</label>
           <Select
+            required
             onChange={handleSelectChange}
             options={phuongXaOptions}
             name="phuong_xa"
@@ -172,6 +183,7 @@ export default function TuyenDoc() {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   )
 }

@@ -3,8 +3,14 @@ import { useState, useEffect, useRef } from "react"
 import { IoIosAddCircleOutline } from "react-icons/io"
 import { Link, useNavigate } from "react-router-dom"
 import Select from 'react-select'
+import SuccessToast from '../notification/SuccessToast'
+import ErrorToast from '../notification/ErrorToast'
+import WarningToast from '../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export default function ThemPhuongXa(){
+
+export default function ThemPhuongXa() {
   const navigate = useNavigate()
 
   const [quanHuyens, setQuanHuyens] = useState(null)
@@ -48,7 +54,7 @@ export default function ThemPhuongXa(){
     })
   }
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const formData = new FormData()
     formData.append('ten_phuong_xa', phuongXa.tenPhuongXa)
@@ -56,10 +62,15 @@ export default function ThemPhuongXa(){
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/phuong_xa`, formData)
-      console.log(response.data.message)
+      setTimeout(() => {
+        SuccessToast(response.data.message)
+      }, 500)
       navigate('/phuong_xa')
     } catch (error) {
-      console.log(error.response.data.error)
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -69,11 +80,12 @@ export default function ThemPhuongXa(){
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ten_phuong_xa">Tên phường xã</label>
-          <input type="text" id='ten_phuong_xa' onChange={handleInputChange}/>
+          <input required type="text" id='ten_phuong_xa' onChange={handleInputChange} />
         </div>
         <div>
           <label htmlFor="">Tên quận huyện</label>
           <Select
+            required
             options={quanHuyenOptions}
             onChange={handleSelectChange}
           />
@@ -82,9 +94,10 @@ export default function ThemPhuongXa(){
           <button className="btn-add" type="submit">
             <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
             &nbsp;Thêm phường xã
-          </button>          
+          </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   )
 }

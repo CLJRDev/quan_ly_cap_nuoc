@@ -3,6 +3,12 @@ import { useState, useEffect, useRef } from "react"
 import { IoIosAddCircleOutline } from "react-icons/io"
 import { Link } from "react-router-dom"
 import Select from 'react-select'
+import SuccessToast from '../notification/SuccessToast'
+import ErrorToast from '../notification/ErrorToast'
+import WarningToast from '../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function ToQuanLy() {
   const [toQuanLys, setToQuanLys] = useState(null)
@@ -23,13 +29,13 @@ export default function ToQuanLy() {
 
   const fetchData = () => {
     axios.get(`http://127.0.0.1:8000/api/to_quan_ly`)
-    .then(response => {
-      setToQuanLys(response.data)
-    })
+      .then(response => {
+        setToQuanLys(response.data)
+      })
   }
 
-  if(!toQuanLys) return null
-  if(!chiNhanhs) return null
+  if (!toQuanLys) return null
+  if (!chiNhanhs) return null
 
   const options = []
   chiNhanhs.forEach(item => {
@@ -56,11 +62,11 @@ export default function ToQuanLy() {
       return
     axios.delete(`http://127.0.0.1:8000/api/to_quan_ly/${id}`)
       .then(response => {
-        console.log(response.data.message);
+        SuccessToast(response.data.message);
         fetchData()
       })
       .catch(error => {
-        console.log(error.response.data.error)
+        ErrorToast('Không thể xóa tổ quản lý này!')
       });
   }
 
@@ -75,10 +81,13 @@ export default function ToQuanLy() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/to_quan_ly`, formData)
-      console.log(response.data.message)
+      SuccessToast(response.data.message)
       fetchData()
     } catch (error) {
-      console.log(error.response.data.error)
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -93,11 +102,12 @@ export default function ToQuanLy() {
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ten_to_quan_ly">Tên tổ quản lý</label>
-          <input type="text" ref={tenToQuanLyRef} id="ten_to_quan_ly" />
+          <input required type="text" ref={tenToQuanLyRef} id="ten_to_quan_ly" />
         </div>
         <div>
           <label htmlFor="chi_nhanh">Chi nhánh</label>
           <Select
+            required
             onChange={handleChange}
             options={options}
             value={chiNhanhOption}
@@ -126,6 +136,7 @@ export default function ToQuanLy() {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   )
 }

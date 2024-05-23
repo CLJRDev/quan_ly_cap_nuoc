@@ -2,6 +2,11 @@ import axios from "axios"
 import { useState, useEffect } from "react"
 import { MdOutlineEdit } from "react-icons/md";
 import { useParams, useNavigate } from "react-router-dom"
+import SuccessToast from '../notification/SuccessToast'
+import ErrorToast from '../notification/ErrorToast'
+import WarningToast from '../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function SuaLoaiKhachHang() {
   const { id } = useParams()
@@ -26,10 +31,15 @@ export default function SuaLoaiKhachHang() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/loai_khach_hang/${id}`, formData)
-      console.log(response.data.message)
+      setTimeout(() => {
+        SuccessToast(response.data.message)
+      }, 500)
       navigate('/loai_khach_hang')
     } catch (error) {
-      console.log(error.response.data.error)
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -44,7 +54,7 @@ export default function SuaLoaiKhachHang() {
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ten_loai_khach_hang">Tên loại khách hàng</label>
-          <input onChange={handleChange} type="text" id='ten_loai_khach_hang' name="ten_loai_khach_hang" value={tenLoaiKhachHang} />
+          <input required onChange={handleChange} type="text" id='ten_loai_khach_hang' name="ten_loai_khach_hang" value={tenLoaiKhachHang} />
         </div>
         <div></div>
         <div>
@@ -54,6 +64,7 @@ export default function SuaLoaiKhachHang() {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   )
 }

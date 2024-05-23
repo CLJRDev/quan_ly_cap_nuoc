@@ -4,6 +4,12 @@ import { IoIosAddCircleOutline } from "react-icons/io"
 import { IoMdSearch } from "react-icons/io"
 import { Link } from "react-router-dom"
 import Select from 'react-select'
+import SuccessToast from '../notification/SuccessToast'
+import ErrorToast from '../notification/ErrorToast'
+import WarningToast from '../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function PhuongXa() {
   const [phuongXas, setPhuongXas] = useState(null)
@@ -81,11 +87,11 @@ export default function PhuongXa() {
       return
     axios.delete(`http://127.0.0.1:8000/api/phuong_xa/${id}`)
       .then(response => {
-        console.log(response.data.message);
+        SuccessToast(response.data.message);
         fetchData()
       })
       .catch(error => {
-        console.log(error.response.data.error)
+        ErrorToast('Không thể xóa phường xã này!')
       });
   }
 
@@ -110,11 +116,12 @@ export default function PhuongXa() {
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ten_phuong_xa">Tên phường xã</label>
-          <input type="text" id='ten_phuong_xa' onChange={handleInputChange}/>
+          <input required type="text" id='ten_phuong_xa' onChange={handleInputChange} />
         </div>
         <div>
           <label htmlFor="">Tên quận huyện</label>
           <Select
+            required
             options={quanHuyenOptions}
             onChange={handleSelectChange}
           />
@@ -147,6 +154,7 @@ export default function PhuongXa() {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   )
 }

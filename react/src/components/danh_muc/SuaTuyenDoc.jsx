@@ -3,6 +3,11 @@ import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { MdOutlineEdit } from "react-icons/md";
 import Select from 'react-select'
+import SuccessToast from '../notification/SuccessToast'
+import ErrorToast from '../notification/ErrorToast'
+import WarningToast from '../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function SuaTuyenDoc() {
   const navigate = useNavigate()
@@ -77,10 +82,15 @@ export default function SuaTuyenDoc() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/tuyen_doc/${id}`, formData)
-      console.log(response.data.message)
+      setTimeout(() => {
+        SuccessToast(response.data.message)
+      }, 500)
       navigate('/tuyen_doc')
     } catch (error) {
-      console.log(error.response.data.error)
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -95,11 +105,12 @@ export default function SuaTuyenDoc() {
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ten_tuyen">Tên tuyến đọc</label>
-          <input type="text" id="ten_tuyen" name='ten_tuyen' onChange={handleInputChange} value={tuyenDoc} />
+          <input required type="text" id="ten_tuyen" name='ten_tuyen' onChange={handleInputChange} value={tuyenDoc} />
         </div>
         <div>
           <label htmlFor="">Tổ quản lý</label>
           <Select
+            required
             onChange={handleToQuanLyChange}
             options={toQuanLyOptions}
             value={toQuanLyOption}
@@ -108,6 +119,7 @@ export default function SuaTuyenDoc() {
         <div>
           <label htmlFor="">Phường xã</label>
           <Select
+            required
             onChange={handlePhuongXaChange}
             options={phuongXaOptions}
             value={phuongXaOption}
@@ -121,6 +133,7 @@ export default function SuaTuyenDoc() {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   )
 }

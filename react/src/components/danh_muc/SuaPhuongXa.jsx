@@ -3,6 +3,12 @@ import { useState, useEffect, useRef } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { MdOutlineEdit } from "react-icons/md";
 import Select from 'react-select'
+import SuccessToast from '../notification/SuccessToast'
+import ErrorToast from '../notification/ErrorToast'
+import WarningToast from '../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function SuaPhuongXa() {
   const { id } = useParams()
@@ -54,10 +60,15 @@ export default function SuaPhuongXa() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/phuong_xa/${id}`, formData)
-      console.log(response.data.message)
+      setTimeout(() => {
+        SuccessToast(response.data.message)
+      }, 500)
       navigate('/phuong_xa')
     } catch (error) {
-      console.log(error.response.data.error)
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -67,11 +78,12 @@ export default function SuaPhuongXa() {
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ten_phuong_xa">Tên phường xã</label>
-          <input type="text" id='ten_phuong_xa' onChange={handleInputChange} value={tenPhuongXa} />
+          <input required type="text" id='ten_phuong_xa' onChange={handleInputChange} value={tenPhuongXa} />
         </div>
         <div>
           <label htmlFor="">Tên quận huyện</label>
           <Select
+            required
             options={quanHuyenOptions}
             onChange={handleSelectChange}
             value={quanHuyenOption}
@@ -84,6 +96,7 @@ export default function SuaPhuongXa() {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   )
 }

@@ -3,6 +3,11 @@ import { useState, useEffect, useRef } from "react"
 import { IoIosAddCircleOutline } from "react-icons/io"
 import { Link } from "react-router-dom"
 import Select from 'react-select'
+import SuccessToast from '../notification/SuccessToast'
+import ErrorToast from '../notification/ErrorToast'
+import WarningToast from '../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function LoaiKhachHang() {
   const [loaiKhachHangs, setLoaiKhachHangs] = useState(null)
@@ -37,11 +42,11 @@ export default function LoaiKhachHang() {
       return
     axios.delete(`http://127.0.0.1:8000/api/loai_khach_hang/${id}`)
       .then(response => {
-        console.log(response.data.message);
+        SuccessToast(response.data.message);
         fetchData()
       })
       .catch(error => {
-        console.log(error.response.data.error)
+        ErrorToast('Không thể xóa loại khách hàng này!')
       });
   }
 
@@ -51,10 +56,13 @@ export default function LoaiKhachHang() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/loai_khach_hang`, formData)
-      console.log(response.data.message)
+      SuccessToast(response.data.message)
       fetchData()
     } catch (error) {
-      console.log(error.response.data.error)
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -69,7 +77,7 @@ export default function LoaiKhachHang() {
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ten_loai_khach_hang">Tên loại khách hàng</label>
-          <input type="text" id='ten_loai_khach_hang' ref={tenLoaiKhachHangRef} />
+          <input required type="text" id='ten_loai_khach_hang' ref={tenLoaiKhachHangRef} />
         </div>
         <div></div>
         <div>
@@ -94,6 +102,7 @@ export default function LoaiKhachHang() {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   )
 }

@@ -34,7 +34,7 @@ class DMThanhToanController extends Controller
     {
         $message = [
             'required' => 'Xin hãy điền đủ thông tin!',
-            'unique' => 'Tổ quản lý đã tồn tại!',
+            'unique' => 'Phương thức thanh toán đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
             'ten_phuong_thuc' => 'required|unique:dm_ptthanhtoan,ten_phuong_thuc',

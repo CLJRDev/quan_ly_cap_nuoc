@@ -2,6 +2,12 @@ import axios from "axios"
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { MdOutlineEdit } from "react-icons/md";
+import SuccessToast from '../notification/SuccessToast'
+import ErrorToast from '../notification/ErrorToast'
+import WarningToast from '../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function SuaChiNhanh() {
   const navigate = useNavigate()
@@ -38,11 +44,16 @@ export default function SuaChiNhanh() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/chi_nhanh/${id}`, formData)
-      console.log(response.data.message)
+      setTimeout(() => {
+        SuccessToast(response.data.message)
+      }, 500)
       navigate('/chi_nhanh')
     } catch (error) {
-      console.log(error.response.data.error)
-    } 
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -56,11 +67,11 @@ export default function SuaChiNhanh() {
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ten_chi_nhanh">Tên chi nhánh</label>
-          <input type="text" name="ten_chi_nhanh" id="ten_chi_nhanh" onChange={handleChange} value={chiNhanh.ten_chi_nhanh}/>
+          <input required type="text" name="ten_chi_nhanh" id="ten_chi_nhanh" onChange={handleChange} value={chiNhanh.ten_chi_nhanh} />
         </div>
         <div>
           <label htmlFor="dia_chi">Địa chỉ</label>
-          <input type="text" name="dia_chi" id="dia_chi" onChange={handleChange} value={chiNhanh.dia_chi}/>
+          <input required type="text" name="dia_chi" id="dia_chi" onChange={handleChange} value={chiNhanh.dia_chi} />
         </div>
         <div>
           <button type="submit" className="btn-edit">
@@ -69,6 +80,7 @@ export default function SuaChiNhanh() {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   )
 }

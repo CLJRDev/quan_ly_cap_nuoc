@@ -2,6 +2,12 @@ import axios from "axios"
 import { useState, useEffect, useRef } from "react"
 import { IoIosAddCircleOutline } from "react-icons/io"
 import { Link } from "react-router-dom"
+import SuccessToast from '../notification/SuccessToast'
+import ErrorToast from '../notification/ErrorToast'
+import WarningToast from '../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function QuanHuyen() {
   const [quanHuyens, setQuanHuyens] = useState(null)
@@ -23,7 +29,7 @@ export default function QuanHuyen() {
   const quanHuyenElements = quanHuyens.map((item, index) => {
     return <tr key={index}>
       <td>{item.ma_quan_huyen}</td>
-      <td style={{textAlign: 'left'}}>{item.ten_quan_huyen}</td>
+      <td style={{ textAlign: 'left' }}>{item.ten_quan_huyen}</td>
       <td>
         <Link className="btn-edit" to={`/quan_huyen/sua/${item.ma_quan_huyen}`}>Sửa</Link>&nbsp;
         <button onClick={() => xoaQuanHuyen(item.ma_quan_huyen)} className="btn-delete">Xóa</button>
@@ -36,11 +42,11 @@ export default function QuanHuyen() {
       return
     axios.delete(`http://127.0.0.1:8000/api/quan_huyen/${id}`)
       .then(response => {
-        console.log(response.data.message);
+        SuccessToast(response.data.message);
         fetchData()
       })
       .catch(error => {
-        console.log(error.response.data.error)
+        ErrorToast('Không thể xóa quận huyện này!')
       });
   }
 
@@ -50,10 +56,13 @@ export default function QuanHuyen() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/quan_huyen`, formData)
-      console.log(response.data.message)
+      SuccessToast(response.data.message)
       fetchData()
     } catch (error) {
-      console.log(error.response.data.error)
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -68,7 +77,7 @@ export default function QuanHuyen() {
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ten_quan_huyen">Tên quận huyện</label>
-          <input type="text" id='ten_quan_huyen' ref={tenQuanHuyenRef} />
+          <input required type="text" id='ten_quan_huyen' ref={tenQuanHuyenRef} />
         </div>
         <div></div>
         <div>
@@ -84,7 +93,7 @@ export default function QuanHuyen() {
           <thead>
             <tr>
               <th style={{ width: '150px' }}>Mã quận huyện</th>
-              <th style={{textAlign: 'left'}}>Tên quận huyện</th>
+              <th style={{ textAlign: 'left' }}>Tên quận huyện</th>
               <th style={{ width: '150px' }}>Hành động</th>
             </tr>
           </thead>
@@ -93,6 +102,7 @@ export default function QuanHuyen() {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   )
 }

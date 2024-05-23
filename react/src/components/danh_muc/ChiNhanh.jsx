@@ -2,6 +2,11 @@ import axios from "axios"
 import { useState, useEffect } from "react"
 import { IoIosAddCircleOutline } from "react-icons/io"
 import { Link } from "react-router-dom"
+import SuccessToast from '../notification/SuccessToast'
+import ErrorToast from '../notification/ErrorToast'
+import WarningToast from '../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ChiNhanh() {
   const [chiNhanhs, setChiNhanhs] = useState(null)
@@ -37,11 +42,11 @@ export default function ChiNhanh() {
       return
     axios.delete(`http://127.0.0.1:8000/api/chi_nhanh/${id}`)
       .then(response => {
-        console.log(response.data.message);
+        SuccessToast(response.data.message);
         fetchData()
       })
       .catch(error => {
-        console.log(error.response.data.error)
+        ErrorToast('Không thể xóa chi nhánh này!')
       });
   }
 
@@ -62,10 +67,13 @@ export default function ChiNhanh() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/chi_nhanh`, formData)
-      console.log(response.data.message)
+      SuccessToast(response.data.message)
       fetchData()
     } catch (error) {
-      console.log(error.response.data.error)
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -80,11 +88,11 @@ export default function ChiNhanh() {
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ten_chi_nhanh">Tên chi nhánh</label>
-          <input type="text" name="ten_chi_nhanh" id="ten_chi_nhanh" onChange={handleChange} />
+          <input required type="text" name="ten_chi_nhanh" id="ten_chi_nhanh" onChange={handleChange} />
         </div>
         <div>
           <label htmlFor="dia_chi">Địa chỉ</label>
-          <input type="text" name="dia_chi" id="dia_chi" onChange={handleChange} />
+          <input required type="text" name="dia_chi" id="dia_chi" onChange={handleChange} />
         </div>
         <div>
           <button type="submit" className="btn-add">
@@ -109,6 +117,7 @@ export default function ChiNhanh() {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   )
 }

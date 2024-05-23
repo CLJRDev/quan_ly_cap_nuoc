@@ -2,6 +2,12 @@ import axios from "axios"
 import { useState, useEffect } from "react"
 import { MdOutlineEdit } from "react-icons/md";
 import { useParams, useNavigate } from "react-router-dom"
+import SuccessToast from '../notification/SuccessToast'
+import ErrorToast from '../notification/ErrorToast'
+import WarningToast from '../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function SuaPhuongThucThanhToan() {
   const { id } = useParams()
@@ -26,10 +32,15 @@ export default function SuaPhuongThucThanhToan() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/pt_thanh_toan/${id}`, formData)
-      console.log(response.data.message)
+      setTimeout(() => {
+        SuccessToast(response.data.message)
+      }, 500)
       navigate('/phuong_thuc_thanh_toan')
     } catch (error) {
-      console.log(error.response.data.error)
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -44,7 +55,7 @@ export default function SuaPhuongThucThanhToan() {
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ten_phuong_thuc">Tên phương thức</label>
-          <input type="text" id='ten_phuong_thuc' value={tenPhuongThuc} onChange={handleChange} />
+          <input required type="text" id='ten_phuong_thuc' value={tenPhuongThuc} onChange={handleChange} />
         </div>
         <div></div>
         <div>
@@ -54,6 +65,7 @@ export default function SuaPhuongThucThanhToan() {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   )
 }

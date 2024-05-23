@@ -2,6 +2,12 @@ import axios from "axios"
 import { useState, useEffect, useRef } from "react"
 import { IoIosAddCircleOutline } from "react-icons/io"
 import { Link } from "react-router-dom"
+import SuccessToast from '../notification/SuccessToast'
+import ErrorToast from '../notification/ErrorToast'
+import WarningToast from '../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function CoDongHo() {
   const [coDongHos, setCoDongHos] = useState(null)
@@ -36,11 +42,11 @@ export default function CoDongHo() {
       return
     axios.delete(`http://127.0.0.1:8000/api/co_dong_ho/${id}`)
       .then(response => {
-        console.log(response.data.message);
+        SuccessToast(response.data.message);
         fetchData()
       })
       .catch(error => {
-        console.log(error.response.data.error)
+        ErrorToast('Không thể xóa cỡ đồng hồ này!')
       });
   }
 
@@ -50,10 +56,13 @@ export default function CoDongHo() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/co_dong_ho`, formData)
-      console.log(response.data.message)
+      SuccessToast(response.data.message)
       fetchData()
     } catch (error) {
-      console.log(error.response.data.error)
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -69,7 +78,7 @@ export default function CoDongHo() {
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ten_co_dong_ho">Tên cỡ đồng hồ</label>
-          <input type="text" id='ten_co_dong_ho' ref={tenCoDongHoRef} />
+          <input required type="text" id='ten_co_dong_ho' ref={tenCoDongHoRef} />
         </div>
         <div></div>
         <div>
@@ -94,6 +103,7 @@ export default function CoDongHo() {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   )
 }
