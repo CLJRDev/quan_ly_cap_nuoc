@@ -39,14 +39,17 @@ class QLTaiKhoanController extends Controller
       'required' => 'Xin hãy điền đủ thông tin!',
       'same' => 'Mật khẩu xác nhận không trùng với mật khẩu!',
       'mat_khau.max' => 'Mật khẩu quá dài!',
-      'sdt.max' => 'Số điện thoại không hợp lệ!'
+      'sdt.max' => 'Số điện thoại không hợp lệ!',
+      'sdt.min' => 'Số điện thoại không hợp lệ!',
+      'sdt.unique' => 'Số điện thoại đã tồn tại!',
+      'email.unique' => 'Email đã tồn tại!',
     ];
     $validator = Validator::make($request->all(), [
       'mat_khau' => 'required|max:100',
       'xac_nhan_mat_khau' => 'required|max:100|same:mat_khau',
       'trang_thai' => 'required',
-      'email' => 'required',
-      'sdt' => 'required|max:10',
+      'email' => 'required|unique:ql_taikhoan,email',
+      'sdt' => 'required|max:10|min:10|unique:ql_taikhoan,sdt',
       'chuc_vu' => 'required',
       'ho_ten' => 'required',
       'ngay_sinh' => 'required',
