@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 19, 2024 at 08:07 PM
+-- Generation Time: May 23, 2024 at 10:32 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -235,6 +235,59 @@ INSERT INTO `dm_tuyendoc` (`ma_tuyen`, `ten_tuyen`, `ma_phuong_xa`, `ma_to_quan_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `failed_jobs`
+--
+
+CREATE TABLE `failed_jobs` (
+  `id` bigint(20) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jobs`
+--
+
+CREATE TABLE `jobs` (
+  `id` bigint(20) NOT NULL,
+  `queue` varchar(255) NOT NULL,
+  `payload` longtext NOT NULL,
+  `attempts` tinyint(4) NOT NULL,
+  `reserved_at` int(11) DEFAULT NULL,
+  `available_at` int(11) NOT NULL,
+  `created_at` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `jobs`
+--
+
+INSERT INTO `jobs` (`id`, `queue`, `payload`, `attempts`, `reserved_at`, `available_at`, `created_at`) VALUES
+(1, 'default', '{\"uuid\":\"b492ded6-de39-4b98-a43c-40c1f63632e4\",\"displayName\":\"App\\\\Jobs\\\\GuiMailJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\GuiMailJob\",\"command\":\"O:19:\\\"App\\\\Jobs\\\\GuiMailJob\\\":1:{s:5:\\\"delay\\\";O:25:\\\"Illuminate\\\\Support\\\\Carbon\\\":3:{s:4:\\\"date\\\";s:26:\\\"2024-05-22 10:07:07.659835\\\";s:13:\\\"timezone_type\\\";i:3;s:8:\\\"timezone\\\";s:3:\\\"UTC\\\";}}\"}}', 0, NULL, 1716372427, 1716372367),
+(2, 'default', '{\"uuid\":\"40f9e069-76db-4946-9582-0af5dcb8dab3\",\"displayName\":\"App\\\\Jobs\\\\GuiMailJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\GuiMailJob\",\"command\":\"O:19:\\\"App\\\\Jobs\\\\GuiMailJob\\\":0:{}\"}}', 0, NULL, 1716372433, 1716372433),
+(3, 'default', '{\"uuid\":\"f0f5f19f-edf8-45cb-b9f7-0f14984c5ee2\",\"displayName\":\"App\\\\Jobs\\\\GuiMailJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\GuiMailJob\",\"command\":\"O:19:\\\"App\\\\Jobs\\\\GuiMailJob\\\":0:{}\"}}', 0, NULL, 1716372527, 1716372527),
+(4, 'default', '{\"uuid\":\"d9cf74c2-1a95-4070-964e-dc89c7dd4bcb\",\"displayName\":\"App\\\\Jobs\\\\GuiMailJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\GuiMailJob\",\"command\":\"O:19:\\\"App\\\\Jobs\\\\GuiMailJob\\\":0:{}\"}}', 0, NULL, 1716372569, 1716372569),
+(5, 'default', '{\"uuid\":\"396b25d1-4e90-4799-aaaf-c407284546c2\",\"displayName\":\"App\\\\Jobs\\\\GuiMailJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\GuiMailJob\",\"command\":\"O:19:\\\"App\\\\Jobs\\\\GuiMailJob\\\":0:{}\"}}', 0, NULL, 1716372629, 1716372629),
+(6, 'default', '{\"uuid\":\"cbc58c7a-b1b0-4e99-b541-1b9c3fd94b3f\",\"displayName\":\"App\\\\Jobs\\\\GuiMailJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\GuiMailJob\",\"command\":\"O:19:\\\"App\\\\Jobs\\\\GuiMailJob\\\":0:{}\"}}', 0, NULL, 1716372657, 1716372657),
+(7, 'default', '{\"uuid\":\"721ee363-211a-4969-b574-40a0e3fb4ce7\",\"displayName\":\"App\\\\Jobs\\\\GuiMailJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\GuiMailJob\",\"command\":\"O:19:\\\"App\\\\Jobs\\\\GuiMailJob\\\":0:{}\"}}', 0, NULL, 1716372815, 1716372815),
+(8, 'default', '{\"uuid\":\"7f223c90-76f0-4140-ac5c-cf7295197905\",\"displayName\":\"App\\\\Jobs\\\\GuiMailJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\GuiMailJob\",\"command\":\"O:19:\\\"App\\\\Jobs\\\\GuiMailJob\\\":0:{}\"}}', 0, NULL, 1716372886, 1716372886),
+(9, 'default', '{\"uuid\":\"9efdd27a-0ad1-4f8f-a040-b12fe1344a2f\",\"displayName\":\"App\\\\Jobs\\\\GuiMailJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\GuiMailJob\",\"command\":\"O:19:\\\"App\\\\Jobs\\\\GuiMailJob\\\":0:{}\"}}', 0, NULL, 1716373339, 1716373339),
+(10, 'default', '{\"uuid\":\"25993c30-96a3-4be5-9933-6b470c062da3\",\"displayName\":\"App\\\\Jobs\\\\GuiMailJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\GuiMailJob\",\"command\":\"O:19:\\\"App\\\\Jobs\\\\GuiMailJob\\\":1:{s:5:\\\"delay\\\";O:25:\\\"Illuminate\\\\Support\\\\Carbon\\\":3:{s:4:\\\"date\\\";s:26:\\\"2024-05-22 10:40:01.182673\\\";s:13:\\\"timezone_type\\\";i:3;s:8:\\\"timezone\\\";s:3:\\\"UTC\\\";}}\"}}', 0, NULL, 1716374401, 1716374341),
+(11, 'default', '{\"uuid\":\"63b8ba98-bb70-47df-b710-0713d065ade9\",\"displayName\":\"App\\\\Jobs\\\\GuiMailJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\GuiMailJob\",\"command\":\"O:19:\\\"App\\\\Jobs\\\\GuiMailJob\\\":1:{s:5:\\\"delay\\\";O:25:\\\"Illuminate\\\\Support\\\\Carbon\\\":3:{s:4:\\\"date\\\";s:26:\\\"2024-05-22 10:43:08.903763\\\";s:13:\\\"timezone_type\\\";i:3;s:8:\\\"timezone\\\";s:3:\\\"UTC\\\";}}\"}}', 0, NULL, 1716374588, 1716374528),
+(12, 'default', '{\"uuid\":\"02c078bc-9b54-4943-8962-0c8b5c0fc4f9\",\"displayName\":\"App\\\\Jobs\\\\GuiMailJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\GuiMailJob\",\"command\":\"O:19:\\\"App\\\\Jobs\\\\GuiMailJob\\\":0:{}\"}}', 0, NULL, 1716374547, 1716374547),
+(13, 'default', '{\"uuid\":\"c391fb77-2ce9-464d-bb1a-3a54953f1165\",\"displayName\":\"App\\\\Jobs\\\\GuiMailJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\GuiMailJob\",\"command\":\"O:19:\\\"App\\\\Jobs\\\\GuiMailJob\\\":2:{s:12:\\\"\\u0000*\\u0000thong_tin\\\";a:1:{s:5:\\\"check\\\";s:4:\\\"hien\\\";}s:13:\\\"\\u0000*\\u0000khach_hang\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":5:{s:5:\\\"class\\\";s:27:\\\"App\\\\Models\\\\QLKhachHangModel\\\";s:2:\\\"id\\\";a:1:{i:0;i:1;}s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";s:15:\\\"collectionClass\\\";N;}}\"}}', 0, NULL, 1716375172, 1716375172),
+(14, 'default', '{\"uuid\":\"706627fc-8ef8-474d-b05f-afb9361333fa\",\"displayName\":\"App\\\\Jobs\\\\GuiMailJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\GuiMailJob\",\"command\":\"O:19:\\\"App\\\\Jobs\\\\GuiMailJob\\\":2:{s:12:\\\"\\u0000*\\u0000thong_tin\\\";a:1:{s:5:\\\"check\\\";s:4:\\\"hien\\\";}s:13:\\\"\\u0000*\\u0000khach_hang\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":5:{s:5:\\\"class\\\";s:27:\\\"App\\\\Models\\\\QLKhachHangModel\\\";s:2:\\\"id\\\";a:1:{i:0;i:1;}s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";s:15:\\\"collectionClass\\\";N;}}\"}}', 0, NULL, 1716375325, 1716375325),
+(15, 'default', '{\"uuid\":\"c6c56b58-fe29-40f9-bb18-cb5a76c9e76c\",\"displayName\":\"App\\\\Jobs\\\\GuiMailJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\GuiMailJob\",\"command\":\"O:19:\\\"App\\\\Jobs\\\\GuiMailJob\\\":2:{s:12:\\\"\\u0000*\\u0000thong_tin\\\";a:1:{s:5:\\\"check\\\";s:4:\\\"hien\\\";}s:13:\\\"\\u0000*\\u0000khach_hang\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":5:{s:5:\\\"class\\\";s:27:\\\"App\\\\Models\\\\QLKhachHangModel\\\";s:2:\\\"id\\\";a:1:{i:0;i:1;}s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";s:15:\\\"collectionClass\\\";N;}}\"}}', 0, NULL, 1716375389, 1716375389),
+(16, 'default', '{\"uuid\":\"2a920ea2-62f2-4450-95b3-ce0a7765195e\",\"displayName\":\"App\\\\Jobs\\\\GuiMailJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\GuiMailJob\",\"command\":\"O:19:\\\"App\\\\Jobs\\\\GuiMailJob\\\":2:{s:12:\\\"\\u0000*\\u0000thong_tin\\\";a:1:{s:5:\\\"check\\\";s:4:\\\"hien\\\";}s:13:\\\"\\u0000*\\u0000khach_hang\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":5:{s:5:\\\"class\\\";s:27:\\\"App\\\\Models\\\\QLKhachHangModel\\\";s:2:\\\"id\\\";a:1:{i:0;i:1;}s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";s:15:\\\"collectionClass\\\";N;}}\"}}', 0, NULL, 1716376880, 1716376880);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ls_donghokhoi`
 --
 
@@ -371,7 +424,7 @@ CREATE TABLE `ql_khachhang` (
 --
 
 INSERT INTO `ql_khachhang` (`ma_khach_hang`, `ten_khach_hang`, `can_cuoc`, `dia_chi`, `sdt`, `email`) VALUES
-(1, 'Phạm Thị Thu Hiền', '031300005030', '34/40', 23123222, 'hien@qlcn.com');
+(1, 'Phạm Thị Thu Hiền', '031300005030', '34/40', 23123222, 'ddmanh1420@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -577,6 +630,19 @@ ALTER TABLE `dm_tuyendoc`
   ADD KEY `ma_to_quan_ly` (`ma_to_quan_ly`);
 
 --
+-- Indexes for table `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `jobs`
+--
+ALTER TABLE `jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `queue` (`queue`);
+
+--
 -- Indexes for table `ls_donghokhoi`
 --
 ALTER TABLE `ls_donghokhoi`
@@ -735,6 +801,18 @@ ALTER TABLE `dm_toquanly`
 --
 ALTER TABLE `dm_tuyendoc`
   MODIFY `ma_tuyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `jobs`
+--
+ALTER TABLE `jobs`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `ls_donghokhoi`
