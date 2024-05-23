@@ -12,6 +12,8 @@ use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Validation\Rule;
+
 class QLTaiKhoanController extends Controller
 {
   /**
@@ -112,12 +114,21 @@ class QLTaiKhoanController extends Controller
         $message = [
             'same' => 'Mật khẩu xác nhận không trùng với mật khẩu!',
             'mat_khau.max' => 'Mật khẩu quá dài!',
-            'sdt.max' => 'Số điện thoại không hợp lệ!'
+            'sdt.max' => 'Số điện thoại không hợp lệ!',
+            'sdt.min' => 'Số điện thoại không hợp lệ!',
+            'sdt.unique' => 'Số điện thoại đã tồn tại!',
+            'sdt.numeric' => 'Số điện thoại không hợp lệ!',
+            'email.unique' => 'Email đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
             'mat_khau' => 'max:100',
             'xac_nhan_mat_khau' => 'max:100|same:mat_khau',
-            'sdt' => 'max:10',
+            'sdt' => ['max:10|min:10|numeric',
+              Rule::unique('ql_taikhoan', 'sdt')->ignore($id, 'ma_nhan_vien')
+            ],
+            'email' => [
+              Rule::unique('ql_taikhoan', 'email')->ignore($id, 'ma_nhan_vien')
+            ],
           ],$message);
         
         if($validator->fails()){
