@@ -34,16 +34,18 @@ class QLKhachHangController extends Controller
   {
     $message = [
       'required' => 'Xin hãy điền đủ thông tin!',
-      'sdt.max' => 'Số điện thoại không hợp lệ!',
-      'can_cuoc.max' => 'Số căn cước công dân không hợp lệ!',
+      'sdt.max_digits' => 'Số điện thoại không hợp lệ!',
+      'sdt.min_digits' => 'Số điện thoại không hợp lệ!',
+      'can_cuoc.max_digits' => 'Số căn cước công dân không hợp lệ!',
+      'can_cuoc.min_digits' => 'Số căn cước công dân không hợp lệ!',
       'unique' => 'Số căn cước công dân đã tồn tại!'
     ];
     $validator = Validator::make($request->all(), [
       'ten_khach_hang' => 'required',
-      'can_cuoc' => 'required|max:12|unique',
+      'can_cuoc' => 'required|max_digits:12|min_digits:12|unique',
       'dia_chi' => 'required',
       'email' => 'required',
-      'sdt' => 'required|max:10',
+      'sdt' => 'required|max_digits:10|min_digits:10',
     ], $message);
 
     if ($validator->fails()) {
@@ -98,13 +100,16 @@ class QLKhachHangController extends Controller
     public function update(Request $request, string $id)
     {
         $message = [
-          'sdt.max' => 'Số điện thoại không hợp lệ!',
-          'can_cuoc.max' => 'Số căn cước công dân không hợp lệ!',
+          'sdt.max_digits' => 'Số điện thoại không hợp lệ!',
+          'sdt.min_digits' => 'Số điện thoại không hợp lệ!',
+          'can_cuoc.max_digits' => 'Số căn cước công dân không hợp lệ!',
+          'can_cuoc.min_digits' => 'Số căn cước công dân không hợp lệ!',
           'unique' => 'Số căn cước công dân đã tồn tại!'
         ];
         $validator = Validator::make($request->all(),[
-            'sdt' => 'max:10',
+            'sdt' => 'max_digits:10|min_digits:10',
             'can_cuoc' => [
+              'max_digits:12|min_digits:12',
               Rule::unique('ql_khachhang', 'can_cuoc')->ignore($id, 'ma_khach_hang')
             ],
           ],$message);

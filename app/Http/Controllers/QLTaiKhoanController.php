@@ -21,7 +21,13 @@ class QLTaiKhoanController extends Controller
    */
   public function index()
   {
-    return QLTaiKhoanModel::orderBy('ma_nhan_vien', 'ASC')->get();
+    // return QLTaiKhoanModel::orderBy('ma_nhan_vien', 'ASC')->get();
+    $khach_hang = QLKhachHangModel::select('ql_khachhang.email','ql_hoadon.tu_ngay','ql_hoadon.den_ngay')
+            ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_khachhang.ma_hop_dong')
+            ->join('ql_lapdatdhkhach','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
+            ->join('ql_hoadon','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
+            ->where(['ql_hopdong.tu_ngay'<=date("Y-m-d"),'ql_hopdong.den_ngay'>=date("Y-m-d")])->get();
+    return $khach_hang;
   }
 
   /**
@@ -41,18 +47,18 @@ class QLTaiKhoanController extends Controller
       'required' => 'Xin hãy điền đủ thông tin!',
       'same' => 'Mật khẩu xác nhận không trùng với mật khẩu!',
       'mat_khau.max' => 'Mật khẩu quá dài!',
-      'sdt.max' => 'Số điện thoại không hợp lệ!',
-      'sdt.min' => 'Số điện thoại không hợp lệ!',
+      'sdt.max_digits' => 'Số điện thoại không hợp lệ1!',
+      'sdt.min_digits' => 'Số điện thoại không hợp lệ2!',
       'sdt.unique' => 'Số điện thoại đã tồn tại!',
-      'sdt.numeric' => 'Số điện thoại không hợp lệ!',
+      'sdt.numeric' => 'Số điện thoại không hợp lệ3!',
       'email.unique' => 'Email đã tồn tại!',
     ];
     $validator = Validator::make($request->all(), [
-      'mat_khau' => 'required|max:100',
-      'xac_nhan_mat_khau' => 'required|max:100|same:mat_khau',
+      'mat_khau' => 'required|max_digits:100',
+      'xac_nhan_mat_khau' => 'required|max_digits:100|same:mat_khau',
       'trang_thai' => 'required',
       'email' => 'required|unique:ql_taikhoan,email',
-      'sdt' => 'required|max:10|min:10|numeric|unique:ql_taikhoan,sdt',
+      'sdt' => 'required|max_digits:10|min_digits:10|numeric|unique:ql_taikhoan,sdt',
       'chuc_vu' => 'required',
       'ho_ten' => 'required',
       'ngay_sinh' => 'required',
@@ -113,17 +119,17 @@ class QLTaiKhoanController extends Controller
     {
         $message = [
             'same' => 'Mật khẩu xác nhận không trùng với mật khẩu!',
-            'mat_khau.max' => 'Mật khẩu quá dài!',
-            'sdt.max' => 'Số điện thoại không hợp lệ!',
-            'sdt.min' => 'Số điện thoại không hợp lệ!',
+            'mat_khau.max_digits' => 'Mật khẩu quá dài!',
+            'sdt.max_digits' => 'Số điện thoại không hợp lệ!',
+            'sdt.min_digits' => 'Số điện thoại không hợp lệ!',
             'sdt.unique' => 'Số điện thoại đã tồn tại!',
             'sdt.numeric' => 'Số điện thoại không hợp lệ!',
             'email.unique' => 'Email đã tồn tại!',
         ];
         $validator = Validator::make($request->all(),[
-            'mat_khau' => 'max:100',
-            'xac_nhan_mat_khau' => 'max:100|same:mat_khau',
-            'sdt' => ['max:10|min:10|numeric',
+            'mat_khau' => 'max_digits:100',
+            'xac_nhan_mat_khau' => 'max_digits:100|same:mat_khau',
+            'sdt' => ['max_digits:10|min_digits:10|numeric',
               Rule::unique('ql_taikhoan', 'sdt')->ignore($id, 'ma_nhan_vien')
             ],
             'email' => [
