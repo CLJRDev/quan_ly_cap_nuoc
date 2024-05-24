@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2024 at 04:24 PM
+-- Generation Time: May 23, 2024 at 10:06 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -210,11 +210,12 @@ CREATE TABLE `dm_quyen` (
 
 INSERT INTO `dm_quyen` (`ma_quyen`, `ten_quyen`, `trang_thai`) VALUES
 (1, 'Quản trị viên', 1),
-(2, 'Thu ngân', 0),
-(5, 'Nhân viên', 0),
+(2, 'Thu ngân', 1),
+(5, 'Nhân viên', 1),
 (6, 'Trưởng phòng', 1),
 (7, 'Quản lý', 1),
-(8, 'Thanh tra', 1);
+(8, 'Thanh tra', 1),
+(13, 'Nhân viên ghi số nước', 1);
 
 -- --------------------------------------------------------
 
@@ -562,19 +563,21 @@ INSERT INTO `ql_nhomgia` (`ma_nhom_gia`, `ten_nhom_gia`, `hs_duoi_10m`, `hs_tu_1
 CREATE TABLE `ql_phanquyen` (
   `ma_phan_quyen` int(11) NOT NULL,
   `ma_nhan_vien` int(6) NOT NULL,
-  `ma_quyen` int(11) NOT NULL
+  `ma_quyen` int(11) NOT NULL,
+  `ma_tuyen` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `ql_phanquyen`
 --
 
-INSERT INTO `ql_phanquyen` (`ma_phan_quyen`, `ma_nhan_vien`, `ma_quyen`) VALUES
-(1, 100000, 1),
-(2, 100000, 2),
-(6, 100000, 5),
-(8, 100001, 2),
-(7, 100001, 6);
+INSERT INTO `ql_phanquyen` (`ma_phan_quyen`, `ma_nhan_vien`, `ma_quyen`, `ma_tuyen`) VALUES
+(1, 100000, 1, NULL),
+(2, 100000, 2, NULL),
+(6, 100000, 5, NULL),
+(7, 100001, 6, NULL),
+(8, 100001, 2, NULL),
+(11, 100003, 13, 1);
 
 -- --------------------------------------------------------
 
@@ -598,9 +601,9 @@ CREATE TABLE `ql_taikhoan` (
 --
 
 INSERT INTO `ql_taikhoan` (`ma_nhan_vien`, `mat_khau`, `trang_thai`, `email`, `sdt`, `chuc_vu`, `ho_ten`, `ngay_sinh`) VALUES
-(100000, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'manh@qlcn.com', 0, 'Giám đốc', 'Đỗ Đức Mạnh', '2000-04-14'),
+(100000, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'manh86042@st.vimaru.edu.vn', 0, 'Giám đốc', 'Đỗ Đức Mạnh', '2000-04-14'),
 (100001, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'lam@qlcn.com', 0, 'Giám đốc', 'Nguyễn Công Lâm', '2002-11-05'),
-(100003, 'c4ca4238a0b923820dcc509a6f75849b', 0, 'phuc@qlcn.com', 1, 'Trưởng phòng', 'Phạm Quang Phúc', '2000-08-06');
+(100003, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'phuc@qlcn.com', 1, 'Trưởng phòng', 'Phạm Quang Phúc', '2000-08-06');
 
 -- --------------------------------------------------------
 
@@ -837,7 +840,8 @@ ALTER TABLE `ql_nhomgia`
 ALTER TABLE `ql_phanquyen`
   ADD PRIMARY KEY (`ma_phan_quyen`),
   ADD UNIQUE KEY `ma_nhan_vien` (`ma_nhan_vien`,`ma_quyen`),
-  ADD KEY `ma_quyen` (`ma_quyen`);
+  ADD KEY `ma_quyen` (`ma_quyen`),
+  ADD KEY `ma_tuyen` (`ma_tuyen`);
 
 --
 -- Indexes for table `ql_taikhoan`
@@ -916,7 +920,7 @@ ALTER TABLE `dm_quanhuyen`
 -- AUTO_INCREMENT for table `dm_quyen`
 --
 ALTER TABLE `dm_quyen`
-  MODIFY `ma_quyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ma_quyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `dm_toquanly`
@@ -1006,7 +1010,7 @@ ALTER TABLE `ql_nhomgia`
 -- AUTO_INCREMENT for table `ql_phanquyen`
 --
 ALTER TABLE `ql_phanquyen`
-  MODIFY `ma_phan_quyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `ma_phan_quyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `ql_taikhoan`
@@ -1105,7 +1109,8 @@ ALTER TABLE `ql_nhomgia`
 --
 ALTER TABLE `ql_phanquyen`
   ADD CONSTRAINT `ql_phanquyen_ibfk_1` FOREIGN KEY (`ma_quyen`) REFERENCES `dm_quyen` (`ma_quyen`),
-  ADD CONSTRAINT `ql_phanquyen_ibfk_2` FOREIGN KEY (`ma_nhan_vien`) REFERENCES `ql_taikhoan` (`ma_nhan_vien`);
+  ADD CONSTRAINT `ql_phanquyen_ibfk_2` FOREIGN KEY (`ma_nhan_vien`) REFERENCES `ql_taikhoan` (`ma_nhan_vien`),
+  ADD CONSTRAINT `ql_phanquyen_ibfk_3` FOREIGN KEY (`ma_tuyen`) REFERENCES `dm_tuyendoc` (`ma_tuyen`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

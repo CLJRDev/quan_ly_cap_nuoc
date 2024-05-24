@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Jobs\GuiMailJob;
 use App\Mail\QuenMatKhauMail;
 use App\Models\QLKhachHangModel;
+use App\Models\QLPhanQuyenModel;
 use App\Models\QLTaiKhoanModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
@@ -230,7 +231,7 @@ class QLTaiKhoanController extends Controller
   {
     $ma_nhan_vien = $request->ma_nhan_vien;
     $mat_khau = md5($request->mat_khau);
-    $tai_khoans = QLTaiKhoanModel::where('ma_nhan_vien', '=', $ma_nhan_vien);
+    $tai_khoans = QLTaiKhoanModel::where('ma_nhan_vien', $ma_nhan_vien);
     session()->put('bao_loi', '');
     session()->put('trang_thai', 200);
     if ($tai_khoans->count() == 0) {
@@ -247,6 +248,8 @@ class QLTaiKhoanController extends Controller
                 session()->put('bao_loi', 'Sai mật khẩu!');
                 session()->put('trang_thai', 401);
             } else {
+                $quyen = QLPhanQuyenModel::where('ma_nhan_vien',$ma_nhan_vien)->pluck('ma_quyen')->toArray();
+                session()->put('quyen', $quyen);
                 session()->put('bao_loi', '');
                 session()->put('nguoi_dung', $ma_nhan_vien);
             }
@@ -255,7 +258,9 @@ class QLTaiKhoanController extends Controller
     }
     if (session('trang_thai') == 200) {
       return response()->json([
-        'login' => 'true'
+        'login' => 'true',
+        'quyen' =>session('quyen'),
+        'nguoi_dung' => session('nguoi_dung'),
     ],session('trang_thai'));
     } else {
       return response()->json([

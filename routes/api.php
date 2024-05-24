@@ -39,6 +39,7 @@ Route::get('/phan_quyen_search',[QLPhanQuyenController::class,'search']);
 Route::apiResource("tai_khoan",QLTaiKhoanController::class);
 Route::get('/tai_khoan_search',[QLTaiKhoanController::class,'search']);
 Route::post('/login',[QLTaiKhoanController::class,'login']);
+Route::get('/logout',[QLTaiKhoanController::class,'logout']);
 Route::post('/send_confirmation',[QLTaiKhoanController::class,'send_confirmation']);
 Route::post('/verify_confirmation',[QLTaiKhoanController::class,'verify_confirmation']);
 Route::post('/reset_password',[QLTaiKhoanController::class,'reset_password']);
@@ -105,6 +106,7 @@ Route::apiResource("hoa_don",QLHoaDonController::class);
 Route::get('/hoa_don_search',[QLHoaDonController::class,'search']);
 Route::get('/ds_ls_dhkhach',[QLHoaDonController::class,'get_list_dhkhach']);
 Route::get('/lookup_dh_khach',[QLHoaDonController::class,'lookup_dh_khach']);
+Route::get('/check_tuyen',[QLHoaDonController::class,'check_tuyen']);
 //404
 Route::fallback(function(){
     return response()->json([

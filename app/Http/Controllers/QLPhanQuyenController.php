@@ -17,9 +17,10 @@ class QLPhanQuyenController extends Controller
      */
     public function index()
     {
-        return QLPhanQuyenModel::select('ma_phan_quyen','ql_phanquyen.ma_quyen','dm_quyen.ten_quyen','ql_phanquyen.ma_nhan_vien','ql_taikhoan.ho_ten','ql_taikhoan.chuc_vu')
+        return QLPhanQuyenModel::select('ma_phan_quyen','ql_phanquyen.ma_quyen','dm_quyen.ten_quyen','ql_phanquyen.ma_nhan_vien','ql_taikhoan.ho_ten','ql_taikhoan.chuc_vu','dm_tuyendoc.*')
         ->join('dm_quyen','dm_quyen.ma_quyen','=','ql_phanquyen.ma_quyen')
         ->join('ql_taikhoan','ql_taikhoan.ma_nhan_vien','=','ql_phanquyen.ma_nhan_vien')
+        ->leftJoin('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_phanquyen.ma_tuyen')
         ->where('dm_quyen.trang_thai',1)
         ->where('ql_taikhoan.trang_thai',1)
         ->orderBy('ma_nhan_vien', 'ASC')->get();
@@ -54,11 +55,13 @@ class QLPhanQuyenController extends Controller
                     ],422);
             }
         }
-        
         foreach($request->ma_quyen as $quyen ){
             $phan_quyen = new QLPhanQuyenModel; 
             $phan_quyen->ma_nhan_vien=$request->ma_nhan_vien;
             $phan_quyen->ma_quyen=$quyen;
+            if($phan_quyen->ma_quyen==13){
+                $phan_quyen->ma_tuyen=$request->ma_tuyen;
+            }
             $result = $phan_quyen->save();
             if(!$result){
                 return response()->json([
@@ -124,6 +127,11 @@ class QLPhanQuyenController extends Controller
             if(isset($request->ma_quyen)){
                 $phan_quyen->ma_quyen=$request->ma_quyen;
             }
+            if(isset($request->ma_tuyen)){
+                if($phan_quyen->ma_quyen==13){
+                    $phan_quyen->ma_tuyen=$request->ma_tuyen;
+                }
+            }
             $result = $phan_quyen->save();
         }catch (ModelNotFoundException $e) {
             return response()->json([
@@ -171,7 +179,8 @@ class QLPhanQuyenController extends Controller
     {
         $query = QLPhanQuyenModel::query()->select('ma_phan_quyen','ql_phanquyen.ma_quyen','dm_quyen.ten_quyen','ql_phanquyen.ma_nhan_vien','ql_taikhoan.ho_ten','ql_taikhoan.chuc_vu')
             ->join('dm_quyen','dm_quyen.ma_quyen','=','ql_phanquyen.ma_quyen')
-            ->join('ql_taikhoan','ql_taikhoan.ma_nhan_vien','=','ql_phanquyen.ma_nhan_vien');
+            ->join('ql_taikhoan','ql_taikhoan.ma_nhan_vien','=','ql_phanquyen.ma_nhan_vien')
+            ->leftJoin('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_phanquyen.ma_tuyen');
         if($request->has('ma_nhan_vien')){
             $query->where('ql_phanquyen.ma_nhan_vien',"like","%".$request->ma_nhan_vien."%");
         }
@@ -187,6 +196,9 @@ class QLPhanQuyenController extends Controller
         if($request->has('kich_hoat')&&$request->kich_hoat==0){
             $query->where('dm_quyen.trang_thai',1)
             ->where('ql_taikhoan.trang_thai',1);
+        }
+        if($request->has('ma_tuyen')){
+            $query->where('ma_tuyen',$request->ma_tuyen);
         }
         $result = $query->orderBy('ql_phanquyen.ma_nhan_vien', 'ASC')->get();
         return $result;

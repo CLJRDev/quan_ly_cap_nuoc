@@ -7,6 +7,7 @@ use App\Models\QLDongHoKhachModel;
 use App\Models\QLHoaDonModel;
 use App\Models\QLHopDongModel;
 use App\Models\QLLapDatDHKhachModel;
+use App\Models\QLPhanQuyenModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException; 
@@ -341,5 +342,16 @@ class QLHoaDonController extends Controller
     {
         $query =  QLLapDatDHKhachModel::query()->select('*')->where('den_ngay',null)->get();    
         return $query;
+    }
+    public function check_tuyen(Request $request)
+    {
+        $query =  QLPhanQuyenModel::select('ma_tuyen')
+        ->where(['ma_nhan_vien'=>$request->ma_nhan_vien,'ma_quyen'=>$request->ma_quyen])->first();    
+        if(empty($query)){
+            return response()->json([
+                'error' => 'Không có quyền ghi chỉ số!'
+              ],422);
+        }
+        else return $query;
     }
 }
