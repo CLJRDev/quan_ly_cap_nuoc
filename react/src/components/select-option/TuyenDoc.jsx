@@ -32,6 +32,7 @@ export default function TuyenDoc(props) {
 
   return (
     <Select
+      required={props.require}
       options={tuyenDocOptions}
       onChange={props.onChange}
       name={props.name}

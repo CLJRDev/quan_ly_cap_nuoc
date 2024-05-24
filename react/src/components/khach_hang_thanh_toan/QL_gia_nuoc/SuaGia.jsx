@@ -3,6 +3,12 @@ import axios from 'axios'
 import { useState, useEffect } from "react"
 import Select from 'react-select'
 import { MdOutlineEdit } from "react-icons/md";
+import SuccessToast from '../../notification/SuccessToast'
+import ErrorToast from '../../notification/ErrorToast'
+import WarningToast from '../../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function SuaGia() {
   const { id } = useParams()
@@ -31,7 +37,7 @@ export default function SuaGia() {
     axios.get(`http://127.0.0.1:8000/api/nhom_gia/${id}`)
       .then(response => {
         setGia(response.data)
-        setSelectedOption({value: response.data.ma_loai_khach_hang, label: response.data.ten_loai_khach_hang})
+        setSelectedOption({ value: response.data.ma_loai_khach_hang, label: response.data.ten_loai_khach_hang })
       })
   }, [])
 
@@ -62,12 +68,12 @@ export default function SuaGia() {
     const formData = new FormData()
     formData.append('_method', 'PUT')
     formData.append('ten_nhom_gia', gia.ten_nhom_gia)
-    if(gia.hs_rieng === null) {
+    if (gia.hs_rieng === null) {
       formData.append('hs_duoi_10m', gia.hs_duoi_10m)
       formData.append('hs_tu_10m_den_20m', gia.hs_tu_10m_den_20m)
       formData.append('hs_tu_20m_den_30m', gia.hs_tu_20m_den_30m)
       formData.append('hs_tren_30m', gia.hs_tren_30m)
-    }else{
+    } else {
       formData.append('hs_rieng', gia.hs_rieng)
     }
     formData.append('hs_thue', gia.hs_thue)
@@ -76,10 +82,15 @@ export default function SuaGia() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/nhom_gia/${id}`, formData)
-      console.log(response.data.message)
+      setTimeout(() => {
+        SuccessToast(response.data.message)
+      }, 500)
       navigate('/gia_nuoc')
     } catch (error) {
-      console.log(error.response.data.error)
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -140,6 +151,7 @@ export default function SuaGia() {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   )
 }

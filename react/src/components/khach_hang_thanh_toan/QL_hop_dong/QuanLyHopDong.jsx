@@ -5,6 +5,12 @@ import axios from 'axios'
 import { useState, useEffect } from "react"
 import Select from 'react-select'
 import NhomGia from "../../select-option/NhomGia"
+import SuccessToast from '../../notification/SuccessToast'
+import ErrorToast from '../../notification/ErrorToast'
+import WarningToast from '../../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function QuanLyHopDong() {
   const [hopDongs, setHopDongs] = useState(null)
@@ -20,6 +26,8 @@ export default function QuanLyHopDong() {
     ma_nhom_gia: '',
   })
 
+  console.log(searchData)
+
   const fetchData = () => {
     axios.get(`http://127.0.0.1:8000/api/hop_dong`)
       .then(response => {
@@ -31,18 +39,18 @@ export default function QuanLyHopDong() {
     fetchData()
   }, [])
 
-  // const xoa = id => {
-  //   if (!window.confirm('Bạn có chắc chắn muốn xóa hợp đồng này?'))
-  //     return
-  //   axios.delete(`http://127.0.0.1:8000/api/hop_dong/${id}`)
-  //     .then(response => {
-  //       console.log(response.data.message);
-  //       fetchData()
-  //     })
-  //     .catch(error => {
-  //       console.log(error.response.data.error)
-  //     });
-  // }
+  const xoa = id => {
+    if (!window.confirm('Bạn có chắc chắn muốn xóa hợp đồng này?'))
+      return
+    axios.delete(`http://127.0.0.1:8000/api/hop_dong/${id}`)
+      .then(response => {
+        SuccessToast(response.data.message);
+        fetchData()
+      })
+      .catch(error => {
+        ErrorToast('Không thể xóa hợp đồng này!')
+      });
+  }
 
   if (!hopDongs) return null
   const hopDongElements = hopDongs.map((item, index) => {
@@ -82,35 +90,33 @@ export default function QuanLyHopDong() {
     })
   }
 
-  console.log(searchData)
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     const { ma_hop_dong, ten_nguoi_dai_dien, ma_khach_hang, ten_khach_hang, ma_dong_ho, ma_nhom_gia, dia_chi, ngay_lap } = searchData;
     let queryString = '?'
     if (ma_hop_dong != '') {
-      queryString += `&ma_hop_dong=${ma_hop_dong}`
+      queryString += `ma_hop_dong=${ma_hop_dong}&`
     }
     if (ten_nguoi_dai_dien != '') {
-      queryString += `&ten_nguoi_dai_dien=${ten_nguoi_dai_dien}`
+      queryString += `ten_nguoi_dai_dien=${ten_nguoi_dai_dien}&`
     }
     if (ma_khach_hang != '') {
-      queryString += `&ma_khach_hang=${ma_khach_hang}`
+      queryString += `ma_khach_hang=${ma_khach_hang}&`
     }
     if (ten_khach_hang != '') {
-      queryString += `&ten_khach_hang=${ten_khach_hang}`
+      queryString += `ten_khach_hang=${ten_khach_hang}&`
     }
     if (ma_dong_ho != '') {
-      queryString += `&ma_dong_ho=${ma_dong_ho}`
+      queryString += `ma_dong_ho=${ma_dong_ho}&`
     }
     if (ma_nhom_gia != '') {
-      queryString += `&ma_nhom_gia=${ma_nhom_gia}`
+      queryString += `ma_nhom_gia=${ma_nhom_gia}&`
     }
     if (dia_chi != '') {
-      queryString += `&dia_chi=${dia_chi}`
+      queryString += `dia_chi=${dia_chi}&`
     }
     if (ngay_lap != '') {
-      queryString += `&ngay_lap=${ngay_lap}`
+      queryString += `ngay_lap=${ngay_lap}`
     }
     console.log(queryString)
     const response = await axios.get(`http://127.0.0.1:8000/api/hop_dong_search/${queryString}`)
@@ -189,6 +195,7 @@ export default function QuanLyHopDong() {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   )
 }

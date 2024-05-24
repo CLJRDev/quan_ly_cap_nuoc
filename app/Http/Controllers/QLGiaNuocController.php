@@ -67,7 +67,7 @@ class QLGiaNuocController extends Controller
         else{
             $nhom_gia->hs_rieng=$request->hs_rieng;
         }
-        $nhom_gia->gia_ban=$request->hs_thue;
+        $nhom_gia->hs_thue=$request->hs_thue;
         $nhom_gia->gia_ban=$request->gia_ban;
         $nhom_gia->ma_loai_khach_hang=$request->ma_loai_khach_hang;
         $result = $nhom_gia->save();

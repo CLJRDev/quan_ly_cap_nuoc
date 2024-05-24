@@ -32,6 +32,7 @@ export default function NhomGia(props) {
 
   return (
     <Select
+      required={props.require}
       options={nhomGiaOptions}
       onChange={props.onChange}
       name={props.name}

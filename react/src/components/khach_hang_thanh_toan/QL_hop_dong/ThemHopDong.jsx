@@ -6,6 +6,12 @@ import Select from 'react-select'
 import NhomGia from "../../select-option/NhomGia"
 import KhachHang from "../../select-option/KhachHang"
 import TuyenDoc from "../../select-option/TuyenDoc"
+import SuccessToast from '../../notification/SuccessToast'
+import ErrorToast from '../../notification/ErrorToast'
+import WarningToast from '../../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 export default function ThemHopDong() {
@@ -46,10 +52,15 @@ export default function ThemHopDong() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/hop_dong`, formData)
-      console.log(response.data.message)
+      setTimeout(() => {
+        SuccessToast(response.data.message)
+      }, 500)
       navigate('/hop_dong')
     } catch (error) {
-      console.log(error.response)
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -60,26 +71,28 @@ export default function ThemHopDong() {
 
   return (
     <div className="page">
-      <h2 className="title">Quản lý hợp đồng</h2>
+      <h2 className="title">Thêm hợp đồng</h2>
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="">Mã khách hàng</label>
           <KhachHang
+            require={true}
             onChange={handleSelectChange}
             name="ma_khach_hang"
           />
         </div>
         <div>
           <label htmlFor="ten_nguoi_dai_dien">Tên người đại diện</label>
-          <input type="text" id='ten_nguoi_dai_dien' name='ten_nguoi_dai_dien' onChange={handleInputChange} />
+          <input required type="text" id='ten_nguoi_dai_dien' name='ten_nguoi_dai_dien' onChange={handleInputChange} />
         </div>
         <div>
           <label htmlFor="chuc_vu_nguoi_dai_dien">Chức vụ người đại diện</label>
-          <input type="text" id='chuc_vu_nguoi_dai_dien' name='chuc_vu_nguoi_dai_dien' onChange={handleInputChange} />
+          <input required type="text" id='chuc_vu_nguoi_dai_dien' name='chuc_vu_nguoi_dai_dien' onChange={handleInputChange} />
         </div>
         <div>
           <label htmlFor="">Tuyến đọc</label>
           <TuyenDoc
+            require={true}
             onChange={handleSelectChange}
             name="ma_tuyen"
           />
@@ -87,17 +100,18 @@ export default function ThemHopDong() {
         <div>
           <label htmlFor="">Nhóm giá</label>
           <NhomGia
+            require={true}
             onChange={handleSelectChange}
             name="ma_nhom_gia"
           />
         </div>
         <div>
           <label htmlFor="dia_chi">Địa chỉ</label>
-          <input type="text" id='dia_chi' name='dia_chi' onChange={handleInputChange} />
+          <input required type="text" id='dia_chi' name='dia_chi' onChange={handleInputChange} />
         </div>
         <div>
           <label htmlFor="ngay_lap">Ngày lập</label>
-          <input type="date" id='ngay_lap' name='ngay_lap' onChange={handleInputChange} />
+          <input required type="date" id='ngay_lap' name='ngay_lap' onChange={handleInputChange} />
         </div>
         <div></div>
         <div>
@@ -107,6 +121,7 @@ export default function ThemHopDong() {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   )
 }

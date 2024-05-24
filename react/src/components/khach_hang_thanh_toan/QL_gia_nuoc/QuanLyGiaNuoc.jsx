@@ -4,6 +4,11 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from "react"
 import Select from 'react-select'
+import SuccessToast from '../../notification/SuccessToast'
+import ErrorToast from '../../notification/ErrorToast'
+import WarningToast from '../../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function QuanLyGiaNuoc() {
@@ -48,11 +53,11 @@ export default function QuanLyGiaNuoc() {
       return
     axios.delete(`http://127.0.0.1:8000/api/nhom_gia/${id}`)
       .then(response => {
-        console.log(response.data.message);
+        SuccessToast(response.data.message);
         fetchData()
       })
       .catch(error => {
-        console.log(error.response.data.error)
+        ErrorToast('Không thể xóa nhóm giá này!')
       });
   }
 
@@ -159,6 +164,7 @@ export default function QuanLyGiaNuoc() {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   )
 }

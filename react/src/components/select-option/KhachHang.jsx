@@ -32,6 +32,7 @@ export default function KhachHang(props) {
 
   return (
     <Select
+      required={props.require}
       options={khachHangOptions}
       onChange={props.onChange}
       name={props.name}
