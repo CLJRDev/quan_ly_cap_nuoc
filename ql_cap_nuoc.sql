@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2024 at 01:47 PM
+-- Generation Time: May 25, 2024 at 07:04 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -90,8 +90,20 @@ CREATE TABLE `dm_codongho` (
 --
 
 INSERT INTO `dm_codongho` (`ma_co_dong_ho`, `ten_co_dong_ho`) VALUES
-(1, 'A'),
-(2, 'B');
+(9, 'D100'),
+(1, 'D15'),
+(10, 'D150'),
+(2, 'D20'),
+(11, 'D200'),
+(3, 'D25'),
+(12, 'D250'),
+(13, 'D300'),
+(4, 'D32'),
+(5, 'D40'),
+(14, 'D400'),
+(6, 'D50'),
+(7, 'D65'),
+(8, 'D80');
 
 -- --------------------------------------------------------
 
@@ -109,8 +121,10 @@ CREATE TABLE `dm_loaidongho` (
 --
 
 INSERT INTO `dm_loaidongho` (`ma_loai_dong_ho`, `ten_loai_dong_ho`) VALUES
-(1, 'A'),
-(2, 'B');
+(1, 'Lưu tốc'),
+(2, 'Thể tích'),
+(3, 'Turbine'),
+(4, 'Điện từ');
 
 -- --------------------------------------------------------
 
@@ -128,8 +142,12 @@ CREATE TABLE `dm_loaikhachhang` (
 --
 
 INSERT INTO `dm_loaikhachhang` (`ma_loai_khach_hang`, `ten_loai_khach_hang`) VALUES
-(2, 'Doanh nghiệp'),
-(1, 'Khách hàng');
+(5, 'Hộ dân cư tại khu vực nông thôn'),
+(3, 'Hộ dân cư tại khu vực đô thị'),
+(2, 'Khách hàng hành chính sự nghiệp'),
+(1, 'Khách hàng kinh doanh dịch vụ'),
+(6, 'Khách hàng sản xuất'),
+(4, 'Nhóm khách bình quân');
 
 -- --------------------------------------------------------
 
@@ -149,8 +167,25 @@ CREATE TABLE `dm_nhacungcap` (
 --
 
 INSERT INTO `dm_nhacungcap` (`ma_nha_cung_cap`, `ten_nha_cung_cap`, `dia_chi`, `sdt`) VALUES
-(1, 'A', 'AAA', NULL),
-(2, 'B', 'BBB', NULL);
+(1, 'Công ty TNHH PTP', 'AAA', NULL),
+(2, 'Aichi Tokei Denki', 'BBB', NULL),
+(3, 'Apator Powogaz S.A', NULL, NULL),
+(4, 'Thổ Nhĩ Kỳ', NULL, NULL),
+(5, 'Sensus', NULL, NULL),
+(6, 'Việt Hồng Hà', NULL, NULL),
+(7, 'Brazil', NULL, NULL),
+(8, 'Công ty Phú Thịnh', NULL, NULL),
+(9, 'Hawaco', NULL, NULL),
+(10, 'Nhật', NULL, NULL),
+(11, 'Vucico', NULL, NULL),
+(12, 'Song Thanh', NULL, NULL),
+(13, 'CTCPĐTTMXNK Phú Thái', NULL, NULL),
+(14, 'CTCPCN Bách Việt', NULL, NULL),
+(15, 'CTCPKT', NULL, NULL),
+(16, 'DH', NULL, NULL),
+(17, 'DVQLTT', NULL, NULL),
+(18, 'HSO', NULL, NULL),
+(19, 'CTTNHH Minh Khang', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -397,6 +432,18 @@ CREATE TABLE `dm_ptthanhtoan` (
   `ma_phuong_thuc` int(11) NOT NULL,
   `ten_phuong_thuc` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `dm_ptthanhtoan`
+--
+
+INSERT INTO `dm_ptthanhtoan` (`ma_phuong_thuc`, `ten_phuong_thuc`) VALUES
+(3, 'Chuyển khoản qua MOMO'),
+(1, 'Chuyển khoản qua ngân hàng'),
+(2, 'Chuyển khoản qua VNPay'),
+(6, 'Nộp tại địa điểm được ủy quyền'),
+(5, 'Tiền mặt'),
+(4, 'Ủy thác thanh toán định kỳ qua ngân hàng');
 
 -- --------------------------------------------------------
 
@@ -722,7 +769,7 @@ INSERT INTO `ql_donghokhoi` (`ma_dong_ho`, `ten_dong_ho`, `tinh_trang`, `ngay_nh
 
 CREATE TABLE `ql_hoadon` (
   `ma_hoa_don` int(11) NOT NULL,
-  `ky_hoa_don` int(11) NOT NULL,
+  `ky_hoa_don` varchar(50) NOT NULL,
   `tu_ngay` date NOT NULL,
   `den_ngay` date NOT NULL,
   `khoa` int(11) NOT NULL,
@@ -844,8 +891,19 @@ CREATE TABLE `ql_nhomgia` (
 --
 
 INSERT INTO `ql_nhomgia` (`ma_nhom_gia`, `ten_nhom_gia`, `hs_duoi_10m`, `hs_tu_10m_den_20m`, `hs_tu_20m_den_30m`, `hs_tren_30m`, `hs_rieng`, `hs_thue`, `gia_ban`, `ma_loai_khach_hang`) VALUES
-(3, 'Giá bán lẻ nước sạch bình quân', 1, 0.8, 0.7, 0.6, 1, 0.05, 13608, 1),
-(4, 'Giá cụ thể theo nhóm khách hàng sử dụng nước sạch', NULL, NULL, NULL, NULL, 1, 0.05, 13608, 2);
+(1, 'Giá bán lẻ nước sạch bình quân', NULL, NULL, NULL, NULL, 1, 0.05, 13608, 4),
+(2, 'Giá cụ thể theo hộ dân cư đô thị sử dụng nước sạch', 0.8, 0.99, 1.32, 1.58, NULL, 0.05, 13608, 3),
+(3, 'Giá cụ thể theo hộ dân cư nông thôn sử dụng nước sạch', 0.66, 0.85, 1.1, 1.32, NULL, 0.05, 13608, 5),
+(4, 'Cơ quan hành chính; đơn vị sự nghiệp công lập; trường học, bệnh viện, cơ sở khám, chữa bệnh (công lập và tư nhân); phục vụ mục đích công cộng (phi lợi nhuận)', NULL, NULL, NULL, NULL, 1.2, 0.05, 13608, 2),
+(5, 'Tổ chức, cá nhân sản xuất vật chất', NULL, NULL, NULL, NULL, 1.34, 0.05, 13608, 6),
+(6, 'Tổ chức, cá nhân kinh doanh dịch vụ', NULL, NULL, NULL, NULL, 1.6, 0.05, 13608, 1),
+(7, 'Giá bán buôn nước sạch bình quân', NULL, NULL, NULL, NULL, 1, 0.08, 12708, 4),
+(8, 'Giá bán buôn theo nhóm hộ dân cư đô thị', NULL, NULL, NULL, NULL, 0.78, 0.08, 12708, 3),
+(9, 'Giá bán buôn theo nhóm hộ dân cư nông thôn', NULL, NULL, NULL, NULL, 0.63, 0.08, 12708, 5),
+(10, 'Giá bán buôn theo nhóm khách hàng hành chính sự nghiệp', NULL, NULL, NULL, NULL, 1.18, 0.08, 12708, 2),
+(11, 'Giá bán buôn theo nhóm khách hàng sản xuất', NULL, NULL, NULL, NULL, 1.29, 0.08, 12708, 6),
+(12, 'Giá bán buôn theo nhóm khách hàng kinh doanh dịch vụ', NULL, NULL, NULL, NULL, 1.54, 0.08, 12708, 1),
+(13, 'Bán buôn ngoài vùng phục vụ cấp nước cho các đơn vị cấp nước để cung cấp cho khu vực dân cư nông thôn. (không bao gồm khu, cụm công nghiệp, khu dịch vụ thương mại, du lịch ...)', NULL, NULL, NULL, NULL, 0.43, 0.08, 12708, 4);
 
 -- --------------------------------------------------------
 
@@ -1150,8 +1208,8 @@ ALTER TABLE `ql_lapdatdhkhoi`
 --
 ALTER TABLE `ql_nhomgia`
   ADD PRIMARY KEY (`ma_nhom_gia`),
-  ADD UNIQUE KEY `ma_loai_khach_hang` (`ma_loai_khach_hang`),
-  ADD UNIQUE KEY `ten_nhom_gia` (`ten_nhom_gia`) USING HASH;
+  ADD UNIQUE KEY `ten_nhom_gia` (`ten_nhom_gia`) USING HASH,
+  ADD KEY `ma_loai_khach_hang` (`ma_loai_khach_hang`);
 
 --
 -- Indexes for table `ql_phanquyen`
@@ -1197,25 +1255,25 @@ ALTER TABLE `dm_chinhanh`
 -- AUTO_INCREMENT for table `dm_codongho`
 --
 ALTER TABLE `dm_codongho`
-  MODIFY `ma_co_dong_ho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ma_co_dong_ho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `dm_loaidongho`
 --
 ALTER TABLE `dm_loaidongho`
-  MODIFY `ma_loai_dong_ho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ma_loai_dong_ho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `dm_loaikhachhang`
 --
 ALTER TABLE `dm_loaikhachhang`
-  MODIFY `ma_loai_khach_hang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ma_loai_khach_hang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `dm_nhacungcap`
 --
 ALTER TABLE `dm_nhacungcap`
-  MODIFY `ma_nha_cung_cap` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ma_nha_cung_cap` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `dm_phuongxa`
@@ -1227,7 +1285,7 @@ ALTER TABLE `dm_phuongxa`
 -- AUTO_INCREMENT for table `dm_ptthanhtoan`
 --
 ALTER TABLE `dm_ptthanhtoan`
-  MODIFY `ma_phuong_thuc` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ma_phuong_thuc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `dm_quanhuyen`
@@ -1323,7 +1381,7 @@ ALTER TABLE `ql_lapdatdhkhoi`
 -- AUTO_INCREMENT for table `ql_nhomgia`
 --
 ALTER TABLE `ql_nhomgia`
-  MODIFY `ma_nhom_gia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ma_nhom_gia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `ql_phanquyen`
@@ -1421,7 +1479,7 @@ ALTER TABLE `ql_lapdatdhkhoi`
 -- Constraints for table `ql_nhomgia`
 --
 ALTER TABLE `ql_nhomgia`
-  ADD CONSTRAINT `ql_nhomgia_ibfk_1` FOREIGN KEY (`ma_loai_khach_hang`) REFERENCES `dm_loaikhachhang` (`ma_loai_khach_hang`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `ql_nhomgia_ibfk_1` FOREIGN KEY (`ma_loai_khach_hang`) REFERENCES `dm_loaikhachhang` (`ma_loai_khach_hang`);
 
 --
 -- Constraints for table `ql_phanquyen`

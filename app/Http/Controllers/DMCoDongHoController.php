@@ -16,7 +16,7 @@ class DMCoDongHoController extends Controller
      */
     public function index()
     {
-        return DMCoDongHoModel::all();
+        return DMCoDongHoModel::orderBy('ma_co_dong_ho','ASC')->get();
     }
 
     /**

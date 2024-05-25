@@ -16,7 +16,7 @@ class DMThanhToanController extends Controller
      */
     public function index()
     {
-        return DMThanhToanModel::all();
+        return DMThanhToanModel::orderBy('ma_phuong_thuc','ASC')->get();
     }
 
     /**

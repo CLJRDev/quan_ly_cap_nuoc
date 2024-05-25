@@ -39,6 +39,14 @@ class HoaDon extends Command
             foreach($hoa_dons as $hoa_don){
                 $hoa_don->khoa=1;
                 $thong_tin = [
+                    'ma_hoa_don' => $hoa_don->ma_hoa_don,
+                    'ky_hoa_don' => $hoa_don->ky_hoa_don,
+                    'chi_so_cu' => $hoa_don->chi_so_cu,
+                    'chi_so_moi' => $hoa_don->chi_so_moi,
+                    'so_tieu_thu' => $hoa_don->so_tieu_thu,
+                    'tong_tien_thue' => $hoa_don->tong_tien_thue,
+                    'tong_tien_truoc_thue' => $hoa_don->tong_tien_truoc_thue,
+                    'tong_cong' => $hoa_don->tong_cong,
                     'email' => $hoa_don->email,
                     'tu_ngay' => $hoa_don->tu_ngay,
                     'den_ngay' => $hoa_don->den_ngay,

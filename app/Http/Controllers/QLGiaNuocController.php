@@ -48,7 +48,7 @@ class QLGiaNuocController extends Controller
             'hs_rieng' => 'required_if:hs_duoi_10m,NULL',
             'hs_thue' => 'required',
             'gia_ban' => 'required',
-            'ma_loai_khach_hang' => 'required|unique:ql_nhomgia,ma_loai_khach_hang',
+            'ma_loai_khach_hang' => 'required',
           ],$message);
         
         if($validator->fails()){
@@ -125,9 +125,6 @@ class QLGiaNuocController extends Controller
             'hs_tu_20m_den_30m' => 'required_if:hs_rieng,NULL',
             'hs_tren_30m' => 'required_if:hs_rieng,NULL',
             'hs_rieng' => 'required_if:hs_duoi_10m,NULL',
-            'ma_loai_khach_hang' => [
-                Rule::unique('ql_nhomgia', 'ma_loai_khach_hang')->ignore($id, 'ma_nhom_gia')
-              ],
           ],$message);
         
         if($validator->fails()){
@@ -140,21 +137,28 @@ class QLGiaNuocController extends Controller
             if(isset($request->ten_nhom_gia)){
                 $nhom_gia->ten_nhom_gia=$request->ten_nhom_gia;
             }
-            $nhom_gia->ten_nhom_gia=$request->ten_nhom_gia;
             if(isset($request->hs_duoi_10m)){
                 $nhom_gia->hs_duoi_10m=$request->hs_duoi_10m;
+                $nhom_gia->hs_rieng=null;
             }
             if(isset($request->hs_tu_10m_den_20m)){
                 $nhom_gia->hs_tu_10m_den_20m=$request->hs_tu_10m_den_20m;
+                $nhom_gia->hs_rieng=null;
             }
             if(isset($request->hs_tu_20m_den_30m)){
                 $nhom_gia->hs_tu_20m_den_30m=$request->hs_tu_20m_den_30m;
+                $nhom_gia->hs_rieng=null;
             }
             if(isset($request->hs_tren_30m)){
                 $nhom_gia->hs_tren_30m=$request->hs_tren_30m;
+                $nhom_gia->hs_rieng=null;
             }
             if(isset($request->hs_rieng)){
                 $nhom_gia->hs_rieng=$request->hs_rieng;
+                $nhom_gia->hs_duoi_10m=null;
+                $nhom_gia->hs_tu_10m_den_20m=null;
+                $nhom_gia->hs_tu_20m_den_30m=null;
+                $nhom_gia->hs_tren_30m=null;
             }
             if(isset($request->hs_thue)){
                 $nhom_gia->hs_thue=$request->hs_thue;
