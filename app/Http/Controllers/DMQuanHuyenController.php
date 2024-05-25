@@ -16,7 +16,7 @@ class DMQuanHuyenController extends Controller
      */
     public function index()
     {
-        return DMQuanHuyenModel::all();
+        return DMQuanHuyenModel::orderBy('ma_quan_huyen')->get();
     }
 
     /**

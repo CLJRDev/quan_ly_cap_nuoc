@@ -16,7 +16,7 @@ class DMLoaiKhachHangController extends Controller
      */
     public function index()
     {
-        return DMLoaiKhachHangModel::all();
+        return DMLoaiKhachHangModel::orderBy('ma_loai_khach_hang','ASC')->get();
     }
 
     /**

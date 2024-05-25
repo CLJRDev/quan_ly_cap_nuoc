@@ -59,9 +59,7 @@ class QLPhanQuyenController extends Controller
             $phan_quyen = new QLPhanQuyenModel; 
             $phan_quyen->ma_nhan_vien=$request->ma_nhan_vien;
             $phan_quyen->ma_quyen=$quyen;
-            if($phan_quyen->ma_quyen==13){
-                $phan_quyen->ma_tuyen=$request->ma_tuyen;
-            }
+            $phan_quyen->ma_tuyen=$request->ma_tuyen;
             $result = $phan_quyen->save();
             if(!$result){
                 return response()->json([
@@ -128,9 +126,7 @@ class QLPhanQuyenController extends Controller
                 $phan_quyen->ma_quyen=$request->ma_quyen;
             }
             if(isset($request->ma_tuyen)){
-                if($phan_quyen->ma_quyen==13){
                     $phan_quyen->ma_tuyen=$request->ma_tuyen;
-                }
             }
             $result = $phan_quyen->save();
         }catch (ModelNotFoundException $e) {

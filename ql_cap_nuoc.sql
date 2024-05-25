@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2024 at 10:06 PM
+-- Generation Time: May 25, 2024 at 01:47 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -62,7 +62,17 @@ CREATE TABLE `dm_chinhanh` (
 --
 
 INSERT INTO `dm_chinhanh` (`ma_chi_nhanh`, `ten_chi_nhanh`, `dia_chi`) VALUES
-(1, 'Hải Phòng 2', '34/46');
+(1, 'Chi nhánh Cấp nước Hải Phòng 3', 'Thôn Do Nha, xã Tân Tiến, H. An Dương, TP. Hải Phòng'),
+(2, 'Chi nhánh Cấp nước Trung tâm', 'Số 54 Đinh Tiên Hoàng, P. Hoàng Văn Thụ, Q. Hồng Bàng, TP. Hải Phòng'),
+(3, 'Chi nhánh Cấp nước Hải Phòng 4', 'Thôn Nguyệt Áng, xã Thái Sơn, H. An Lão, TP. Hải Phòng'),
+(4, 'Chi nhánh Cấp nước Hải Phòng 5', 'Đường Đông Nam, KĐT Cựu Viên, P. Quán Trữ, Q. Kiến An, TP. Hải Phòng'),
+(5, 'Chi nhánh Cấp nước Hải Phòng 6', 'Ngõ 111 đường Lý Thánh Tông, P. Vạn Sơn, Q. Đồ Sơn, TP. Hải Phòng'),
+(6, 'Chi nhánh Cấp nước Hải Phòng 7', 'LKhu 2 Lũng Đông, P. Đằng Hải, Q. Hải An, TP. Hải Phòng'),
+(7, 'Chi nhánh Cấp nước Hải Phòng 8', 'TDP số 4, đường 361, P. Hưng Đạo, Q. Dương Kinh, TP. Hải Phòng'),
+(8, 'Chi nhánh Cấp nước Cát Bà', 'Số 99 đường 1/4, Thị trấn Cát Bà, H. Cát Hải, TP. Hải Phòng'),
+(9, 'Chi nhánh Cấp nước Vĩnh Bảo', 'Khu Bắc Hải, Thị trấn Vĩnh Bảo, H. Vĩnh Bảo, TP. Hải Phòng'),
+(10, 'Tổ VH & KDNM Thủy Nguyên', 'Xã Ngũ Lão, H. Thủy Nguyên, TP. Hải Phòng'),
+(11, 'Chi nhánh Nước Tinh khiết', 'Số 249 Tôn Đức Thắng, P. Lam Sơn, Q. Lê Chân, TP. Hải Phòng');
 
 -- --------------------------------------------------------
 
@@ -159,8 +169,223 @@ CREATE TABLE `dm_phuongxa` (
 --
 
 INSERT INTO `dm_phuongxa` (`ma_phuong_xa`, `ten_phuong_xa`, `ma_quan_huyen`) VALUES
-(1, 'Hàng Kênh', 1),
-(2, 'Dư Hàng Kênh', 1);
+(1, 'Phường Hàng Kênh', 1),
+(2, 'Phường Dư Hàng Kênh', 1),
+(3, 'Phường An Biên', 1),
+(4, 'Phường An Dương', 1),
+(5, 'Phường Cát Dài', 1),
+(6, 'Phường Đông Hải', 1),
+(7, 'Phường Dư Hàng', 1),
+(8, 'Phường Hồ Nam', 1),
+(9, 'Phường Kênh Dương', 1),
+(10, 'Phường Lam Sơn', 1),
+(11, 'Phường Nghĩa Xá', 1),
+(12, 'Phường Niệm Nghĩa', 1),
+(13, 'Phường Trại Cau', 1),
+(14, 'Phường Trần Nguyên Hãn', 1),
+(15, 'Phường Vĩnh Niệm', 1),
+(16, 'Phường Anh Dũng', 2),
+(17, 'Phường Hải Thành', 2),
+(18, 'Phường Hoà Nghĩa', 2),
+(19, 'Phường Hưng Đạo', 2),
+(20, 'Phường Tân Thành', 2),
+(21, 'Phường Cầu Đất', 3),
+(22, 'Phường Cầu Tre', 3),
+(23, 'Phường Đằng Giang', 3),
+(24, 'Phường Đông Khê', 3),
+(25, 'Phường Đồng Quốc Bình', 3),
+(26, 'Phường Lạc Viên', 3),
+(27, 'Phường Gia Viên', 3),
+(28, 'Phường Lạch Tray', 3),
+(29, 'Phường Lê Lợi', 3),
+(30, 'Phường Máy Chai', 3),
+(31, 'Phường Máy Tơ', 3),
+(32, 'Phường Vạn Mỹ', 3),
+(33, 'Thị trấn Núi Đèo', 4),
+(34, 'Thị trấn Minh Đức', 4),
+(35, 'Xã An Lư', 4),
+(36, 'Xã An Sơn', 4),
+(37, 'Xã Cao Nhân', 4),
+(38, 'Xã Chính Mỹ', 4),
+(39, 'Xã Dương Quan', 4),
+(40, 'Xã Đông Sơn', 4),
+(41, 'Xã Gia Đức', 4),
+(42, 'Xã Gia Minh', 4),
+(43, 'Xã Hoa Động', 4),
+(44, 'Xã Hòa Bình - Thủy Nguyên', 4),
+(45, 'Xã Hoàng Động', 4),
+(46, 'Xã Hợp Thành', 4),
+(47, 'Xã Kênh Giang', 4),
+(48, 'Xã Kiền Bái', 4),
+(49, 'Xã Kỳ Sơn', 4),
+(50, 'Xã Lại Xuân', 4),
+(51, 'Xã Lâm Động', 4),
+(52, 'Xã Lập Lễ', 4),
+(53, 'Xã Liên Khê', 4),
+(54, 'Xã Lưu Kiếm', 4),
+(55, 'Xã Lưu Kỳ', 4),
+(56, 'Xã Minh Tân - Thủy Nguyên', 4),
+(57, 'Xã Mỹ Đồng', 4),
+(58, 'Xã Ngũ Lão', 4),
+(59, 'Xã Phả Lễ', 4),
+(60, 'Xã Phù Ninh', 4),
+(61, 'Xã Phục Lễ', 4),
+(62, 'Xã Quảng Thanh', 4),
+(63, 'Xã Tam Hưng', 4),
+(64, 'Xã Tân Dương', 4),
+(65, 'Xã Thiên Hương', 4),
+(66, 'Xã Thủy Đường', 4),
+(67, 'Xã Thủy Sơn', 4),
+(68, 'Xã Thủy Triều', 4),
+(69, 'Xã Trung Hà', 4),
+(70, 'Phường Bàng La', 5),
+(71, 'Phường Hải Sơn', 5),
+(72, 'Phường Hợp Đức', 5),
+(73, 'Phường Minh Đức', 5),
+(74, 'Phường Ngọc Xuyên', 5),
+(75, 'Phường Vạn Hương', 5),
+(76, 'Thị trấn An Dương', 6),
+(77, 'Xã An Đồng', 6),
+(78, 'Xã An Hòa - An Dương', 6),
+(79, 'Xã An Hồng', 6),
+(80, 'Xã An Hưng', 6),
+(81, 'Xã Bắc Sơn', 6),
+(82, 'Xã Đại Bản', 6),
+(83, 'Xã Đặng Cương', 6),
+(84, 'Xã Đồng Thái', 6),
+(85, 'Xã Hồng Phong', 6),
+(86, 'Xã Hồng Thái', 6),
+(87, 'Xã Lê Lợi', 6),
+(88, 'Xã Lê Thiện', 6),
+(89, 'Xã Nam Sơn', 6),
+(90, 'Xã Quốc Tuấn - An Dương', 6),
+(91, 'Xã Tân Tiến', 6),
+(92, 'Phường Bắc Sơn', 7),
+(93, 'Phường Đồng Hòa', 7),
+(94, 'Phường Lãm Hà', 7),
+(95, 'Phường Nam Sơn', 7),
+(96, 'Phường Ngọc Sơn', 7),
+(97, 'Phường Phù Liễn', 7),
+(98, 'Phường Quán Trữ', 7),
+(99, 'Phường Trần Thành Ngọ', 7),
+(100, 'Phường Tràng Minh', 7),
+(101, 'Phường Văn Đẩu', 7),
+(102, 'Thị trấn Tiên Lãng', 8),
+(103, 'Xã Bắc Hưng', 8),
+(104, 'Xã Bạch Đằng', 8),
+(105, 'Xã Cấp Tiến', 8),
+(106, 'Xã Đại Thắng', 8),
+(107, 'Xã Đoàn Lập', 8),
+(108, 'Xã Đông Hưng', 8),
+(109, 'Xã Hùng Thắng', 8),
+(110, 'Xã Khởi Nghĩa', 8),
+(111, 'Xã Kiến Thiết', 8),
+(112, 'Xã Nam Hưng', 8),
+(113, 'Xã Quang Phục', 8),
+(114, 'Xã Quyết Tiến', 8),
+(115, 'Xã Tây Hưng', 8),
+(116, 'Xã Tiên Cường', 8),
+(117, 'Xã Tiên Minh', 8),
+(118, 'Xã Tiên Thắng', 8),
+(119, 'Xã Tiên Thanh', 8),
+(120, 'Xã Toàn Thắng', 8),
+(121, 'Xã Tự Cường', 8),
+(122, 'Xã Vinh Quang - Tiên Lãng', 8),
+(141, 'Thị trấn Núi Đối', 9),
+(142, 'Xã Đại Đồng', 9),
+(143, 'Xã Đại Hà', 9),
+(144, 'Xã Đại Hợp', 9),
+(145, 'Xã Đoàn Xá', 9),
+(146, 'Xã Đông Phương', 9),
+(147, 'Xã Du Lễ', 9),
+(148, 'Xã Hữu Bằng', 9),
+(149, 'Xã Kiến Quốc', 9),
+(150, 'Xã Minh Tân - Kiến Thụy', 9),
+(151, 'Xã Ngũ Đoan', 9),
+(152, 'Xã Ngũ Phúc', 9),
+(153, 'Xã Tân Phong', 9),
+(154, 'Xã Tân Trào', 9),
+(155, 'Xã Thanh Sơn', 9),
+(156, 'Xã Thuận Thiên', 9),
+(157, 'Xã Thụy Hương', 9),
+(158, 'Xã Tú Sơn', 9),
+(159, 'Phường Hạ Lý', 10),
+(160, 'Phường Hoàng Văn Thụ', 10),
+(161, 'Phường Hùng Vương', 10),
+(162, 'Phường Minh Khai', 10),
+(163, 'Phường Phan Bội Châu', 10),
+(164, 'Phường Quán Toan', 10),
+(165, 'Phường Sở Dầu', 10),
+(166, 'Phường Thượng Lý', 10),
+(167, 'Phường Trại Chuối', 10),
+(185, 'Thị trấn An Lão', 11),
+(186, 'Thị trấn Trường Sơn', 11),
+(187, 'Xã An Thái', 11),
+(188, 'Xã An Thắng', 11),
+(189, 'Xã An Thọ', 11),
+(190, 'Xã An Tiến', 11),
+(191, 'Xã Bát Trang', 11),
+(192, 'Xã Chiến Thắng', 11),
+(193, 'Xã Mỹ Đức', 11),
+(194, 'Xã Quang Hưng', 11),
+(195, 'Xã Quang Trung', 11),
+(196, 'Xã Quốc Tuấn - An Lão', 11),
+(197, 'Xã Tân Dân', 11),
+(198, 'Xã Tân Viên', 11),
+(199, 'Xã Thái Sơn', 11),
+(200, 'Xã Trường Thành', 11),
+(201, 'Xã Trường Thọ', 11),
+(202, 'Thị trấn Cát Bà', 12),
+(203, 'Thị trấn Cát Hải', 12),
+(204, 'Xã Đồng Bài', 12),
+(205, 'Xã Gia Luận', 12),
+(206, 'Xã Hiền Hào', 12),
+(207, 'Xã Hoàng Châu', 12),
+(208, 'Xã Nghĩa Lộ', 12),
+(209, 'Xã Phù Long', 12),
+(210, 'Xã Trân Châu', 12),
+(211, 'Xã Văn Phong', 12),
+(212, 'Xã Việt Hải', 12),
+(213, 'Xã Xuân Đám', 12),
+(214, 'Phường Cát Bi', 13),
+(215, 'Phường Đằng Lâm', 13),
+(216, 'Phường Đằng Hải', 13),
+(217, 'Phường Đông Hải 1', 13),
+(218, 'Phường Đông Hải 2', 13),
+(219, 'Phường Nam Hải', 13),
+(220, 'Phường Thành Tô', 13),
+(221, 'Phường Tràng Cát', 13),
+(312, 'Thị trấn Vĩnh Bảo', 14),
+(313, 'Xã An Hòa - Vĩnh Bảo', 14),
+(314, 'Xã Cao Minh', 14),
+(315, 'Xã Cổ Am', 14),
+(316, 'Xã Cộng Hiền', 14),
+(317, 'Xã Đồng Minh', 14),
+(318, 'Xã Dũng Tiến', 14),
+(319, 'Xã Giang Biên', 14),
+(320, 'Xã Hiệp Hòa', 14),
+(321, 'Xã Hòa Bình - Vĩnh Bảo', 14),
+(322, 'Xã Hưng Nhân', 14),
+(323, 'Xã Hùng Tiến', 14),
+(324, 'Xã Liên Am', 14),
+(325, 'Xã Lý Học', 14),
+(326, 'Xã Nhân Hòa', 14),
+(327, 'Xã Tam Cường', 14),
+(328, 'Xã Tam Đa', 14),
+(329, 'Xã Tân Hưng', 14),
+(330, 'Xã Tân Liên', 14),
+(331, 'Xã Thắng Thủy', 14),
+(332, 'Xã Thanh Lương', 14),
+(333, 'Xã Tiền Phong', 14),
+(334, 'Xã Trấn Dương', 14),
+(335, 'Xã Trung Lập', 14),
+(336, 'Xã Việt Tiến', 14),
+(337, 'Xã Vĩnh An', 14),
+(338, 'Xã Vĩnh Long', 14),
+(339, 'Xã Vĩnh Phong', 14),
+(340, 'Xã Vinh Quang - Vĩnh Bảo', 14),
+(341, 'Xã Vĩnh Tiến', 14),
+(342, 'Huyện Bạch Long Vỹ', 15);
 
 -- --------------------------------------------------------
 
@@ -189,8 +414,21 @@ CREATE TABLE `dm_quanhuyen` (
 --
 
 INSERT INTO `dm_quanhuyen` (`ma_quan_huyen`, `ten_quan_huyen`) VALUES
-(1, 'Lê Chân'),
-(3, 'Ngô Quyền');
+(6, 'Huyện An Dương'),
+(11, 'Huyện An Lão'),
+(15, 'Huyện Bạch Long Vỹ'),
+(12, 'Huyện Cát Hải'),
+(9, 'Huyện Kiến Thụy'),
+(4, 'Huyện Thủy Nguyên'),
+(8, 'Huyện Tiên Lãng'),
+(14, 'Huyện Vĩnh Bảo'),
+(2, 'Quận Dương Kinh'),
+(13, 'Quận Hải An'),
+(10, 'Quận Hồng Bàng'),
+(7, 'Quận Kiến An'),
+(1, 'Quận Lê Chân'),
+(3, 'Quận Ngô Quyền'),
+(5, 'Quận Đồ Sơn');
 
 -- --------------------------------------------------------
 
@@ -210,12 +448,13 @@ CREATE TABLE `dm_quyen` (
 
 INSERT INTO `dm_quyen` (`ma_quyen`, `ten_quyen`, `trang_thai`) VALUES
 (1, 'Quản trị viên', 1),
-(2, 'Thu ngân', 1),
-(5, 'Nhân viên', 1),
+(2, 'Thu ngân', 0),
+(5, 'Nhân viên', 0),
 (6, 'Trưởng phòng', 1),
 (7, 'Quản lý', 1),
 (8, 'Thanh tra', 1),
-(13, 'Nhân viên ghi số nước', 1);
+(14, 'Nhân viên ghi số nước', 1),
+(15, 'Nhân viên bảo dưỡng', 1);
 
 -- --------------------------------------------------------
 
@@ -234,7 +473,61 @@ CREATE TABLE `dm_toquanly` (
 --
 
 INSERT INTO `dm_toquanly` (`ma_to_quan_ly`, `ten_to_quan_ly`, `ma_chi_nhanh`) VALUES
-(1, 'Tổ 2', 1);
+(1, 'Tổ 1 - HP3', 1),
+(2, 'Tổ 2 - HP3', 1),
+(3, 'Tổ 3 - HP3', 1),
+(4, 'Tổ 4 - HP3', 1),
+(5, 'Tổ 5 - HP3', 1),
+(6, 'Tổ 1 - TT', 2),
+(7, 'Tổ 2 - TT', 2),
+(8, 'Tổ 3 - TT', 2),
+(9, 'Tổ 4 - TT', 2),
+(10, 'Tổ 5 - TT', 2),
+(11, 'Tổ 5 - HP4', 3),
+(12, 'Tổ 4 - HP4', 3),
+(13, 'Tổ 3 - HP4', 3),
+(14, 'Tổ 2 - HP4', 3),
+(15, 'Tổ 1 - HP4', 3),
+(16, 'Tổ 1 - HP5', 4),
+(17, 'Tổ 2 - HP5', 4),
+(18, 'Tổ 3 - HP5', 4),
+(19, 'Tổ 4 - HP5', 4),
+(20, 'Tổ 5 - HP5', 4),
+(21, 'Tổ 5 - HP6', 5),
+(22, 'Tổ 4 - HP6', 5),
+(23, 'Tổ 3 - HP6', 5),
+(24, 'Tổ 2 - HP6', 5),
+(25, 'Tổ 1 - HP6', 5),
+(26, 'Tổ 1 - HP7', 6),
+(27, 'Tổ 2 - HP7', 6),
+(28, 'Tổ 3 - HP7', 6),
+(29, 'Tổ 4 - HP7', 6),
+(30, 'Tổ 5 - HP7', 6),
+(31, 'Tổ 5 - HP8', 7),
+(32, 'Tổ 4 - HP8', 7),
+(33, 'Tổ 3 - HP8', 7),
+(34, 'Tổ 2 - HP8', 7),
+(35, 'Tổ 1 - HP8', 7),
+(36, 'Tổ 1 - CB', 8),
+(37, 'Tổ 2 - CB', 8),
+(38, 'Tổ 3 - CB', 8),
+(39, 'Tổ 4 - CB', 8),
+(40, 'Tổ 5 - CB', 8),
+(41, 'Tổ 5 - VB', 9),
+(42, 'Tổ 4 - VB', 9),
+(43, 'Tổ 3 - VB', 9),
+(44, 'Tổ 2 - VB', 9),
+(45, 'Tổ 1 - VB', 9),
+(46, 'Tổ 1 - TN', 10),
+(47, 'Tổ 2 - TN', 10),
+(48, 'Tổ 3 - TN', 10),
+(49, 'Tổ 4 - TN', 10),
+(50, 'Tổ 5 - TN', 10),
+(51, 'Tổ 5 - NTK', 11),
+(52, 'Tổ 4 - NTK', 11),
+(53, 'Tổ 3 - NTK', 11),
+(54, 'Tổ 2 - NTK', 11),
+(55, 'Tổ 1 - NTK', 11);
 
 -- --------------------------------------------------------
 
@@ -551,8 +844,8 @@ CREATE TABLE `ql_nhomgia` (
 --
 
 INSERT INTO `ql_nhomgia` (`ma_nhom_gia`, `ten_nhom_gia`, `hs_duoi_10m`, `hs_tu_10m_den_20m`, `hs_tu_20m_den_30m`, `hs_tren_30m`, `hs_rieng`, `hs_thue`, `gia_ban`, `ma_loai_khach_hang`) VALUES
-(3, 'Dân dụng', 1, 0.8, 0.7, 0.6, NULL, 0, 13000, 1),
-(4, 'Giá reing', NULL, NULL, NULL, NULL, 1, 0, 13000, 2);
+(3, 'Giá bán lẻ nước sạch bình quân', 1, 0.8, 0.7, 0.6, 1, 0.05, 13608, 1),
+(4, 'Giá cụ thể theo nhóm khách hàng sử dụng nước sạch', NULL, NULL, NULL, NULL, 1, 0.05, 13608, 2);
 
 -- --------------------------------------------------------
 
@@ -577,7 +870,7 @@ INSERT INTO `ql_phanquyen` (`ma_phan_quyen`, `ma_nhan_vien`, `ma_quyen`, `ma_tuy
 (6, 100000, 5, NULL),
 (7, 100001, 6, NULL),
 (8, 100001, 2, NULL),
-(11, 100003, 13, 1);
+(11, 100006, 14, 1);
 
 -- --------------------------------------------------------
 
@@ -590,7 +883,7 @@ CREATE TABLE `ql_taikhoan` (
   `mat_khau` varchar(32) NOT NULL,
   `trang_thai` int(11) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `sdt` int(10) NOT NULL,
+  `sdt` varchar(10) NOT NULL,
   `chuc_vu` varchar(50) NOT NULL,
   `ho_ten` varchar(50) NOT NULL,
   `ngay_sinh` date NOT NULL
@@ -601,9 +894,35 @@ CREATE TABLE `ql_taikhoan` (
 --
 
 INSERT INTO `ql_taikhoan` (`ma_nhan_vien`, `mat_khau`, `trang_thai`, `email`, `sdt`, `chuc_vu`, `ho_ten`, `ngay_sinh`) VALUES
-(100000, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'manh86042@st.vimaru.edu.vn', 0, 'Giám đốc', 'Đỗ Đức Mạnh', '2000-04-14'),
-(100001, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'lam@qlcn.com', 0, 'Giám đốc', 'Nguyễn Công Lâm', '2002-11-05'),
-(100003, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'phuc@qlcn.com', 1, 'Trưởng phòng', 'Phạm Quang Phúc', '2000-08-06');
+(100000, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'manh@qlcn.com', '0834285958', 'Giám đốc', 'Đỗ Đức Mạnh', '2000-04-14'),
+(100001, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'lam@qlcn.com', '0213123123', 'Phó giám đốc', 'Nguyễn Công Lâm', '2002-11-05'),
+(100003, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'phuc@qlcn.com', '0123456780', 'Trưởng phòng', 'Phạm Quang Phúc', '2000-08-06'),
+(100004, 'c4ca4238a0b923820dcc509a6f75849b', 0, 'NVA@qlcn.com', '0123456789', 'Trưởng phòng', 'Nguyễn Văn A', '2000-08-06'),
+(100005, 'c4ca4238a0b923820dcc509a6f75849b', 0, 'NVB@qlcn.com', '0000000001', 'Nhân viên', 'Nguyễn Văn B', '2024-05-25'),
+(100006, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVC@qlcn.com', '0000000002', 'Nhân viên', 'Nguyễn Văn C', '2024-05-25'),
+(100007, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVD@qlcn.com', '0000000003', 'Nhân viên', 'Nguyễn Văn D', '2024-05-25'),
+(100008, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVE@qlcn.com', '0000000004', 'Nhân viên', 'Nguyễn Văn E', '2024-05-25'),
+(100009, 'c4ca4238a0b923820dcc509a6f75849b', 0, 'NVF@qlcn.com', '0000000005', 'Nhân viên', 'Nguyễn Văn F', '2024-05-25'),
+(100010, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVG@qlcn.com', '0000000006', 'Nhân viên', 'Nguyễn Văn G', '2024-05-25'),
+(100011, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVH@qlcn.com', '0000000007', 'Nhân viên', 'Nguyễn Văn H', '2024-05-25'),
+(100012, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVI@qlcn.com', '0000000008', 'Nhân viên', 'Nguyễn Văn I', '2024-05-25'),
+(100013, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVJ@qlcn.com', '0000000009', 'Nhân viên', 'Nguyễn Văn J', '2024-05-25'),
+(100014, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVK@qlcn.com', '0000000010', 'Nhân viên', 'Nguyễn Văn K', '2024-05-25'),
+(100015, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVL@qlcn.com', '0000000011', 'Nhân viên', 'Nguyễn Văn L', '2024-05-25'),
+(100016, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVM@qlcn.com', '0000000012', 'Nhân viên', 'Nguyễn Văn M', '2024-05-25'),
+(100017, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVN@qlcn.com', '0000000013', 'Nhân viên', 'Nguyễn Văn N', '2024-05-25'),
+(100018, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVO@qlcn.com', '0000000015', 'Nhân viên', 'Nguyễn Văn O', '2024-05-25'),
+(100019, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVP@qlcn.com', '0000000016', 'Nhân viên', 'Nguyễn Văn P', '2024-05-25'),
+(100020, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVQ@qlcn.com', '0000000017', 'Nhân viên', 'Nguyễn Văn Q', '2024-05-25'),
+(100021, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVR@qlcn.com', '0000000018', 'Nhân viên', 'Nguyễn Văn R', '2024-05-25'),
+(100022, 'c4ca4238a0b923820dcc509a6f75849b', 0, 'NVS@qlcn.com', '0000000019', 'Nhân viên', 'Nguyễn Văn S', '2024-05-25'),
+(100023, 'c4ca4238a0b923820dcc509a6f75849b', 0, 'NVT@qlcn.com', '0000000020', 'Nhân viên', 'Nguyễn Văn T', '2024-05-25'),
+(100024, 'c4ca4238a0b923820dcc509a6f75849b', 0, 'NVU@qlcn.com', '0000000021', 'Nhân viên', 'Nguyễn Văn U', '2024-05-25'),
+(100025, 'c4ca4238a0b923820dcc509a6f75849b', 0, 'NVV@qlcn.com', '0000000022', 'Nhân viên', 'Nguyễn Văn V', '2024-05-25'),
+(100026, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVW@qlcn.com', '0000000023', 'Nhân viên', 'Nguyễn Văn W', '2024-05-25'),
+(100027, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVX@qlcn.com', '0000000024', 'Nhân viên', 'Nguyễn Văn X', '2024-05-25'),
+(100028, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVY@qlcn.com', '0000000025', 'Nhân viên', 'Nguyễn Văn Y', '2024-05-25'),
+(100029, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVZ@qlcn.com', '0000000026', 'Nhân viên', 'Nguyễn Văn Z', '2024-05-25');
 
 -- --------------------------------------------------------
 
@@ -841,7 +1160,7 @@ ALTER TABLE `ql_phanquyen`
   ADD PRIMARY KEY (`ma_phan_quyen`),
   ADD UNIQUE KEY `ma_nhan_vien` (`ma_nhan_vien`,`ma_quyen`),
   ADD KEY `ma_quyen` (`ma_quyen`),
-  ADD KEY `ma_tuyen` (`ma_tuyen`);
+  ADD KEY `ql_phanquyen_ibfk_3` (`ma_tuyen`);
 
 --
 -- Indexes for table `ql_taikhoan`
@@ -872,7 +1191,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `dm_chinhanh`
 --
 ALTER TABLE `dm_chinhanh`
-  MODIFY `ma_chi_nhanh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ma_chi_nhanh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `dm_codongho`
@@ -902,7 +1221,7 @@ ALTER TABLE `dm_nhacungcap`
 -- AUTO_INCREMENT for table `dm_phuongxa`
 --
 ALTER TABLE `dm_phuongxa`
-  MODIFY `ma_phuong_xa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ma_phuong_xa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=343;
 
 --
 -- AUTO_INCREMENT for table `dm_ptthanhtoan`
@@ -914,19 +1233,19 @@ ALTER TABLE `dm_ptthanhtoan`
 -- AUTO_INCREMENT for table `dm_quanhuyen`
 --
 ALTER TABLE `dm_quanhuyen`
-  MODIFY `ma_quan_huyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ma_quan_huyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `dm_quyen`
 --
 ALTER TABLE `dm_quyen`
-  MODIFY `ma_quyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `ma_quyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `dm_toquanly`
 --
 ALTER TABLE `dm_toquanly`
-  MODIFY `ma_to_quan_ly` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ma_to_quan_ly` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `dm_tuyendoc`
@@ -1016,7 +1335,7 @@ ALTER TABLE `ql_phanquyen`
 -- AUTO_INCREMENT for table `ql_taikhoan`
 --
 ALTER TABLE `ql_taikhoan`
-  MODIFY `ma_nhan_vien` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100004;
+  MODIFY `ma_nhan_vien` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100030;
 
 --
 -- AUTO_INCREMENT for table `users`
