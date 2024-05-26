@@ -42,10 +42,10 @@ class QLTaiKhoanController extends Controller
       'required' => 'Xin hãy điền đủ thông tin!',
       'same' => 'Mật khẩu xác nhận không trùng với mật khẩu!',
       'mat_khau.max' => 'Mật khẩu quá dài!',
-      'sdt.max_digits' => 'Số điện thoại không hợp lệ1!',
-      'sdt.min_digits' => 'Số điện thoại không hợp lệ2!',
+      'sdt.max_digits' => 'Số điện thoại không hợp lệ!',
+      'sdt.min_digits' => 'Số điện thoại không hợp lệ!',
       'sdt.unique' => 'Số điện thoại đã tồn tại!',
-      'sdt.numeric' => 'Số điện thoại không hợp lệ3!',
+      'sdt.numeric' => 'Số điện thoại không hợp lệ!',
       'email.unique' => 'Email đã tồn tại!',
     ];
     $validator = Validator::make($request->all(), [
@@ -254,7 +254,6 @@ class QLTaiKhoanController extends Controller
                 session()->put('nguoi_dung', $ma_nhan_vien);
             }
         }
-      
     }
     if (session('trang_thai') == 200) {
       return response()->json([
