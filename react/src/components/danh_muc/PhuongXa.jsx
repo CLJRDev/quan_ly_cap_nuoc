@@ -9,10 +9,11 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Paginate from "../layouts/Paginate"
 
 
 export default function PhuongXa() {
-  const [phuongXas, setPhuongXas] = useState(null)
+  const [phuongXas, setPhuongXas] = useState([])
   const [quanHuyens, setQuanHuyens] = useState(null)
   const [searchData, setSearchData] = useState({
     tenPhuongXa: '',
@@ -21,6 +22,11 @@ export default function PhuongXa() {
       label: ''
     }
   })
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = phuongXas.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(phuongXas.length / itemsPerPage);
 
   const fetchData = () => {
     axios.get(`http://127.0.0.1:8000/api/phuong_xa`)
@@ -43,7 +49,7 @@ export default function PhuongXa() {
   if (!phuongXas) return null
   if (!quanHuyens) return null
 
-  const phuongXaElements = phuongXas.map((item, index) => {
+  const phuongXaElements = currentItems.map((item, index) => {
     return <tr key={index}>
       <td>{item.ma_phuong_xa}</td>
       <td>{item.ten_phuong_xa}</td>
@@ -81,6 +87,11 @@ export default function PhuongXa() {
       }
     })
   }
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % phuongXas.length;
+    setItemOffset(newOffset);
+  };
 
   const xoaPhuongXa = id => {
     if (!window.confirm('Bạn có chắc chắn muốn xóa phường xã này?'))
@@ -153,6 +164,10 @@ export default function PhuongXa() {
             {phuongXaElements}
           </tbody>
         </table>
+        <Paginate
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+        />
       </div>
       <ToastContainer />
     </div>

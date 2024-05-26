@@ -8,10 +8,10 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Paginate from "../layouts/Paginate"
 
 export default function TuyenDoc() {
-  const [tuyenDocs, setTuyenDocs] = useState(null)
+  const [tuyenDocs, setTuyenDocs] = useState([])
   const [toQuanLys, setToQuanLys] = useState(null)
   const [phuongXas, setPhuongXas] = useState(null)
   const [tuyenDocData, setTuyenDocData] = useState({
@@ -19,10 +19,11 @@ export default function TuyenDoc() {
     to_quan_ly: '',
     phuong_xa: ''
   })
-
-  useEffect(() => {
-    fetchData()
-  }, [])
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = tuyenDocs.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(tuyenDocs.length / itemsPerPage);
 
   const fetchData = () => {
     axios.get(`http://127.0.0.1:8000/api/tuyen_doc`)
@@ -30,6 +31,10 @@ export default function TuyenDoc() {
         setTuyenDocs(response.data)
       })
   }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   useEffect(() => {
     axios.get(`http://127.0.0.1:8000/api/to_quan_ly`)
@@ -84,6 +89,11 @@ export default function TuyenDoc() {
     })
   }
 
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % tuyenDocs.length;
+    setItemOffset(newOffset);
+  };
+
   const xoaTuyenDoc = (id) => {
     if (!window.confirm('Bạn có chắc chắn muốn xóa tuyến đọc này?'))
       return
@@ -97,7 +107,7 @@ export default function TuyenDoc() {
       });
   }
 
-  const tuyenDocElements = tuyenDocs.map((item, index) => {
+  const tuyenDocElements = currentItems.map((item, index) => {
     return <tr key={index}>
       <td>{item.ma_tuyen}</td>
       <td>{item.ten_tuyen}</td>
@@ -182,6 +192,10 @@ export default function TuyenDoc() {
             {tuyenDocElements}
           </tbody>
         </table>
+        <Paginate
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+        />
       </div>
       <ToastContainer />
     </div>

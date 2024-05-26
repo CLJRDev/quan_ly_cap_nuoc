@@ -9,10 +9,11 @@ import ErrorToast from '../../notification/ErrorToast'
 import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Paginate from "../../layouts/Paginate"
 
 
 export default function QuanLyKhachHang() {
-  const [khachHangs, setKhachHangs] = useState(null)
+  const [khachHangs, setKhachHangs] = useState([])
   const [searchData, setSearchData] = useState({
     ten_khach_hang: '',
     can_cuoc: '',
@@ -20,6 +21,11 @@ export default function QuanLyKhachHang() {
     sdt: '',
     email: ''
   })
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = khachHangs.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(khachHangs.length / itemsPerPage);
 
   const fetchData = () => {
     axios.get(`http://127.0.0.1:8000/api/khach_hang`)
@@ -45,9 +51,7 @@ export default function QuanLyKhachHang() {
       });
   }
 
-  if (!khachHangs) return null
-
-  const khachHangElements = khachHangs.map((item, index) => {
+  const khachHangElements = currentItems.map((item, index) => {
     return <tr key={index}>
       <td>{item.ma_khach_hang}</td>
       <td>{item.ten_khach_hang}</td>
@@ -74,6 +78,11 @@ export default function QuanLyKhachHang() {
       }
     })
   }
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % users.length;
+    setItemOffset(newOffset);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -153,6 +162,10 @@ export default function QuanLyKhachHang() {
             {khachHangElements}
           </tbody>
         </table>
+        <Paginate
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+        />
       </div>
       <ToastContainer />
     </div>

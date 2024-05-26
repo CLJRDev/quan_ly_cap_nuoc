@@ -10,10 +10,11 @@ import ErrorToast from '../../notification/ErrorToast'
 import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Paginate from "../../layouts/Paginate"
 
 
 export default function QuanLyHopDong() {
-  const [hopDongs, setHopDongs] = useState(null)
+  const [hopDongs, setHopDongs] = useState([])
   const [searchData, setSearchData] = useState({
     ma_hop_dong: '',
     ten_nguoi_dai_dien: '',
@@ -25,8 +26,11 @@ export default function QuanLyHopDong() {
     ma_dong_ho: '',
     ma_nhom_gia: '',
   })
-
-  console.log(searchData)
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = hopDongs.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(hopDongs.length / itemsPerPage);
 
   const fetchData = () => {
     axios.get(`http://127.0.0.1:8000/api/hop_dong`)
@@ -52,8 +56,7 @@ export default function QuanLyHopDong() {
       });
   }
 
-  if (!hopDongs) return null
-  const hopDongElements = hopDongs.map((item, index) => {
+  const hopDongElements = currentItems.map((item, index) => {
     return <tr key={index}>
       <td>{item.ma_hop_dong}</td>
       <td>{item.ten_khach_hang}</td>
@@ -89,6 +92,11 @@ export default function QuanLyHopDong() {
       }
     })
   }
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % users.length;
+    setItemOffset(newOffset);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -194,6 +202,10 @@ export default function QuanLyHopDong() {
             {hopDongElements}
           </tbody>
         </table>
+        <Paginate
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+        />
       </div>
       <ToastContainer />
     </div>

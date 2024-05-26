@@ -9,15 +9,21 @@ import ErrorToast from '../../notification/ErrorToast'
 import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Paginate from "../../layouts/Paginate"
 
 
 export default function QuanLyGiaNuoc() {
   const [loaiKhachHangs, setLoaiKhachHangs] = useState(null)
-  const [gias, setGias] = useState(null)
+  const [gias, setGias] = useState([])
   const [searchData, setSearchData] = useState({
     ten_nhom_gia: '',
     ma_loai_khach_hang: ''
   })
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = gias.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(gias.length / itemsPerPage);
 
   const fetchData = () => {
     axios.get(`http://127.0.0.1:8000/api/nhom_gia`)
@@ -62,7 +68,7 @@ export default function QuanLyGiaNuoc() {
   }
 
   if (!gias) return null
-  const giaElements = gias.map((item, index) => {
+  const giaElements = currentItems.map((item, index) => {
     return <tr key={index}>
       <td>{item.ten_nhom_gia}</td>
       <td>{item.ten_loai_khach_hang}</td>
@@ -81,7 +87,6 @@ export default function QuanLyGiaNuoc() {
     </tr>
   })
 
-
   const handleInputChange = (e) => {
     setSearchData(preData => {
       return {
@@ -99,6 +104,11 @@ export default function QuanLyGiaNuoc() {
       }
     })
   }
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % users.length;
+    setItemOffset(newOffset);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -163,6 +173,10 @@ export default function QuanLyGiaNuoc() {
             {giaElements}
           </tbody>
         </table>
+        <Paginate
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+        />
       </div>
       <ToastContainer />
     </div>

@@ -8,13 +8,20 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Paginate from "../layouts/Paginate"
 
 
 export default function ToQuanLy() {
-  const [toQuanLys, setToQuanLys] = useState(null)
+  const [toQuanLys, setToQuanLys] = useState([])
   const [chiNhanhs, setChiNhanhs] = useState(null)
   const [chiNhanhOption, setChiNhanhOption] = useState([])
   const tenToQuanLyRef = useRef()
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = toQuanLys.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(toQuanLys.length / itemsPerPage);
+
 
   useEffect(() => {
     axios.get(`http://127.0.0.1:8000/api/chi_nhanh`)
@@ -45,7 +52,7 @@ export default function ToQuanLy() {
     })
   })
 
-  const toQuanLyElements = toQuanLys.map((item, index) => {
+  const toQuanLyElements = currentItems.map((item, index) => {
     return <tr key={index}>
       <td>{item.ma_to_quan_ly}</td>
       <td>{item.ten_to_quan_ly}</td>
@@ -73,6 +80,11 @@ export default function ToQuanLy() {
   const handleChange = (selectedOption) => {
     setChiNhanhOption(selectedOption)
   }
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % toQuanLys.length;
+    setItemOffset(newOffset);
+  };
 
   const themToQuanLy = async () => {
     const formData = new FormData()
@@ -135,6 +147,10 @@ export default function ToQuanLy() {
             {toQuanLyElements}
           </tbody>
         </table>
+        <Paginate
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+        />
       </div>
       <ToastContainer />
     </div>

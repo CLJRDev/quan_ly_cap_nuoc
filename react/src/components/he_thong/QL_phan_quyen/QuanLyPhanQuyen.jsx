@@ -9,15 +9,22 @@ import ErrorToast from '../../notification/ErrorToast'
 import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Paginate from "../../layouts/Paginate"
+
 
 export default function QuanLyPhanQuyen() {
-  const [phanQuyens, setPhanQuyens] = useState(null)
+  const [phanQuyens, setPhanQuyens] = useState([])
   const [searchData, setSearchData] = useState({
     ma_quyen: '',
     ten_quyen: '',
     ma_nhan_vien: '',
     ho_ten: ''
   })
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = phanQuyens.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(phanQuyens.length / itemsPerPage);
 
   const fetchData = () => {
     axios.get(`http://127.0.0.1:8000/api/phan_quyen`)
@@ -39,8 +46,6 @@ export default function QuanLyPhanQuyen() {
         fetchData()
       })
   }
-
-  if (!phanQuyens) return null
 
   const phanQuyenElements = phanQuyens.map((item, index) => {
     return <tr key={index}>
@@ -65,6 +70,11 @@ export default function QuanLyPhanQuyen() {
       }
     })
   }
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % phanQuyens.length;
+    setItemOffset(newOffset);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -136,6 +146,10 @@ export default function QuanLyPhanQuyen() {
             {phanQuyenElements}
           </tbody>
         </table>
+        <Paginate
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+        />
       </div>
       <ToastContainer />
     </div>

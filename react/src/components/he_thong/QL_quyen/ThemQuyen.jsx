@@ -7,13 +7,21 @@ import ErrorToast from '../../notification/ErrorToast'
 import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Paginate from "../../layouts/Paginate"
+
 
 export default function ThemQuyen() {
-  const [quyens, setQuyens] = useState(null)
+  const [quyens, setQuyens] = useState([])
   const [quyen, setQuyen] = useState({
     ten_quyen: '',
     trang_thai: '1'
   })
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = quyens.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(quyens.length / itemsPerPage);
+
 
   const fetchData = async () => {
     await axios.get(`http://127.0.0.1:8000/api/quyen`)
@@ -25,8 +33,6 @@ export default function ThemQuyen() {
   useEffect(() => {
     fetchData()
   }, [])
-
-  if (!quyens) return null
 
   const xoaQuyen = id => {
     if (!window.confirm('Bạn có chắc chắn muốn xóa quyền này?'))
@@ -41,7 +47,7 @@ export default function ThemQuyen() {
       });
   }
 
-  const quyenElements = quyens.map((item, index) => {
+  const quyenElements = currentItems.map((item, index) => {
     return <tr key={index}>
       <td>{item.ma_quyen}</td>
       <td>{item.ten_quyen}</td>
@@ -63,6 +69,11 @@ export default function ThemQuyen() {
       }
     })
   }
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % quyens.length;
+    setItemOffset(newOffset);
+  };
 
   const themQuyen = async () => {
     const formData = new FormData()
@@ -123,6 +134,10 @@ export default function ThemQuyen() {
             {quyenElements}
           </tbody>
         </table>
+        <Paginate
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+        />
       </div>
       <ToastContainer />
     </div>

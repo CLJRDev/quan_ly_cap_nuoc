@@ -7,10 +7,17 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Paginate from "../layouts/Paginate"
+
 
 export default function ChiNhanh() {
-  const [chiNhanhs, setChiNhanhs] = useState(null)
+  const [chiNhanhs, setChiNhanhs] = useState([])
   const [chiNhanhData, setChiNhanhData] = useState(null)
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = chiNhanhs.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(chiNhanhs.length / itemsPerPage);
 
   useEffect(() => {
     fetchData()
@@ -23,9 +30,7 @@ export default function ChiNhanh() {
       })
   }
 
-  if (!chiNhanhs) return null
-
-  const chiNhanhElements = chiNhanhs.map((item, index) => {
+  const chiNhanhElements = currentItems.map((item, index) => {
     return <tr key={index}>
       <td>{item.ma_chi_nhanh}</td>
       <td>{item.ten_chi_nhanh}</td>
@@ -59,6 +64,11 @@ export default function ChiNhanh() {
       }
     })
   }
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % chiNhanhs.length;
+    setItemOffset(newOffset);
+  };
 
   const themChiNhanh = async () => {
     const formData = new FormData()
@@ -116,6 +126,10 @@ export default function ChiNhanh() {
             {chiNhanhElements}
           </tbody>
         </table>
+        <Paginate
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+        />
       </div>
       <ToastContainer />
     </div>

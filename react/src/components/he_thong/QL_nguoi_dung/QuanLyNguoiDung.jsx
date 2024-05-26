@@ -8,9 +8,11 @@ import SuccessToast from '../../notification/SuccessToast'
 import ErrorToast from '../../notification/ErrorToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Paginate from "../../layouts/Paginate"
+
 
 export default function QuanLyNguoiDung() {
-  const [users, setUsers] = useState(null)
+  const [users, setUsers] = useState([])
   const [searchData, setSearchData] = useState({
     ma_nhan_vien: '',
     ho_ten: '',
@@ -19,6 +21,11 @@ export default function QuanLyNguoiDung() {
     email: '',
     trang_thai: ''
   })
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = users.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(users.length / itemsPerPage);
 
   const fetchData = () => {
     axios.get(`http://127.0.0.1:8000/api/tai_khoan`)
@@ -31,8 +38,6 @@ export default function QuanLyNguoiDung() {
     fetchData()
   }, [])
 
-  if (!users) return null
-
   const xoaNguoiDung = id => {
     if (!window.confirm('Bạn có chắc chắn muốn xóa người dùng này?'))
       return
@@ -42,13 +47,11 @@ export default function QuanLyNguoiDung() {
         fetchData()
       })
       .catch(error => {
-        console.log(error)
-        //ErrorToast(error.response.data.error)
         ErrorToast('Không thể xóa người dùng này!')
       })
   }
 
-  const userElements = users.map((item, index) => {
+  const userElements = currentItems.map((item, index) => {
     return <tr key={index}>
       <td>{item.ma_nhan_vien}</td>
       <td>{item.ho_ten}</td>
@@ -75,6 +78,11 @@ export default function QuanLyNguoiDung() {
     })
   }
 
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % users.length;
+    setItemOffset(newOffset);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     const { ma_nhan_vien, ho_ten, chuc_vu, sdt, email, trang_thai } = searchData;
@@ -98,16 +106,6 @@ export default function QuanLyNguoiDung() {
       queryString += `&trang_thai=${trang_thai}`
     }
     const response = await axios.get(`http://127.0.0.1:8000/api/tai_khoan_search/${queryString}`)
-    toast.success(response.data.message, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
     setUsers(response.data)
   }
 
@@ -174,6 +172,10 @@ export default function QuanLyNguoiDung() {
             {userElements}
           </tbody>
         </table>
+        <Paginate
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+        />
       </div>
       <ToastContainer />
     </div>
