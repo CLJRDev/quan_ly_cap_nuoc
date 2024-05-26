@@ -13,6 +13,7 @@ import SuaChiNhanh from './components/danh_muc/SuaChiNhanh'
 import ToQuanLy from './components/danh_muc/ToQuanLy'
 import SuaToQuanLy from './components/danh_muc/SuaToQuanLy'
 import TuyenDoc from './components/danh_muc/TuyenDoc'
+import ThemTuyenDoc from './components/danh_muc/ThemTuyenDoc'
 import SuaTuyenDoc from './components/danh_muc/SuaTuyenDoc'
 import QuanHuyen from './components/danh_muc/QuanHuyen'
 import SuaQuanHuyen from './components/danh_muc/SuaQuanHuyen'
@@ -80,6 +81,7 @@ function App() {
         <Route path='/to_quan_ly' element={<ToQuanLy />} />
         <Route path='/to_quan_ly/sua/:id' element={<SuaToQuanLy />} />
         <Route path='/tuyen_doc' element={<TuyenDoc />} />
+        <Route path='/tuyen_doc/them' element={<ThemTuyenDoc />} />
         <Route path='/tuyen_doc/sua/:id' element={<SuaTuyenDoc />} />
         <Route path='/quan_huyen' element={<QuanHuyen />} />
         <Route path='/quan_huyen/sua/:id' element={<SuaQuanHuyen />} />

@@ -18,7 +18,7 @@ export default function NhomGia(props) {
 
   if (props.isSearch) {
     nhomGiaOptions.push({
-      value: 0,
+      value: '',
       label: 'Tất cả'
     })
   }
@@ -30,13 +30,26 @@ export default function NhomGia(props) {
     })
   })
 
+  const customStyles = {
+    menu: (provided) => ({
+      ...provided,
+      zIndex: 9999
+    }),
+    menuPortal: (provided) => ({
+      ...provided,
+      zIndex: 9999
+    }),
+  };
+
   return (
     <Select
       required={props.require}
       options={nhomGiaOptions}
       onChange={props.onChange}
       name={props.name}
+      styles={customStyles}
       value={props.value && props.value}
+      menuPortalTarget={document.body}
     />
   )
 }

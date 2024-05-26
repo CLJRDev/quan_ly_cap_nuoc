@@ -127,12 +127,11 @@ export default function PhuongXa() {
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ten_phuong_xa">Tên phường xã</label>
-          <input required type="text" id='ten_phuong_xa' onChange={handleInputChange} />
+          <input type="text" id='ten_phuong_xa' onChange={handleInputChange} />
         </div>
         <div>
           <label htmlFor="">Tên quận huyện</label>
-          <Select
-            required
+          <Select            
             options={quanHuyenOptions}
             onChange={handleSelectChange}
           />

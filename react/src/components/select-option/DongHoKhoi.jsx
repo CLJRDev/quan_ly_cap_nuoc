@@ -18,7 +18,7 @@ export default function DongHoKhoi(props) {
 
   if (props.isSearch) {
     dongHoKhoiOptions.push({
-      value: 0,
+      value: '',
       label: 'Tất cả'
     })
   }
@@ -30,12 +30,25 @@ export default function DongHoKhoi(props) {
     })
   })
 
+  const customStyles = {
+    menu: (provided) => ({
+      ...provided,
+      zIndex: 9999
+    }),
+    menuPortal: (provided) => ({
+      ...provided,
+      zIndex: 9999
+    }),
+  };
+
   return (
     <Select
       options={dongHoKhoiOptions}
       onChange={props.onChange}
       name={props.name}
+      styles={customStyles}
       value={props.value && props.value}
+      menuPortalTarget={document.body}
     />
   )
 }

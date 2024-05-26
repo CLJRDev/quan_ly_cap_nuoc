@@ -10,10 +10,11 @@ import SliderCom from "../../react-components/SliderCom"
 import LoaiDongHo from "../../select-option/LoaiDongHo"
 import CoDongHo from "../../select-option/CoDongHo"
 import NhaCungCap from "../../select-option/NhaCungCap"
+import TrangThai from "../../select-option/TrangThai"
 
 
 export default function QuanLyDongHoKhoi() {
-  const [dongHoKhois, setDongHoKhois] = useState(null)
+  const [dongHoKhois, setDongHoKhois] = useState([])
   const [searchData, setSearchData] = useState({
     ten_dong_ho: '',
     ma_loai_dong_ho: '',
@@ -50,14 +51,6 @@ export default function QuanLyDongHoKhoi() {
   useEffect(() => {
     fetchData()
   }, [])
-
-  if (!dongHoKhois) return null
-
-  const trangThaiOptions = [
-    { value: '', label: 'Tất cả' },
-    { value: 1, label: 'Kích hoạt' },
-    { value: 0, label: 'Khóa' },
-  ]
 
   const xoa = id => {
     if (!window.confirm('Bạn có chắc chắn muốn xóa đồng hồ này này?'))
@@ -188,8 +181,8 @@ export default function QuanLyDongHoKhoi() {
         </div>
         <div>
           <label htmlFor="">Tình trạng</label>
-          <Select
-            options={trangThaiOptions}
+          <TrangThai
+            isDongHo={true}
             onChange={handleSelectChange}
             name="tinh_trang"
           />

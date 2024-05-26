@@ -167,17 +167,17 @@ class DMTuyenDocController extends Controller
     }
     public function search(Request $request)
     {
-        $tuyen = DMTuyenDocModel::query()->select('ma_tuyen','ten_tuyen','dm_tuyendoc.ma_phuong_xa','dm_phuongxa.ten_phuong_xa','dm_tuyendoc.ma_to_quan_ly','dm_toquanly.ten_to_quan_ly','dm_toquanly.dia_chi')
+        $tuyen = DMTuyenDocModel::query()->select('ma_tuyen','ten_tuyen','dm_tuyendoc.ma_phuong_xa','dm_phuongxa.ten_phuong_xa','dm_tuyendoc.ma_to_quan_ly','dm_toquanly.ten_to_quan_ly')
         ->join('dm_toquanly','dm_toquanly.ma_to_quan_ly','=','dm_tuyendoc.ma_to_quan_ly')
         ->join('dm_phuongxa','dm_phuongxa.ma_phuong_xa','=','dm_tuyendoc.ma_phuong_xa');
         if($request->has('ten_tuyen')){
             $tuyen->where('ten_tuyen',"like","%".$request->ten_tuyen."%");
         }
         if($request->has('ma_to_quan_ly')){
-            $tuyen->where('ma_to_quan_ly',$request->ma_to_quan_ly);
+            $tuyen->where('dm_tuyendoc.ma_to_quan_ly',$request->ma_to_quan_ly);
         }
         if($request->has('ma_phuong_xa')){
-            $tuyen->where('ma_phuong_xa',$request->ma_phuong_xa);
+            $tuyen->where('dm_tuyendoc.ma_phuong_xa',$request->ma_phuong_xa);
         }
         return $tuyen->orderBy('ma_tuyen', 'ASC')->get();
     }

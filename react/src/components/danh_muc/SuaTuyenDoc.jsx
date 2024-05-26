@@ -2,7 +2,8 @@ import axios from "axios"
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { MdOutlineEdit } from "react-icons/md";
-import Select from 'react-select'
+import PhuongXa from '../select-option/PhuongXa'
+import ToQuanLy from '../select-option/ToQuanLy'
 import SuccessToast from '../notification/SuccessToast'
 import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
@@ -12,11 +13,9 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function SuaTuyenDoc() {
   const navigate = useNavigate()
   const { id } = useParams()
-  const [tuyenDoc, setTuyenDoc] = useState(null)
-  const [toQuanLyOption, setToQuanLyOption] = useState(null)
-  const [phuongXaOption, setPhuongXaOption] = useState(null)
-  const [toQuanLys, setToQuanLys] = useState(null)
-  const [phuongXas, setPhuongXas] = useState(null)
+  const [tuyenDoc, setTuyenDoc] = useState([])
+  const [toQuanLyOption, setToQuanLyOption] = useState({})
+  const [phuongXaOption, setPhuongXaOption] = useState({})
 
   useEffect(() => {
     axios.get(`http://127.0.0.1:8000/api/tuyen_doc/${id}`)
@@ -26,40 +25,6 @@ export default function SuaTuyenDoc() {
         setPhuongXaOption({ value: response.data.ma_phuong_xa, label: response.data.ten_phuong_xa })
       })
   }, [])
-
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/to_quan_ly`)
-      .then(response => {
-        setToQuanLys(response.data)
-      })
-  }, [])
-
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/phuong_xa`)
-      .then(response => {
-        setPhuongXas(response.data)
-      })
-  }, [])
-
-  if (!toQuanLys) return null
-  if (!phuongXas) return null
-
-  const toQuanLyOptions = []
-  const phuongXaOptions = []
-
-  toQuanLys.forEach(item => {
-    toQuanLyOptions.push({
-      value: item.ma_to_quan_ly,
-      label: item.ten_to_quan_ly
-    })
-  })
-
-  phuongXas.forEach(item => {
-    phuongXaOptions.push({
-      value: item.ma_phuong_xa,
-      label: item.ten_phuong_xa
-    })
-  })
 
   const handleInputChange = (e) => {
     setTuyenDoc(e.target.value)
@@ -109,19 +74,17 @@ export default function SuaTuyenDoc() {
         </div>
         <div>
           <label htmlFor="">Tổ quản lý</label>
-          <Select
-            required
+          <ToQuanLy
+            require={true}
             onChange={handleToQuanLyChange}
-            options={toQuanLyOptions}
             value={toQuanLyOption}
           />
         </div>
         <div>
           <label htmlFor="">Phường xã</label>
-          <Select
-            required
+          <PhuongXa
+            require={true}
             onChange={handlePhuongXaChange}
-            options={phuongXaOptions}
             value={phuongXaOption}
           />
         </div>

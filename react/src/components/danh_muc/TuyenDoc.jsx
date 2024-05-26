@@ -1,8 +1,10 @@
 import axios from "axios"
+import { IoMdSearch } from "react-icons/io"
 import { useState, useEffect } from "react"
 import { IoIosAddCircleOutline } from "react-icons/io"
 import { Link } from "react-router-dom"
-import Select from 'react-select'
+import PhuongXa from '../select-option/PhuongXa'
+import ToQuanLy from '../select-option/ToQuanLy'
 import SuccessToast from '../notification/SuccessToast'
 import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
@@ -12,12 +14,10 @@ import Paginate from "../layouts/Paginate"
 
 export default function TuyenDoc() {
   const [tuyenDocs, setTuyenDocs] = useState([])
-  const [toQuanLys, setToQuanLys] = useState(null)
-  const [phuongXas, setPhuongXas] = useState(null)
-  const [tuyenDocData, setTuyenDocData] = useState({
-    tuyen_doc: '',
-    to_quan_ly: '',
-    phuong_xa: ''
+  const [searchData, setSearchData] = useState({
+    ten_tuyen: '',
+    ma_to_quan_ly: '',
+    ma_phuong_xa: ''
   })
   const [itemOffset, setItemOffset] = useState(0);
   const itemsPerPage = 10;
@@ -36,52 +36,17 @@ export default function TuyenDoc() {
     fetchData()
   }, [])
 
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/to_quan_ly`)
-      .then(response => {
-        setToQuanLys(response.data)
-      })
-  }, [])
-
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/phuong_xa`)
-      .then(response => {
-        setPhuongXas(response.data)
-      })
-  }, [])
-
-  if (!tuyenDocs) return null
-  if (!toQuanLys) return null
-  if (!phuongXas) return null
-
-  const toQuanLyOptions = []
-  const phuongXaOptions = []
-
-  toQuanLys.forEach(item => {
-    toQuanLyOptions.push({
-      value: item.ma_to_quan_ly,
-      label: item.ten_to_quan_ly
-    })
-  })
-
-  phuongXas.forEach(item => {
-    phuongXaOptions.push({
-      value: item.ma_phuong_xa,
-      label: item.ten_phuong_xa
-    })
-  })
-
   const handleSelectChange = (selectedOption, event) => {
-    setTuyenDocData(pre => {
+    setSearchData(pre => {
       return {
         ...pre,
-        [event.name]: selectedOption
+        [event.name]: selectedOption.value
       }
     })
   }
 
   const handleInputChange = (e) => {
-    setTuyenDocData(pre => {
+    setSearchData(pre => {
       return {
         ...pre,
         [e.target.name]: e.target.value
@@ -119,61 +84,64 @@ export default function TuyenDoc() {
       </td>
     </tr>
   })
-  const themTuyenDoc = async () => {
-    const formData = new FormData()
-    formData.append('ten_tuyen', tuyenDocData.tuyen_doc)
-    formData.append('ma_to_quan_ly', tuyenDocData.to_quan_ly.value)
-    formData.append('ma_phuong_xa', tuyenDocData.phuong_xa.value)
 
-    try {
-      const response = await axios.post(`http://127.0.0.1:8000/api/tuyen_doc`, formData)
-      SuccessToast(response.data.message)
-      fetchData()
-    } catch (error) {
-      const errorsArray = Object.values(error.response.data.error).flat();
-      errorsArray.forEach(item => {
-        WarningToast(item)
-      })
+  const timKiem = async () => {
+    const { ten_tuyen, ma_to_quan_ly, ma_phuong_xa } = searchData;
+    let queryString = '?'
+    if (ten_tuyen != '') {
+      queryString += `ten_tuyen=${ten_tuyen}`
     }
+    if (ma_to_quan_ly != '') {
+      queryString += `&ma_to_quan_ly=${ma_to_quan_ly}`
+    }
+    if (ma_phuong_xa != '') {
+      queryString += `&ma_phuong_xa=${ma_phuong_xa}`
+    }
+    console.log(queryString)
+    const response = await axios.get(`http://127.0.0.1:8000/api/tuyen_doc_search/${queryString}`)
+    setTuyenDocs(response.data)
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    await themTuyenDoc()
+    await timKiem()
   }
-
+  
   return (
     <div className="page">
       <h2 className="title">Quản lý danh mục tuyến đọc</h2>
       <form className="form-container animated fadeInDown" onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="tuyen_doc">Tên tuyến đọc</label>
-          <input required type="text" id="tuyen_doc" name='tuyen_doc' onChange={handleInputChange} />
+          <label htmlFor="ten_tuyen">Tên tuyến đọc</label>
+          <input type="text" id="ten_tuyen" name='ten_tuyen' onChange={handleInputChange} />
         </div>
         <div>
           <label htmlFor="chi_nhanh">Tổ quản lý</label>
-          <Select
-            required
+          <ToQuanLy
+            isSearch={true}
             onChange={handleSelectChange}
-            options={toQuanLyOptions}
-            name="to_quan_ly"
+            name="ma_to_quan_ly"
           />
         </div>
         <div>
           <label htmlFor="chi_nhanh">Phường xã</label>
-          <Select
-            required
+          <PhuongXa
+            isSearch={true}
             onChange={handleSelectChange}
-            options={phuongXaOptions}
-            name="phuong_xa"
+            name="ma_phuong_xa"
           />
         </div>
         <div></div>
         <div>
-          <button type="submit" className="btn-add">
+          <button type="submit" className="btn-search">
+            <IoMdSearch style={{ transform: 'scale(1.2)' }} />
+            &nbsp; Tìm kiếm
+          </button>
+          &nbsp;
+          <Link to='/tuyen_doc/them' className="btn-add">
             <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
             &nbsp;Thêm tuyến đọc
-          </button>
+          </Link>
         </div>
       </form>
       <div className="table-container animated fadeInDown">
