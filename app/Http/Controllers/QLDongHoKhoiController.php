@@ -246,6 +246,18 @@ class QLDongHoKhoiController extends Controller
         if($request->has('ma_loai_dong_ho')){
             $query->where("ma_loai_dong_ho",$request->ma_loai_dong_ho);
         }
+        if($request->has('ngay_nhap_tu')&&$request->has('ngay_nhap_den')){
+            $query->whereBetween('ngay_nhap', [$request->ngay_nhap_tu, $request->ngay_nhap_den]);
+        }
+        if($request->has('ngay_kiem_dinh_tu')&&$request->has('ngay_kiem_dinh_den')){
+            $query->whereBetween('ngay_kiem_dinh', [$request->ngay_kiem_dinh_tu, $request->ngay_kiem_dinh_den]);
+        }
+        if($request->has('so_nam_hieu_luc_tu')&&$request->has('so_nam_hieu_luc_den')){
+            $query->whereBetween('so_nam_hieu_luc', [$request->so_nam_hieu_luc_tu, $request->so_nam_hieu_luc_den]);
+        }
+        if($request->has('so_thang_bao_hanh_tu')&&$request->has('so_thang_bao_hanh_den')){
+            $query->whereBetween('so_thang_bao_hanh', [$request->so_thang_bao_hanh_tu, $request->so_thang_bao_hanh_den]);
+        }
         if($request->has('ma_co_dong_ho')){
             $query->where("ma_co_dong_ho",$request->ma_co_dong_ho);
         }
@@ -255,7 +267,7 @@ class QLDongHoKhoiController extends Controller
         if($request->has('tinh_trang')){
             $query->where("tinh_trang",$request->tinh_trang);
         }
-        $result = $query->orderBy('ma_dong_ho_khoi', 'ASC')->get();
+        $result = $query->orderBy('ma_dong_ho', 'ASC')->get();
         return $result;
     }
 }

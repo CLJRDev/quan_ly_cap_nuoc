@@ -57,7 +57,7 @@ export default function QuanLyNguoiDung() {
       <td>{item.ho_ten}</td>
       <td>{item.chuc_vu}</td>
       <td>{format(new Date(item.ngay_sinh), 'dd-MM-yyyy')}</td>
-      <td>{item.sdt != 0 ? `0${item.sdt}` : 'Đang trống'}</td>
+      <td>{item.sdt != 0 ? `${item.sdt}` : 'Đang trống'}</td>
       <td>{item.email}</td>
       <td>{item.trang_thai == 1 ? 'Kích hoạt' : 'Khóa'}</td>
       <td>
