@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function QuanHuyen() {
-  const [quanHuyens, setQuanHuyens] = useState(null)
+  const [quanHuyens, setQuanHuyens] = useState([])
   const tenQuanHuyenRef = useRef()
 
   useEffect(() => {
@@ -23,8 +23,6 @@ export default function QuanHuyen() {
         setQuanHuyens(response.data)
       })
   }
-
-  if (!quanHuyens) return null
 
   const quanHuyenElements = quanHuyens.map((item, index) => {
     return <tr key={index}>

@@ -9,26 +9,20 @@ import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../layouts/Paginate"
-
+import ChiNhanh from '../select-option/ChiNhanh'
 
 export default function ToQuanLy() {
   const [toQuanLys, setToQuanLys] = useState([])
-  const [chiNhanhs, setChiNhanhs] = useState(null)
-  const [chiNhanhOption, setChiNhanhOption] = useState([])
-  const tenToQuanLyRef = useRef()
+  const [toQuanLy, setToQuanLy] = useState({
+    ten_to_quan_ly: '',
+    ma_chi_nhanh: ''
+  })
+
   const [itemOffset, setItemOffset] = useState(0);
   const itemsPerPage = 10;
   const endOffset = itemOffset + itemsPerPage;
   const currentItems = toQuanLys.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(toQuanLys.length / itemsPerPage);
-
-
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/chi_nhanh`)
-      .then(response => {
-        setChiNhanhs(response.data)
-      })
-  }, [])
 
   useEffect(() => {
     fetchData()
@@ -40,17 +34,6 @@ export default function ToQuanLy() {
         setToQuanLys(response.data)
       })
   }
-
-  if (!toQuanLys) return null
-  if (!chiNhanhs) return null
-
-  const options = []
-  chiNhanhs.forEach(item => {
-    options.push({
-      value: item.ma_chi_nhanh,
-      label: item.ten_chi_nhanh
-    })
-  })
 
   const toQuanLyElements = currentItems.map((item, index) => {
     return <tr key={index}>
@@ -77,8 +60,24 @@ export default function ToQuanLy() {
       });
   }
 
-  const handleChange = (selectedOption) => {
-    setChiNhanhOption(selectedOption)
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setToQuanLy(pre => {
+      return {
+        ...pre,
+        [name]: value
+      }
+    })
+  }
+
+  const handleSelectChange = (option, e) => {
+    const name = e.name
+    setToQuanLy(pre => {
+      return {
+        ...pre,
+        [name]: option.value
+      }
+    })
   }
 
   const handlePageClick = (event) => {
@@ -88,8 +87,8 @@ export default function ToQuanLy() {
 
   const themToQuanLy = async () => {
     const formData = new FormData()
-    formData.append('ten_to_quan_ly', tenToQuanLyRef.current.value)
-    formData.append('ma_chi_nhanh', chiNhanhOption.value)
+    formData.append('ten_to_quan_ly', toQuanLy.ten_to_quan_ly)
+    formData.append('ma_chi_nhanh', toQuanLy.ma_chi_nhanh)
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/to_quan_ly`, formData)
@@ -103,6 +102,8 @@ export default function ToQuanLy() {
     }
   }
 
+  console.log(toQuanLy)
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     await themToQuanLy()
@@ -114,15 +115,14 @@ export default function ToQuanLy() {
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ten_to_quan_ly">Tên tổ quản lý</label>
-          <input required type="text" ref={tenToQuanLyRef} id="ten_to_quan_ly" />
+          <input required type="text" name='ten_to_quan_ly' id="ten_to_quan_ly" onChange={handleInputChange} />
         </div>
         <div>
           <label htmlFor="chi_nhanh">Chi nhánh</label>
-          <Select
-            required
-            onChange={handleChange}
-            options={options}
-            value={chiNhanhOption}
+          <ChiNhanh
+            require={true}
+            name='ma_chi_nhanh'
+            onChange={handleSelectChange}
           />
         </div>
         <div>

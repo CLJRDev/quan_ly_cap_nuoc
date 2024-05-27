@@ -3,18 +3,17 @@ import { useState, useEffect, useRef } from "react"
 import { IoIosAddCircleOutline } from "react-icons/io"
 import { IoMdSearch } from "react-icons/io"
 import { Link } from "react-router-dom"
-import Select from 'react-select'
 import SuccessToast from '../notification/SuccessToast'
 import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../layouts/Paginate"
+import QuanHuyen from "../select-option/QuanHuyen"
 
 
 export default function PhuongXa() {
   const [phuongXas, setPhuongXas] = useState([])
-  const [quanHuyens, setQuanHuyens] = useState(null)
   const [searchData, setSearchData] = useState({
     tenPhuongXa: '',
     quanHuyenOption: {
@@ -39,16 +38,6 @@ export default function PhuongXa() {
     fetchData()
   }, [])
 
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/quan_huyen`)
-      .then(response => {
-        setQuanHuyens(response.data)
-      })
-  }, [])
-
-  if (!phuongXas) return null
-  if (!quanHuyens) return null
-
   const phuongXaElements = currentItems.map((item, index) => {
     return <tr key={index}>
       <td>{item.ma_phuong_xa}</td>
@@ -59,15 +48,6 @@ export default function PhuongXa() {
         <button onClick={() => xoaPhuongXa(item.ma_phuong_xa)} className="btn-delete">Xóa</button>
       </td>
     </tr>
-  })
-
-  const quanHuyenOptions = []
-
-  quanHuyens.forEach(item => {
-    quanHuyenOptions.push({
-      value: item.ma_quan_huyen,
-      label: item.ten_quan_huyen
-    })
   })
 
   const handleSelectChange = (option) => {
@@ -131,9 +111,9 @@ export default function PhuongXa() {
         </div>
         <div>
           <label htmlFor="">Tên quận huyện</label>
-          <Select            
-            options={quanHuyenOptions}
+          <QuanHuyen
             onChange={handleSelectChange}
+            isSearch={true}
           />
         </div>
         <div>
