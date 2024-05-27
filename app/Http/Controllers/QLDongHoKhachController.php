@@ -267,9 +267,6 @@ class QLDongHoKhachController extends Controller
         if($request->has('ma_co_dong_ho')){
             $query->where("ma_co_dong_ho",$request->ma_co_dong_ho);
         }
-        if($request->has('so_nam_hieu_luc')){
-            $query->where("so_nam_hieu_luc",$request->so_nam_hieu_luc);
-        }
         if($request->has('tinh_trang')){
             $query->where("tinh_trang",$request->tinh_trang);
         }
