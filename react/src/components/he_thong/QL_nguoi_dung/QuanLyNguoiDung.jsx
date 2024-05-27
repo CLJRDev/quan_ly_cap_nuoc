@@ -1,6 +1,6 @@
 import { IoMdSearch } from "react-icons/io"
 import { IoIosAddCircleOutline } from "react-icons/io"
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from "react"
 import { format } from 'date-fns'
@@ -91,7 +91,7 @@ export default function QuanLyNguoiDung() {
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % users.length;
     setItemOffset(newOffset);
-  };
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()

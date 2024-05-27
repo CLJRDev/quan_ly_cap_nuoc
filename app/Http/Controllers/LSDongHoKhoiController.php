@@ -78,7 +78,7 @@ class LSDongHoKhoiController extends Controller
         $result = $lich_su->save();
         if($result){
             return response()->json([
-                'message' => 'Tạo thành công!'
+                'message' => 'Ghi chỉ số thành công!'
               ]);
         }
         else{

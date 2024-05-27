@@ -1,19 +1,28 @@
 import { IoMdSearch } from "react-icons/io"
 import { IoIosAddCircleOutline } from "react-icons/io"
 import { Link } from 'react-router-dom'
+import { format } from 'date-fns'
 import axios from 'axios'
 import { useState, useEffect } from "react"
-import Select from 'react-select'
 import DongHoKhoi from "../../select-option/DongHoKhoi"
+import TuyenDoc from "../../select-option/TuyenDoc"
+import Paginate from "../../layouts/Paginate"
+
 
 export default function QuanLyGhiChiSoDongHoKhoi() {
   const [lichSus, setLichSus] = useState([])
   const [searchData, setSearchData] = useState({
-    ma_dong_ho: ''
+    ma_dong_ho: '',
+    ma_tuyen: ''
   })
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = lichSus.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(lichSus.length / itemsPerPage);
 
   let first = true
-  const lichSuElements = lichSus.map((item, index) => {
+  const lichSuElements = currentItems.map((item, index) => {
     const actions = first === true ?
       <td style={{ display: 'flex', justifyContent: 'center' }}>
         <Link className="btn-edit" to={`/ghi_chi_so_dh_khoi/sua/${item.ma_lich_su}`}>Sửa</Link>
@@ -31,8 +40,8 @@ export default function QuanLyGhiChiSoDongHoKhoi() {
     return <tr key={index}>
       <td>{item.ma_lich_su}</td>
       <td>{item.ky_chi_so}</td>
-      <td>{item.tu_ngay}</td>
-      <td>{item.den_ngay}</td>
+      <td>{format(new Date(item.tu_ngay), 'dd-MM-yyyy')}</td>
+      <td>{format(new Date(item.den_ngay), 'dd-MM-yyyy')}</td>
       <td>{item.chi_so_cu}</td>
       <td>{item.chi_so_moi}</td>
       <td>{item.so_tieu_thu}</td>
@@ -43,14 +52,27 @@ export default function QuanLyGhiChiSoDongHoKhoi() {
 
   const handleSelectChange = (option, e) => {
     const name = e.name
-    setSearchData({ [name]: option.value })
+    setSearchData(pre => {
+      return {
+        ...pre,
+        [name]: option.value
+      }
+    })
+  }
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % lichSus.length;
+    setItemOffset(newOffset);
   }
 
   const timKiem = async () => {
-    const { ma_dong_ho } = searchData;
+    const { ma_dong_ho, ma_tuyen } = searchData;
     let queryString = '?'
     if (ma_dong_ho != '') {
-      queryString += `ma_dong_ho=${ma_dong_ho}`
+      queryString += `ma_dong_ho=${ma_dong_ho}&`
+    }
+    if (ma_tuyen != '') {
+      queryString += `ma_tuyen=${ma_tuyen}`
     }
     console.log(queryString)
     const response = await axios.get(`http://127.0.0.1:8000/api/lich_su_dh_khoi_search/${queryString}`)
@@ -73,14 +95,20 @@ export default function QuanLyGhiChiSoDongHoKhoi() {
             name='ma_dong_ho'
           />
         </div>
-        <div></div>
+        <div>
+          <label htmlFor="">Tuyến đọc</label>
+          <TuyenDoc
+            onChange={handleSelectChange}
+            name='ma_tuyen'
+          />
+        </div>
         <div>
           <button type="submit" className="btn-search">
             <IoMdSearch style={{ transform: 'scale(1.2)' }} />
             &nbsp; Tìm kiếm
           </button>
           &nbsp;
-          <Link to='/ghi_chi_so_dh_khoi/thoi_gian' className="btn-add">
+          <Link to='/ghi_chi_so_dh_khoi/ghi' className="btn-add">
             <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
             &nbsp; Ghi chỉ số
           </Link>
@@ -106,6 +134,10 @@ export default function QuanLyGhiChiSoDongHoKhoi() {
             {lichSuElements}
           </tbody>
         </table>
+        <Paginate
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+        />
       </div>
     </div>
   )
