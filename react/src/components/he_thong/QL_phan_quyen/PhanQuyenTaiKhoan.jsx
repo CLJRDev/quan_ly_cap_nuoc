@@ -8,60 +8,21 @@ import ErrorToast from '../../notification/ErrorToast'
 import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import TaiKhoan from '../../select-option/TaiKhoan'
+import Quyen from '../../select-option/Quyen'
 
 export default function PhanQuyenTaiKhoan() {
   const navigate = useNavigate()
-  const [quyens, setQuyens] = useState(null)
-  const [nhanViens, setNhanViens] = useState(null)
   const [phanQuyenData, setPhanQuyenData] = useState({
     ma_nhan_vien: {},
     quyens: []
   })
 
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/quyen`)
-      .then(response => {
-        setQuyens(response.data)
-      })
-  }, [])
-
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/tai_khoan`)
-      .then(response => {
-        setNhanViens(response.data)
-      })
-  }, [])
-
-  if (!quyens) return null
-  if (!nhanViens) return null
-
-  const quyenOptions = []
-  const nhanVienOptions = []
-
-  quyens.forEach(item => {
-    if (item.trang_thai == 1) {
-      quyenOptions.push({
-        value: item.ma_quyen,
-        label: item.ten_quyen
-      })
-    }
-  })
-
-  nhanViens.forEach(item => {
-    if (item.trang_thai == 1) {
-      nhanVienOptions.push({
-        value: item.ma_nhan_vien,
-        label: item.ma_nhan_vien
-      })
-    }
-  })
-
   const handleChange = (selectedOptions, event) => {
     const name = event.name
-    setPhanQuyenData(preQuyen => {
+    setPhanQuyenData(pre => {
       return {
-        ...preQuyen,
+        ...pre,
         [name]: selectedOptions
       }
     })
@@ -100,20 +61,18 @@ export default function PhanQuyenTaiKhoan() {
       <form onSubmit={handleSubmit} className="form-container">
         <div>
           <label htmlFor="">Mã nhân viên</label>
-          <Select
-            options={nhanVienOptions}
+          <TaiKhoan
             name='ma_nhan_vien'
-            required
+            require={true}
             onChange={handleChange}
           />
         </div>
         <div>
           <label htmlFor="">Tên quyền</label>
-          <Select
-            isMulti
+          <Quyen
+            isMulti={true}
             name='quyens'
-            required
-            options={quyenOptions}
+            require={true}
             onChange={handleChange}
           />
         </div>

@@ -47,7 +47,7 @@ export default function QuanLyPhanQuyen() {
       })
   }
 
-  const phanQuyenElements = phanQuyens.map((item, index) => {
+  const phanQuyenElements = currentItems.map((item, index) => {
     return <tr key={index}>
       <td>{item.ma_quyen}</td>
       <td>{item.ten_quyen}</td>

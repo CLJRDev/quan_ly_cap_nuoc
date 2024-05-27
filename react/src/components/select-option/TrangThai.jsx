@@ -1,12 +1,7 @@
 import Select from 'react-select'
 
 export default function TrangThai(props) {
-
-  const options = props.isDongHo === true ? [
-    {
-      value: '',
-      label: 'Tất cả'
-    },
+  let options = props.isDongHo === true ? [
     {
       value: '1',
       label: 'Đang lắp đặt'
@@ -17,10 +12,6 @@ export default function TrangThai(props) {
     }
   ] : [
     {
-      value: '',
-      label: 'Tất cả'
-    },
-    {
       value: '1',
       label: 'Kích hoạt'
     },
@@ -29,6 +20,13 @@ export default function TrangThai(props) {
       label: 'Khóa'
     }
   ]
+
+  if (props.isSearch === true) {
+    options.unshift({
+      value: '',
+      label: 'Tất cả'
+    })
+  }
 
   const customStyles = {
     menu: (provided) => ({

@@ -8,13 +8,14 @@ import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../../layouts/Paginate"
+import TrangThai from '../../select-option/TrangThai'
 
 
 export default function ThemQuyen() {
   const [quyens, setQuyens] = useState([])
   const [quyen, setQuyen] = useState({
     ten_quyen: '',
-    trang_thai: '1'
+    trang_thai: ''
   })
   const [itemOffset, setItemOffset] = useState(0);
   const itemsPerPage = 10;
@@ -70,6 +71,15 @@ export default function ThemQuyen() {
     })
   }
 
+  const handleSelectChange = (option, e) => {
+    setQuyen(pre => {
+      return {
+        ...pre,
+        trang_thai: option.value
+      }
+    })
+  }
+
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % quyens.length;
     setItemOffset(newOffset);
@@ -107,10 +117,10 @@ export default function ThemQuyen() {
         </div>
         <div>
           <label htmlFor="trang_thai">Trạng thái</label>
-          <select name="trang_thai" id="trang_thai" onChange={handleChange} value={quyen.trang_thai}>
-            <option value="1">Kích hoạt</option>
-            <option value="0">Khóa</option>
-          </select>
+          <TrangThai 
+            name='trang_thai'
+            onChange={handleSelectChange}
+          />
         </div>
         <div>
           <button className="btn-add" type="submit">

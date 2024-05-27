@@ -6,6 +6,8 @@ import SuccessToast from '../../notification/SuccessToast';
 import WarningToast from '../../notification/WarningToast';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import TrangThai from '../../select-option/TrangThai'
+
 
 export default function SuaNguoiDung() {
   const navigate = useNavigate()
@@ -16,9 +18,9 @@ export default function SuaNguoiDung() {
     chuc_vu: '',
     ngay_sinh: '',
     sdt: '',
-    email: '',
-    trang_thai: '1'
+    email: ''
   })
+  const [selectedOptions, setSelectedOptions] = useState({ trang_thai: {} })
   const matKhauRef = useRef()
   const xacNhanMatKhauRef = useRef()
 
@@ -26,6 +28,7 @@ export default function SuaNguoiDung() {
     axios.get(`http://127.0.0.1:8000/api/tai_khoan/${id}`)
       .then(response => {
         setUser(response.data)
+        setSelectedOptions({ trang_thai: { value: response.data.trang_thai, label: response.data.trang_thai === 1 ? 'Kích hoạt' : 'Khóa' } })
       })
   }, [])
 
@@ -39,6 +42,10 @@ export default function SuaNguoiDung() {
     })
   }
 
+  const handleSelectChange = (option, e) => {
+    setSelectedOptions({ trang_thai: { value: option.value, label: option.label } })
+  }
+
   const suaNguoiDung = async () => {
     const formData = new FormData()
     formData.append('_method', 'PUT')
@@ -47,7 +54,7 @@ export default function SuaNguoiDung() {
     formData.append('ngay_sinh', user.ngay_sinh)
     formData.append('sdt', user.sdt)
     formData.append('email', user.email)
-    formData.append('trang_thai', user.trang_thai)
+    formData.append('trang_thai', selectedOptions.trang_thai.value)
     if (matKhauRef.current.value != '') {
       formData.append('mat_khau', matKhauRef.current.value)
       formData.append('xac_nhan_mat_khau', xacNhanMatKhauRef.current.value)
@@ -106,10 +113,11 @@ export default function SuaNguoiDung() {
         </div>
         <div>
           <label htmlFor="trang_thai">Trạng thái</label>
-          <select name="trang_thai" id="trang_thai" required value={user.trang_thai} onChange={handleChange}>
-            <option value="1">Kích hoạt</option>
-            <option value="0">Khóa</option>
-          </select>
+          <TrangThai
+            name='trang_thai'
+            onChange={handleSelectChange}
+            value={selectedOptions.trang_thai}
+          />
         </div>
         <div>
           <button type='submit' className='btn-edit'>

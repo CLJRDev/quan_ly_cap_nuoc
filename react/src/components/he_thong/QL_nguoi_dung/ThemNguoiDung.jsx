@@ -6,6 +6,8 @@ import SuccessToast from '../../notification/SuccessToast'
 import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import TrangThai from '../../select-option/TrangThai'
+
 
 export default function ThemNguoiDung() {
   const navigate = useNavigate();
@@ -26,6 +28,15 @@ export default function ThemNguoiDung() {
       return {
         ...preUser,
         [name]: value
+      }
+    })
+  }
+
+  const handleSelectChange = (option, e) => {
+    setUser(pre => {
+      return {
+        ...pre,
+        trang_thai: option.value
       }
     })
   }
@@ -94,10 +105,10 @@ export default function ThemNguoiDung() {
         </div>
         <div>
           <label htmlFor="trang_thai">Trạng thái</label>
-          <select name="trang_thai" id="trang_thai" value={user.trang_thai} onChange={handleChange}>
-            <option value="1">Kích hoạt</option>
-            <option value="0">Khóa</option>
-          </select>
+          <TrangThai 
+            name='trang_thai'
+            onChange={handleSelectChange}
+          />
         </div>
         <div>
           <button type='submit' className='btn-add'>

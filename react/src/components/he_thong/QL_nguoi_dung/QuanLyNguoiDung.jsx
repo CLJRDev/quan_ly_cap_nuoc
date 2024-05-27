@@ -9,6 +9,7 @@ import ErrorToast from '../../notification/ErrorToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../../layouts/Paginate"
+import TrangThai from '../../select-option/TrangThai'
 
 
 export default function QuanLyNguoiDung() {
@@ -78,6 +79,15 @@ export default function QuanLyNguoiDung() {
     })
   }
 
+  const handleSelectChange = (option, e) => {
+    setSearchData(pre => {
+      return {
+        ...pre,
+        trang_thai: option.value
+      }
+    })
+  }
+
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % users.length;
     setItemOffset(newOffset);
@@ -109,6 +119,8 @@ export default function QuanLyNguoiDung() {
     setUsers(response.data)
   }
 
+  console.log(searchData)
+
   return (
     <div className="page">
       <h2 className="title">Quản lý người dùng</h2>
@@ -123,11 +135,11 @@ export default function QuanLyNguoiDung() {
         </div>
         <div>
           <label htmlFor="trang_thai">Trạng thái</label>
-          <select name="trang_thai" id="trang_thai" onChange={handleChange}>
-            <option value="">Tất cả</option>
-            <option value="1">Kích hoạt</option>
-            <option value="0">Khóa</option>
-          </select>
+          <TrangThai
+            isSearch={true}
+            name='trang_thai'
+            onChange={handleSelectChange}
+          />
         </div>
         <div>
           <label htmlFor="sdt">Số điện thoại</label>
