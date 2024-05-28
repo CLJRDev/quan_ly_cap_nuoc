@@ -52,7 +52,11 @@ export default function ThemQuyen() {
     return <tr key={index}>
       <td>{item.ma_quyen}</td>
       <td>{item.ten_quyen}</td>
-      <td>{item.trang_thai == 1 ? 'Kích hoạt' : 'Khóa'}</td>
+      <td>
+        {item.trang_thai == 1 ?
+          <div className="badge-success">Kích hoạt</div> :
+          <div className="badge-fail">Khóa</div>}
+      </td>
       <td>
         <Link className="btn-edit" to={`/quyen/sua/${item.ma_quyen}`}>Sửa</Link>
         &nbsp;
@@ -117,7 +121,7 @@ export default function ThemQuyen() {
         </div>
         <div>
           <label htmlFor="trang_thai">Trạng thái</label>
-          <TrangThai 
+          <TrangThai
             name='trang_thai'
             onChange={handleSelectChange}
           />
@@ -134,10 +138,10 @@ export default function ThemQuyen() {
         <table>
           <thead>
             <tr>
-              <th>Mã quyền</th>
+              <th style={{width: '100px'}}>Mã quyền</th>
               <th>Tên quyền</th>
-              <th>Trạng thái</th>
-              <th>Hành động</th>
+              <th style={{width: '100px'}}>Trạng thái</th>
+              <th style={{width: '100px'}}>Hành động</th>
             </tr>
           </thead>
           <tbody>

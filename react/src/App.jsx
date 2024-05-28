@@ -115,6 +115,8 @@ function App() {
         <Route path='/lap_dat_dh_khoi' element={<QuanLyLapDatDongHoKhoi />} />
         <Route path='/lap_dat_dh_khoi/them' element={<ThemLapDatDongHoKhoi />} />
         <Route path='/lap_dat_dh_khoi/sua/:id' element={<SuaLapDatDongHoKhoi />} />
+        <Route path='/lap_dat_dh_khoi_from_tuyen_doc/:ma_tuyen' element={<ThemLapDatDongHoKhoi />} />
+        <Route path='/lap_dat_dh_khoi_from_dong_ho/:ma_dong_ho' element={<ThemLapDatDongHoKhoi />} />
         <Route path='/ghi_chi_so_dh_khoi' element={<QuanLyGhiChiSoDongHoKhoi />} />
         <Route path='/ghi_chi_so_dh_khoi/ghi' element={<GhiChiSoDongHoKhoi />} />
         <Route path='/ghi_chi_so_dh_khoi/sua/:id' element={<SuaChiSoDongHoKhoi />} />

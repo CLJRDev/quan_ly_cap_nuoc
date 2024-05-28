@@ -324,3 +324,17 @@ label {
   border-radius: 18px;
   border: 1px solid #cfcece;
 }
+
+.badge-success,
+.badge-fail {
+  background-color: #107c10;
+  padding: 2px 6px;
+  border-radius: 16px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.badge-fail {
+  background-color: #ebebeb;
+  color: #616161;
+}

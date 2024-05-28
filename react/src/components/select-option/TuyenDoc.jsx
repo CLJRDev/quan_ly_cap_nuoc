@@ -48,8 +48,9 @@ export default function TuyenDoc(props) {
       onChange={props.onChange}
       name={props.name}
       styles={customStyles}
-      value={props.value && props.value}
+      value={props.value}
       menuPortalTarget={document.body}
+      isDisabled={props.isDisabled}
     />
   )
 }

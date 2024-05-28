@@ -2,6 +2,8 @@ import axios from "axios"
 import { IoMdSearch } from "react-icons/io"
 import { useState, useEffect } from "react"
 import { IoIosAddCircleOutline } from "react-icons/io"
+import { FaRegTrashAlt } from "react-icons/fa";
+import { MdOutlineEdit } from "react-icons/md";
 import { Link } from "react-router-dom"
 import PhuongXa from '../select-option/PhuongXa'
 import ToQuanLy from '../select-option/ToQuanLy'
@@ -79,8 +81,9 @@ export default function TuyenDoc() {
       <td>{item.ten_phuong_xa}</td>
       <td>{item.ten_to_quan_ly}</td>
       <td>
-        <Link className="btn-edit" to={`/tuyen_doc/sua/${item.ma_tuyen}`}>Sửa</Link>&nbsp;
-        <button onClick={() => xoaTuyenDoc(item.ma_tuyen)} className="btn-delete">Xóa</button>
+        <Link className="btn-edit" to={`/lap_dat_dh_khoi_from_tuyen_doc/${item.ma_tuyen}`}>Lắp đặt ĐH</Link>&nbsp;
+        <Link className="btn-edit" to={`/tuyen_doc/sua/${item.ma_tuyen}`}><MdOutlineEdit style={{ transform: 'scale(1.2)' }} /></Link>&nbsp;
+        <button onClick={() => xoaTuyenDoc(item.ma_tuyen)} className="btn-delete"><FaRegTrashAlt style={{ transform: 'scale(1.2)' }} /></button>
       </td>
     </tr>
   })
@@ -106,7 +109,7 @@ export default function TuyenDoc() {
     e.preventDefault()
     await timKiem()
   }
-  
+
   return (
     <div className="page">
       <h2 className="title">Quản lý danh mục tuyến đọc</h2>
