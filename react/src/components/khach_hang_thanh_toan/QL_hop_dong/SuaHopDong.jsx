@@ -1,8 +1,8 @@
 import { MdOutlineEdit } from "react-icons/md";
+import { IoMdSearch } from "react-icons/io"
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from "react"
-import Select from 'react-select'
 import NhomGia from "../../select-option/NhomGia"
 import KhachHang from "../../select-option/KhachHang"
 import TuyenDoc from "../../select-option/TuyenDoc"
@@ -11,6 +11,9 @@ import ErrorToast from '../../notification/ErrorToast'
 import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+
 
 export default function SuaHopDong() {
   const { id } = useParams()
@@ -21,9 +24,10 @@ export default function SuaHopDong() {
     dia_chi_hop_dong: '',
     ngay_lap: ''
   })
+  const [khachHangInfo, setKhachHangInfo] = useState('Khách hàng không tồn tại!')
+  const [isExist, setIsExist] = useState(false)
   const [selectedOptions, setSelectedOptions] = useState({
     nhom_gia: {},
-    khach_hang: {},
     tuyen_doc: {}
   })
 
@@ -33,14 +37,25 @@ export default function SuaHopDong() {
         setHopDong(response.data)
         setSelectedOptions({
           nhom_gia: { value: response.data.ma_nhom_gia, label: response.data.ten_nhom_gia },
-          khach_hang: { value: response.data.ma_khach_hang, label: response.data.ma_khach_hang },
           tuyen_doc: { value: response.data.ma_tuyen, label: response.data.ten_tuyen }
         })
       })
   }, [])
 
-  const handleInputChange = (e) => {
+  const handleInputChange = async (e) => {
     const { name, value } = e.target
+
+    if (name === 'can_cuoc') {
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/lookup_khach_hang?can_cuoc=${value}`)
+        setKhachHangInfo(response.data)
+        setIsExist(true)
+      } catch (error) {
+        setKhachHangInfo(error.response.data.error)
+        setIsExist(false)
+      }
+    }
+
     setHopDong(pre => {
       return {
         ...pre,
@@ -60,9 +75,14 @@ export default function SuaHopDong() {
   }
 
   const sua = async () => {
+    if (!isExist) {
+      WarningToast('Không tìm thấy khách hàng!')
+      return
+    }
+
     const formData = new FormData()
     formData.append('_method', 'PUT')
-    formData.append('ma_khach_hang', selectedOptions.khach_hang.value)
+    formData.append('ma_khach_hang', khachHangInfo.ma_khach_hang)
     formData.append('ten_nguoi_dai_dien', hopDong.ten_nguoi_dai_dien)
     formData.append('chuc_vu_nguoi_dai_dien', hopDong.chuc_vu_nguoi_dai_dien)
     formData.append('ma_tuyen', selectedOptions.tuyen_doc.value)
@@ -94,13 +114,37 @@ export default function SuaHopDong() {
       <h2 className="title">Sửa hợp đồng</h2>
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="">Mã khách hàng</label>
-          <KhachHang
-            require={true}
-            onChange={handleSelectChange}
-            name="khach_hang"
-            value={selectedOptions.khach_hang}
-          />
+          <label htmlFor="can_cuoc">Căn cước công dân</label>
+          <div style={{ display: 'grid', gridTemplateColumns: '4fr 1fr', columnGap: '10px' }}>
+            <input required type="text" id="can_cuoc" name='can_cuoc' onChange={handleInputChange} />
+            <Popup
+              trigger={<button className="btn-search" type="button"> <IoMdSearch style={{ transform: 'scale(1.2)' }} /> Kiểm tra</button>}
+              position="right center"
+              modal
+              nested
+            >
+              {close => (
+                <div className="modal">
+                  <button className="close" onClick={close}>
+                    &times;
+                  </button>
+                  <div className="header"> Thông tin khách hàng </div>
+                  <div className="content">
+                    {isExist ? (
+                      <>
+                        Mã khách hàng: {khachHangInfo.ma_khach_hang} <br />
+                        Tên khách hàng: {khachHangInfo.ten_khach_hang} <br />
+                        Số điện thoại: {khachHangInfo.sdt} <br />
+                        Email: {khachHangInfo.email} <br />
+                      </>
+                    ) : (
+                      <>{khachHangInfo}</>
+                    )}
+                  </div>
+                </div>
+              )}
+            </Popup>
+          </div>
         </div>
         <div>
           <label htmlFor="ten_nguoi_dai_dien">Tên người đại diện</label>
