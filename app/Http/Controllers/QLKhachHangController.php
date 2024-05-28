@@ -42,7 +42,7 @@ class QLKhachHangController extends Controller
     ];
     $validator = Validator::make($request->all(), [
       'ten_khach_hang' => 'required',
-      'can_cuoc' => 'required|max_digits:12|min_digits:12|unique',
+      'can_cuoc' => 'required|max_digits:12|min_digits:12|unique:ql_khachhang,can_cuoc',
       'dia_chi' => 'required',
       'email' => 'required',
       'sdt' => 'required|max_digits:10|min_digits:10',
