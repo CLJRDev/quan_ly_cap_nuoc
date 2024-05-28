@@ -106,7 +106,7 @@ export default function QuanLyGiaNuoc() {
   }
 
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % users.length;
+    const newOffset = (event.selected * itemsPerPage) % gias.length;
     setItemOffset(newOffset);
   };
 

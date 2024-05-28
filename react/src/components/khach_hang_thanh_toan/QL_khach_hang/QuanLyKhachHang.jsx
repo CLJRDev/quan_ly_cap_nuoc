@@ -80,7 +80,7 @@ export default function QuanLyKhachHang() {
   }
 
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % users.length;
+    const newOffset = (event.selected * itemsPerPage) % khachHangs.length;
     setItemOffset(newOffset);
   };
 

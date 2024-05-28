@@ -11,7 +11,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../../layouts/Paginate"
 import TrangThai from '../../select-option/TrangThai'
 
-
 export default function QuanLyNguoiDung() {
   const [users, setUsers] = useState([])
   const [searchData, setSearchData] = useState({
@@ -60,7 +59,11 @@ export default function QuanLyNguoiDung() {
       <td>{format(new Date(item.ngay_sinh), 'dd-MM-yyyy')}</td>
       <td>{item.sdt != 0 ? `${item.sdt}` : 'Đang trống'}</td>
       <td>{item.email}</td>
-      <td>{item.trang_thai == 1 ? 'Kích hoạt' : 'Khóa'}</td>
+      <td>
+        {item.trang_thai == 1 ?
+          <div className="badge-success">Kích hoạt</div> :
+          <div className="badge-fail">Khóa</div>}
+      </td>
       <td>
         <Link className="btn-edit" to={`/nguoi_dung/sua/${item.ma_nhan_vien}`}>Sửa</Link>
         &nbsp;
