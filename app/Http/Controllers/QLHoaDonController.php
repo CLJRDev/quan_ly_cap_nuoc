@@ -78,9 +78,23 @@ class QLHoaDonController extends Controller
             $hoa_don_cu->save();
         }
         $hoa_don->khoa=0;
-        $hoa_don->tu_ngay=$request->tu_ngay;
+        if(!empty($hoa_don_cu)&&$request->tu_ngay<$hoa_don_cu->den_ngay){
+            return response()->json([
+                'message' => 'Từ ngày không hợp lệ!'
+              ]);
+        }
+        else{
+            $hoa_don->tu_ngay=$request->tu_ngay;
+        }
         $hoa_don->den_ngay=$request->den_ngay;
-        $hoa_don->chi_so_moi=$request->chi_so_moi;
+        if($request->chi_so_moi<$hoa_don_cu->chi_so_cu){
+            return response()->json([
+                'message' => 'Chỉ số mới không hợp lệ!'
+              ]);
+        }
+        else{
+           $hoa_don->chi_so_moi=$request->chi_so_moi; 
+        }
         $hoa_don->so_tieu_thu=$hoa_don->chi_so_moi-$hoa_don->chi_so_cu;
         if($nhom_gia->hs_rieng!=null){
             $hoa_don->tong_tien_truoc_thue=($nhom_gia->hs_rieng*$nhom_gia->gia_ban)*$hoa_don->so_tieu_thu;
@@ -166,8 +180,11 @@ class QLHoaDonController extends Controller
         }
         try{
             $hoa_don = QLHoaDonModel::findOrFail($id);
+            $hoa_don_cu = QLHoaDonModel::where('ma_lap_dat',$request->ma_lap_dat)->orderBy('ma_hoa_don','DESC')->skip(1)->first();
             $hoa_don_moi_nhat = QLHoaDonModel::where('ma_lap_dat',$hoa_don->ma_lap_dat)->orderBy('ma_hoa_don', 'DESC')->first();
-            $lap_dat = QLLapDatDHKhachModel::where('ma_lap_dat',$hoa_don->ma_lap_dat)->first();
+            $lap_dat = QLLapDatDHKhachModel::select('ql_lapdatdhkhach.*','ql_donghokhach.tinh_trang')
+            ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
+            ->where('ma_lap_dat',$hoa_don->ma_lap_dat)->first();
             $nhom_gia = QLLapDatDHKhachModel::select('ql_nhomgia.*')
             ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
             ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hopdong.ma_nhom_gia')
@@ -177,18 +194,26 @@ class QLHoaDonController extends Controller
                     $hoa_don->ky_hoa_don=$request->ky_hoa_don;
                 }
                 if(isset($request->tu_ngay)){
-                    $hoa_don->tu_ngay=$request->tu_ngay;
+                    if(!empty($hoa_don_cu)&&$request->tu_ngay<$hoa_don_cu->den_ngay){
+                        return response()->json([
+                            'message' => 'Chỉ số mới không hợp lệ!'
+                          ]);
+                    }
+                    else{
+                        $hoa_don->tu_ngay=$request->tu_ngay;
+                    }
+                    
                 }
                 if(isset($request->den_ngay)){
                     $hoa_don->den_ngay=$request->den_ngay;
-                    if($lap_dat->dong_ho_khoi->tinh_trang == 0){
+                    if($lap_dat->tinh_trang == 0){
                         $lap_dat->den_ngay=$request->den_ngay;
                         $lap_dat->save();
                     }
                 }
                 if(isset($request->chi_so_moi)){
                     $hoa_don->chi_so_moi=$request->chi_so_moi;
-                    if($lap_dat->dong_ho_khoi->tinh_trang == 0){
+                    if($lap_dat->tinh_trang == 0){
                         $lap_dat->chi_so_cuoi=$request->chi_so_cuoi;
                         $lap_dat->save();
                     }

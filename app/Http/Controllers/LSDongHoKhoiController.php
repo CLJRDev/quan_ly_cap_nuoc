@@ -41,9 +41,9 @@ class LSDongHoKhoiController extends Controller
         $message = [
             'required' => 'Xin hãy điền đủ thông tin!',
             'unique' => 'Đồng hồ khối đã tồn tại!',
-            'numeric' => 'Chỉ số mới không hợp lệ',
-            'tu_ngay.date' => 'Ngày từ không hợp lệ',
-            'den_ngay.date' => 'Ngày đến không hợp lệ',
+            'numeric' => 'Chỉ số mới không hợp lệ!',
+            'tu_ngay.date' => 'Từ ngày không hợp lệ!',
+            'den_ngay.date' => 'Đến ngày đến không hợp lệ!',
         ];
         $validator = Validator::make($request->all(),[
             'ky_chi_so' => 'required',
@@ -70,9 +70,23 @@ class LSDongHoKhoiController extends Controller
             $lich_su_cu->save();
         }
         $lich_su->khoa=0;
-        $lich_su->tu_ngay=$request->tu_ngay;
+        if(!empty($lich_su_cu)&&$request->tu_ngay<$lich_su_cu->den_ngay){
+            return response()->json([
+                'message' => 'Từ ngày không hợp lệ!'
+              ]);
+        }
+        else{
+            $lich_su->tu_ngay=$request->tu_ngay;
+        }
         $lich_su->den_ngay=$request->den_ngay;
-        $lich_su->chi_so_moi=$request->chi_so_moi;
+        if($request->chi_so_moi<$lich_su->chi_so_cu){
+            return response()->json([
+                'message' => 'Chỉ số mới không hợp lệ!'
+              ]);
+        }
+        else{
+           $lich_su->chi_so_moi=$request->chi_so_moi; 
+        }
         $lich_su->so_tieu_thu=$lich_su->chi_so_moi-$lich_su->chi_so_cu;
         $lich_su->ma_lap_dat=$request->ma_lap_dat;
         $result = $lich_su->save();
@@ -136,26 +150,44 @@ class LSDongHoKhoiController extends Controller
         }
         try{
             $lich_su = LSDongHoKhoiModel::findOrFail($id);
+            $lich_su_cu = LSDongHoKhoiModel::where('ma_lap_dat',$request->ma_lap_dat)->orderBy('ma_lich_su','DESC')->skip(1)->first();
             $lich_su_moi_nhat = LSDongHoKhoiModel::where('ma_lap_dat',$lich_su->ma_lap_dat)->orderBy('ma_lich_su', 'DESC')->first();
-            $lap_dat = QLLapDatDHKhoiModel::where('ma_lap_dat',$lich_su->ma_lap_dat)->first();
+            $lap_dat = QLLapDatDHKhoiModel::select('ql_lapdatdhkhoi.*','ql_donghokhoi.tinh_trang')
+            ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
+            ->where('ma_lap_dat',$lich_su->ma_lap_dat)->first();
             
             if($lich_su_moi_nhat->ma_lich_su == $id){
                 if(isset($request->ky_chi_so)){
                     $lich_su->ky_chi_so=$request->ky_chi_so;
                 }
                 if(isset($request->tu_ngay)){
-                    $lich_su->tu_ngay=$request->tu_ngay;
+                    if(!empty($lich_su_cu)&&$request->tu_ngay<$lich_su_cu->den_ngay){
+                        return response()->json([
+                            'message' => 'Chỉ số mới không hợp lệ!'
+                          ]);
+                    }
+                    else{
+                        $lich_su->tu_ngay=$request->tu_ngay;
+                    }
+                    
                 }
                 if(isset($request->den_ngay)){
                     $lich_su->den_ngay=$request->den_ngay;
-                    if($lap_dat->dong_ho_khoi->tinh_trang == 0){
+                    if($lap_dat->tinh_trang == 0){
                         $lap_dat->den_ngay=$request->den_ngay;
                         $lap_dat->save();
                     }   
                 }
                 if(isset($request->chi_so_moi)){
-                    $lich_su->chi_so_moi=$request->chi_so_moi;
-                    if($lap_dat->dong_ho_khoi->tinh_trang == 0){
+                    if($request->chi_so_moi<$lich_su->chi_so_cu){
+                        return response()->json([
+                            'message' => 'Chỉ số mới không hợp lệ!'
+                          ]);
+                    }
+                    else{
+                        $lich_su->chi_so_moi=$request->chi_so_moi;
+                    }
+                    if($lap_dat->tinh_trang == 0){
                         $lap_dat->chi_so_cuoi=$request->chi_so_cuoi;
                         $lap_dat->save();
                     }
