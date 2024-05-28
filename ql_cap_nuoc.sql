@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2024 at 07:04 PM
+-- Generation Time: May 28, 2024 at 10:22 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -585,6 +585,7 @@ INSERT INTO `dm_toquanly` (`ma_to_quan_ly`, `ten_to_quan_ly`, `ma_chi_nhanh`) VA
 CREATE TABLE `dm_tuyendoc` (
   `ma_tuyen` int(11) NOT NULL,
   `ten_tuyen` varchar(100) NOT NULL,
+  `trang_thai` int(11) NOT NULL,
   `ma_phuong_xa` int(11) NOT NULL,
   `ma_to_quan_ly` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -593,9 +594,9 @@ CREATE TABLE `dm_tuyendoc` (
 -- Dumping data for table `dm_tuyendoc`
 --
 
-INSERT INTO `dm_tuyendoc` (`ma_tuyen`, `ten_tuyen`, `ma_phuong_xa`, `ma_to_quan_ly`) VALUES
-(1, 'A', 1, 1),
-(2, 'B', 2, 1);
+INSERT INTO `dm_tuyendoc` (`ma_tuyen`, `ten_tuyen`, `trang_thai`, `ma_phuong_xa`, `ma_to_quan_ly`) VALUES
+(1, 'A', 0, 1, 1),
+(2, 'B', 0, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -677,7 +678,8 @@ INSERT INTO `ls_donghokhoi` (`ma_lich_su`, `ky_chi_so`, `tu_ngay`, `den_ngay`, `
 (7, 'T2-2024', '2024-02-01', '2024-03-01', 0, 10, 25, 15, 3),
 (8, 'T1-2024', '2024-01-01', '2024-02-01', 0, 0, 25, 25, 4),
 (9, 'T1-2024', '2024-01-01', '2024-02-01', 1, 0, 15, 15, 5),
-(10, 'T2-2024', '2024-02-01', '2024-03-01', 0, 15, 16, 1, 5);
+(10, 'T2-2024', '2024-02-01', '2024-03-01', 0, 15, 16, 1, 5),
+(11, 'T3/2024', '2024-03-02', '2024-03-31', 0, 0, 16, 16, 7);
 
 -- --------------------------------------------------------
 
@@ -759,7 +761,7 @@ INSERT INTO `ql_donghokhoi` (`ma_dong_ho`, `ten_dong_ho`, `tinh_trang`, `ngay_nh
 (3, 'Đồng hồ 1', 0, '2023-10-10', '2023-10-20', 4, 24, 1, 2, 2),
 (4, 'Đồng hồ 2', 0, '2023-10-10', '2023-10-20', 3, 12, 2, 1, 2),
 (5, 'Đồng hồ 3', 0, '2023-10-10', '2023-10-20', 5, 12, 2, 2, 1),
-(6, 'Đồng hồ 4', 0, '2023-10-10', '2023-10-20', 5, 12, 2, 2, 1);
+(6, 'Đồng hồ 4', 1, '2023-10-10', '2023-10-20', 5, 12, 2, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -796,6 +798,7 @@ CREATE TABLE `ql_hopdong` (
   `chuc_vu_nguoi_dai_dien` varchar(50) NOT NULL,
   `dia_chi` text NOT NULL,
   `ngay_lap` date NOT NULL,
+  `trang_thai` int(11) NOT NULL,
   `ma_khach_hang` int(11) NOT NULL,
   `ma_tuyen` int(11) NOT NULL,
   `ma_nhom_gia` int(11) NOT NULL
@@ -821,7 +824,33 @@ CREATE TABLE `ql_khachhang` (
 --
 
 INSERT INTO `ql_khachhang` (`ma_khach_hang`, `ten_khach_hang`, `can_cuoc`, `dia_chi`, `sdt`, `email`) VALUES
-(1, 'Phạm Thị Thu Hiền', '031300005030', '34/40', '23123222', 'ddmanh1420@gmail.com');
+(1, 'Phạm Thị Thu Hiền', '031300005030', '34/46 Lạch Tray', '0834285958', 'ddmanh1420@gmail.com'),
+(2, 'Nguyễn Văn A', '000000000001', '1 Lạch Tray', '0000000001', 'NVA@qlcn.com'),
+(3, 'Nguyễn Văn B', '000000000002', '2 Lạch Tray', '0000000002', 'NVB@qlcn.com'),
+(4, 'Nguyễn Văn C', '000000000003', '3 Lạch Tray', '0000000003', 'NVC@qlcn.com'),
+(5, 'Nguyễn Văn D', '000000000004', '4 Lạch Tray', '0000000004', 'NVD@qlcn.com'),
+(6, 'Nguyễn Văn E', '000000000005', '5 Lạch Tray', '0000000005', 'NVE@qlcn.com'),
+(7, 'Nguyễn Văn F', '000000000006', '6 Lạch Tray', '0000000006', 'NVF@qlcn.com'),
+(8, 'Nguyễn Văn G', '000000000007', '7 Lạch Tray', '0000000007', 'NVG@qlcn.com'),
+(9, 'Nguyễn Văn H', '000000000008', '8 Lạch Tray', '0000000008', 'NVH@qlcn.com'),
+(10, 'Nguyễn Văn I', '000000000009', '9 Lạch Tray', '0000000009', 'NVI@qlcn.com'),
+(11, 'Nguyễn Văn J', '000000000010', '10 Lạch Tray', '0000000010', 'NVJ@qlcn.com'),
+(12, 'Nguyễn Văn K', '000000000011', '11 Lạch Tray', '0000000011', 'NVK@qlcn.com'),
+(13, 'Nguyễn Văn L', '000000000012', '12 Lạch Tray', '0000000012', 'NVL@qlcn.com'),
+(14, 'Nguyễn Văn M', '000000000013', '13 Lạch Tray', '0000000013', 'NVM@qlcn.com'),
+(15, 'Nguyễn Văn N', '000000000014', '14 Lạch Tray', '0000000014', 'NVN@qlcn.com'),
+(16, 'Nguyễn Văn O', '000000000015', '15 Lạch Tray', '0000000015', 'NVO@qlcn.com'),
+(17, 'Nguyễn Văn P', '000000000016', '16 Lạch Tray', '0000000016', 'NVP@qlcn.com'),
+(18, 'Nguyễn Văn Q', '000000000017', '17 Lạch Tray', '0000000017', 'NVQ@qlcn.com'),
+(19, 'Nguyễn Văn R', '000000000019', '19 Lạch Tray', '0000000019', 'NVR@qlcn.com'),
+(20, 'Nguyễn Văn S', '000000000020', '20 Lạch Tray', '0000000020', 'NVS@qlcn.com'),
+(21, 'Nguyễn Văn T', '000000000021', '21 Lạch Tray', '0000000021', 'NVT@qlcn.com'),
+(22, 'Nguyễn Văn U', '000000000022', '22 Lạch Tray', '0000000022', 'NVU@qlcn.com'),
+(23, 'Nguyễn Văn V', '000000000023', '23 Lạch Tray', '0000000023', 'NVV@qlcn.com'),
+(24, 'Nguyễn Văn W', '000000000024', '24 Lạch Tray', '0000000024', 'NVW@qlcn.com'),
+(25, 'Nguyễn Văn X', '000000000025', '25 Lạch Tray', '0000000025', 'NVX@qlcn.com'),
+(26, 'Nguyễn Văn Y', '000000000026', '26 Lạch Tray', '0000000026', 'NVY@qlcn.com'),
+(27, 'Nguyễn Văn Z', '000000000027', '27 Lạch Tray', '0000000027', 'NVZ@qlcn.com');
 
 -- --------------------------------------------------------
 
@@ -865,7 +894,8 @@ INSERT INTO `ql_lapdatdhkhoi` (`ma_lap_dat`, `chi_so_dau`, `chi_so_cuoi`, `so_ti
 (3, 0, 25, 25, '2023-12-31', '2024-03-01', 3, 2),
 (4, 0, 25, 0, '2023-12-31', '2024-02-01', 4, 1),
 (5, 0, 16, 16, '2023-12-31', '2024-03-01', 5, 2),
-(6, 25, 25, 0, '2024-05-19', '2024-05-19', 4, 2);
+(6, 25, 25, 0, '2024-05-19', '2024-05-19', 4, 2),
+(7, 0, NULL, NULL, '2024-03-02', NULL, 6, 2);
 
 -- --------------------------------------------------------
 
@@ -955,7 +985,7 @@ INSERT INTO `ql_taikhoan` (`ma_nhan_vien`, `mat_khau`, `trang_thai`, `email`, `s
 (100000, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'manh@qlcn.com', '0834285958', 'Giám đốc', 'Đỗ Đức Mạnh', '2000-04-14'),
 (100001, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'lam@qlcn.com', '0213123123', 'Phó giám đốc', 'Nguyễn Công Lâm', '2002-11-05'),
 (100003, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'phuc@qlcn.com', '0123456780', 'Trưởng phòng', 'Phạm Quang Phúc', '2000-08-06'),
-(100004, 'c4ca4238a0b923820dcc509a6f75849b', 0, 'NVA@qlcn.com', '0123456789', 'Trưởng phòng', 'Nguyễn Văn A', '2000-08-06'),
+(100004, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVA@qlcn.com', '0123456789', 'Trưởng phòng', 'Nguyễn Văn A', '2000-08-06'),
 (100005, 'c4ca4238a0b923820dcc509a6f75849b', 0, 'NVB@qlcn.com', '0000000001', 'Nhân viên', 'Nguyễn Văn B', '2024-05-25'),
 (100006, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVC@qlcn.com', '0000000002', 'Nhân viên', 'Nguyễn Văn C', '2024-05-25'),
 (100007, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVD@qlcn.com', '0000000003', 'Nhân viên', 'Nguyễn Văn D', '2024-05-25'),
@@ -1327,7 +1357,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `ls_donghokhoi`
 --
 ALTER TABLE `ls_donghokhoi`
-  MODIFY `ma_lich_su` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `ma_lich_su` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -1363,7 +1393,7 @@ ALTER TABLE `ql_hopdong`
 -- AUTO_INCREMENT for table `ql_khachhang`
 --
 ALTER TABLE `ql_khachhang`
-  MODIFY `ma_khach_hang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ma_khach_hang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `ql_lapdatdhkhach`
@@ -1375,7 +1405,7 @@ ALTER TABLE `ql_lapdatdhkhach`
 -- AUTO_INCREMENT for table `ql_lapdatdhkhoi`
 --
 ALTER TABLE `ql_lapdatdhkhoi`
-  MODIFY `ma_lap_dat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ma_lap_dat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `ql_nhomgia`

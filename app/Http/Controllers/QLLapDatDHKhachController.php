@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\DMTuyenDocModel;
 use App\Models\QLDongHoKhachModel;
 use App\Models\QLHoaDonModel;
+use App\Models\QLHopDongModel;
 use App\Models\QLLapDatDHKhachModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
@@ -56,27 +58,19 @@ class QLLapDatDHKhachController extends Controller
         $lap_dat = new QLLapDatDHKhachModel; 
         $lap_dat_cu = QLLapDatDHKhachModel::where('ma_dong_ho',$request->ma_dong_ho)->first();
         $dong_ho = QLDongHoKhachModel::where('ma_dong_ho',$request->ma_dong_ho)->first();
-        $lap_dat_dong_ho = QLLapDatDHKhachModel::where('ma_dong_ho',$request->ma_dong_ho)->get();
-        $lap_dat_hop_dong = QLLapDatDHKhachModel::where('ma_hop_dong',$request->ma_hop_dong)->get();
-        if(count($lap_dat_dong_ho)==0&&count($lap_dat_hop_dong)==0){
+        $hop_dong = QLHopDongModel::where('ma_hop_dong',$request->hop_dong)->first();
+        if($dong_ho->tinh_trang==0&&$hop_dong->trang_thai==0){
+            $lap_dat->ma_dong_ho=$request->ma_dong_ho;
             $lap_dat->ma_hop_dong=$request->ma_hop_dong;
+            $dong_ho->tinh_trang=1;
+            $hop_dong->trang_thai=1;
+            $dong_ho->save();
+            $hop_dong->save();
         }
         else{
-            $lap_dat_trung = QLLapDatDHKhachModel::where(['ma_dong_ho'=>$request->ma_dong_ho,'ma_hop_dong'=>$request->ma_hop_dong])->get();
-            if(count($lap_dat_trung)==0){
-                $lap_dat->ma_hop_dong=$request->ma_hop_dong;
-            }
-            else{
-            $lap_dat_trung_mo = QLLapDatDHKhachModel::where(['ma_dong_ho'=>$request->ma_dong_ho,'ma_hop_dong'=>$request->ma_hop_dong])->whereRaw($request->tu_ngay.'>='.$lap_dat_cu->tu_ngay)->whereRaw($lap_dat_cu->den_ngay==null?1:($request->tu_ngay.'<='.$lap_dat_cu->den_ngay))->get();
-                if(count($lap_dat_trung_mo)==0){
-                    $lap_dat->ma_hop_dong=$request->ma_hop_dong;
-                }
-                else{
-                    return response()->json([
-                    'error' => 'Đồng hồ hoặc tuyến đã được lắp đặt!'
-                ],422);
-                }
-            }
+            return response()->json([
+                'error' => 'Đồng hồ hoặc hợp đồng đã được lắp đặt!'
+              ],422);
         }
         if(empty($lap_dat_cu)){
             $lap_dat->chi_so_dau=0;
@@ -93,17 +87,6 @@ class QLLapDatDHKhachController extends Controller
                   ],422);
             }
         }
-        if($dong_ho->tinh_trang==0){
-            $lap_dat->ma_dong_ho=$request->ma_dong_ho;
-            $dong_ho->tinh_trang=1;
-            $dong_ho->save();
-        }
-        else{
-            return response()->json([
-                'error' => 'Đồng hồ đã được lắp đặt!'
-              ],422);
-        }
-        
         $result = $lap_dat->save();
         if($result){
             return response()->json([
@@ -179,7 +162,6 @@ class QLLapDatDHKhachController extends Controller
                              ],422);
                         }
                     }
-                    
                 }
                 $result = $lap_dat->save();
             }
@@ -217,8 +199,11 @@ class QLLapDatDHKhachController extends Controller
             if($lap_dat_moi_nhat->ma_lap_dat == $id&&count($chi_so)==0){
                 $result = $lap_dat->delete();
                 $dong_ho = QLDongHoKhachModel::where('ma_dong_ho',$lap_dat->ma_dong_ho)->first();
+                $hop_dong = QLHopDongModel::where('ma_hop_dong',$lap_dat->ma_hop_dong)->first();
+                $hop_dong->trang_thai=0;
                 $dong_ho->tinh_trang=0;
                 $dong_ho->save();
+                $hop_dong->save();
             }
             else{
                 return response()->json([

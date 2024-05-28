@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DMTuyenDocModel;
 use App\Models\LSDongHoKhoiModel;
 use App\Models\QLDongHoKhoiModel;
 use App\Models\QLLapDatDHKhoiModel;
@@ -54,27 +55,19 @@ class QLLapDatDHKhoiController extends Controller
         $lap_dat = new QLLapDatDHKhoiModel; 
         $lap_dat_cu = QLLapDatDHKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->first();
         $dong_ho = QLDongHoKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->first();
-        $lap_dat_dong_ho = QLLapDatDHKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->get();
-        $lap_dat_tuyen = QLLapDatDHKhoiModel::where('ma_tuyen',$request->ma_tuyen)->get();
-        if(count($lap_dat_dong_ho)==0&&count($lap_dat_tuyen)==0){
+        $tuyen = DMTuyenDocModel::where('ma_tuyen',$request->ma_tuyen)->first();
+        if($dong_ho->tinh_trang==0&&$tuyen->trang_thai==0){
+            $lap_dat->ma_dong_ho=$request->ma_dong_ho;
             $lap_dat->ma_tuyen=$request->ma_tuyen;
+            $dong_ho->tinh_trang=1;
+            $tuyen->trang_thai=1;
+            $dong_ho->save();
+            $tuyen->save();
         }
         else{
-            $lap_dat_trung = QLLapDatDHKhoiModel::where(['ma_dong_ho'=>$request->ma_dong_ho,'ma_tuyen'=>$request->ma_tuyen])->get();
-            if(count($lap_dat_trung)==0){
-                $lap_dat->ma_tuyen=$request->ma_tuyen;
-            }
-            else{
-            $lap_dat_trung_mo = QLLapDatDHKhoiModel::where(['ma_dong_ho'=>$request->ma_dong_ho,'ma_tuyen'=>$request->ma_tuyen])->whereRaw($request->tu_ngay.'>='.$lap_dat_cu->tu_ngay)->whereRaw($lap_dat_cu->den_ngay==null?1:($request->tu_ngay.'<='.$lap_dat_cu->den_ngay))->get();
-                if(count($lap_dat_trung_mo)==0){
-                    $lap_dat->ma_tuyen=$request->ma_tuyen;
-                }
-                else{
-                    return response()->json([
-                    'error' => 'Đồng hồ hoặc tuyến đã được lắp đặt!'
-                ],422);
-                }
-            }
+            return response()->json([
+                'error' => 'Đồng hồ hoặc tuyến đã được lắp đặt!'
+              ],422);
         }
         if(empty($lap_dat_cu)){
             $lap_dat->chi_so_dau=0;
@@ -91,17 +84,6 @@ class QLLapDatDHKhoiController extends Controller
                   ],422);
             }
         }
-        if($dong_ho->tinh_trang==0){
-            $lap_dat->ma_dong_ho=$request->ma_dong_ho;
-            $dong_ho->tinh_trang=1;
-            $dong_ho->save();
-        }
-        else{
-            return response()->json([
-                'error' => 'Đồng hồ đã được lắp đặt!'
-              ],422);
-        }
-        
         $result = $lap_dat->save();
         if($result){
             return response()->json([
@@ -213,8 +195,11 @@ class QLLapDatDHKhoiController extends Controller
             if($lap_dat_moi_nhat->ma_lap_dat == $id&&count($chi_so)==0){
                 $result = $lap_dat->delete();
                 $dong_ho = QLDongHoKhoiModel::where('ma_dong_ho',$lap_dat->ma_dong_ho)->first();
+                $tuyen = DMTuyenDocModel::where('ma_tuyen',$lap_dat->ma_tuyen)->first();
+                $tuyen->trang_thai=0;
                 $dong_ho->tinh_trang=0;
                 $dong_ho->save();
+                $tuyen->save();
             }
             else{
                 return response()->json([

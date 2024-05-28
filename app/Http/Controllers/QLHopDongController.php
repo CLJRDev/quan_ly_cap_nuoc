@@ -60,6 +60,7 @@ class QLHopDongController extends Controller
       $hop_dong->ten_nguoi_dai_dien = $request->ten_nguoi_dai_dien;
       $hop_dong->chuc_vu_nguoi_dai_dien = $request->chuc_vu_nguoi_dai_dien;
       $hop_dong->dia_chi = $request->dia_chi;
+      $hop_dong->trang_thai = 0;
       $hop_dong->ngay_lap = $request->ngay_lap;
       $hop_dong->ma_khach_hang = $request->ma_khach_hang;
       $hop_dong->ma_tuyen = $request->ma_tuyen;
@@ -210,6 +211,9 @@ class QLHopDongController extends Controller
       }
       if ($request->has('dia_chi')) {
         $query->where('ql_hopdong.dia_chi', "like", "%" . $request->dia_chi . "%");
+      }
+      if ($request->has('trang_thai')) {
+        $query->where('ql_hopdong.trang_thai',$request->trang_thai);
       }
       $result = $query->orderBy('ma_hop_dong', 'ASC')->get();
       return $result;

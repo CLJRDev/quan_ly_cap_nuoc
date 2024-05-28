@@ -16,7 +16,7 @@ class DMTuyenDocController extends Controller
      */
     public function index()
     {
-        return DMTuyenDocModel::select('ma_tuyen','ten_tuyen','dm_tuyendoc.ma_phuong_xa','dm_phuongxa.ten_phuong_xa','dm_tuyendoc.ma_to_quan_ly','dm_toquanly.ten_to_quan_ly')
+        return DMTuyenDocModel::select('*')
         ->join('dm_toquanly','dm_toquanly.ma_to_quan_ly','=','dm_tuyendoc.ma_to_quan_ly')
         ->join('dm_phuongxa','dm_phuongxa.ma_phuong_xa','=','dm_tuyendoc.ma_phuong_xa')
         ->orderBy('ma_tuyen', 'ASC')->get();
@@ -52,6 +52,7 @@ class DMTuyenDocController extends Controller
         }
         $tuyen = new DMTuyenDocModel; 
         $tuyen->ten_tuyen=$request->ten_tuyen;
+        $tuyen->trang_thai=0;
         $tuyen->ma_to_quan_ly=$request->ma_to_quan_ly;
         $tuyen->ma_phuong_xa=$request->ma_phuong_xa;
         $result = $tuyen->save();
@@ -167,7 +168,7 @@ class DMTuyenDocController extends Controller
     }
     public function search(Request $request)
     {
-        $tuyen = DMTuyenDocModel::query()->select('ma_tuyen','ten_tuyen','dm_tuyendoc.ma_phuong_xa','dm_phuongxa.ten_phuong_xa','dm_tuyendoc.ma_to_quan_ly','dm_toquanly.ten_to_quan_ly')
+        $tuyen = DMTuyenDocModel::query()->select('*')
         ->join('dm_toquanly','dm_toquanly.ma_to_quan_ly','=','dm_tuyendoc.ma_to_quan_ly')
         ->join('dm_phuongxa','dm_phuongxa.ma_phuong_xa','=','dm_tuyendoc.ma_phuong_xa');
         if($request->has('ten_tuyen')){
@@ -178,6 +179,9 @@ class DMTuyenDocController extends Controller
         }
         if($request->has('ma_phuong_xa')){
             $tuyen->where('dm_tuyendoc.ma_phuong_xa',$request->ma_phuong_xa);
+        }
+        if($request->has('trang_thai')){
+            $tuyen->where('dm_tuyendoc.trang_thai',$request->trang_thai);
         }
         return $tuyen->orderBy('ma_tuyen', 'ASC')->get();
     }

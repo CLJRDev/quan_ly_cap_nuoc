@@ -260,6 +260,7 @@ class QLTaiKhoanController extends Controller
         'login' => 'true',
         'quyen' =>session('quyen'),
         'nguoi_dung' => session('nguoi_dung'),
+        'token' => session()->getId(),
     ],session('trang_thai'));
     } else {
       return response()->json([
