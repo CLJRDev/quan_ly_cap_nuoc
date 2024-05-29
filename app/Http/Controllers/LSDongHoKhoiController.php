@@ -61,19 +61,11 @@ class LSDongHoKhoiController extends Controller
         $lich_su_cu = LSDongHoKhoiModel::where('ma_lap_dat',$request->ma_lap_dat)->orderBy('ma_lich_su','DESC')->first();
         $lich_su = new LSDongHoKhoiModel;
         $lich_su->ky_chi_so=$request->ky_chi_so;
-        if(empty($lich_su_cu)){
-            $lich_su->chi_so_cu=0;
-        }
-        else{
-            $lich_su->chi_so_cu=$lich_su_cu->chi_so_moi;
-            $lich_su_cu->khoa=1;
-            $lich_su_cu->save();
-        }
         $lich_su->khoa=0;
         if(!empty($lich_su_cu)&&$request->tu_ngay<$lich_su_cu->den_ngay){
             return response()->json([
                 'message' => 'Từ ngày không hợp lệ!'
-              ]);
+            ],422);
         }
         else{
             $lich_su->tu_ngay=$request->tu_ngay;
@@ -82,13 +74,21 @@ class LSDongHoKhoiController extends Controller
         if($request->chi_so_moi<$lich_su->chi_so_cu){
             return response()->json([
                 'message' => 'Chỉ số mới không hợp lệ!'
-              ]);
+            ],422);
         }
         else{
-           $lich_su->chi_so_moi=$request->chi_so_moi; 
+            $lich_su->chi_so_moi=$request->chi_so_moi; 
         }
         $lich_su->so_tieu_thu=$lich_su->chi_so_moi-$lich_su->chi_so_cu;
         $lich_su->ma_lap_dat=$request->ma_lap_dat;
+        if(empty($lich_su_cu)){
+            $lich_su->chi_so_cu=0;
+        }
+        else{
+            $lich_su->chi_so_cu=$lich_su_cu->chi_so_moi;
+            $lich_su_cu->khoa=1;
+            $lich_su_cu->save();
+        }
         $result = $lich_su->save();
         if($result){
             return response()->json([
