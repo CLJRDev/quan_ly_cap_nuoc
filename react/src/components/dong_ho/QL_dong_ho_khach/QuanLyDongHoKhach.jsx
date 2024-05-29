@@ -8,12 +8,19 @@ import { format } from 'date-fns'
 import LoaiDongHo from "../../select-option/LoaiDongHo"
 import CoDongHo from "../../select-option/CoDongHo"
 import NhaCungCap from "../../select-option/NhaCungCap"
+import TrangThai from "../../select-option/TrangThai"
 import DateRangeComp from "../../react-components/DateRangeComp"
 import SliderCom from "../../react-components/SliderCom"
+import SuccessToast from '../../notification/SuccessToast'
+import ErrorToast from '../../notification/ErrorToast'
+import WarningToast from '../../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Paginate from "../../layouts/Paginate"
+
 
 export default function QuanLyDongHoKhach() {
-
-  const [dongHoKhachs, setDongHoKhachs] = useState(null)
+  const [dongHoKhachs, setDongHoKhachs] = useState([])
   const [searchData, setSearchData] = useState({
     ten_dong_ho: '',
     nam_san_xuat: '',
@@ -42,6 +49,13 @@ export default function QuanLyDongHoKhach() {
     key: 'selection'
   }])
 
+  //Paginate
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = dongHoKhachs.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(dongHoKhachs.length / itemsPerPage);
+
   const fetchData = () => {
     axios.get(`http://127.0.0.1:8000/api/dong_ho_khach`)
       .then(response => {
@@ -52,15 +66,6 @@ export default function QuanLyDongHoKhach() {
   useEffect(() => {
     fetchData()
   }, [])
-
-  if (!dongHoKhachs) return null
-
-
-  const trangThaiOptions = [
-    { value: '', label: 'Tất cả' },
-    { value: 1, label: 'Kích hoạt' },
-    { value: 0, label: 'Khóa' },
-  ]
 
   const xoa = id => {
     if (!window.confirm('Bạn có chắc chắn muốn xóa đồng hồ này này?'))
@@ -91,7 +96,7 @@ export default function QuanLyDongHoKhach() {
     }
   }
 
-  const dongHoKhachElements = dongHoKhachs.map((item, index) => {
+  const dongHoKhachElements = currentItems.map((item, index) => {
     return <tr key={index}>
       <td>{item.ten_dong_ho}</td>
       <td>{item.nam_san_xuat}</td>
@@ -99,16 +104,21 @@ export default function QuanLyDongHoKhach() {
       <td>{item.ten_loai_dong_ho}</td>
       <td>{item.ten_nha_cung_cap}</td>
       <td>{item.ten_co_dong_ho}</td>
-      <td>{item.tinh_trang == 1 ? 'Đang lắp đặt' : 'Trống'}</td>
+      <td>
+        {item.tinh_trang == 1 ?
+          <div className="badge-success">Đang lắp đặt</div> :
+          <div className="badge-fail">Trống</div>}
+      </td>
       <td>{format(new Date(item.ngay_nhap), 'dd-MM-yyyy')}</td>
       <td>{format(new Date(item.ngay_kiem_dinh), 'dd-MM-yyyy')}</td>
       <td>{item.so_nam_hieu_luc}</td>
       <td>{item.so_thang_bao_hanh}</td>
       <td>
-        <Link className="btn-edit" to={`/dong_ho_khach/sua/${item.ma_dong_ho}`}>Sửa</Link>
-        &nbsp;
-        {item.tinh_trang == 1 && <button onClick={() => goLapDat(item.ma_dong_ho)} className="btn-edit">Gỡ</button>}
-        &nbsp;
+        {item.trang_thai == 1 ?
+          <button onClick={() => goLapDat(item.ma_dong_ho)} className="btn-edit">Gỡ</button> :
+          <Link className="btn-edit" to={`/lap_dat_dh_khach_from_dong_ho/${item.ma_hop_dong}`}>Lắp đặt</Link>
+        }&nbsp;
+        <Link className="btn-edit" to={`/dong_ho_khach/sua/${item.ma_dong_ho}`}>Sửa</Link>&nbsp;
         <button onClick={() => xoa(item.ma_dong_ho)} className="btn-delete">Xóa</button>
       </td>
     </tr>
@@ -162,6 +172,11 @@ export default function QuanLyDongHoKhach() {
     })
   }
 
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % dongHoKhachs.length;
+    setItemOffset(newOffset);
+  };
+
   const handleSubmit = async (e) => {
 
   }
@@ -204,8 +219,9 @@ export default function QuanLyDongHoKhach() {
         </div>
         <div>
           <label htmlFor="">Tình trạng</label>
-          <Select
-            options={trangThaiOptions}
+          <TrangThai
+            isSearch={true}
+            isDongHo={true}
             onChange={handleSelectChange}
             name="tinh_trang"
           />
@@ -273,7 +289,12 @@ export default function QuanLyDongHoKhach() {
             {dongHoKhachElements}
           </tbody>
         </table>
+        <Paginate
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+        />
       </div>
+      <ToastContainer />
     </div>
   )
 }

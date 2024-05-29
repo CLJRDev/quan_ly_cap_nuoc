@@ -71,8 +71,11 @@ export default function QuanLyHopDong() {
           <div className="badge-fail">Trống</div>}
       </td>
       <td>
-        <Link className="btn-edit" to={`/hop_dong/sua/${item.ma_hop_dong}`}>Sửa</Link>
-        &nbsp;
+        {item.trang_thai == 1 ?
+          <button onClick={() => goLapDat(item.ma_hop_dong)} className="btn-edit">Gỡ ĐH</button> :
+          <Link className="btn-edit" to={`/lap_dat_dh_khach_from_hop_dong/${item.ma_hop_dong}`}>Lắp đặt</Link>
+        }&nbsp;
+        <Link className="btn-edit" to={`/hop_dong/sua/${item.ma_hop_dong}`}>Sửa</Link>&nbsp;
         <button onClick={() => xoa(item.ma_hop_dong)} className="btn-delete">Xóa</button>
       </td>
     </tr>

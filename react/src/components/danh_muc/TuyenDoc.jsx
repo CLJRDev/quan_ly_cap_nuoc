@@ -74,8 +74,23 @@ export default function TuyenDoc() {
       });
   }
 
-  const goTuyenDoc = (id) => {
-    
+  const goLapDat = async (id) => {
+    if (!window.confirm('Bạn có chắc chắn muốn gỡ đồng hồ ở tuyến đọc này?'))
+      return
+    const formData = new FormData()
+    formData.append('_method', 'PUT')
+    formData.append('ma_tuyen', id)
+
+    try {
+      const response = await axios.post(`http://127.0.0.1:8000/api/lap_dat_dh_khoi_go`, formData)
+      SuccessToast(response.data.message)
+      fetchData()
+    } catch (error) {
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
+    }
   }
 
   const tuyenDocElements = currentItems.map((item, index) => {
@@ -90,7 +105,7 @@ export default function TuyenDoc() {
       <td>
         {item.trang_thai == 0 ?
           <Link className="btn-edit" to={`/lap_dat_dh_khoi_from_tuyen_doc/${item.ma_tuyen}`}>Lắp đặt ĐH</Link> :
-          <button onClick={() => goTuyenDoc(item.ma_tuyen)} className="btn-edit">Gỡ ĐH</button>
+          <button onClick={() => goLapDat(item.ma_tuyen)} className="btn-edit">Gỡ ĐH</button>
         }
         &nbsp;
         <Link className="btn-edit" to={`/tuyen_doc/sua/${item.ma_tuyen}`}><MdOutlineEdit style={{ transform: 'scale(1.2)' }} /></Link>&nbsp;

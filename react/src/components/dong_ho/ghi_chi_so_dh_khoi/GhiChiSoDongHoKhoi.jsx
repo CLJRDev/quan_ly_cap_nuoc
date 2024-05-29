@@ -59,20 +59,20 @@ export default function ChonThoiGianDongHoKhoi() {
     });
   }
 
-  const resetInput = () => {
-    setGhiChiSo({
-      thang: '',
-      nam: '',
-      tu_ngay: '',
-      den_ngay: '',
-      ma_lap_dat: '',
-      chi_so_moi: ''
-    })
-  }
+  // const resetInput = () => {
+  //   setGhiChiSo({
+  //     thang: '',
+  //     nam: '',
+  //     tu_ngay: '',
+  //     den_ngay: '',
+  //     ma_lap_dat: '',
+  //     chi_so_moi: ''
+  //   })
+  // }
 
   const ghi = async (e) => {
     const formData = new FormData()
-    formData.append('ky_chi_so', `T${ghiChiSo.thang} - ${ghiChiSo.nam}` )
+    formData.append('ky_chi_so', `T${ghiChiSo.thang} - ${ghiChiSo.nam}`)
     formData.append('tu_ngay', ghiChiSo.tu_ngay)
     formData.append('den_ngay', ghiChiSo.den_ngay)
     formData.append('chi_so_moi', ghiChiSo.chi_so_moi)
@@ -80,8 +80,10 @@ export default function ChonThoiGianDongHoKhoi() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/lich_su_dh_khoi`, formData)
-      SuccessToast(response.data.message)
-      resetInput()
+      setTimeout(() => {
+        SuccessToast(response.data.message)
+      }, 500)
+      navigate('/ghi_chi_so_dh_khoi')
     } catch (error) {
       const errorsArray = Object.values(error.response.data.error).flat();
       errorsArray.forEach(item => {

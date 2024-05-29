@@ -84,10 +84,10 @@ export default function QuanLyDongHoKhoi() {
       return
     const formData = new FormData()
     formData.append('_method', 'PUT')
-    formData.append('tinh_trang', '0')
+    formData.append('ma_dong_ho', id)
 
     try {
-      const response = await axios.post(`http://127.0.0.1:8000/api/dong_ho_khoi/${id}`, formData)
+      const response = await axios.post(`http://127.0.0.1:8000/api/lap_dat_dh_khoi_go`, formData)
       SuccessToast(response.data.message)
       fetchData()
     } catch (error) {
@@ -227,6 +227,7 @@ export default function QuanLyDongHoKhoi() {
         <div>
           <label htmlFor="">Tình trạng</label>
           <TrangThai
+            isSearch={true}
             isDongHo={true}
             onChange={handleSelectChange}
             name="tinh_trang"

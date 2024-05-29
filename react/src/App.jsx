@@ -122,6 +122,8 @@ function App() {
         <Route path='/ghi_chi_so_dh_khoi/sua/:id' element={<SuaChiSoDongHoKhoi />} />
         <Route path='/lap_dat_dh_khach' element={<QuanLyLapDatDongHoKhach />} />
         <Route path='/lap_dat_dh_khach/them' element={<ThemLapDatDongHoKhach />} />
+        <Route path='/lap_dat_dh_khach_from_hop_dong/:ma_hop_dong' element={<ThemLapDatDongHoKhach />} />
+        <Route path='/lap_dat_dh_khach_from_dong_ho/:ma_dong_ho' element={<ThemLapDatDongHoKhach />} />
         <Route path='/ghi_chi_so_dh_khach' element={<QuanLyGhiChiSoDongHoKhach />} />
         <Route path='/ghi_chi_so_dh_khach/thoi_gian' element={<ChonThoiGianDongHoKhach />} />
         <Route path='/ghi_chi_so_dh_khach/thoi_gian/ghi' element={<GhiChiSoDongHoKhach />} />
