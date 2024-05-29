@@ -83,7 +83,7 @@ class QLHopDongController extends Controller
     public function show(string $id)
     {
       try{
-          return QLHopDongModel::select('ql_hopdong.*','ql_hopdong.dia_chi as dia_chi_hop_dong','ql_nhomgia.*','ql_khachhang.*', 'dm_tuyendoc.*')
+          return QLHopDongModel::select('ql_hopdong.*','ql_hopdong.dia_chi as dia_chi_hop_dong','ql_nhomgia.*','ql_khachhang.*', 'dm_tuyendoc.ten_tuyen')
           ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hopdong.ma_nhom_gia')
           ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
           ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_hopdong.ma_tuyen')
