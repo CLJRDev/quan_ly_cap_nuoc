@@ -57,7 +57,6 @@ export default function QuanLyGhiChiSoDongHoKhach() {
 
   console.log(searchData)
 
-
   const timKiem = async (e) => {
     const { ma_hop_dong, ma_dong_ho } = searchData;
     let queryString = '?'
@@ -84,7 +83,6 @@ export default function QuanLyGhiChiSoDongHoKhach() {
         <div>
           <label htmlFor="">Mã hợp đồng</label>
           <HopDong
-            isSearch={true}
             onChange={handleSelectChange}
             name='ma_hop_dong'
           />
@@ -92,7 +90,6 @@ export default function QuanLyGhiChiSoDongHoKhach() {
         <div>
           <label htmlFor="">Mã đồng hồ</label>
           <DongHoKhach
-            isSearch={true}
             onChange={handleSelectChange}
             name='ma_dong_ho'
           />

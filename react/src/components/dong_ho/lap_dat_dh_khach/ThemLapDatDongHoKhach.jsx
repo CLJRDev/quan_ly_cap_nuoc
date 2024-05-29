@@ -1,22 +1,58 @@
 import { IoIosAddCircleOutline } from "react-icons/io"
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from "react"
-import Select from 'react-select'
 import DongHoKhach from "../../select-option/DongHoKhach"
 import HopDong from "../../select-option/HopDong"
+import SuccessToast from '../../notification/SuccessToast'
+import ErrorToast from '../../notification/ErrorToast'
+import WarningToast from '../../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ThemLapDatDongHoKhach() {
   const navigate = useNavigate()
-  const [dongHo, setDongHo] = useState({
-    ma_dong_ho: '',
-    ma_hop_dong: '',
+  const { ma_hop_dong, ma_dong_ho } = useParams()
+  const [lapDat, setLapDat] = useState({
+    ma_dong_ho: ma_dong_ho || '',
+    ma_hop_dong: ma_hop_dong || '',
     tu_ngay: ''
   })
 
+  const [selectedHopDong, setSelectedHopDong] = useState(null);
+  const isDisabledHopDong = ma_hop_dong ? true : false
+  const [selectedDongHo, setSelectedDongHo] = useState(null);
+  const isDisabledDongHo = ma_dong_ho ? true : false
+
+  useEffect(() => {
+    if (ma_hop_dong) {
+      axios.get(`http://127.0.0.1:8000/api/hop_dong/${ma_hop_dong}`)
+        .then(response => {
+          setSelectedHopDong({ value: response.data.ma_hop_dong, label: response.data.ma_hop_dong })
+          setLapDat(pre => ({
+            ...pre,
+            ma_hop_dong: response.data.ma_hop_dong
+          }))
+        })
+    }
+  }, []);
+
+  useEffect(() => {
+    if (ma_dong_ho) {
+      axios.get(`http://127.0.0.1:8000/api/dong_ho_khoi/${ma_dong_ho}`)
+        .then(response => {
+          setSelectedDongHo({ value: response.data.ma_dong_ho, label: response.data.ma_dong_ho })
+          setLapDat(pre => ({
+            ...pre,
+            ma_dong_ho: response.data.ma_dong_ho
+          }))
+        })
+    }
+  }, []);
+
   const handleInputChange = e => {
     const { name, value } = e.target
-    setDongHo(pre => {
+    setLapDat(pre => {
       return {
         ...pre,
         [name]: value
@@ -24,30 +60,42 @@ export default function ThemLapDatDongHoKhach() {
     })
   }
 
-  const handleSelectChange = (option, e) => {
-    const name = e.name
-    setDongHo(pre => {
-      return {
-        ...pre,
-        [name]: option.value
-      }
-    })
+  const handleSelectChange = (option, { name }) => {
+    setLapDat(pre => ({
+      ...pre,
+      [name]: option.value
+    }));
+    if (name === 'ma_hop_dong') {
+      setSelectedHopDong(option);
+    }
+    if (name === 'ma_dong_ho') {
+      setSelectedDongHo(option);
+    }
   }
 
-  console.log(dongHo)
+  console.log(lapDat)
 
   const them = async () => {
     const formData = new FormData()
-    formData.append('ma_dong_ho', dongHo.ma_dong_ho)
-    formData.append('ma_hop_dong', dongHo.ma_hop_dong)
-    formData.append('tu_ngay', dongHo.tu_ngay)
+    formData.append('ma_dong_ho', lapDat.ma_dong_ho)
+    formData.append('ma_hop_dong', lapDat.ma_hop_dong)
+    formData.append('tu_ngay', lapDat.tu_ngay)
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/lap_dat_dh_khach`, formData)
-      console.log(response.data.message)
+      setTimeout(() => {
+        SuccessToast(response.data.message)
+      }, 500)
       navigate('/lap_dat_dh_khach')
     } catch (error) {
-      console.log(error.response.data)
+      if (typeof error.response.data.error === 'object') {
+        const errorsArray = Object.values(error.response.data.error).flat();
+        errorsArray.forEach(item => {
+          WarningToast(item)
+        })
+      } else {
+        WarningToast(error.response.data.error)
+      }
     }
   }
 
@@ -64,7 +112,11 @@ export default function ThemLapDatDongHoKhach() {
           <label htmlFor="">Mã đồng hồ</label>
           <DongHoKhach
             onChange={handleSelectChange}
+            isLapDat={true}
             name='ma_dong_ho'
+            require={true}
+            value={selectedDongHo && selectedDongHo}
+            isDisabled={isDisabledDongHo}
           />
         </div>
         <div>
@@ -72,6 +124,10 @@ export default function ThemLapDatDongHoKhach() {
           <HopDong
             onChange={handleSelectChange}
             name='ma_hop_dong'
+            value={selectedHopDong && selectedHopDong}
+            isLapDat={true}
+            require={true}
+            isDisabled={isDisabledHopDong}
           />
         </div>
         <div>
@@ -86,6 +142,7 @@ export default function ThemLapDatDongHoKhach() {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   )
 }

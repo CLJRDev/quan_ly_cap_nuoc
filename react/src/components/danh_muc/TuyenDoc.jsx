@@ -78,7 +78,6 @@ export default function TuyenDoc() {
     if (!window.confirm('Bạn có chắc chắn muốn gỡ đồng hồ ở tuyến đọc này?'))
       return
     const formData = new FormData()
-    formData.append('_method', 'PUT')
     formData.append('ma_tuyen', id)
 
     try {

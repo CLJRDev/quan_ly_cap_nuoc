@@ -6,6 +6,11 @@ import Select from 'react-select'
 import LoaiDongHo from "../../select-option/LoaiDongHo"
 import CoDongHo from "../../select-option/CoDongHo"
 import NhaCungCap from "../../select-option/NhaCungCap"
+import SuccessToast from '../../notification/SuccessToast'
+import ErrorToast from '../../notification/ErrorToast'
+import WarningToast from '../../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ThemDongHoKhach() {
   const navigate = useNavigate()
@@ -57,10 +62,15 @@ export default function ThemDongHoKhach() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/dong_ho_khach`, formData)
-      console.log(response.data.message)
+      setTimeout(() => {
+        SuccessToast(response.data.message)
+      }, 500)
       navigate('/dong_ho_khach')
     } catch (error) {
-      console.log(error.message.data.error)
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -130,6 +140,7 @@ export default function ThemDongHoKhach() {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   )
 }

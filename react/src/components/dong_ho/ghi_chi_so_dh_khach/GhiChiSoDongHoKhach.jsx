@@ -1,15 +1,18 @@
 import { useLocation } from 'react-router-dom'
 import { IoIosAddCircleOutline } from "react-icons/io"
-import DongHoKhoi from "../../select-option/DongHoKhoi"
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Select from 'react-select'
-
+import SuccessToast from '../../notification/SuccessToast'
+import ErrorToast from '../../notification/ErrorToast'
+import WarningToast from '../../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function GhiChiSoDongHoKhach() {
   const location = useLocation();
-  const { ky_hoa_don, tu_ngay, den_ngay } = location.state || {};
-  const [dongHos, setDongHos] = useState(null)
+  const { thang, nam, tu_ngay, den_ngay } = location.state || {};
+  const [dongHos, setDongHos] = useState([])
   const [ghiChiSo, setGhiChiSo] = useState({
     ma_lap_dat: '',
     chi_so_moi: ''
@@ -39,8 +42,6 @@ export default function GhiChiSoDongHoKhach() {
       })
   }, [])
 
-  if (!dongHos) return null;
-
   const dongHoOptions = []
 
   dongHos.forEach(item => {
@@ -63,7 +64,7 @@ export default function GhiChiSoDongHoKhach() {
 
   const ghi = async (e) => {
     const formData = new FormData()
-    formData.append('ky_hoa_don', ky_hoa_don)
+    formData.append('ky_hoa_don', `T${thang} - ${nam}`)
     formData.append('tu_ngay', tu_ngay)
     formData.append('den_ngay', den_ngay)
     formData.append('chi_so_moi', ghiChiSo.chi_so_moi)
@@ -71,10 +72,16 @@ export default function GhiChiSoDongHoKhach() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/hoa_don`, formData)
-      console.log(response.data.message)
+      setTimeout(() => {
+        SuccessToast(response.data.message)
+      }, 500)
       resetInput()
     } catch (error) {
-      console.log(error.response)
+      console.log(error)
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -92,12 +99,12 @@ export default function GhiChiSoDongHoKhach() {
           <Select
             options={dongHoOptions}
             onChange={handleSelectChange}
-            name='ma_lap_dat'            
+            name='ma_lap_dat'
           />
         </div>
         <div>
           <label htmlFor="">Chỉ số mới</label>
-          <input required type="number" name='chi_so_moi' onChange={handleInputChange} value={ghiChiSo.chi_so_moi}/>
+          <input required type="number" name='chi_so_moi' onChange={handleInputChange} value={ghiChiSo.chi_so_moi} />
         </div>
         <div>
           <button type="submit" className="btn-add">
@@ -106,6 +113,7 @@ export default function GhiChiSoDongHoKhach() {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   )
 }

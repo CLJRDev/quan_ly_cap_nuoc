@@ -83,7 +83,6 @@ export default function QuanLyDongHoKhoi() {
     if (!window.confirm('Bạn có chắc chắn muốn gỡ lắp đặt đồng hồ này này?'))
       return
     const formData = new FormData()
-    formData.append('_method', 'PUT')
     formData.append('ma_dong_ho', id)
 
     try {

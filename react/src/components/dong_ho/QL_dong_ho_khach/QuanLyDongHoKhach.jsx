@@ -72,11 +72,14 @@ export default function QuanLyDongHoKhach() {
       return
     axios.delete(`http://127.0.0.1:8000/api/dong_ho_khach/${id}`)
       .then(response => {
-        console.log(response.data.message);
+        SuccessToast(response.data.message);
         fetchData()
       })
       .catch(error => {
-        console.log(error.response.data.error)
+        const errorsArray = Object.values(error.response.data.error).flat();
+        errorsArray.forEach(item => {
+          WarningToast(item)
+        })
       });
   }
 
@@ -89,10 +92,13 @@ export default function QuanLyDongHoKhach() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/dong_ho_khach/${id}`, formData)
-      console.log(response.data.message)
+      SuccessToast(response.data.message)
       fetchData()
     } catch (error) {
-      console.log(error.response)
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
     }
   }
 
@@ -114,9 +120,9 @@ export default function QuanLyDongHoKhach() {
       <td>{item.so_nam_hieu_luc}</td>
       <td>{item.so_thang_bao_hanh}</td>
       <td>
-        {item.trang_thai == 1 ?
+        {item.tinh_trang == 1 ?
           <button onClick={() => goLapDat(item.ma_dong_ho)} className="btn-edit">Gỡ</button> :
-          <Link className="btn-edit" to={`/lap_dat_dh_khach_from_dong_ho/${item.ma_hop_dong}`}>Lắp đặt</Link>
+          <Link className="btn-edit" to={`/lap_dat_dh_khach_from_dong_ho/${item.ma_dong_ho}`}>Lắp đặt</Link>
         }&nbsp;
         <Link className="btn-edit" to={`/dong_ho_khach/sua/${item.ma_dong_ho}`}>Sửa</Link>&nbsp;
         <button onClick={() => xoa(item.ma_dong_ho)} className="btn-delete">Xóa</button>

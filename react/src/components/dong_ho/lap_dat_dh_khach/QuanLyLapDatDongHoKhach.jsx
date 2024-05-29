@@ -5,7 +5,11 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from "react"
 import Select from 'react-select'
-
+import SuccessToast from '../../notification/SuccessToast'
+import ErrorToast from '../../notification/ErrorToast'
+import WarningToast from '../../notification/WarningToast'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function QuanLyLapDatDongHoKhach() {
   const [lichSus, setLichSus] = useState([])
@@ -107,6 +111,7 @@ export default function QuanLyLapDatDongHoKhach() {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </div>
   )
 }

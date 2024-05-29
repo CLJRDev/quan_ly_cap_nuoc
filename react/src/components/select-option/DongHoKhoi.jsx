@@ -3,7 +3,7 @@ import Select from 'react-select'
 import { useState, useEffect } from "react"
 
 export default function DongHoKhoi(props) {
-  const [dongHos, setDongHos] = useState(null)
+  const [dongHos, setDongHos] = useState([])
 
   useEffect(() => {
     if (props.isLapDat) {
@@ -18,8 +18,6 @@ export default function DongHoKhoi(props) {
         })
     }
   }, [])
-
-  if (!dongHos) return null
 
   const dongHoKhoiOptions = []
 

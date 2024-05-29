@@ -3,16 +3,21 @@ import Select from 'react-select'
 import { useState, useEffect } from "react"
 
 export default function DongHoKhach(props) {
-  const [dongHos, setDongHos] = useState(null)
+  const [dongHos, setDongHos] = useState([])
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/dong_ho_khach`)
-      .then(response => {
-        setDongHos(response.data)
-      })
+    if (props.isLapDat) {
+      axios.get(`http://127.0.0.1:8000/api/dong_ho_khach_search?tinh_trang=0`)
+        .then(response => {
+          setDongHos(response.data)
+        })
+    } else {
+      axios.get(`http://127.0.0.1:8000/api/dong_ho_khach`)
+        .then(response => {
+          setDongHos(response.data)
+        })
+    }
   }, [])
-
-  if (!dongHos) return null
 
   const dongHoKhachOptions = []
 

@@ -3,16 +3,22 @@ import Select from 'react-select'
 import { useState, useEffect } from "react"
 
 export default function HopDong(props) {
-  const [hopDongs, setHopDongs] = useState(null)
+  const [hopDongs, setHopDongs] = useState([])
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/hop_dong`)
-      .then(response => {
-        setHopDongs(response.data)
-      })
-  }, [])
+    if (props.isLapDat) {
+      axios.get(`http://127.0.0.1:8000/api/hop_dong_search?trang_thai=0`)
+        .then(response => {
+          setHopDongs(response.data)
+        })
+    } else {
+      axios.get(`http://127.0.0.1:8000/api/hop_dong`)
+        .then(response => {
+          setHopDongs(response.data)
+        })
+    }
 
-  if (!hopDongs) return null
+  }, [])
 
   const hopDongOptions = []
 
@@ -49,6 +55,7 @@ export default function HopDong(props) {
       styles={customStyles}
       value={props.value && props.value}
       menuPortalTarget={document.body}
+      isDisabled={props.isDisabled}
     />
   )
 }
