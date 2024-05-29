@@ -244,9 +244,15 @@ class QLLapDatDHKhoiController extends Controller
         return $result;
     }
     public function go_lap_dat_dh_khoi(Request $request){
-        $lap_dat = QLLapDatDHKhoiModel::find($request->ma_lap_dat);
-        $dong_ho_khoi = QLDongHoKhoiModel::find($lap_dat->ma_dong_ho); 
-        $tuyen = DMTuyenDocModel::find($lap_dat->ma_tuyen);
+        if($request->has('ma_tuyen')){
+            $lap_dat = QLLapDatDHKhoiModel::where('ma_tuyen',$request->ma_tuyen)->orderBy('ma_lap_dat','DESC')->first();
+        }
+        if($request->has('ma_dong_ho')){
+            $lap_dat = QLLapDatDHKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->orderBy('ma_lap_dat','DESC')->first();
+        }
+        $dong_ho_khoi = QLDongHoKhoiModel::where('ma_dong_ho',$lap_dat->ma_dong_ho)->first(); 
+        $tuyen = DMTuyenDocModel::where('ma_tuyen',$lap_dat->ma_tuyen)->first();
+        // return $tuyen;
         $chi_so = LSDongHoKhoiModel::where('ma_lap_dat',$lap_dat->ma_lap_dat)->orderBy('ma_lich_su','DESC')->first();
         if($dong_ho_khoi->tinh_trang==1&&$tuyen->trang_thai==1){
             $dong_ho_khoi->tinh_trang=0;
@@ -265,6 +271,9 @@ class QLLapDatDHKhoiController extends Controller
                 $lap_dat->so_tieu_thu=$lap_dat->chi_so_cuoi-$lap_dat->chi_so_dau;
                 $lap_dat->save();
             }
+            return response()->json([
+               'message' => 'Gỡ lắp đặt thành công!'
+              ]);
         }
         else{
             return response()->json([
