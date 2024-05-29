@@ -90,6 +90,7 @@ Route::get('/dong_ho_khoi_search',[QLDongHoKhoiController::class,'search']);
 //lap dat dh khoi
 Route::apiResource("lap_dat_dh_khoi",QLLapDatDHKhoiController::class);
 Route::get('/lap_dat_dh_khoi_search',[QLLapDatDHKhoiController::class,'search']);
+Route::post('/lap_dat_dh_khoi_go',[QLLapDatDHKhoiController::class,'go_lap_dat_dh_khoi']);
 //lich su dh khoi
 Route::apiResource("lich_su_dh_khoi",LSDongHoKhoiController::class);
 Route::get('/lich_su_dh_khoi_search',[LSDongHoKhoiController::class,'search']);
@@ -101,6 +102,8 @@ Route::get('/dong_ho_khach_search',[QLDongHoKhachController::class,'search']);
 //lap dat dh khach
 Route::apiResource("lap_dat_dh_khach",QLLapDatDHKhachController::class);
 Route::get('/lap_dat_dh_khach_search',[QLLapDatDHKhachController::class,'search']);
+Route::post('/lap_dat_dh_khach_go',[QLLapDatDHKhachController::class,'go_lap_dat_dh_khach']);
+
 // //hoa don
 Route::apiResource("hoa_don",QLHoaDonController::class);
 Route::get('/hoa_don_search',[QLHoaDonController::class,'search']);

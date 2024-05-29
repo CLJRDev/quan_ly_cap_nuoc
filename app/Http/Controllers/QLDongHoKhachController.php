@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\QLDongHoKhachModel;
 use App\Models\QLHoaDonModel;
+use App\Models\QLHopDongModel;
 use App\Models\QLLapDatDHKhachModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
@@ -138,27 +139,8 @@ class QLDongHoKhachController extends Controller
         }
         try{
             $dong_ho_khach = QLDongHoKhachModel::findOrFail($id); 
-            $lap_dat = QLLapDatDHKhachModel::where('ma_dong_ho',$id)->orderBy('ma_lap_dat','DESC')->first();
-            $chi_so = QLHoaDonModel::where('ma_lap_dat',$lap_dat->ma_lap_dat)->orderBy('ma_hoa_don','DESC')->first();
             if(isset($request->ten_dong_ho)){
                 $dong_ho_khach->ten_dong_ho=$request->ten_dong_ho;
-            }
-            if(isset($request->tinh_trang)){
-                if($dong_ho_khach->tinh_trang==1&&$request->tinh_trang==0){
-                    $dong_ho_khach->tinh_trang=$request->tinh_trang;
-                    if(empty($chi_so)){
-                        $lap_dat->chi_so_cuoi=$lap_dat->chi_so_dau;
-                        $lap_dat->den_ngay=$lap_dat->tu_ngay;
-                        $lap_dat->so_tieu_thu=$lap_dat->chi_so_cuoi-$lap_dat->chi_so_dau;
-                        $lap_dat->save();
-                    }
-                    else{
-                        $lap_dat->chi_so_cuoi=$chi_so->chi_so_moi;
-                        $lap_dat->den_ngay=$chi_so->den_ngay;
-                        $lap_dat->so_tieu_thu=$lap_dat->chi_so_cuoi-$lap_dat->chi_so_dau;
-                        $lap_dat->save();
-                    }
-                }
             }
             if(isset($request->ngay_nhap)){
                 $dong_ho_khach->ngay_nhap=$request->ngay_nhap;

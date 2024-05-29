@@ -58,7 +58,7 @@ class QLLapDatDHKhachController extends Controller
         $lap_dat = new QLLapDatDHKhachModel; 
         $lap_dat_cu = QLLapDatDHKhachModel::where('ma_dong_ho',$request->ma_dong_ho)->first();
         $dong_ho = QLDongHoKhachModel::where('ma_dong_ho',$request->ma_dong_ho)->first();
-        $hop_dong = QLHopDongModel::where('ma_hop_dong',$request->hop_dong)->first();
+        $hop_dong = QLHopDongModel::where('ma_hop_dong',$request->ma_hop_dong)->first();
         if($dong_ho->tinh_trang==0&&$hop_dong->trang_thai==0){
             $lap_dat->ma_dong_ho=$request->ma_dong_ho;
             $lap_dat->ma_hop_dong=$request->ma_hop_dong;
@@ -254,5 +254,34 @@ class QLLapDatDHKhachController extends Controller
         }
         $result = $query->orderBy('ma_lap_dat', 'DESC')->get();
         return $result;
+    }
+    public function go_lap_dat_dh_khach(Request $request){
+        $lap_dat = QLLapDatDHKhachModel::find($request->ma_lap_dat);
+        $dong_ho_khach = QLDongHoKhachModel::find($lap_dat->ma_dong_ho); 
+        $hop_dong = QLHopDongModel::find($lap_dat->ma_hop_dong);
+        $chi_so = QLHoaDonModel::where('ma_lap_dat',$lap_dat->ma_lap_dat)->orderBy('ma_hoa_don','DESC')->first();
+        if($dong_ho_khach->tinh_trang==1&&$hop_dong->trang_thai==1){
+            $dong_ho_khach->tinh_trang=0;
+            $hop_dong->trang_thai=0;
+            $hop_dong->save();
+            $dong_ho_khach->save();
+            if(empty($chi_so)){
+                $lap_dat->chi_so_cuoi=$lap_dat->chi_so_dau;
+                $lap_dat->den_ngay=$lap_dat->tu_ngay;
+                $lap_dat->so_tieu_thu=$lap_dat->chi_so_cuoi-$lap_dat->chi_so_dau;
+                $lap_dat->save();
+            }
+            else{
+                $lap_dat->chi_so_cuoi=$chi_so->chi_so_moi;
+                $lap_dat->den_ngay=$chi_so->den_ngay;
+                $lap_dat->so_tieu_thu=$lap_dat->chi_so_cuoi-$lap_dat->chi_so_dau;
+                $lap_dat->save();
+            }
+        }
+        else{
+            return response()->json([
+                'error' => 'Không thể gỡ lắp đặt!'
+              ],422);
+        }
     }
 }

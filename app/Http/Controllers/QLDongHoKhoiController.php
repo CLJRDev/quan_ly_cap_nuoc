@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DMTuyenDocModel;
 use App\Models\LSDongHoKhoiModel;
 use App\Models\QLDongHoKhoiModel;
 use App\Models\QLLapDatDHKhoiModel;
@@ -134,6 +135,7 @@ class QLDongHoKhoiController extends Controller
         try{
             $dong_ho_khoi = QLDongHoKhoiModel::findOrFail($id); 
             $lap_dat = QLLapDatDHKhoiModel::where('ma_dong_ho',$id)->orderBy('ma_lap_dat','DESC')->first();
+            $tuyen = DMTuyenDocModel::where('ma_tuyen',$lap_dat->ma_tuyen)->first();
             if(isset($request->ten_dong_ho)){
                 $dong_ho_khoi->ten_dong_ho=$request->ten_dong_ho;
             }
@@ -141,6 +143,8 @@ class QLDongHoKhoiController extends Controller
                 if($dong_ho_khoi->tinh_trang==1&&$request->tinh_trang==0&&!empty($lap_dat)){
                     $chi_so = LSDongHoKhoiModel::where('ma_lap_dat',$lap_dat->ma_lap_dat)->orderBy('ma_lich_su','DESC')->first();
                     $dong_ho_khoi->tinh_trang=$request->tinh_trang;
+                    $tuyen->trang_thai=0;
+                    $tuyen->save();
                     if(empty($chi_so)){
                         $lap_dat->chi_so_cuoi=$lap_dat->chi_so_dau;
                         $lap_dat->den_ngay=$lap_dat->tu_ngay;
