@@ -41,7 +41,8 @@ class QLDongHoKhachController extends Controller
     {
         $message = [
             'required' => 'Xin hãy điền đủ thông tin!',
-            'unique' => 'Đồng hồ khối đã tồn tại!',
+            'ten_dong_ho.unique' => 'Đồng hồ khách đã tồn tại!',
+            'so_seri.unique' => 'Số seri đã tồn tại!',
             'ngay_nhap.date' => 'Ngày nhập không hợp lệ',
             'ngay_kiem_dinh.date' => 'Ngày kiểm định không hợp lệ',
         ];
@@ -50,7 +51,7 @@ class QLDongHoKhachController extends Controller
             'ngay_nhap' => 'required|date',
             'ngay_kiem_dinh' => 'required|date',
             'nam_san_xuat' => 'required',
-            'so_seri' => 'required',
+            'so_seri' => 'required|unique:ql_donghokhach,so_seri',
             'so_nam_hieu_luc' => 'required',
             'so_thang_bao_hanh' => 'required',
             'ma_loai_dong_ho' => 'required',
@@ -120,7 +121,8 @@ class QLDongHoKhachController extends Controller
     public function update(Request $request, string $id)
     {
         $message = [
-            'unique' => 'Đồng hồ khách hàng đã tồn tại!',
+            'ten_dong_ho.unique' => 'Đồng hồ khách đã tồn tại!',
+            'so_seri.unique' => 'Số seri đã tồn tại!',
             'ngay_nhap.date' => 'Ngày nhập không hợp lệ',
             'ngay_kiem_dinh.date' => 'Ngày kiểm định không hợp lệ',
         ];
@@ -130,6 +132,9 @@ class QLDongHoKhachController extends Controller
               ],
               'ngay_nhap' => 'date',
               'ngay_kiem_dinh' => 'date',
+              'so_seri' => [
+                Rule::unique('ql_donghokhach', 'so_seri')->ignore($id, 'ma_dong_ho')
+              ],
           ],$message);
         
         if($validator->fails()){

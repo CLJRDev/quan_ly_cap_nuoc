@@ -56,19 +56,6 @@ class QLLapDatDHKhoiController extends Controller
         $lap_dat_cu = QLLapDatDHKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->first();
         $dong_ho = QLDongHoKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->first();
         $tuyen = DMTuyenDocModel::where('ma_tuyen',$request->ma_tuyen)->first();
-        if($dong_ho->tinh_trang==0&&$tuyen->trang_thai==0){
-            $lap_dat->ma_dong_ho=$request->ma_dong_ho;
-            $lap_dat->ma_tuyen=$request->ma_tuyen;
-            $dong_ho->tinh_trang=1;
-            $tuyen->trang_thai=1;
-            $dong_ho->save();
-            $tuyen->save();
-        }
-        else{
-            return response()->json([
-                'error' => 'Đồng hồ hoặc tuyến đã được lắp đặt!'
-              ],422);
-        }
         if(empty($lap_dat_cu)){
             $lap_dat->chi_so_dau=0;
             $lap_dat->tu_ngay=$request->tu_ngay;
@@ -81,8 +68,21 @@ class QLLapDatDHKhoiController extends Controller
             else{
                 return response()->json([
                     'error' => 'Đồng hồ đã được lắp đặt vào thời gian này!'
-                  ],422);
+                ],422);
             }
+        }
+        if($dong_ho->tinh_trang==0&&$tuyen->trang_thai==0){
+            $lap_dat->ma_dong_ho=$request->ma_dong_ho;
+            $lap_dat->ma_tuyen=$request->ma_tuyen;
+            $dong_ho->tinh_trang=1;
+            $tuyen->trang_thai=1;
+            $dong_ho->save();
+            $tuyen->save();
+        }
+        else{
+            return response()->json([
+                'error' => 'Đồng hồ hoặc tuyến đã được lắp đặt!'
+              ],422);
         }
         $result = $lap_dat->save();
         if($result){
@@ -252,7 +252,6 @@ class QLLapDatDHKhoiController extends Controller
         }
         $dong_ho_khoi = QLDongHoKhoiModel::where('ma_dong_ho',$lap_dat->ma_dong_ho)->first(); 
         $tuyen = DMTuyenDocModel::where('ma_tuyen',$lap_dat->ma_tuyen)->first();
-        // return $tuyen;
         $chi_so = LSDongHoKhoiModel::where('ma_lap_dat',$lap_dat->ma_lap_dat)->orderBy('ma_lich_su','DESC')->first();
         if($dong_ho_khoi->tinh_trang==1&&$tuyen->trang_thai==1){
             $dong_ho_khoi->tinh_trang=0;
