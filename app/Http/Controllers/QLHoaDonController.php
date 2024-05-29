@@ -72,14 +72,13 @@ class QLHoaDonController extends Controller
         $hoa_don->khoa=0;
         if(!empty($hoa_don_cu)&&$request->tu_ngay<$hoa_don_cu->den_ngay){
             return response()->json([
-                'message' => 'Từ ngày không hợp lệ!'
+                'error' => 'Từ ngày không hợp lệ!'
             ],422);
         }
         else{
             $hoa_don->tu_ngay=$request->tu_ngay;
         }
         $hoa_don->den_ngay=$request->den_ngay;
-        $hoa_don->so_tieu_thu=$hoa_don->chi_so_moi-$hoa_don->chi_so_cu;
         if($nhom_gia->hs_rieng!=null){
             $hoa_don->tong_tien_truoc_thue=($nhom_gia->hs_rieng*$nhom_gia->gia_ban)*$hoa_don->so_tieu_thu;
         }
@@ -97,10 +96,6 @@ class QLHoaDonController extends Controller
                 $hoa_don->tong_tien_truoc_thue=(($nhom_gia->hs_tren_30m*$nhom_gia->gia_ban)*($hoa_don->so_tieu_thu-29))+(($nhom_gia->hs_tu_20m_den_30m*$nhom_gia->gia_ban)*10)+(($nhom_gia->hs_tu_10m_den_20m*$nhom_gia->gia_ban)*10)+(($nhom_gia->hs_duoi_10m*$nhom_gia->gia_ban)*9);
             }
         }
-        $hoa_don->tong_tien_thue=$hoa_don->tong_tien_truoc_thue*$nhom_gia->hs_thue;
-        $hoa_don->tong_cong=$hoa_don->tong_tien_truoc_thue-$hoa_don->tong_tien_thue;
-        $hoa_don->trang_thai=0;
-        $hoa_don->ma_lap_dat=$request->ma_lap_dat;
         if(empty($hoa_don_cu)){
             $hoa_don->chi_so_cu=0;
             $hoa_don->chi_so_moi=$request->chi_so_moi; 
@@ -108,7 +103,7 @@ class QLHoaDonController extends Controller
         else{
             if($request->chi_so_moi<$hoa_don_cu->chi_so_cu){
                 return response()->json([
-                    'message' => 'Chỉ số mới không hợp lệ!'
+                    'error' => 'Chỉ số mới không hợp lệ!'
                 ],422);
             }
             else{
@@ -118,10 +113,15 @@ class QLHoaDonController extends Controller
             $hoa_don_cu->khoa=1;
             $hoa_don_cu->save();
         }
+        $hoa_don->so_tieu_thu=$hoa_don->chi_so_moi-$hoa_don->chi_so_cu;
+        $hoa_don->tong_tien_thue=$hoa_don->tong_tien_truoc_thue*$nhom_gia->hs_thue;
+        $hoa_don->tong_cong=$hoa_don->tong_tien_truoc_thue-$hoa_don->tong_tien_thue;
+        $hoa_don->trang_thai=0;
+        $hoa_don->ma_lap_dat=$request->ma_lap_dat;
         $result = $hoa_don->save();
         if($result){
             return response()->json([
-                'message' => 'Tạo thành công!'
+                'message' => 'Ghi chỉ số thành công!'
               ]);
         }
         else{
