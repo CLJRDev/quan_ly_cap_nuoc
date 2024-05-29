@@ -72,16 +72,17 @@ export default function GhiChiSoDongHoKhach() {
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/hoa_don`, formData)
-      setTimeout(() => {
-        SuccessToast(response.data.message)
-      }, 500)
+      SuccessToast(response.data.message)
       resetInput()
     } catch (error) {
-      console.log(error)
-      const errorsArray = Object.values(error.response.data.error).flat();
-      errorsArray.forEach(item => {
-        WarningToast(item)
-      })
+      if (typeof error.response.data.error === 'object') {
+        const errorsArray = Object.values(error.response.data.error).flat();
+        errorsArray.forEach(item => {
+          WarningToast(item)
+        })
+      } else {
+        WarningToast(error.response.data.error)
+      }
     }
   }
 

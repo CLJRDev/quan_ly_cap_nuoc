@@ -85,10 +85,14 @@ export default function ChonThoiGianDongHoKhoi() {
       }, 500)
       navigate('/ghi_chi_so_dh_khoi')
     } catch (error) {
-      const errorsArray = Object.values(error.response.data.error).flat();
-      errorsArray.forEach(item => {
-        WarningToast(item)
-      })
+      if (typeof error.response.data.error === 'object') {
+        const errorsArray = Object.values(error.response.data.error).flat();
+        errorsArray.forEach(item => {
+          WarningToast(item)
+        })
+      } else {
+        WarningToast(error.response.data.error)
+      }
     }
   }
 
