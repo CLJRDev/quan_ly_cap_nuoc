@@ -79,14 +79,6 @@ class QLHoaDonController extends Controller
             $hoa_don->tu_ngay=$request->tu_ngay;
         }
         $hoa_don->den_ngay=$request->den_ngay;
-        if($request->chi_so_moi<$hoa_don_cu->chi_so_cu){
-            return response()->json([
-                'message' => 'Chỉ số mới không hợp lệ!'
-            ],422);
-        }
-        else{
-            $hoa_don->chi_so_moi=$request->chi_so_moi; 
-        }
         $hoa_don->so_tieu_thu=$hoa_don->chi_so_moi-$hoa_don->chi_so_cu;
         if($nhom_gia->hs_rieng!=null){
             $hoa_don->tong_tien_truoc_thue=($nhom_gia->hs_rieng*$nhom_gia->gia_ban)*$hoa_don->so_tieu_thu;
@@ -107,12 +99,21 @@ class QLHoaDonController extends Controller
         }
         $hoa_don->tong_tien_thue=$hoa_don->tong_tien_truoc_thue*$nhom_gia->hs_thue;
         $hoa_don->tong_cong=$hoa_don->tong_tien_truoc_thue-$hoa_don->tong_tien_thue;
-        $hoa_don->trang_thai=$request->trang_thai;
+        $hoa_don->trang_thai=0;
         $hoa_don->ma_lap_dat=$request->ma_lap_dat;
         if(empty($hoa_don_cu)){
             $hoa_don->chi_so_cu=0;
+            $hoa_don->chi_so_moi=$request->chi_so_moi; 
         }
         else{
+            if($request->chi_so_moi<$hoa_don_cu->chi_so_cu){
+                return response()->json([
+                    'message' => 'Chỉ số mới không hợp lệ!'
+                ],422);
+            }
+            else{
+                $hoa_don->chi_so_moi=$request->chi_so_moi; 
+            }
             $hoa_don->chi_so_cu=$hoa_don_cu->chi_so_moi;
             $hoa_don_cu->khoa=1;
             $hoa_don_cu->save();

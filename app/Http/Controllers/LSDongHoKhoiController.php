@@ -71,20 +71,21 @@ class LSDongHoKhoiController extends Controller
             $lich_su->tu_ngay=$request->tu_ngay;
         }
         $lich_su->den_ngay=$request->den_ngay;
-        if($request->chi_so_moi<$lich_su->chi_so_cu){
-            return response()->json([
-                'message' => 'Chỉ số mới không hợp lệ!'
-            ],422);
-        }
-        else{
-            $lich_su->chi_so_moi=$request->chi_so_moi; 
-        }
         $lich_su->so_tieu_thu=$lich_su->chi_so_moi-$lich_su->chi_so_cu;
         $lich_su->ma_lap_dat=$request->ma_lap_dat;
         if(empty($lich_su_cu)){
             $lich_su->chi_so_cu=0;
+            $lich_su->chi_so_moi=$request->chi_so_moi; 
         }
         else{
+            if($request->chi_so_moi<$lich_su_cu->chi_so_moi){
+                return response()->json([
+                    'message' => 'Chỉ số mới không hợp lệ!'
+                ],422);
+            }
+            else{
+                $lich_su->chi_so_moi=$request->chi_so_moi; 
+            }
             $lich_su->chi_so_cu=$lich_su_cu->chi_so_moi;
             $lich_su_cu->khoa=1;
             $lich_su_cu->save();
