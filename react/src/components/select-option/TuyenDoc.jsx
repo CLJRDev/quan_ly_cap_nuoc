@@ -6,10 +6,17 @@ export default function TuyenDoc(props) {
   const [tuyenDocs, setTuyenDocs] = useState(null)
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/tuyen_doc`)
-      .then(response => {
-        setTuyenDocs(response.data)
-      })
+    if (props.isLapDat) {
+      axios.get(`http://127.0.0.1:8000/api/tuyen_doc_search?trang_thai=0`)
+        .then(response => {
+          setTuyenDocs(response.data)
+        })
+    } else {
+      axios.get(`http://127.0.0.1:8000/api/tuyen_doc`)
+        .then(response => {
+          setTuyenDocs(response.data)
+        })
+    }
   }, [])
 
   if (!tuyenDocs) return null

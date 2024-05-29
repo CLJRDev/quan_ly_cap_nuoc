@@ -72,7 +72,7 @@ export default function ChonThoiGianDongHoKhoi() {
 
   const ghi = async (e) => {
     const formData = new FormData()
-    formData.append('ky_chi_so', `T${ghiChiSo.thang}/${ghiChiSo.nam}` )
+    formData.append('ky_chi_so', `T${ghiChiSo.thang} - ${ghiChiSo.nam}` )
     formData.append('tu_ngay', ghiChiSo.tu_ngay)
     formData.append('den_ngay', ghiChiSo.den_ngay)
     formData.append('chi_so_moi', ghiChiSo.chi_so_moi)
@@ -89,8 +89,6 @@ export default function ChonThoiGianDongHoKhoi() {
       })
     }
   }
-
-  console.log(ghiChiSo)
 
   const handleSubmit = async (e) => {
     e.preventDefault()

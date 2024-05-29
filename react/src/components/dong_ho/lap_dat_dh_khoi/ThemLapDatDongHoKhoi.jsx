@@ -109,6 +109,7 @@ export default function ThemLapDatDongHoKhoi() {
           <label htmlFor="">Mã đồng hồ</label>
           <DongHoKhoi
             onChange={handleSelectChange}
+            isLapDat={true}
             name='ma_dong_ho'
             require={true}
             value={selectedDongHo && selectedDongHo}
@@ -119,6 +120,7 @@ export default function ThemLapDatDongHoKhoi() {
           <label htmlFor="">Tuyến đọc</label>
           <TuyenDoc
             onChange={handleSelectChange}
+            isLapDat={true}
             name='ma_tuyen'
             value={selectedTuyen && selectedTuyen}
             isDisabled={isDisabledTuyen}

@@ -105,7 +105,11 @@ export default function QuanLyDongHoKhoi() {
       <td>{item.ten_loai_dong_ho}</td>
       <td>{item.ten_nha_cung_cap}</td>
       <td>{item.ten_co_dong_ho}</td>
-      <td>{item.tinh_trang == 1 ? 'Đang lắp đặt' : 'Trống'}</td>
+      <td>
+        {item.tinh_trang == 1 ?
+          <div className="badge-success">Đang lắp đặt</div> :
+          <div className="badge-fail">Trống</div>}
+      </td>
       <td>{format(new Date(item.ngay_nhap), 'dd-MM-yyyy')}</td>
       <td>{format(new Date(item.ngay_kiem_dinh), 'dd-MM-yyyy')}</td>
       <td>{item.so_nam_hieu_luc}</td>

@@ -74,14 +74,25 @@ export default function TuyenDoc() {
       });
   }
 
+  const goTuyenDoc = (id) => {
+    
+  }
+
   const tuyenDocElements = currentItems.map((item, index) => {
     return <tr key={index}>
       <td>{item.ma_tuyen}</td>
       <td>{item.ten_tuyen}</td>
+      <td>{item.trang_thai == 1 ?
+        <div className="badge-success">Đang lắp đặt</div> :
+        <div className="badge-fail">Trống</div>}</td>
       <td>{item.ten_phuong_xa}</td>
       <td>{item.ten_to_quan_ly}</td>
       <td>
-        <Link className="btn-edit" to={`/lap_dat_dh_khoi_from_tuyen_doc/${item.ma_tuyen}`}>Lắp đặt ĐH</Link>&nbsp;
+        {item.trang_thai == 0 ?
+          <Link className="btn-edit" to={`/lap_dat_dh_khoi_from_tuyen_doc/${item.ma_tuyen}`}>Lắp đặt ĐH</Link> :
+          <button onClick={() => goTuyenDoc(item.ma_tuyen)} className="btn-edit">Gỡ ĐH</button>
+        }
+        &nbsp;
         <Link className="btn-edit" to={`/tuyen_doc/sua/${item.ma_tuyen}`}><MdOutlineEdit style={{ transform: 'scale(1.2)' }} /></Link>&nbsp;
         <button onClick={() => xoaTuyenDoc(item.ma_tuyen)} className="btn-delete"><FaRegTrashAlt style={{ transform: 'scale(1.2)' }} /></button>
       </td>
@@ -154,9 +165,10 @@ export default function TuyenDoc() {
             <tr>
               <th style={{ width: '150px' }}>Mã tuyến đọc</th>
               <th>Tuyến đọc</th>
+              <th style={{ width: '120px' }}>Trạng thái</th>
               <th>Phường xã</th>
               <th>Tổ quản lý</th>
-              <th style={{ width: '150px' }}>Hành động</th>
+              <th style={{ width: '200px' }}>Hành động</th>
             </tr>
           </thead>
           <tbody>

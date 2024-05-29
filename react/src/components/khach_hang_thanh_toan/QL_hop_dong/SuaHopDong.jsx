@@ -22,10 +22,11 @@ export default function SuaHopDong() {
     ten_nguoi_dai_dien: '',
     chuc_vu_nguoi_dai_dien: '',
     dia_chi_hop_dong: '',
-    ngay_lap: ''
+    ngay_lap: '',
+    can_cuoc: ''
   })
   const [khachHangInfo, setKhachHangInfo] = useState('Khách hàng không tồn tại!')
-  const [isExist, setIsExist] = useState(false)
+  const [isExist, setIsExist] = useState(true)
   const [selectedOptions, setSelectedOptions] = useState({
     nhom_gia: {},
     tuyen_doc: {}
@@ -41,6 +42,20 @@ export default function SuaHopDong() {
         })
       })
   }, [])
+
+  useEffect(() => {
+    if (hopDong.can_cuoc) {
+      axios.get(`http://127.0.0.1:8000/api/lookup_khach_hang?can_cuoc=${hopDong.can_cuoc}`)
+        .then(response => {
+          setKhachHangInfo(response.data)
+          setIsExist(true)
+        })
+        .catch(error => {
+          setKhachHangInfo(error.response.data.error)
+          setIsExist(false)
+        })
+    }
+  })
 
   const handleInputChange = async (e) => {
     const { name, value } = e.target
@@ -116,7 +131,7 @@ export default function SuaHopDong() {
         <div>
           <label htmlFor="can_cuoc">Căn cước công dân</label>
           <div style={{ display: 'grid', gridTemplateColumns: '4fr 1fr', columnGap: '10px' }}>
-            <input required type="text" id="can_cuoc" name='can_cuoc' onChange={handleInputChange} />
+            <input required type="text" id="can_cuoc" name='can_cuoc' value={hopDong.can_cuoc} onChange={handleInputChange} />
             <Popup
               trigger={<button className="btn-search" type="button"> <IoMdSearch style={{ transform: 'scale(1.2)' }} /> Kiểm tra</button>}
               position="right center"

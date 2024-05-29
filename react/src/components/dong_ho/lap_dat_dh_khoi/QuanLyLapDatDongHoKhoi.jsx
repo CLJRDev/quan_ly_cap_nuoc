@@ -94,7 +94,7 @@ export default function QuanLyLapDatDongHoKhoi() {
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ma_dong_ho">Mã đồng hồ</label>
-          <input required type="number" id='ma_dong_ho' name='ma_dong_ho' onChange={handleInputChange} />
+          <input type="number" id='ma_dong_ho' name='ma_dong_ho' onChange={handleInputChange} />
         </div>
         <div>
           <label htmlFor="ma_tuyen">Tuyến đọc</label>

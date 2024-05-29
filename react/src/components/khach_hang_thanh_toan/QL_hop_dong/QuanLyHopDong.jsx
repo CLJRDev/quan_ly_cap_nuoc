@@ -66,6 +66,11 @@ export default function QuanLyHopDong() {
       <td>{item.dia_chi_hop_dong}</td>
       <td>{item.ten_nhom_gia}</td>
       <td>
+        {item.trang_thai == 1 ?
+          <div className="badge-success">Đang lắp đặt</div> :
+          <div className="badge-fail">Trống</div>}
+      </td>
+      <td>
         <Link className="btn-edit" to={`/hop_dong/sua/${item.ma_hop_dong}`}>Sửa</Link>
         &nbsp;
         <button onClick={() => xoa(item.ma_hop_dong)} className="btn-delete">Xóa</button>
@@ -195,6 +200,7 @@ export default function QuanLyHopDong() {
               <th>Tuyến đọc</th>
               <th>Địa chỉ</th>
               <th>Nhóm giá</th>
+              <th>Trạng thái</th>
               <th>Hành động</th>
             </tr>
           </thead>

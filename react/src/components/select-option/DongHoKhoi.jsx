@@ -6,10 +6,17 @@ export default function DongHoKhoi(props) {
   const [dongHos, setDongHos] = useState(null)
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/dong_ho_khoi`)
-      .then(response => {
-        setDongHos(response.data)
-      })
+    if (props.isLapDat) {
+      axios.get(`http://127.0.0.1:8000/api/dong_ho_khoi_search?tinh_trang=0`)
+        .then(response => {
+          setDongHos(response.data)
+        })
+    } else {
+      axios.get(`http://127.0.0.1:8000/api/dong_ho_khoi`)
+        .then(response => {
+          setDongHos(response.data)
+        })
+    }
   }, [])
 
   if (!dongHos) return null
