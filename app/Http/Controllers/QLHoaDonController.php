@@ -21,10 +21,11 @@ class QLHoaDonController extends Controller
      */
     public function index()
     {
-        return QLHoaDonModel::select('ql_hoadon.*','ql_donghokhach.ten_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen')
+        return QLHoaDonModel::select('ql_hoadon.*','ql_donghokhach.ma_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen','ql_khachhang.ten_khach_hang')
         ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
         ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
         ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
+        ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
         ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_hopdong.ma_tuyen')
         ->orderBy('ma_hoa_don', 'DESC')->get();
     }
@@ -84,7 +85,7 @@ class QLHoaDonController extends Controller
             $hoa_don->chi_so_moi=$request->chi_so_moi; 
         }
         else{
-            if($request->chi_so_moi<$hoa_don_cu->chi_so_cu){
+            if($request->chi_so_moi<$hoa_don_cu->chi_so_moi){
                 return response()->json([
                     'error' => 'Chỉ số mới không hợp lệ!'
                 ],422);
@@ -137,10 +138,11 @@ class QLHoaDonController extends Controller
     public function show(string $id)
     {
         try{
-            return QLHoaDonModel::select('ql_hoadon.*','ql_donghokhach.ten_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen')
+            return QLHoaDonModel::select('ql_hoadon.*','ql_donghokhach.ma_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen','ql_khachhang.ten_khach_hang')
             ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
             ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
             ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
+            ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
             ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_hopdong.ma_tuyen')
             ->where("ma_hoa_don",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
@@ -314,7 +316,7 @@ class QLHoaDonController extends Controller
     }
     public function search(Request $request)
     {
-        $query =  QLHoaDonModel::query()->select('ql_hoadon.*','ql_donghokhach.ma_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen')
+        $query =  QLHoaDonModel::query()->select('ql_hoadon.*','ql_donghokhach.ma_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen','ql_khachhang.ten_khach_hang')
         ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
         ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
         ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
@@ -331,6 +333,9 @@ class QLHoaDonController extends Controller
         }
         if($request->has('ma_hop_dong')){
             $query->where("ql_lapdatdhkhach.ma_hop_dong",$request->ma_hop_dong);
+        }
+        if($request->has('ky_hoa_don')){
+            $query->where("ql_hoadon.ky_hoa_don","like","%".$request->ky_hoa_don."%");
         }
         $result = $query->orderBy('ma_hoa_don', 'DESC')->get();
         return $result;
