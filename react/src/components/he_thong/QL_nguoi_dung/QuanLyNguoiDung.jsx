@@ -122,8 +122,6 @@ export default function QuanLyNguoiDung() {
     setUsers(response.data)
   }
 
-  console.log(searchData)
-
   return (
     <div className="page">
       <h2 className="title">Quản lý người dùng</h2>

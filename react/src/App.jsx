@@ -56,7 +56,8 @@ import ThemLapDatDongHoKhach from './components/dong_ho/lap_dat_dh_khach/ThemLap
 import QuanLyGhiChiSoDongHoKhach from './components/dong_ho/ghi_chi_so_dh_khach/QuanLyGhiChiSoDongHoKhach'
 import ChonThoiGianDongHoKhach from './components/dong_ho/ghi_chi_so_dh_khach/ChonThoiGianDongHoKhach'
 import GhiChiSoDongHoKhach from './components/dong_ho/ghi_chi_so_dh_khach/GhiChiSoDongHoKhach'
-
+import QuanLyHoaDon from './components/khach_hang_thanh_toan/QL_hoa_don/QuanLyHoaDon'
+import XemHoaDon from './components/khach_hang_thanh_toan/QL_hoa_don/XemHoaDon'
 
 import { Routes, Route, useLocation } from 'react-router-dom'
 
@@ -127,6 +128,8 @@ function App() {
         <Route path='/ghi_chi_so_dh_khach' element={<QuanLyGhiChiSoDongHoKhach />} />
         <Route path='/ghi_chi_so_dh_khach/thoi_gian' element={<ChonThoiGianDongHoKhach />} />
         <Route path='/ghi_chi_so_dh_khach/thoi_gian/ghi' element={<GhiChiSoDongHoKhach />} />
+        <Route path='/hoa_don' element={<QuanLyHoaDon />} />
+        <Route path='/hoa_don/xem/:id' element={<XemHoaDon />} />
 
         <Route path='/login' element={<Login />} />
       </Routes>

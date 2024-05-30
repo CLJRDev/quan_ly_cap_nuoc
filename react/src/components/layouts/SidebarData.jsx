@@ -113,6 +113,11 @@ export const SidebarData = [
         title: 'Hợp đồng',
         path: '/hop_dong',
         icon: <FaIcons.FaFileContract />,
+      },
+      {
+        title: 'Hóa đơn',
+        path: '/hoa_don',
+        icon: <FaIcons.FaFileInvoiceDollar  />,
       }
     ]
   },

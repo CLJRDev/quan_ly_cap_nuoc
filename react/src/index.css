@@ -23,7 +23,8 @@ body {
 }
 
 .table-container,
-.form-container {
+.form-container,
+.invoice-container {
   background-color: #fff;
   border-radius: 0.5rem;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
@@ -342,4 +343,53 @@ label {
 .badge-fail {
   background-color: #ebebeb;
   color: #616161;
+}
+
+.invoice-container {
+  display: flex;
+  justify-content: center;
+}
+
+.invoice-wrapper {
+  width: 900px;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 18px;
+
+}
+
+.invoice-header {
+  border-bottom: 3px solid var(--primary-color);
+  display: grid;
+  grid-template-columns: 1.5fr 8.5fr;
+  padding: 1rem;
+}
+
+.company-name {
+  text-transform: uppercase;
+}
+
+.logo-invoice {
+  width: 100%;
+}
+
+.invoice-content {
+  padding: 1rem;
+}
+
+.invoice-table {
+  margin-top: 15px;
+}
+
+.column-invoice-info {
+  border: 2px solid var(--primary-color);
+  text-align: left;
+  width: 25%;
+}
+
+.column-invoice-table {
+  border: 2px solid var(--primary-color);
+  word-wrap: break-word;
+  white-space: normal;
 }

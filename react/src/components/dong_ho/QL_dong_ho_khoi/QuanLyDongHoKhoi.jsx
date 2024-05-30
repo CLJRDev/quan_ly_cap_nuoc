@@ -179,7 +179,7 @@ export default function QuanLyDongHoKhoi() {
 
   const timKiem = async () => {
     if (!ngayNhapRange[0].startDate) {
-      console.log('Ngủ')
+      console.log('OK')
     } else {
       console.log(ngayNhapRange[0].startDate)
       console.log(ngayKiemDinhRange[0].startDate)
