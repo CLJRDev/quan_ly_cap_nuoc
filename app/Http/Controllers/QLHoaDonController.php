@@ -79,23 +79,6 @@ class QLHoaDonController extends Controller
             $hoa_don->tu_ngay=$request->tu_ngay;
         }
         $hoa_don->den_ngay=$request->den_ngay;
-        if($nhom_gia->hs_rieng!=null){
-            $hoa_don->tong_tien_truoc_thue=($nhom_gia->hs_rieng*$nhom_gia->gia_ban)*$hoa_don->so_tieu_thu;
-        }
-        else{
-            if($hoa_don->so_tieu_thu<10){
-                $hoa_don->tong_tien_truoc_thue=($nhom_gia->hs_duoi_10m*$nhom_gia->gia_ban)*$hoa_don->so_tieu_thu;
-            }
-            elseif($hoa_don->so_tieu_thu>=10&&$hoa_don->so_tieu_thu<20){
-                $hoa_don->tong_tien_truoc_thue=(($nhom_gia->hs_tu_10m_den_20m*$nhom_gia->gia_ban)*($hoa_don->so_tieu_thu-9))+(($nhom_gia->hs_duoi_10m*$nhom_gia->gia_ban)*9);
-            }
-            elseif($hoa_don->so_tieu_thu>=20&&$hoa_don->so_tieu_thu<30){
-                $hoa_don->tong_tien_truoc_thue=(($nhom_gia->hs_tu_20m_den_30m*$nhom_gia->gia_ban)*($hoa_don->so_tieu_thu-19))+(($nhom_gia->hs_tu_10m_den_20m*$nhom_gia->gia_ban)*10)+(($nhom_gia->hs_duoi_10m*$nhom_gia->gia_ban)*9);
-            }
-            else{
-                $hoa_don->tong_tien_truoc_thue=(($nhom_gia->hs_tren_30m*$nhom_gia->gia_ban)*($hoa_don->so_tieu_thu-29))+(($nhom_gia->hs_tu_20m_den_30m*$nhom_gia->gia_ban)*10)+(($nhom_gia->hs_tu_10m_den_20m*$nhom_gia->gia_ban)*10)+(($nhom_gia->hs_duoi_10m*$nhom_gia->gia_ban)*9);
-            }
-        }
         if(empty($hoa_don_cu)){
             $hoa_don->chi_so_cu=0;
             $hoa_don->chi_so_moi=$request->chi_so_moi; 
@@ -114,6 +97,23 @@ class QLHoaDonController extends Controller
             $hoa_don_cu->save();
         }
         $hoa_don->so_tieu_thu=$hoa_don->chi_so_moi-$hoa_don->chi_so_cu;
+        if($nhom_gia->hs_rieng!=null){
+            $hoa_don->tong_tien_truoc_thue=($nhom_gia->hs_rieng*$nhom_gia->gia_ban)*$hoa_don->so_tieu_thu;
+        }
+        else{
+            if($hoa_don->so_tieu_thu<10){
+                $hoa_don->tong_tien_truoc_thue=($nhom_gia->hs_duoi_10m*$nhom_gia->gia_ban)*$hoa_don->so_tieu_thu;
+            }
+            elseif($hoa_don->so_tieu_thu>=10&&$hoa_don->so_tieu_thu<20){
+                $hoa_don->tong_tien_truoc_thue=(($nhom_gia->hs_tu_10m_den_20m*$nhom_gia->gia_ban)*($hoa_don->so_tieu_thu-9))+(($nhom_gia->hs_duoi_10m*$nhom_gia->gia_ban)*9);
+            }
+            elseif($hoa_don->so_tieu_thu>=20&&$hoa_don->so_tieu_thu<30){
+                $hoa_don->tong_tien_truoc_thue=(($nhom_gia->hs_tu_20m_den_30m*$nhom_gia->gia_ban)*($hoa_don->so_tieu_thu-19))+(($nhom_gia->hs_tu_10m_den_20m*$nhom_gia->gia_ban)*10)+(($nhom_gia->hs_duoi_10m*$nhom_gia->gia_ban)*9);
+            }
+            else{
+                $hoa_don->tong_tien_truoc_thue=(($nhom_gia->hs_tren_30m*$nhom_gia->gia_ban)*($hoa_don->so_tieu_thu-29))+(($nhom_gia->hs_tu_20m_den_30m*$nhom_gia->gia_ban)*10)+(($nhom_gia->hs_tu_10m_den_20m*$nhom_gia->gia_ban)*10)+(($nhom_gia->hs_duoi_10m*$nhom_gia->gia_ban)*9);
+            }
+        }
         $hoa_don->tong_tien_thue=$hoa_don->tong_tien_truoc_thue*$nhom_gia->hs_thue;
         $hoa_don->tong_cong=$hoa_don->tong_tien_truoc_thue-$hoa_don->tong_tien_thue;
         $hoa_don->trang_thai=0;
