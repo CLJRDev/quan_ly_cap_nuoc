@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BaoCaoController;
 use App\Http\Controllers\DMChiNhanhController;
 use App\Http\Controllers\DMCoDongHoController;
 use App\Http\Controllers\DMLoaiDongHoController;
@@ -103,13 +104,14 @@ Route::get('/dong_ho_khach_search',[QLDongHoKhachController::class,'search']);
 Route::apiResource("lap_dat_dh_khach",QLLapDatDHKhachController::class);
 Route::get('/lap_dat_dh_khach_search',[QLLapDatDHKhachController::class,'search']);
 Route::post('/lap_dat_dh_khach_go',[QLLapDatDHKhachController::class,'go_lap_dat_dh_khach']);
-
-// //hoa don
+//hoa don
 Route::apiResource("hoa_don",QLHoaDonController::class);
 Route::get('/hoa_don_search',[QLHoaDonController::class,'search']);
 Route::get('/ds_ls_dhkhach',[QLHoaDonController::class,'get_list_dhkhach']);
 Route::get('/lookup_dh_khach',[QLHoaDonController::class,'lookup_dh_khach']);
 Route::get('/check_tuyen',[QLHoaDonController::class,'check_tuyen']);
+//bao cao
+Route::get('/bc_thu_tien',[BaoCaoController::class,'bc_thu_tien']);
 //404
 Route::fallback(function(){
     return response()->json([

@@ -21,7 +21,7 @@ class QLHoaDonController extends Controller
      */
     public function index()
     {
-        return QLHoaDonModel::select('ql_hoadon.*','ql_donghokhach.ma_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen','ql_khachhang.ten_khach_hang')
+        return QLHoaDonModel::select('ql_hoadon.*','ql_hopdong.ma_hop_dong','ql_donghokhach.ma_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen','ql_khachhang.ten_khach_hang')
         ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
         ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
         ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
@@ -116,7 +116,7 @@ class QLHoaDonController extends Controller
             }
         }
         $hoa_don->tong_tien_thue=$hoa_don->tong_tien_truoc_thue*$nhom_gia->hs_thue;
-        $hoa_don->tong_cong=$hoa_don->tong_tien_truoc_thue-$hoa_don->tong_tien_thue;
+        $hoa_don->tong_cong=$hoa_don->tong_tien_truoc_thue+$hoa_don->tong_tien_thue;
         $hoa_don->trang_thai=0;
         $hoa_don->ma_lap_dat=$request->ma_lap_dat;
         $result = $hoa_don->save();
@@ -138,7 +138,7 @@ class QLHoaDonController extends Controller
     public function show(string $id)
     {
         try{
-            return QLHoaDonModel::select('ql_hoadon.*','ql_donghokhach.ma_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen','ql_khachhang.ten_khach_hang')
+            return QLHoaDonModel::select('ql_hoadon.*','ql_hopdong.ma_hop_dong','ql_hopdong.dia_chi','dm_tuyendoc.ma_tuyen','ql_khachhang.ten_khach_hang','ql_khachhang.ma_khach_hang','ql_khachhang.sdt')
             ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
             ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
             ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
@@ -242,7 +242,7 @@ class QLHoaDonController extends Controller
                     }
                 }
                 $hoa_don->tong_tien_thue=$hoa_don->tong_tien_truoc_thue*$nhom_gia->hs_thue;
-                $hoa_don->tong_cong=$hoa_don->tong_tien_truoc_thue-$hoa_don->tong_tien_thue;
+                $hoa_don->tong_cong=$hoa_don->tong_tien_truoc_thue+$hoa_don->tong_tien_thue;
                 $result = $hoa_don->save();
             }
             else{
@@ -316,7 +316,7 @@ class QLHoaDonController extends Controller
     }
     public function search(Request $request)
     {
-        $query =  QLHoaDonModel::query()->select('ql_hoadon.*','ql_donghokhach.ma_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen','ql_khachhang.ten_khach_hang')
+        $query =  QLHoaDonModel::query()->select('ql_hoadon.*','ql_hopdong.ma_hop_dong','ql_donghokhach.ma_dong_ho','ql_donghokhach.tinh_trang','dm_tuyendoc.ten_tuyen','ql_khachhang.ten_khach_hang')
         ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
         ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
         ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
