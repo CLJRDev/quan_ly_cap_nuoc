@@ -138,12 +138,13 @@ class QLHoaDonController extends Controller
     public function show(string $id)
     {
         try{
-            return QLHoaDonModel::select('ql_hoadon.*','ql_hopdong.ma_hop_dong','ql_hopdong.dia_chi','dm_tuyendoc.ma_tuyen','ql_khachhang.ten_khach_hang','ql_khachhang.ma_khach_hang','ql_khachhang.sdt')
+            return QLHoaDonModel::select('ql_hoadon.*','ql_hopdong.ma_hop_dong','ql_hopdong.dia_chi','dm_tuyendoc.ma_tuyen','ql_khachhang.ten_khach_hang','ql_khachhang.ma_khach_hang','ql_khachhang.sdt','ql_nhomgia.gia_ban')
             ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
             ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
             ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
             ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
             ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_hopdong.ma_tuyen')
+            ->join('ql_nhomgia','ql_hopdong.ma_nhom_gia','=','ql_nhomgia.ma_nhom_gia')
             ->where("ma_hoa_don",$id)->firstOrFail();
         }catch (ModelNotFoundException $e) {
             return response()->json([
@@ -337,6 +338,7 @@ class QLHoaDonController extends Controller
         if($request->has('ky_hoa_don')){
             $query->where("ql_hoadon.ky_hoa_don","like","%".$request->ky_hoa_don."%");
         }
+
         $result = $query->orderBy('ma_hoa_don', 'DESC')->get();
         return $result;
     }
