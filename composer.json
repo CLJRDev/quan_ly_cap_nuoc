@@ -6,10 +6,13 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ext-simplexml": "*",
         "awobaz/compoships": "^2.3",
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "maatwebsite/excel": "^1.1",
+        "phpoffice/phpspreadsheet": "^2.1",
         "symfony/http-client": "^7.0",
         "symfony/postmark-mailer": "^7.0"
     },

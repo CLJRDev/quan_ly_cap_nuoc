@@ -1,0 +1,59 @@
+:root {
+  --primary-color: #0051a9;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+table>tbody>tr>td {
+  padding: 0.5rem 0.5rem;
+  border-bottom: 1px solid #efefef;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.invoice-wrapper {
+  width: 900px;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 18px;
+
+}
+
+.invoice-header {
+  border-bottom: 3px solid var(--primary-color);
+  display: grid;
+  grid-template-columns: 1.5fr 8.5fr;
+  padding: 1rem;
+}
+
+.company-name {
+  text-transform: uppercase;
+}
+
+.logo-invoice {
+  width: 100%;
+}
+
+.invoice-content {
+  padding: 1rem;
+}
+
+.invoice-table {
+  margin-top: 15px;
+}
+
+.column-invoice-info {
+  border: 2px solid var(--primary-color);
+  text-align: left;
+  width: 25%;
+}
+
+.column-invoice-table {
+  border: 2px solid var(--primary-color);
+  word-wrap: break-word;
+  white-space: normal;
+}

@@ -27,7 +27,7 @@ class HoaDonMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Hóa đơn tiền nước tháng'.date("m-Y"),
+            subject: 'Hóa đơn tiền nước tháng '.date("m-Y"),
         );
     }
 
@@ -36,10 +36,13 @@ class HoaDonMail extends Mailable
      */
     public function content(): Content
     {
+        $image = env('APP_URL')."/logo.png";
         return new Content(
             view: 'hoa_don',
             with: [
                 'thong_tin' => $this->thong_tin,
+                'image' => $image,
+
             ],
         );
     }
