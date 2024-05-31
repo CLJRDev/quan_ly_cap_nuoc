@@ -117,7 +117,7 @@ export const SidebarData = [
       {
         title: 'Hóa đơn',
         path: '/hoa_don',
-        icon: <FaIcons.FaFileInvoiceDollar  />,
+        icon: <FaIcons.FaFileInvoiceDollar />,
       }
     ]
   },
@@ -158,6 +158,40 @@ export const SidebarData = [
         path: '/ghi_chi_so_dh_khach',
         icon: <TfiIcons.TfiWrite />,
       },
+    ]
+  },
+  {
+    title: 'Báo cáo thống kê',
+    // path: '/overview',
+    icon: <BiIcons.BiSolidReport />,
+    iconClosed: <RiIcons.RiArrowDownSFill />,
+    iconOpened: <RiIcons.RiArrowUpSFill />,
+    subNav: [
+      {
+        title: 'Công tác thu đọc',
+        path: '/bao_cao_thu_doc',
+        icon: <TbIcons.TbReportAnalytics />,
+      },
+      {
+        title: 'Thất thoát nước',
+        path: '/bao_cao_that_thoat_nuoc',
+        icon: <TbIcons.TbReportAnalytics />,
+      },
+      {
+        title: 'Sử dụng bất thường',
+        path: '/bao_cao_su_dung_bat_thuong',
+        icon: <TbIcons.TbReportAnalytics />,
+      },
+      {
+        title: 'Chưa đóng tiền',
+        path: '/bao_cao_chua_dong_tien',
+        icon: <TbIcons.TbReportAnalytics />,
+      },
+      {
+        title: 'Quản lý thu tiền',
+        path: '/bao_cao_quan_ly_thu_tien',
+        icon: <TbIcons.TbReportAnalytics />,
+      }
     ]
   },
 ]

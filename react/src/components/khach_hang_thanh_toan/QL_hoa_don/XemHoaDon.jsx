@@ -105,7 +105,7 @@ export default function XemHoaDon() {
                     <td className='column-invoice-table'>1</td>
                     <td className='column-invoice-table'>Nước tiêu thụ</td>
                     <td className='column-invoice-table'>{hoaDon.so_tieu_thu}</td>
-                    <td className='column-invoice-table'>{hoaDon.so_tieu_thu}</td>
+                    <td className='column-invoice-table'>{new Intl.NumberFormat('en-VN', { maximumSignificantDigits: 3 }).format(hoaDon.gia_ban)}</td>
                     <td className='column-invoice-table'>{new Intl.NumberFormat('en-VN', { maximumSignificantDigits: 3 }).format(hoaDon.tong_tien_truoc_thue)}</td>
                     <td className='column-invoice-table'>{hoaDon.hs_thue * 100}</td>
                     <td className='column-invoice-table'>{new Intl.NumberFormat('en-VN', { maximumSignificantDigits: 3 }).format(hoaDon.tong_tien_thue)}</td>

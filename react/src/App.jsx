@@ -58,6 +58,12 @@ import ChonThoiGianDongHoKhach from './components/dong_ho/ghi_chi_so_dh_khach/Ch
 import GhiChiSoDongHoKhach from './components/dong_ho/ghi_chi_so_dh_khach/GhiChiSoDongHoKhach'
 import QuanLyHoaDon from './components/khach_hang_thanh_toan/QL_hoa_don/QuanLyHoaDon'
 import XemHoaDon from './components/khach_hang_thanh_toan/QL_hoa_don/XemHoaDon'
+import BaoCaoChuaDongTien from './components/bao_cao/BaoCaoChuaDongTien'
+import BaoCaoCongTacThuDoc from './components/bao_cao/BaoCaoCongTacThuDoc'
+import BaoCaoSuDungBatThuong from './components/bao_cao/BaoCaoSuDungBatThuong'
+import BaoCaoThatThoatNuoc from './components/bao_cao/BaoCaoThatThoatNuoc'
+import BaoCaoThuTien from './components/bao_cao/BaoCaoThuTien'
+
 
 import { Routes, Route, useLocation } from 'react-router-dom'
 
@@ -130,6 +136,11 @@ function App() {
         <Route path='/ghi_chi_so_dh_khach/thoi_gian/ghi' element={<GhiChiSoDongHoKhach />} />
         <Route path='/hoa_don' element={<QuanLyHoaDon />} />
         <Route path='/hoa_don/xem/:id' element={<XemHoaDon />} />
+        <Route path='/bao_cao_thu_doc' element={<BaoCaoCongTacThuDoc />} />
+        <Route path='/bao_cao_that_thoat_nuoc' element={<BaoCaoThatThoatNuoc />} />
+        <Route path='/bao_cao_su_dung_bat_thuong' element={<BaoCaoSuDungBatThuong />} />
+        <Route path='/bao_cao_chua_dong_tien' element={<BaoCaoChuaDongTien />} />
+        <Route path='/bao_cao_quan_ly_thu_tien' element={<BaoCaoThuTien />} />
 
         <Route path='/login' element={<Login />} />
       </Routes>
