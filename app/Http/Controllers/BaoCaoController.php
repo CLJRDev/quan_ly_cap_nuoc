@@ -57,15 +57,18 @@ class BaoCaoController extends Controller
         return $query->get();
     }
     public function bc_bat_thuong(Request $request){
-        $query=QLHoaDonModel::selectRaw('ql_hoadon.*')
-        ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
-        ->join('ql_donghokhach','ql_lapdatdhkhach.ma_dong_ho','=','ql_donghokhach.ma_dong_ho')
-        ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
-        ->join('ql_khachhang','ql_hopdong.ma_khach_hang','=','ql_khachhang.ma_khach_hang')
-        ->whereRaw('ql_hoadon.so_tieu_thu>20');
-        if($request->has('ma_loai_dong_ho')){
-            $query->where('ma_loai_dong_ho',$request->ma_loai_dong_ho);
-        }
+        $subQuery = QLHoaDonModel::select('ma_lap_dat', DB::raw('AVG(so_tieu_thu) as avg_so_tieu_thu'))
+        ->groupBy('ma_lap_dat');
+        $query = QLHoaDonModel::joinSub($subQuery, 'avg_table', function ($join) {
+            $join->on('ql_hoadon.ma_lap_dat', '=', 'avg_table.ma_lap_dat');
+        })
+        ->select('ql_hoadon.*', 'avg_table.avg_so_tieu_thu','ql_hopdong.ma_hop_dong','ql_khachhang.ten_khach_hang','dm_loaikhachhang.ten_loai_khach_hang','dm_loaikhachhang.ma_loai_khach_hang')
+        ->leftJoin('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
+        ->leftJoin('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
+        ->leftJoin('ql_khachhang','ql_hopdong.ma_khach_hang','=','ql_khachhang.ma_khach_hang')
+        ->leftJoin('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hopdong.ma_nhom_gia')
+        ->leftJoin('dm_loaikhachhang','ql_nhomgia.ma_loai_khach_hang','=','dm_loaikhachhang.ma_loai_khach_hang')
+        ->havingRaw('ql_hoadon.so_tieu_thu > 1.25 * avg_table.avg_so_tieu_thu');
         return $query->get();
     }
     public function bc_thu_doc(Request $request){
