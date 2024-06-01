@@ -65,6 +65,7 @@ export default function DongHoKhach(props) {
       styles={customStyles}
       value={props.value && props.value}
       menuPortalTarget={document.body}
+      isDisabled={props.isDisabled}
     />
   )
 }

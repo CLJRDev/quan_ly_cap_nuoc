@@ -23,6 +23,7 @@ import Paginate from "../../layouts/Paginate"
 export default function QuanLyDongHoKhoi() {
   const [dongHoKhois, setDongHoKhois] = useState([])
   const [searchData, setSearchData] = useState({
+    ma_dong_ho: '',
     ten_dong_ho: '',
     ma_loai_dong_ho: '',
     ma_nha_cung_cap: '',
@@ -174,8 +175,11 @@ export default function QuanLyDongHoKhoi() {
   };
 
   const timKiem = async (e) => {
-    const { ten_dong_ho, ma_loai_dong_ho, ma_nha_cung_cap, ma_co_dong_ho, tinh_trang, so_nam_hieu_luc_tu, so_nam_hieu_luc_den, so_thang_bao_hanh_tu, so_thang_bao_hanh_den } = searchData;
+    const { ma_dong_ho, ten_dong_ho, ma_loai_dong_ho, ma_nha_cung_cap, ma_co_dong_ho, tinh_trang, so_nam_hieu_luc_tu, so_nam_hieu_luc_den, so_thang_bao_hanh_tu, so_thang_bao_hanh_den } = searchData;
     let queryString = '?'
+    if (ma_dong_ho != '') {
+      queryString += `ma_dong_ho=${ma_dong_ho}&`
+    }
     if (ten_dong_ho != '') {
       queryString += `ten_dong_ho=${ten_dong_ho}&`
     }
@@ -222,6 +226,10 @@ export default function QuanLyDongHoKhoi() {
     <div className="page">
       <h2 className="title">Quản lý đồng hồ khối</h2>
       <form className="form-container" onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="ma_dong_ho">Mã đồng hồ</label>
+          <input type="text" id='ma_dong_ho' name='ma_dong_ho' onChange={handleInputChange} />
+        </div>
         <div>
           <label htmlFor="ten_dong_ho">Tên đồng hồ</label>
           <input type="text" id='ten_dong_ho' name='ten_dong_ho' onChange={handleInputChange} />
@@ -287,7 +295,6 @@ export default function QuanLyDongHoKhoi() {
             onChange={handleThangBaoHanhChange}
           />
         </div>
-        <div></div>
         <div style={{ marginTop: '25px' }}>
           <button type="submit" className="btn-search">
             <IoMdSearch style={{ transform: 'scale(1.2)' }} />

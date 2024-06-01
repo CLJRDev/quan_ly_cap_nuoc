@@ -56,6 +56,24 @@ export default function QuanLyHopDong() {
       });
   }
 
+  const goLapDat = async (id) => {
+    if (!window.confirm('Bạn có chắc chắn muốn gỡ lắp đặt hợp đồng này?'))
+      return
+    const formData = new FormData()
+    formData.append('ma_hop_dong', id)
+
+    try {
+      const response = await axios.post(`http://127.0.0.1:8000/api/lap_dat_dh_khach_go`, formData)
+      SuccessToast(response.data.message)
+      fetchData()
+    } catch (error) {
+      const errorsArray = Object.values(error.response.data.error).flat();
+      errorsArray.forEach(item => {
+        WarningToast(item)
+      })
+    }
+  }
+
   const hopDongElements = currentItems.map((item, index) => {
     return <tr key={index}>
       <td>{item.ma_hop_dong}</td>
@@ -75,6 +93,7 @@ export default function QuanLyHopDong() {
           <button onClick={() => goLapDat(item.ma_hop_dong)} className="btn-edit">Gỡ ĐH</button> :
           <Link className="btn-edit" to={`/lap_dat_dh_khach_from_hop_dong/${item.ma_hop_dong}`}>Lắp đặt</Link>
         }&nbsp;
+        {item.trang_thai == 1 && <Link className="btn-edit">Đồng hồ</Link>}&nbsp;
         <Link className="btn-edit" to={`/hop_dong/sua/${item.ma_hop_dong}`}>Sửa</Link>&nbsp;
         <button onClick={() => xoa(item.ma_hop_dong)} className="btn-delete">Xóa</button>
       </td>
