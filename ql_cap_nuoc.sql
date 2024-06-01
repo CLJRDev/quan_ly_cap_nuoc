@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 28, 2024 at 10:22 PM
+-- Generation Time: Jun 01, 2024 at 03:17 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -495,13 +495,16 @@ CREATE TABLE `dm_quyen` (
 
 INSERT INTO `dm_quyen` (`ma_quyen`, `ten_quyen`, `trang_thai`) VALUES
 (1, 'Quản trị viên', 1),
-(2, 'Thu ngân', 0),
-(5, 'Nhân viên', 0),
-(6, 'Trưởng phòng', 1),
-(7, 'Quản lý', 1),
-(8, 'Thanh tra', 1),
-(14, 'Nhân viên ghi số nước', 1),
-(15, 'Nhân viên bảo dưỡng', 1);
+(2, 'QLDM địa bàn', 1),
+(5, 'QLDM đồng hồ', 1),
+(6, 'QLDM khách hàng', 1),
+(7, 'QL báo cáo', 1),
+(8, 'QL đồng hồ', 1),
+(14, 'QL ghi chỉ số đồng hồ', 1),
+(15, 'QL khách hàng', 1),
+(16, 'QL hợp đồng', 1),
+(17, 'QL hóa đơn', 1),
+(18, 'QL giá', 1);
 
 -- --------------------------------------------------------
 
@@ -595,8 +598,70 @@ CREATE TABLE `dm_tuyendoc` (
 --
 
 INSERT INTO `dm_tuyendoc` (`ma_tuyen`, `ten_tuyen`, `trang_thai`, `ma_phuong_xa`, `ma_to_quan_ly`) VALUES
-(1, 'A', 0, 1, 1),
-(2, 'B', 0, 2, 1);
+(1, 'Tuyến Hàng Kênh 1', 1, 1, 1),
+(2, 'Tuyến Hàng Kênh 2', 1, 1, 2),
+(3, 'Tuyến Hàng Kênh 3', 0, 1, 3),
+(4, 'Tuyến Hàng Kênh 4', 0, 1, 4),
+(5, 'Tuyến Hàng Kênh 5', 0, 1, 5),
+(6, 'Tuyến Dư Hàng Kênh 1', 0, 2, 1),
+(7, 'Tuyến Dư Hàng Kênh 2', 1, 2, 2),
+(8, 'Tuyến Dư Hàng Kênh 3', 0, 2, 3),
+(9, 'Tuyến Dư Hàng Kênh 4', 0, 2, 4),
+(10, 'Tuyến Dư Hàng Kênh 5', 0, 2, 5),
+(11, 'Tuyến Dư Hàng Kênh 2', 0, 2, 2),
+(12, 'Tuyến Dư Hàng Kênh 3', 0, 2, 3),
+(13, 'Tuyến Dư Hàng Kênh 4', 0, 2, 4),
+(14, 'Tuyến Dư Hàng Kênh 5', 0, 2, 5),
+(15, 'Tuyến An Biên 1', 0, 3, 1),
+(16, 'Tuyến An Biên 2', 0, 3, 2),
+(17, 'Tuyến An Biên 3', 0, 3, 3),
+(18, 'Tuyến An Biên 4', 0, 3, 4),
+(19, 'Tuyến An Biên 5', 0, 3, 5),
+(20, 'Tuyến An Dương 1', 0, 4, 1),
+(21, 'Tuyến An Dương 2', 0, 4, 2),
+(22, 'Tuyến An Dương 3', 0, 4, 3),
+(23, 'Tuyến An Dương 4', 0, 4, 4),
+(24, 'Tuyến An Dương 5', 0, 4, 5),
+(25, 'Tuyến Cát Dài 1', 0, 5, 1),
+(26, 'Tuyến Cát Dài 2', 0, 5, 2),
+(27, 'Tuyến Cát Dài 3', 0, 5, 3),
+(28, 'Tuyến Cát Dài 4', 0, 5, 4),
+(29, 'Tuyến Cát Dài 5', 0, 5, 5),
+(30, 'Tuyến Đông Hải 1', 0, 6, 1),
+(31, 'Tuyến Đông Hải 2', 0, 6, 2),
+(32, 'Tuyến Đông Hải 3', 0, 6, 3),
+(33, 'Tuyến Đông Hải 4', 0, 6, 4),
+(34, 'Tuyến Đông Hải 5', 0, 6, 5),
+(35, 'Tuyến Dư Hàng 1', 0, 7, 1),
+(36, 'Tuyến Dư Hàng 2', 0, 7, 2),
+(37, 'Tuyến Dư Hàng 3', 0, 7, 3),
+(38, 'Tuyến Dư Hàng 4', 0, 7, 4),
+(39, 'Tuyến Dư Hàng 5', 0, 7, 5),
+(40, 'Tuyến Hồ Nam 1', 0, 8, 1),
+(41, 'Tuyến Hồ Nam 2', 0, 8, 2),
+(42, 'Tuyến Hồ Nam 3', 0, 8, 3),
+(43, 'Tuyến Hồ Nam 4', 0, 8, 4),
+(44, 'Tuyến Hồ Nam 5', 0, 8, 5),
+(45, 'Tuyến Kênh Dương 1', 0, 9, 6),
+(46, 'Tuyến Kênh Dương 2', 0, 9, 7),
+(47, 'Tuyến Kênh Dương 3', 0, 9, 8),
+(48, 'Tuyến Kênh Dương 4', 0, 9, 9),
+(49, 'Tuyến Kênh Dương 5', 0, 9, 10),
+(50, 'Tuyến Lam Sơn 1', 0, 10, 6),
+(51, 'Tuyến Lam Sơn 2', 0, 10, 7),
+(52, 'Tuyến Lam Sơn 3', 0, 10, 8),
+(53, 'Tuyến Lam Sơn 4', 0, 10, 9),
+(54, 'Tuyến Lam Sơn 5', 0, 10, 10),
+(55, 'Tuyến Nghĩa Xá 1', 0, 11, 6),
+(56, 'Tuyến Nghĩa Xá 2', 0, 11, 7),
+(57, 'Tuyến Nghĩa Xá 3', 0, 11, 8),
+(58, 'Tuyến Nghĩa Xá 4', 0, 11, 9),
+(59, 'Tuyến Nghĩa Xá 5', 0, 11, 10),
+(60, 'Tuyến Niệm Nghĩa 1', 0, 12, 6),
+(61, 'Tuyến Niệm Nghĩa 2', 0, 12, 7),
+(62, 'Tuyến Niệm Nghĩa 3', 0, 12, 8),
+(63, 'Tuyến Niệm Nghĩa 4', 0, 12, 9),
+(64, 'Tuyến Niệm Nghĩa 5', 0, 12, 10);
 
 -- --------------------------------------------------------
 
@@ -674,12 +739,18 @@ CREATE TABLE `ls_donghokhoi` (
 --
 
 INSERT INTO `ls_donghokhoi` (`ma_lich_su`, `ky_chi_so`, `tu_ngay`, `den_ngay`, `khoa`, `chi_so_cu`, `chi_so_moi`, `so_tieu_thu`, `ma_lap_dat`) VALUES
-(6, 'T1-2024', '2024-01-01', '2024-02-01', 1, 0, 10, 10, 3),
-(7, 'T2-2024', '2024-02-01', '2024-03-01', 0, 10, 25, 15, 3),
-(8, 'T1-2024', '2024-01-01', '2024-02-01', 0, 0, 25, 25, 4),
-(9, 'T1-2024', '2024-01-01', '2024-02-01', 1, 0, 15, 15, 5),
-(10, 'T2-2024', '2024-02-01', '2024-03-01', 0, 15, 16, 1, 5),
-(11, 'T3/2024', '2024-03-02', '2024-03-31', 0, 0, 16, 16, 7);
+(6, 'T1 - 2024', '2024-01-01', '2024-02-01', 1, 0, 10, 10, 3),
+(7, 'T2 - 2024', '2024-02-01', '2024-03-01', 0, 10, 25, 15, 3),
+(8, 'T1 - 2024', '2024-01-01', '2024-02-01', 0, 0, 25, 25, 4),
+(9, 'T1 - 2024', '2024-01-01', '2024-02-01', 1, 0, 15, 15, 5),
+(10, 'T2 - 2024', '2024-02-01', '2024-03-01', 0, 15, 16, 1, 5),
+(11, 'T3 - 2024', '2024-03-02', '2024-03-31', 1, 0, 16, 16, 7),
+(12, 'T4 - 2024', '2024-04-01', '2024-04-30', 1, 16, 25, 9, 7),
+(13, 'T5 - 2024', '2024-05-01', '2024-05-31', 0, 25, 30, 5, 7),
+(14, 'T2 - 2024', '2022-02-01', '2022-02-28', 1, 0, 100, 100, 8),
+(15, 'T2 - 2024', '2022-02-01', '2022-02-28', 0, 0, 200, 200, 9),
+(16, 'T3 - 2024', '2022-03-01', '2022-03-31', 1, 100, 350, 350, 8),
+(19, 'T4 - 2024', '2022-04-01', '2022-04-30', 0, 350, 400, 0, 8);
 
 -- --------------------------------------------------------
 
@@ -734,6 +805,15 @@ CREATE TABLE `ql_donghokhach` (
   `ma_co_dong_ho` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `ql_donghokhach`
+--
+
+INSERT INTO `ql_donghokhach` (`ma_dong_ho`, `ten_dong_ho`, `tinh_trang`, `nam_san_xuat`, `so_seri`, `ngay_nhap`, `ngay_kiem_dinh`, `so_nam_hieu_luc`, `so_thang_bao_hanh`, `ma_loai_dong_ho`, `ma_nha_cung_cap`, `ma_co_dong_ho`) VALUES
+(1, 'Đồng hồ 1', 1, 2022, 1, '2022-01-01', '2022-01-01', 5, 24, 2, 7, 2),
+(2, 'Đồng hồ 2', 1, 2022, 2, '2022-01-01', '2022-01-01', 10, 24, 1, 2, 1),
+(3, 'Đồng hồ 3', 1, 2022, 3, '2022-01-01', '2022-01-02', 8, 8, 1, 15, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -761,7 +841,23 @@ INSERT INTO `ql_donghokhoi` (`ma_dong_ho`, `ten_dong_ho`, `tinh_trang`, `ngay_nh
 (3, 'Đồng hồ 1', 0, '2023-10-10', '2023-10-20', 4, 24, 1, 2, 2),
 (4, 'Đồng hồ 2', 0, '2023-10-10', '2023-10-20', 3, 12, 2, 1, 2),
 (5, 'Đồng hồ 3', 0, '2023-10-10', '2023-10-20', 5, 12, 2, 2, 1),
-(6, 'Đồng hồ 4', 1, '2023-10-10', '2023-10-20', 5, 12, 2, 2, 1);
+(6, 'Đồng hồ 4', 1, '2023-10-10', '2023-10-20', 5, 12, 2, 2, 1),
+(7, 'Đồng hồ khối 5', 1, '2022-01-01', '2022-01-01', 1, 1, 2, 2, 6),
+(8, 'Đồng hồ khối 6', 0, '2022-01-01', '2022-01-01', 9, 9, 4, 5, 12),
+(9, 'Đồng hồ khối 7', 0, '2022-01-01', '2022-01-01', 9, 9, 4, 1, 8),
+(10, 'Đồng hồ khối 8', 0, '2022-01-01', '2022-01-01', 9, 9, 4, 1, 13),
+(11, 'Đồng hồ khối 9', 0, '2022-01-01', '2022-01-02', 9, 9, 4, 2, 13),
+(12, 'Đồng hồ khối 10', 0, '2022-01-01', '2022-01-01', 9, 10, 3, 6, 14),
+(13, 'Đồng hồ khối 11', 0, '2022-01-01', '2022-01-01', 9, 10, 3, 6, 14),
+(14, 'Đồng hồ khối 12', 0, '2022-01-01', '2022-01-01', 9, 10, 3, 2, 13),
+(15, 'Đồng hồ khối 13', 0, '2022-01-01', '2022-01-01', 9, 10, 3, 2, 13),
+(16, 'Đồng hồ khối 14', 0, '2022-01-01', '2022-01-01', 9, 10, 4, 12, 12),
+(17, 'Đồng hồ khối 15', 0, '2022-01-01', '2022-01-01', 9, 10, 4, 12, 12),
+(18, 'Đồng hồ khối 16', 0, '2022-01-01', '2022-01-01', 9, 10, 4, 12, 12),
+(19, 'Đồng hồ khối 17', 0, '2022-01-01', '2022-01-01', 9, 10, 4, 10, 14),
+(20, 'Đồng hồ khối 18', 0, '2022-01-01', '2022-01-01', 9, 10, 4, 10, 14),
+(21, 'Đồng hồ khối 19', 0, '2022-01-01', '2022-01-01', 9, 10, 4, 10, 14),
+(22, 'Đồng hồ khối 20', 0, '2022-01-01', '2022-01-01', 9, 10, 4, 10, 14);
 
 -- --------------------------------------------------------
 
@@ -782,9 +878,21 @@ CREATE TABLE `ql_hoadon` (
   `tong_tien_truoc_thue` double NOT NULL,
   `tong_cong` double NOT NULL,
   `trang_thai` int(11) NOT NULL,
-  `ma_phuong_thuc` int(11) NOT NULL,
+  `ma_phuong_thuc` int(11) DEFAULT NULL,
   `ma_lap_dat` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ql_hoadon`
+--
+
+INSERT INTO `ql_hoadon` (`ma_hoa_don`, `ky_hoa_don`, `tu_ngay`, `den_ngay`, `khoa`, `chi_so_cu`, `chi_so_moi`, `so_tieu_thu`, `tong_tien_thue`, `tong_tien_truoc_thue`, `tong_cong`, `trang_thai`, `ma_phuong_thuc`, `ma_lap_dat`) VALUES
+(3, 'T1 - 2024', '2022-01-01', '2022-01-31', 1, 0, 30, 30, 18207.504, 364150.08, 345942.576, 0, NULL, 4),
+(5, 'T1 - 2024', '2022-01-01', '2022-01-31', 1, 0, 10, 10, 5572.476, 111449.52, 105877.044, 0, NULL, 3),
+(6, 'T2 - 2024', '2022-02-01', '2022-02-28', 0, 10, 20, 10, 5572.476, 111449.52, 105877.044, 0, NULL, 3),
+(7, 'T2 - 2024', '2022-02-01', '2022-02-28', 0, 30, 40, 10, 4619.916, 92398.32, 87778.404, 0, NULL, 4),
+(8, 'T1 - 2024', '2024-01-01', '2024-01-31', 1, 0, 15, 15, 7511.616, 150232.32, 157743.936, 0, NULL, 5),
+(9, 'T2 - 2024', '2024-02-01', '2024-02-28', 0, 15, 30, 15, 7511.616, 150232.32, 157743.936, 0, NULL, 5);
 
 -- --------------------------------------------------------
 
@@ -803,6 +911,15 @@ CREATE TABLE `ql_hopdong` (
   `ma_tuyen` int(11) NOT NULL,
   `ma_nhom_gia` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ql_hopdong`
+--
+
+INSERT INTO `ql_hopdong` (`ma_hop_dong`, `ten_nguoi_dai_dien`, `chuc_vu_nguoi_dai_dien`, `dia_chi`, `ngay_lap`, `trang_thai`, `ma_khach_hang`, `ma_tuyen`, `ma_nhom_gia`) VALUES
+(2, 'Đỗ Đức Mạnh', 'Giám đốc', '14 Lạch Tray', '2024-05-29', 1, 2, 1, 2),
+(3, 'Đỗ Đức Mạnh', 'Giám đốc', '14 Lạch Tray', '2024-05-29', 1, 3, 2, 3),
+(4, 'Đỗ Đức Mạnh', 'Giám đốc', '2 Lạch Tray', '2023-01-01', 1, 4, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -826,7 +943,7 @@ CREATE TABLE `ql_khachhang` (
 INSERT INTO `ql_khachhang` (`ma_khach_hang`, `ten_khach_hang`, `can_cuoc`, `dia_chi`, `sdt`, `email`) VALUES
 (1, 'Phạm Thị Thu Hiền', '031300005030', '34/46 Lạch Tray', '0834285958', 'ddmanh1420@gmail.com'),
 (2, 'Nguyễn Văn A', '000000000001', '1 Lạch Tray', '0000000001', 'NVA@qlcn.com'),
-(3, 'Nguyễn Văn B', '000000000002', '2 Lạch Tray', '0000000002', 'NVB@qlcn.com'),
+(3, 'Nguyễn Văn B', '000000000002', '2 Lạch Tray', '0000000002', 'ddmanh1420@gmail.com'),
 (4, 'Nguyễn Văn C', '000000000003', '3 Lạch Tray', '0000000003', 'NVC@qlcn.com'),
 (5, 'Nguyễn Văn D', '000000000004', '4 Lạch Tray', '0000000004', 'NVD@qlcn.com'),
 (6, 'Nguyễn Văn E', '000000000005', '5 Lạch Tray', '0000000005', 'NVE@qlcn.com'),
@@ -869,6 +986,15 @@ CREATE TABLE `ql_lapdatdhkhach` (
   `ma_hop_dong` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `ql_lapdatdhkhach`
+--
+
+INSERT INTO `ql_lapdatdhkhach` (`ma_lap_dat`, `chi_so_dau`, `chi_so_cuoi`, `so_tieu_thu`, `tu_ngay`, `den_ngay`, `ma_dong_ho`, `ma_hop_dong`) VALUES
+(3, 0, NULL, NULL, '2024-04-30', NULL, 1, 2),
+(4, 0, NULL, NULL, '2022-01-01', NULL, 2, 3),
+(5, 0, NULL, NULL, '2023-02-01', NULL, 3, 4);
+
 -- --------------------------------------------------------
 
 --
@@ -895,7 +1021,12 @@ INSERT INTO `ql_lapdatdhkhoi` (`ma_lap_dat`, `chi_so_dau`, `chi_so_cuoi`, `so_ti
 (4, 0, 25, 0, '2023-12-31', '2024-02-01', 4, 1),
 (5, 0, 16, 16, '2023-12-31', '2024-03-01', 5, 2),
 (6, 25, 25, 0, '2024-05-19', '2024-05-19', 4, 2),
-(7, 0, NULL, NULL, '2024-03-02', NULL, 6, 2);
+(7, 0, 30, 30, '2024-03-02', '2024-05-31', 6, 2),
+(8, 0, NULL, NULL, '2022-02-01', NULL, 7, 7),
+(9, 0, NULL, NULL, '2022-02-01', NULL, 8, 4),
+(10, 0, NULL, NULL, '2022-02-01', NULL, 9, 24),
+(11, 0, NULL, NULL, '2022-02-01', NULL, 10, 32),
+(12, 0, NULL, NULL, '2022-02-01', NULL, 11, 62);
 
 -- --------------------------------------------------------
 
@@ -982,7 +1113,7 @@ CREATE TABLE `ql_taikhoan` (
 --
 
 INSERT INTO `ql_taikhoan` (`ma_nhan_vien`, `mat_khau`, `trang_thai`, `email`, `sdt`, `chuc_vu`, `ho_ten`, `ngay_sinh`) VALUES
-(100000, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'manh@qlcn.com', '0834285958', 'Giám đốc', 'Đỗ Đức Mạnh', '2000-04-14'),
+(100000, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'ddmanh1420@gmail.com', '0834285958', 'Giám đốc', 'Đỗ Đức Mạnh', '2000-04-14'),
 (100001, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'lam@qlcn.com', '0213123123', 'Phó giám đốc', 'Nguyễn Công Lâm', '2002-11-05'),
 (100003, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'phuc@qlcn.com', '0123456780', 'Trưởng phòng', 'Phạm Quang Phúc', '2000-08-06'),
 (100004, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVA@qlcn.com', '0123456789', 'Trưởng phòng', 'Nguyễn Văn A', '2000-08-06'),
@@ -1327,7 +1458,7 @@ ALTER TABLE `dm_quanhuyen`
 -- AUTO_INCREMENT for table `dm_quyen`
 --
 ALTER TABLE `dm_quyen`
-  MODIFY `ma_quyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `ma_quyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `dm_toquanly`
@@ -1339,7 +1470,7 @@ ALTER TABLE `dm_toquanly`
 -- AUTO_INCREMENT for table `dm_tuyendoc`
 --
 ALTER TABLE `dm_tuyendoc`
-  MODIFY `ma_tuyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ma_tuyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -1357,7 +1488,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `ls_donghokhoi`
 --
 ALTER TABLE `ls_donghokhoi`
-  MODIFY `ma_lich_su` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ma_lich_su` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -1369,25 +1500,25 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `ql_donghokhach`
 --
 ALTER TABLE `ql_donghokhach`
-  MODIFY `ma_dong_ho` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ma_dong_ho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ql_donghokhoi`
 --
 ALTER TABLE `ql_donghokhoi`
-  MODIFY `ma_dong_ho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ma_dong_ho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `ql_hoadon`
 --
 ALTER TABLE `ql_hoadon`
-  MODIFY `ma_hoa_don` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ma_hoa_don` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `ql_hopdong`
 --
 ALTER TABLE `ql_hopdong`
-  MODIFY `ma_hop_dong` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ma_hop_dong` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `ql_khachhang`
@@ -1399,13 +1530,13 @@ ALTER TABLE `ql_khachhang`
 -- AUTO_INCREMENT for table `ql_lapdatdhkhach`
 --
 ALTER TABLE `ql_lapdatdhkhach`
-  MODIFY `ma_lap_dat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ma_lap_dat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `ql_lapdatdhkhoi`
 --
 ALTER TABLE `ql_lapdatdhkhoi`
-  MODIFY `ma_lap_dat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ma_lap_dat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `ql_nhomgia`
