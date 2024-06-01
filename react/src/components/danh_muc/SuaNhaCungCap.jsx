@@ -11,23 +11,35 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function SuaNhaCungCap() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const [tenNhaCungCap, setTenNhaCungCap] = useState('')
+  const [nhaCungCap, setNhaCungCap] = useState({
+    ten_nha_cung_cap: '',
+    dia_chi: '',
+    sdt: ''
+  })
 
   useEffect(() => {
     axios.get(`http://127.0.0.1:8000/api/nha_cung_cap/${id}`)
       .then(response => {
-        setTenNhaCungCap(response.data.ten_nha_cung_cap)
+        setNhaCungCap(response.data)
       })
   }, [])
 
   const handleChange = (e) => {
-    setTenNhaCungCap(e.target.value)
+    const { name, value } = e.target
+    setNhaCungCap(pre => {
+      return {
+        ...pre,
+        [name]: value
+      }
+    })
   }
 
   const suaNhaCungCap = async () => {
     const formData = new FormData()
     formData.append('_method', 'PUT')
-    formData.append('ten_nha_cung_cap', tenNhaCungCap)
+    formData.append('ten_nha_cung_cap', nhaCungCap.ten_nha_cung_cap)
+    formData.append('dia_chi', nhaCungCap.dia_chi)
+    formData.append('sdt', nhaCungCap.sdt)
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/nha_cung_cap/${id}`, formData)
@@ -54,7 +66,15 @@ export default function SuaNhaCungCap() {
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ten_nha_cung_cap">Tên nhà cung cấp</label>
-          <input required type="text" id='ten_nha_cung_cap' value={tenNhaCungCap} onChange={handleChange} />
+          <input required type="text" id='ten_nha_cung_cap' name="ten_nha_cung_cap" value={nhaCungCap.ten_nha_cung_cap} onChange={handleChange} />
+        </div>
+        <div>
+          <label htmlFor="dia_chi">Địa chỉ</label>
+          <input required type="text" id='dia_chi' name='dia_chi' value={nhaCungCap.dia_chi} onChange={handleChange} />
+        </div>
+        <div>
+          <label htmlFor="sdt">Số điện thoại</label>
+          <input required type="number" id='sdt' name="sdt" value={nhaCungCap.sdt} onChange={handleChange} />
         </div>
         <div></div>
         <div>
