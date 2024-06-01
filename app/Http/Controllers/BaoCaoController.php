@@ -51,7 +51,7 @@ class BaoCaoController extends Controller
         return $query->get();
     }
     public function bc_kh_chua_dong(Request $request){
-        $query=QLHoaDonModel::selectRaw('ql_khachhang.ten_khach_hang, ql_hoadon.*')
+        $query=QLHoaDonModel::selectRaw('ql_khachhang.ma_khach_hang,ql_khachhang.ten_khach_hang,ql_hopdong.ma_hop_dong, ql_hoadon.*')
         ->leftJoin('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
         ->leftJoin('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
         ->leftJoin('ql_khachhang','ql_hopdong.ma_khach_hang','=','ql_khachhang.ma_khach_hang')
