@@ -10,8 +10,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function NhaCungCap() {
-  const [nhaCungCaps, setNhaCungCaps] = useState(null)
+  const [nhaCungCaps, setNhaCungCaps] = useState([])
   const tenNhaCungCapRef = useRef()
+  const diaChiRef = useRef()
+  const sdtRef = useRef()
 
   useEffect(() => {
     fetchData()
@@ -24,12 +26,12 @@ export default function NhaCungCap() {
       })
   }
 
-  if (!nhaCungCaps) return null
-
   const nhaCungCapElements = nhaCungCaps.map((item, index) => {
     return <tr key={index}>
       <td>{item.ma_nha_cung_cap}</td>
       <td style={{ textAlign: 'left' }}>{item.ten_nha_cung_cap}</td>
+      <td style={{ textAlign: 'left' }}>{item.dia_chi}</td>
+      <td style={{ textAlign: 'left' }}>{item.sdt}</td>
       <td>
         <Link className="btn-edit" to={`/nha_cung_cap/sua/${item.ma_nha_cung_cap}`}>Sửa</Link>&nbsp;
         <button onClick={() => xoaNhaCungCap(item.ma_nha_cung_cap)} className="btn-delete">Xóa</button>
@@ -53,6 +55,8 @@ export default function NhaCungCap() {
   const themNhaCungCap = async () => {
     const formData = new FormData()
     formData.append('ten_nha_cung_cap', tenNhaCungCapRef.current.value)
+    formData.append('dia_chi', diaChiRef.current.value)
+    formData.append('sdt', sdtRef.current.value)
 
     try {
       const response = await axios.post(`http://127.0.0.1:8000/api/nha_cung_cap`, formData)
@@ -79,6 +83,14 @@ export default function NhaCungCap() {
           <label htmlFor="ten_nha_cung_cap">Tên nhà cung cấp</label>
           <input required type="text" id='ten_nha_cung_cap' ref={tenNhaCungCapRef} />
         </div>
+        <div>
+          <label htmlFor="dia_chi">Địa chỉ</label>
+          <input required type="text" id='dia_chi' ref={diaChiRef} />
+        </div>
+        <div>
+          <label htmlFor="sdt">Số điện thoại</label>
+          <input required type="number" id='sdt' ref={sdtRef} />
+        </div>
         <div></div>
         <div>
           <button className="btn-add" type="submit">
@@ -92,8 +104,10 @@ export default function NhaCungCap() {
         <table>
           <thead>
             <tr>
-              <th style={{ width: '150px' }}>Mã NCC</th>
-              <th style={{ textAlign: 'left' }}>Tên nhà cung cấp</th>
+              <th style={{ width: '150px', maxWidth: '150px' }}>Mã NCC</th>
+              <th style={{ textAlign: 'left', width: '300px', maxWidth: '300px' }}>Tên nhà cung cấp</th>
+              <th style={{ textAlign: 'left' }}>Địa chỉ</th>
+              <th style={{ textAlign: 'left', width: '250px', maxWidth: '250px' }}>Số điện thoại</th>
               <th style={{ width: '150px' }}>Hành động</th>
             </tr>
           </thead>

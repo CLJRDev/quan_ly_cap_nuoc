@@ -241,14 +241,14 @@ class QLDongHoKhoiController extends Controller
         ->join('dm_loaidongho','dm_loaidongho.ma_loai_dong_ho','=','ql_donghokhoi.ma_loai_dong_ho')
         ->join('dm_codongho','dm_codongho.ma_co_dong_ho','=','ql_donghokhoi.ma_co_dong_ho')
         ->join('dm_nhacungcap','dm_nhacungcap.ma_nha_cung_cap','=','ql_donghokhoi.ma_nha_cung_cap');
+        if($request->has('ma_dong_ho')){
+            $query->where("ma_dong_ho",$request->ma_dong_ho);
+        }
         if($request->has('ten_dong_ho')){
             $query->where("ten_dong_ho","like","%".$request->ten_dong_ho."%");
         }
-        if($request->has('ma_dong_ho')){
-            $query->where("ma_dong_ho",$request->ma_dong);
-        }
         if($request->has('ma_loai_dong_ho')){
-            $query->where("ma_loai_dong_ho",$request->ma_loai_dong_ho);
+            $query->where("ql_donghokhoi.ma_loai_dong_ho",$request->ma_loai_dong_ho);
         }
         if($request->has('ngay_nhap_tu')&&$request->has('ngay_nhap_den')){
             $query->whereBetween('ngay_nhap', [$request->ngay_nhap_tu, $request->ngay_nhap_den]);
@@ -263,8 +263,11 @@ class QLDongHoKhoiController extends Controller
             $query->whereBetween('so_thang_bao_hanh', [$request->so_thang_bao_hanh_tu, $request->so_thang_bao_hanh_den]);
         }
         if($request->has('ma_co_dong_ho')){
-            $query->where("ma_co_dong_ho",$request->ma_co_dong_ho);
+            $query->where("ql_donghokhoi.ma_co_dong_ho",$request->ma_co_dong_ho);
         }
+        if($request->has('ma_nha_cung_cap')){
+          $query->where("ql_donghokhoi.ma_nha_cung_cap",$request->ma_nha_cung_cap);
+      }
         if($request->has('tinh_trang')){
             $query->where("tinh_trang",$request->tinh_trang);
         }
