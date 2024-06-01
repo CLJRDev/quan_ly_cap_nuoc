@@ -28,10 +28,6 @@ export default function QuanLyDongHoKhoi() {
     ma_nha_cung_cap: '',
     ma_co_dong_ho: '',
     tinh_trang: '',
-    // ngay_nhap_tu: '',
-    // ngay_nhap_den: '',
-    // ngay_kiem_dinh_tu: '',
-    // ngay_kiem_dinh_den: '',
     so_nam_hieu_luc_tu: '',
     so_nam_hieu_luc_den: '',
     so_thang_bao_hanh_tu: '',
@@ -177,13 +173,44 @@ export default function QuanLyDongHoKhoi() {
     setItemOffset(newOffset);
   };
 
-  const timKiem = async () => {
-    if (!ngayNhapRange[0].startDate) {
-      console.log('OK')
-    } else {
-      console.log(ngayNhapRange[0].startDate)
-      console.log(ngayKiemDinhRange[0].startDate)
+  const timKiem = async (e) => {
+    const { ten_dong_ho, ma_loai_dong_ho, ma_nha_cung_cap, ma_co_dong_ho, tinh_trang, so_nam_hieu_luc_tu, so_nam_hieu_luc_den, so_thang_bao_hanh_tu, so_thang_bao_hanh_den } = searchData;
+    let queryString = '?'
+    if (ten_dong_ho != '') {
+      queryString += `ten_dong_ho=${ten_dong_ho}&`
     }
+    if (ma_loai_dong_ho != '') {
+      queryString += `ma_loai_dong_ho=${ma_loai_dong_ho}&`
+    }
+    if (ma_co_dong_ho != '') {
+      queryString += `ma_co_dong_ho=${ma_co_dong_ho}&`
+    }
+    if (ma_nha_cung_cap != '') {
+      queryString += `ma_nha_cung_cap=${ma_nha_cung_cap}&`
+    }
+    if (tinh_trang != '') {
+      queryString += `tinh_trang=${tinh_trang}&`
+    }
+    if (ngayNhapRange[0].startDate) {
+      queryString += `ngay_nhap_tu=${format(new Date(ngayNhapRange[0].startDate), 'yyyy-MM-dd')}&ngay_nhap_den=${format(new Date(ngayNhapRange[0].endDate), 'yyyy-MM-dd')}&`
+    }
+    if (ngayKiemDinhRange[0].startDate) {
+      queryString += `ngay_kiem_dinh_tu=${format(new Date(ngayKiemDinhRange[0].startDate), 'yyyy-MM-dd')}&ngay_kiem_dinh_den=${format(new Date(ngayKiemDinhRange[0].endDate), 'yyyy-MM-dd')}&`
+    }
+    if (so_nam_hieu_luc_tu != '') {
+      queryString += `so_nam_hieu_luc_tu=${so_nam_hieu_luc_tu}&`
+    }
+    if (so_nam_hieu_luc_den != '') {
+      queryString += `so_nam_hieu_luc_den=${so_nam_hieu_luc_den}&`
+    }
+    if (so_thang_bao_hanh_tu != '') {
+      queryString += `so_thang_bao_hanh_tu=${so_thang_bao_hanh_tu}&`
+    }
+    if (so_thang_bao_hanh_den != '') {
+      queryString += `so_thang_bao_hanh_den=${so_thang_bao_hanh_den}&`
+    }
+    const response = await axios.get(`http://127.0.0.1:8000/api/dong_ho_khoi_search/${queryString}`)
+    setDongHoKhois(response.data)
   }
 
   const handleSubmit = async (e) => {
