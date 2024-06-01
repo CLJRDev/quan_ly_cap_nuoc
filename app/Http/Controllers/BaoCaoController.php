@@ -51,14 +51,17 @@ class BaoCaoController extends Controller
         return $query->get();
     }
     public function bc_kh_chua_dong(Request $request){
-        $query=QLHoaDonModel::selectRaw('ql_khachhang.*, sum(tong_cong) as tong_cong')
-        ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
-        ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
-        ->join('ql_khachhang','ql_hopdong.ma_khach_hang','=','ql_khachhang.ma_khach_hang')
-        ->groupBy('ql_khachhang.ma_khach_hang','ql_khachhang.ten_khach_hang','ql_khachhang.sdt','ql_khachhang.can_cuoc','ql_khachhang.email','ql_khachhang.dia_chi')
+        $query=QLHoaDonModel::selectRaw('ql_khachhang.ten_khach_hang, ql_hoadon.*')
+        ->leftJoin('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
+        ->leftJoin('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
+        ->leftJoin('ql_khachhang','ql_hopdong.ma_khach_hang','=','ql_khachhang.ma_khach_hang')
+        // ->groupBy('ql_khachhang.ma_khach_hang','ql_khachhang.ten_khach_hang','ql_khachhang.sdt','ql_khachhang.can_cuoc','ql_khachhang.email','ql_khachhang.dia_chi')
         ->whereRaw('ma_phuong_thuc is null');
         if($request->has('ma_loai_khach_hang')){
             $query->where('ma_loai_khach_hang',$request->ma_loai_khach_hang);
+        }
+        if($request->has('ky_hoa_don')){
+            $query->where("ql_hoadon.ky_hoa_don","like","%".$request->ky_hoa_don."%");
         }
         return $query->get();
     }
