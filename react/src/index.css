@@ -90,7 +90,8 @@ table>tbody>tr>td {
 .btn-add,
 .btn-search,
 .btn-edit,
-.btn-delete {
+.btn-delete,
+.btn-export {
   font-family: "Roboto", sans-serif;
   outline: 0;
   background: #0e4279;
@@ -116,13 +117,18 @@ table>tbody>tr>td {
 .btn-add,
 .btn-search,
 .btn-edit,
-.btn-delete {
+.btn-delete,
+.btn-export {
   padding: 0.5rem 0.75rem;
   font-size: 14px;
 }
 
 .btn-delete {
-  background-color: #b72424;
+  background-color: #200606;
+}
+
+.btn-export {
+  background-color: #4d9b50;
 }
 
 .btn-add:hover,

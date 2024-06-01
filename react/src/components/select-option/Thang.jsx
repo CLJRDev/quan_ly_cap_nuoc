@@ -9,6 +9,13 @@ export default function Thang(props) {
     })
   }
 
+  if (props.isSearch) {
+    options.unshift({
+      value: '',
+      label: 'Tất cả'
+    })
+  }
+
   const customStyles = {
     menu: (provided) => ({
       ...provided,

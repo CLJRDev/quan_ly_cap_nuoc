@@ -55,8 +55,8 @@ class BaoCaoController extends Controller
         ->leftJoin('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
         ->leftJoin('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
         ->leftJoin('ql_khachhang','ql_hopdong.ma_khach_hang','=','ql_khachhang.ma_khach_hang')
-        ->leftJoin('ql_nhom_gia','ql_nhom_gia.ma_nhom_gia','=','ql_hoadon.ma_nhom_gia')
-        ->leftJoin('dm_loaikhachhang','ql_nhom_gia.ma_loai_khach_hang','=','dm_loaikhachhang.ma_loai_khach_hang')
+        ->leftJoin('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hoadon.ma_nhom_gia')
+        ->leftJoin('dm_loaikhachhang','ql_nhomgia.ma_loai_khach_hang','=','dm_loaikhachhang.ma_loai_khach_hang')
         ->whereRaw('ma_phuong_thuc is null');
         if($request->has('ma_loai_khach_hang')){
             $query->where('ma_loai_khach_hang',$request->ma_loai_khach_hang);
@@ -87,7 +87,7 @@ class BaoCaoController extends Controller
         ->join('dm_tuyendoc','ql_hopdong.ma_tuyen','=','dm_tuyendoc.ma_tuyen')
         ->whereRaw('ql_hoadon.khoa=0');
         if($request->has('ma_tuyen')){
-            $query->where('ma_tuyen',$request->ma_tuyen);
+            $query->where('dm_tuyendoc.ma_tuyen',$request->ma_tuyen);
         }
         return $query->get();
     }

@@ -11,6 +11,13 @@ export default function Nam(props) {
     year += 1
   }
 
+  if (props.isSearch) {
+    options.unshift({
+      value: '',
+      label: 'Tất cả'
+    })
+  }
+
   const customStyles = {
     menu: (provided) => ({
       ...provided,
