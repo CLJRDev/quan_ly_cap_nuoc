@@ -280,4 +280,16 @@ class QLLapDatDHKhoiController extends Controller
               ],422);
         }
     }
+    public function lookup_dh_tuyen(Request $request){
+        if($request->has('ma_tuyen')){
+            $lap_dat = QLLapDatDHKhoiModel::where('ma_tuyen',$request->ma_hop_dong)->orderBy('ma_lap_dat','DESC')->first();
+        }
+        if($request->has('ma_dong_ho')){
+            $lap_dat = QLLapDatDHKhoiModel::where('ma_dong_ho',$request->ma_dong_ho)->orderBy('ma_lap_dat','DESC')->first();
+        }
+        $query = $lap_dat->select('ql_donghokhoi.*','dm_tuyendoc.*')
+        ->join('ql_donghokhoi','ql_donghokhoi.ma_dong_ho','=','ql_lapdatdhkhoi.ma_dong_ho')
+        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_lapdatdhkhoi.ma_tuyen');
+        return $query->orderBy('ma_lap_dat','desc')->first();
+    }
 }

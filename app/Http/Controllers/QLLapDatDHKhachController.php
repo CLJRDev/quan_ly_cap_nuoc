@@ -291,5 +291,18 @@ class QLLapDatDHKhachController extends Controller
                 'error' => 'Không thể gỡ lắp đặt!'
               ],422);
         }
+        
+    }
+    public function lookup_dh_hop_dong(Request $request){
+        if($request->has('ma_hop_dong')){
+            $lap_dat = QLLapDatDHKhachModel::where('ma_hop_dong',$request->ma_hop_dong)->orderBy('ma_lap_dat','DESC')->first();
+        }
+        if($request->has('ma_dong_ho')){
+            $lap_dat = QLLapDatDHKhachModel::where('ma_dong_ho',$request->ma_dong_ho)->orderBy('ma_lap_dat','DESC')->first();
+        }
+        $query = $lap_dat->select('ql_donghokhach.*','ql_hopdong.*')
+        ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
+        ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong');
+        return $query->orderBy('ma_lap_dat','desc')->first();
     }
 }
