@@ -15,7 +15,7 @@ export const SidebarData = [
     icon: <AiIcons.AiFillHome />,
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
-    isAllow: [1],
+    isAllow: [1, 0],
     subNav: [
       {
         title: 'Người dùng',
@@ -34,6 +34,11 @@ export const SidebarData = [
         path: '/quan_ly_phan_quyen',
         icon: <TbIcons.TbSubtask />,
         maQuyen: 1
+      },
+      {
+        title: 'Đổi mật khẩu',
+        path: '/doi_mat_khau',
+        icon: <RiIcons.RiLockPasswordLine />
       }
     ]
   },

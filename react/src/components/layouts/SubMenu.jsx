@@ -59,7 +59,7 @@ export default function SubMenu({ item }) {
       </SidebarLink>
       {subnav &&
         item.subNav.map((item, index) => {
-          if (quyensArray.includes(item.maQuyen)) {
+          if (quyensArray.includes(item.maQuyen) || !item.maQuyen) {
             return (
               <DropdownLink to={item.path} key={index}>
                 {item.icon}

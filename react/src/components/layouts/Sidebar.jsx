@@ -84,6 +84,7 @@ export default function Sidebar() {
   }
 
   const quyensArray = JSON.parse(localStorage.getItem('quyens'))
+  quyensArray.push(0)
 
   return (
     <>

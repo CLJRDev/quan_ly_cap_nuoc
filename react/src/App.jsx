@@ -2,6 +2,7 @@ import Home from './components/he_thong/QL_nguoi_dung/Home'
 import QuanLyNguoiDung from './components/he_thong/QL_nguoi_dung/QuanLyNguoiDung'
 import ThemNguoiDung from './components/he_thong/QL_nguoi_dung/ThemNguoiDung'
 import SuaNguoiDung from './components/he_thong/QL_nguoi_dung/SuaNguoiDung'
+import DoiMatKhau from './components/he_thong/QL_nguoi_dung/DoiMatKhau'
 import Login from './components/auth/Login'
 import QuanLyPhanQuyen from './components/he_thong/QL_phan_quyen/QuanLyPhanQuyen'
 import ThemQuyen from './components/he_thong/QL_quyen/ThemQuyen'
@@ -64,7 +65,6 @@ import BaoCaoSuDungBatThuong from './components/bao_cao/BaoCaoSuDungBatThuong'
 import BaoCaoThatThoatNuoc from './components/bao_cao/BaoCaoThatThoatNuoc'
 import BaoCaoThuTien from './components/bao_cao/BaoCaoThuTien'
 
-
 import { Routes, Route } from 'react-router-dom'
 
 function App() {
@@ -75,6 +75,7 @@ function App() {
         <Route path='/nguoi_dung' element={<QuanLyNguoiDung />} />
         <Route path='/nguoi_dung/them' element={<ThemNguoiDung />} />
         <Route path='/nguoi_dung/sua/:id' element={<SuaNguoiDung />} />
+        <Route path='/doi_mat_khau' element={<DoiMatKhau />} />
         <Route path='/quan_ly_phan_quyen' element={<QuanLyPhanQuyen />} />
         <Route path='/quyen' element={<ThemQuyen />} />
         <Route path='/quyen/sua/:id' element={<SuaQuyen />} />
@@ -139,7 +140,6 @@ function App() {
         <Route path='/bao_cao_su_dung_bat_thuong' element={<BaoCaoSuDungBatThuong />} />
         <Route path='/bao_cao_chua_dong_tien' element={<BaoCaoChuaDongTien />} />
         <Route path='/bao_cao_quan_ly_thu_tien' element={<BaoCaoThuTien />} />
-
         <Route path='/login' element={<Login />} />
       </Routes>
     </>
