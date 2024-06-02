@@ -72,6 +72,14 @@ class QLLapDatDHKhachController extends Controller
                 'error' => 'Đồng hồ hoặc hợp đồng đã được lắp đặt!'
               ],422);
         }
+        if(strtotime($request->tu_ngay)>strtotime($hop_dong->ngay_lap)){
+            $lap_dat->tu_ngay=$request->tu_ngay;
+        }
+        else{
+            return response()->json([
+                'error' => 'Ngày lắp trước ngày lập hợp đồng!'
+                ],422);
+        }
         if(empty($lap_dat_cu)){
             $lap_dat->chi_so_dau=0;
             $lap_dat->tu_ngay=$request->tu_ngay;

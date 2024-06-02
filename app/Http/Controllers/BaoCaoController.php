@@ -47,7 +47,7 @@ class BaoCaoController extends Controller
         ->leftJoin('ql_khachhang','ql_hopdong.ma_khach_hang','=','ql_khachhang.ma_khach_hang')
         ->leftJoin('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hopdong.ma_nhom_gia')
         ->leftJoin('dm_loaikhachhang','ql_nhomgia.ma_loai_khach_hang','=','dm_loaikhachhang.ma_loai_khach_hang')
-        ->whereRaw('ma_phuong_thuc is null');
+        ->whereRaw('ma_phuong_thuc is null and ql_hoadon.so_tieu_thu>0');
         if($request->has('ma_loai_khach_hang')){
             $query->where('ma_loai_khach_hang',$request->ma_loai_khach_hang);
         }

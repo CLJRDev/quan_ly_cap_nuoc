@@ -29,6 +29,7 @@ class QLHoaDonController extends Controller
         ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
         ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
         ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_hopdong.ma_tuyen')
+        ->whereRaw('ql_hoadon.so_tieu_thu > 0')
         ->orderBy('ma_hoa_don', 'DESC')->get();
     }
 
@@ -324,7 +325,8 @@ class QLHoaDonController extends Controller
         ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
         ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
         ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
-        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_hopdong.ma_tuyen');
+        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_hopdong.ma_tuyen')
+        ->whereRaw('ql_hoadon.so_tieu_thu > 0');
         if($request->has('ma_dong_ho')){
             $query->where("ql_lapdatdhkhach.ma_dong_ho",$request->ma_dong_ho);
         }
@@ -340,7 +342,9 @@ class QLHoaDonController extends Controller
         if($request->has('ky_hoa_don')){
             $query->where("ql_hoadon.ky_hoa_don","like","%".$request->ky_hoa_don."%");
         }
-
+        if($request->has('tu_ngay')&&$request->has('den_ngay')){
+            $query->whereBetween('ql_hoadon.den_ngay', [$request->tu_ngay, $request->den_ngay]);
+        }
         $result = $query->orderBy('ma_hoa_don', 'DESC')->get();
         return $result;
     }

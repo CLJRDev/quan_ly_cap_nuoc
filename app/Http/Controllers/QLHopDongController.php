@@ -215,6 +215,9 @@ class QLHopDongController extends Controller
       if ($request->has('trang_thai')) {
         $query->where('ql_hopdong.trang_thai',$request->trang_thai);
       }
+      if ($request->has('ngay_lap')) {
+        $query->where('ql_hopdong.ngay_lap',$request->ngay_lap);
+      }
       $result = $query->orderBy('ma_hop_dong', 'ASC')->get();
       return $result;
     }

@@ -37,7 +37,7 @@ class HoaDon extends Command
         ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
         ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_hopdong.ma_tuyen')
         ->join('ql_nhomgia','ql_hopdong.ma_nhom_gia','=','ql_nhomgia.ma_nhom_gia')
-            ->whereRaw('ql_hoadon.tu_ngay<='.date("Y-m-d").' and ql_hoadon.den_ngay>='.date("Y-m-d"))
+            ->whereRaw('ql_hoadon.tu_ngay<='.date("Y-m-d").' and ql_hoadon.den_ngay>='.date("Y-m-d").' and ql_hoadon.so_tieu_thu>0')
             ->get();
         if(count($hoa_dons)!=0){
             foreach($hoa_dons as $hoa_don){
