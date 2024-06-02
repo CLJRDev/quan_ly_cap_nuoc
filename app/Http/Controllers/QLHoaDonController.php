@@ -228,6 +228,9 @@ class QLHoaDonController extends Controller
                 if(isset($request->khoa)){
                     $hoa_don->khoa=$request->khoa;
                 }
+                if(isset($request->ma_phuong_thuc)){
+                    $hoa_don->ma_phuong_thuc=$request->ma_phuong_thuc;
+                }
                 if($nhom_gia->hs_rieng!=null){
                     $hoa_don->tong_tien_truoc_thue=($nhom_gia->hs_rieng*$nhom_gia->gia_ban)*$hoa_don->so_tieu_thu;
                 }
