@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class BaoCaoController extends Controller
 {
     public function bc_that_thoat(Request $request){
-        $query=LSDongHoKhoiModel::selectRaw('ky_chi_so,ls_donghokhoi.so_tieu_thu as dhkhoi_tieu_thu,sum(ql_hoadon.so_tieu_thu) as dhkhach_tieu_thu,(ls_donghokhoi.so_tieu_thu-sum(ql_hoadon.so_tieu_thu)) as that_thoat, ql_lapdatdhkhoi.ma_tuyen, ql_lapdatdhkhoi.ma_dong_ho')
+        $query=LSDongHoKhoiModel::selectRaw('ky_chi_so,ls_donghokhoi.so_tieu_thu as dhkhoi_tieu_thu,sum(ql_hoadon.so_tieu_thu) as dhkhach_tieu_thu,(ls_donghokhoi.so_tieu_thu-sum(ql_hoadon.so_tieu_thu)) as that_thoat, ql_lapdatdhkhoi.ma_tuyen, dm_tuyendoc.ten_tuyen, ql_lapdatdhkhoi.ma_dong_ho')
         ->leftJoin('ql_lapdatdhkhoi','ql_lapdatdhkhoi.ma_lap_dat','=','ls_donghokhoi.ma_lap_dat')
         ->leftJoin('dm_tuyendoc','ql_lapdatdhkhoi.ma_tuyen','=','dm_tuyendoc.ma_tuyen')
         ->leftJoin('ql_hopdong','ql_hopdong.ma_tuyen','=','dm_tuyendoc.ma_tuyen')
