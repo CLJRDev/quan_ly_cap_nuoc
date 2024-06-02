@@ -42,12 +42,25 @@ export default function BaoCaoSuDungBatThuong() {
       <td>{item.ten_khach_hang}</td>
       <td>{item.ten_loai_khach_hang}</td>
       <td>{item.ky_hoa_don}</td>
+      <td>{item.avg_so_tieu_thu}</td>
       <td>{item.so_tieu_thu}</td>
       <td>{new Intl.NumberFormat('en-VN', { maximumSignificantDigits: 3 }).format(item.tong_cong)}</td>
       <td>
         <button className="btn-edit">Hợp đồng</button>&nbsp;
         <button className="btn-edit">Khách hàng</button>
       </td>
+    </tr>
+  })
+
+  const baoCaoCloneElements = baoCao.map((item, index) => {
+    return <tr key={index}>
+      <td>{item.ma_hop_dong}</td>
+      <td>{item.ten_khach_hang}</td>
+      <td>{item.ten_loai_khach_hang}</td>
+      <td>{item.ky_hoa_don}</td>
+      <td>{item.avg_so_tieu_thu}</td>
+      <td>{item.so_tieu_thu}</td>
+      <td>{new Intl.NumberFormat('en-VN', { maximumSignificantDigits: 3 }).format(item.tong_cong)}</td>
     </tr>
   })
 
@@ -102,7 +115,8 @@ export default function BaoCaoSuDungBatThuong() {
               <th>Tên khách hàng</th>
               <th>Loại khách hàng</th>
               <th>Kỳ hóa đơn</th>
-              <th>Số tiêu thụ</th>
+              <th>Mức tiêu thụ hàng tháng</th>
+              <th>Số tiêu thụ kỳ gần nhất</th>
               <th>Tổng tiền</th>
               <th style={{ width: '150px' }}>Hành động</th>
             </tr>
@@ -115,17 +129,17 @@ export default function BaoCaoSuDungBatThuong() {
         <table style={{ display: 'none' }} ref={tableRef}>
           <thead>
             <tr>
-              <th>Mã khách hàng</th>
+              <th>Mã hợp đồng</th>
               <th>Tên khách hàng</th>
-              <th>Mã hóa đơn</th>
               <th>Loại khách hàng</th>
               <th>Kỳ hóa đơn</th>
-              <th>Số tiêu thụ</th>
+              <th>Mức tiêu thụ hàng tháng</th>
+              <th>Số tiêu thụ kỳ gần nhất</th>
               <th>Tổng tiền</th>
             </tr>
           </thead>
           <tbody>
-            { }
+            {baoCaoCloneElements}
           </tbody>
         </table>
         <Paginate
