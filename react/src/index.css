@@ -399,3 +399,7 @@ label {
   word-wrap: break-word;
   white-space: normal;
 }
+
+.home-image {
+  width: 100%;
+}

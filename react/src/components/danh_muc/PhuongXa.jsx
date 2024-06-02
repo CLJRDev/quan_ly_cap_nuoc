@@ -104,7 +104,7 @@ export default function PhuongXa() {
 
   return (
     <>
-      <Route />
+      <Sidebar />
       <div className="page">
         <h2 className="title">Quản lý danh mục phường xã</h2>
         <form className="form-container" onSubmit={handleSubmit}>
