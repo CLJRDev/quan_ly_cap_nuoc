@@ -121,7 +121,7 @@ export default function QuanLyHopDong() {
   }
 
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % users.length;
+    const newOffset = (event.selected * itemsPerPage) % hopDongs.length;
     setItemOffset(newOffset);
   };
 

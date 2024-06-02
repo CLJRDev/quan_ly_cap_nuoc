@@ -70,7 +70,7 @@ export default function QuanLyGiaNuoc() {
   if (!gias) return null
   const giaElements = currentItems.map((item, index) => {
     return <tr key={index}>
-      <td>{item.ten_nhom_gia}</td>
+      <td style={{ width: '300px', wordWrap: 'break-word', whiteSpace: 'normal' }}>{item.ten_nhom_gia}</td>
       <td>{item.ten_loai_khach_hang}</td>
       <td>{!item.hs_duoi_10m ? '0' : item.hs_duoi_10m}</td>
       <td>{!item.hs_tu_10m_den_20m ? '0' : item.hs_tu_10m_den_20m}</td>
