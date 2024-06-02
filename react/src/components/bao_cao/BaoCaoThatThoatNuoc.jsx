@@ -101,7 +101,7 @@ export default function BaoCaoThatThoatNuoc() {
       <h2 className="title">Báo cáo thống kê thất thoát nước</h2>
       <form className="form-container" onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="">Kỳ hóa đơn</label>
+          <label htmlFor="">Kỳ chỉ số</label>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '10px' }}>
             <Thang
               onChange={handleSelectChange}
