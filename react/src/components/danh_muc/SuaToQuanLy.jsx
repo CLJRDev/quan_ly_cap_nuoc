@@ -9,6 +9,7 @@ import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ChiNhanh from '../select-option/ChiNhanh'
+import Sidebar from '../layouts/Sidebar'
 
 export default function SuaToQuanLy() {
   const navigate = useNavigate()
@@ -60,29 +61,32 @@ export default function SuaToQuanLy() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Sửa tổ quản lý</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_to_quan_ly">Tên tổ quản lý</label>
-          <input type="text" id="ten_to_quan_ly" required name="ten_to_quan_ly" value={tenToQuanLy} onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="chi_nhanh">Chi nhánh</label>
-          <ChiNhanh
-            require={true}
-            onChange={handleSelectChange}
-            value={selectedOptions.chi_nhanh}
-          />
-        </div>
-        <div>
-          <button type="submit" className="btn-add">
-            <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Sửa tổ quản lý
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Sửa tổ quản lý</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_to_quan_ly">Tên tổ quản lý</label>
+            <input type="text" id="ten_to_quan_ly" required name="ten_to_quan_ly" value={tenToQuanLy} onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="chi_nhanh">Chi nhánh</label>
+            <ChiNhanh
+              require={true}
+              onChange={handleSelectChange}
+              value={selectedOptions.chi_nhanh}
+            />
+          </div>
+          <div>
+            <button type="submit" className="btn-add">
+              <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Sửa tổ quản lý
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

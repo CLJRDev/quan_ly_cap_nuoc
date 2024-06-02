@@ -8,7 +8,7 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Sidebar from '../layouts/Sidebar'
 
 export default function ThemPhuongXa() {
   const navigate = useNavigate()
@@ -75,29 +75,32 @@ export default function ThemPhuongXa() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Thêm phường xã</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_phuong_xa">Tên phường xã</label>
-          <input required type="text" id='ten_phuong_xa' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="">Tên quận huyện</label>
-          <Select
-            required
-            options={quanHuyenOptions}
-            onChange={handleSelectChange}
-          />
-        </div>
-        <div>
-          <button className="btn-add" type="submit">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Thêm phường xã
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Thêm phường xã</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_phuong_xa">Tên phường xã</label>
+            <input required type="text" id='ten_phuong_xa' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="">Tên quận huyện</label>
+            <Select
+              required
+              options={quanHuyenOptions}
+              onChange={handleSelectChange}
+            />
+          </div>
+          <div>
+            <button className="btn-add" type="submit">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Thêm phường xã
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

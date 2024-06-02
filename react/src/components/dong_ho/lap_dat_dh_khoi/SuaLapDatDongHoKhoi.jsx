@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Select from 'react-select'
 import { MdOutlineEdit } from "react-icons/md"
 import TuyenDoc from "../../select-option/TuyenDoc"
+import Sidebar from '../../layouts/Sidebar'
 
 export default function SuaLapDatDongHoKhoi() {
   const { id } = useParams()
@@ -58,32 +59,35 @@ export default function SuaLapDatDongHoKhoi() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Sửa lắp đặt đồng hồ khối</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ma_dong_ho">Mã đồng hồ</label>
-          <input readOnly type="number" id='ma_dong_ho' name="ma_dong_ho" value={dongHo.ma_dong_ho} />
-        </div>
-        <div>
-          <label htmlFor="">Tuyến đọc</label>
-          <TuyenDoc
-            onChange={handleSelectChange}
-            value={tuyenDocOption}
-          />
-        </div>
-        <div>
-          <label htmlFor="tu_ngay">Ngày lắp</label>
-          <input type="date" id='tu_ngay' name="tu_ngay" onChange={handleInputChange} value={dongHo.tu_ngay} />
-        </div>
-        <div></div>
-        <div>
-          <button className="btn-edit" type="submit">
-            <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Sửa lắp đặt
-          </button>
-        </div>
-      </form>
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Sửa lắp đặt đồng hồ khối</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ma_dong_ho">Mã đồng hồ</label>
+            <input readOnly type="number" id='ma_dong_ho' name="ma_dong_ho" value={dongHo.ma_dong_ho} />
+          </div>
+          <div>
+            <label htmlFor="">Tuyến đọc</label>
+            <TuyenDoc
+              onChange={handleSelectChange}
+              value={tuyenDocOption}
+            />
+          </div>
+          <div>
+            <label htmlFor="tu_ngay">Ngày lắp</label>
+            <input type="date" id='tu_ngay' name="tu_ngay" onChange={handleInputChange} value={dongHo.tu_ngay} />
+          </div>
+          <div></div>
+          <div>
+            <button className="btn-edit" type="submit">
+              <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Sửa lắp đặt
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   )
 }

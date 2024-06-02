@@ -8,6 +8,7 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '../layouts/Sidebar'
 
 export default function LoaiKhachHang() {
   const [loaiKhachHangs, setLoaiKhachHangs] = useState(null)
@@ -72,37 +73,40 @@ export default function LoaiKhachHang() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý danh mục loại khách hàng</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_loai_khach_hang">Tên loại khách hàng</label>
-          <input required type="text" id='ten_loai_khach_hang' ref={tenLoaiKhachHangRef} />
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Quản lý danh mục loại khách hàng</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_loai_khach_hang">Tên loại khách hàng</label>
+            <input required type="text" id='ten_loai_khach_hang' ref={tenLoaiKhachHangRef} />
+          </div>
+          <div></div>
+          <div>
+            <button className="btn-add" type="submit">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Thêm loại khách hàng
+            </button>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Danh sách loại khách hàng</div>
+          <table>
+            <thead>
+              <tr>
+                <th style={{ width: '150px' }}>Mã loại KH</th>
+                <th style={{ textAlign: 'left' }}>Tên loại khách hàng</th>
+                <th style={{ width: '150px' }}>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loaiKhachHangElements}
+            </tbody>
+          </table>
         </div>
-        <div></div>
-        <div>
-          <button className="btn-add" type="submit">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Thêm loại khách hàng
-          </button>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách loại khách hàng</div>
-        <table>
-          <thead>
-            <tr>
-              <th style={{ width: '150px' }}>Mã loại KH</th>
-              <th style={{ textAlign: 'left' }}>Tên loại khách hàng</th>
-              <th style={{ width: '150px' }}>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loaiKhachHangElements}
-          </tbody>
-        </table>
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </>
   )
 }

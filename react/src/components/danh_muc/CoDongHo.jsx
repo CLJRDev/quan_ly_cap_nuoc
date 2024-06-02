@@ -7,6 +7,7 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '../layouts/Sidebar'
 
 
 export default function CoDongHo() {
@@ -73,37 +74,40 @@ export default function CoDongHo() {
 
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý danh mục cỡ đồng hồ</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_co_dong_ho">Tên cỡ đồng hồ</label>
-          <input required type="text" id='ten_co_dong_ho' ref={tenCoDongHoRef} />
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Quản lý danh mục cỡ đồng hồ</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_co_dong_ho">Tên cỡ đồng hồ</label>
+            <input required type="text" id='ten_co_dong_ho' ref={tenCoDongHoRef} />
+          </div>
+          <div></div>
+          <div>
+            <button className="btn-add" type="submit">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Thêm cỡ đồng hồ
+            </button>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Danh sách cỡ đồng hồ</div>
+          <table>
+            <thead>
+              <tr>
+                <th style={{ width: '150px' }}>Mã CĐH</th>
+                <th style={{ textAlign: 'left' }}>Tên cỡ đồng hồ</th>
+                <th style={{ width: '150px' }}>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {coDongHoElements}
+            </tbody>
+          </table>
         </div>
-        <div></div>
-        <div>
-          <button className="btn-add" type="submit">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Thêm cỡ đồng hồ
-          </button>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách cỡ đồng hồ</div>
-        <table>
-          <thead>
-            <tr>
-              <th style={{ width: '150px' }}>Mã CĐH</th>
-              <th style={{ textAlign: 'left' }}>Tên cỡ đồng hồ</th>
-              <th style={{ width: '150px' }}>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {coDongHoElements}
-          </tbody>
-        </table>
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </>
   )
 }

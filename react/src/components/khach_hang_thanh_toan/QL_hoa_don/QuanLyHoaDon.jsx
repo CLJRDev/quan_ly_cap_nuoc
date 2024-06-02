@@ -15,6 +15,7 @@ import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../../layouts/Paginate"
+import Sidebar from '../../layouts/Sidebar'
 
 export default function QuanLyHoaDon() {
   const [hoaDons, setHoaDons] = useState([])
@@ -62,7 +63,8 @@ export default function QuanLyHoaDon() {
       <td>
         {/* <button className="btn-edit">Gửi Email</button> */}
         <Link to={`/hoa_don/xem/${item.ma_hoa_don}`} className="btn-edit">Xem chi tiết</Link>&nbsp;
-        <button className="btn-edit">Hợp đồng</button>
+        <button className="btn-edit">Hợp đồng</button>&nbsp;
+        <button className="btn-edit">Gửi email</button>
       </td>
     </tr>
   })
@@ -125,76 +127,79 @@ export default function QuanLyHoaDon() {
   }
 
   return (
-    <div className='page'>
-      <h2 className="title">Quản lý hóa đơn</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ma_hop_dong">Mã hợp đồng</label>
-          <input type="number" id='ma_hop_dong' name='ma_hop_dong' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="ma_dong_ho">Mã đồng hồ</label>
-          <input type="number" id='ma_dong_ho' name='ma_dong_ho' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="">Kỳ hóa đơn</label>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '10px' }}>
-            <Thang
+    <>
+      <Sidebar />
+      <div className='page'>
+        <h2 className="title">Quản lý hóa đơn</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ma_hop_dong">Mã hợp đồng</label>
+            <input type="number" id='ma_hop_dong' name='ma_hop_dong' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="ma_dong_ho">Mã đồng hồ</label>
+            <input type="number" id='ma_dong_ho' name='ma_dong_ho' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="">Kỳ hóa đơn</label>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '10px' }}>
+              <Thang
+                onChange={handleSelectChange}
+                name='thang'
+              />
+              <Nam
+                onChange={handleSelectChange}
+                name='nam'
+              />
+            </div>
+          </div>
+          <div>
+            <label htmlFor="">Ngày ghi</label>
+            <DateRangeComp onDateChange={handleNgayGhiChange} />
+          </div>
+          <div>
+            <label htmlFor="">Tuyến đọc</label>
+            <TuyenDoc
+              isSearch={true}
+              name='ma_tuyen'
               onChange={handleSelectChange}
-              name='thang'
-            />
-            <Nam
-              onChange={handleSelectChange}
-              name='nam'
             />
           </div>
-        </div>
-        <div>
-          <label htmlFor="">Ngày ghi</label>
-          <DateRangeComp onDateChange={handleNgayGhiChange} />
-        </div>
-        <div>
-          <label htmlFor="">Tuyến đọc</label>
-          <TuyenDoc
-            isSearch={true}
-            name='ma_tuyen'
-            onChange={handleSelectChange}
+          <div></div>
+          <div>
+            <button type="submit" className="btn-search">
+              <IoMdSearch style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Tìm kiếm
+            </button>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Danh sách hóa đơn</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Mã HĐ</th>
+                <th>Mã ĐH</th>
+                <th>Tên KH</th>
+                <th>Kỳ hóa đơn</th>
+                <th>Số tiêu thụ</th>
+                <th>Tiền trước thuế</th>
+                <th>Tiền thuế</th>
+                <th>Tổng tiền</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {hoaDonElements}
+            </tbody>
+          </table>
+          <Paginate
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
           />
         </div>
-        <div></div>
-        <div>
-          <button type="submit" className="btn-search">
-            <IoMdSearch style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Tìm kiếm
-          </button>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách hóa đơn</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Mã HĐ</th>
-              <th>Mã ĐH</th>
-              <th>Tên KH</th>
-              <th>Kỳ hóa đơn</th>
-              <th>Số tiêu thụ</th>
-              <th>Tiền trước thuế</th>
-              <th>Tiền thuế</th>
-              <th>Tổng tiền</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {hoaDonElements}
-          </tbody>
-        </table>
-        <Paginate
-          pageCount={pageCount}
-          onPageChange={handlePageClick}
-        />
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </>
   )
 }

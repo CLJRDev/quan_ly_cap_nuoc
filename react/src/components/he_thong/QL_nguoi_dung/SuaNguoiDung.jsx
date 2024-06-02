@@ -7,6 +7,7 @@ import WarningToast from '../../notification/WarningToast';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TrangThai from '../../select-option/TrangThai'
+import Sidebar from '../../layouts/Sidebar'
 
 
 export default function SuaNguoiDung() {
@@ -80,53 +81,56 @@ export default function SuaNguoiDung() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Sửa người dùng</h2>
-      <form className="form-container" onSubmit={handleSubmit} >
-        <div>
-          <label htmlFor="ho_ten">Họ tên</label>
-          <input type="text" id='ho_ten' name='ho_ten' required onChange={handleChange} value={user.ho_ten} />
-        </div>
-        <div>
-          <label htmlFor="chuc_vu">Chức vụ</label>
-          <input type="text" id='chuc_vu' name='chuc_vu' required onChange={handleChange} value={user.chuc_vu} />
-        </div>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input type="email" id='email' name='email' required onChange={handleChange} value={user.email} />
-        </div>
-        <div>
-          <label htmlFor="sdt">Số điện thoại</label>
-          <input type="number" id='sdt' name='sdt' required onChange={handleChange} value={user.sdt} />
-        </div>
-        <div>
-          <label htmlFor="mat_khau">Mật khẩu</label>
-          <input type="password" id='mat_khau' name='mat_khau' ref={matKhauRef} />
-        </div>
-        <div>
-          <label htmlFor="xac_nhan_mat_khau">Xác nhận mật khẩu</label>
-          <input type="password" id='xac_nhan_mat_khau' name='xac_nhan_mat_khau' ref={xacNhanMatKhauRef} />
-        </div>
-        <div>
-          <label htmlFor="ngay_sinh">Ngày sinh</label>
-          <input type="date" id='ngay_sinh' name='ngay_sinh' required onChange={handleChange} value={user.ngay_sinh} />
-        </div>
-        <div>
-          <label htmlFor="trang_thai">Trạng thái</label>
-          <TrangThai
-            name='trang_thai'
-            onChange={handleSelectChange}
-            value={selectedOptions.trang_thai}
-          />
-        </div>
-        <div>
-          <button type='submit' className='btn-edit'>
-            <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Sửa người dùng
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Sửa người dùng</h2>
+        <form className="form-container" onSubmit={handleSubmit} >
+          <div>
+            <label htmlFor="ho_ten">Họ tên</label>
+            <input type="text" id='ho_ten' name='ho_ten' required onChange={handleChange} value={user.ho_ten} />
+          </div>
+          <div>
+            <label htmlFor="chuc_vu">Chức vụ</label>
+            <input type="text" id='chuc_vu' name='chuc_vu' required onChange={handleChange} value={user.chuc_vu} />
+          </div>
+          <div>
+            <label htmlFor="email">Email</label>
+            <input type="email" id='email' name='email' required onChange={handleChange} value={user.email} />
+          </div>
+          <div>
+            <label htmlFor="sdt">Số điện thoại</label>
+            <input type="number" id='sdt' name='sdt' required onChange={handleChange} value={user.sdt} />
+          </div>
+          <div>
+            <label htmlFor="mat_khau">Mật khẩu</label>
+            <input type="password" id='mat_khau' name='mat_khau' ref={matKhauRef} />
+          </div>
+          <div>
+            <label htmlFor="xac_nhan_mat_khau">Xác nhận mật khẩu</label>
+            <input type="password" id='xac_nhan_mat_khau' name='xac_nhan_mat_khau' ref={xacNhanMatKhauRef} />
+          </div>
+          <div>
+            <label htmlFor="ngay_sinh">Ngày sinh</label>
+            <input type="date" id='ngay_sinh' name='ngay_sinh' required onChange={handleChange} value={user.ngay_sinh} />
+          </div>
+          <div>
+            <label htmlFor="trang_thai">Trạng thái</label>
+            <TrangThai
+              name='trang_thai'
+              onChange={handleSelectChange}
+              value={selectedOptions.trang_thai}
+            />
+          </div>
+          <div>
+            <button type='submit' className='btn-edit'>
+              <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Sửa người dùng
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

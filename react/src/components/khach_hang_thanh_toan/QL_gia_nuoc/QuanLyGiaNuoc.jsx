@@ -10,7 +10,7 @@ import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../../layouts/Paginate"
-
+import Sidebar from '../../layouts/Sidebar'
 
 export default function QuanLyGiaNuoc() {
   const [loaiKhachHangs, setLoaiKhachHangs] = useState(null)
@@ -126,59 +126,62 @@ export default function QuanLyGiaNuoc() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý giá nước</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_nhom_gia">Tên nhóm giá</label>
-          <input type="text" id='ten_nhom_gia' name='ten_nhom_gia' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="loai_khach_hang">Loại khách hàng</label>
-          <Select
-            options={options}
-            onChange={handleSelectChange}
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Quản lý giá nước</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_nhom_gia">Tên nhóm giá</label>
+            <input type="text" id='ten_nhom_gia' name='ten_nhom_gia' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="loai_khach_hang">Loại khách hàng</label>
+            <Select
+              options={options}
+              onChange={handleSelectChange}
+            />
+          </div>
+          <div>
+            <button type="submit" className="btn-search">
+              <IoMdSearch style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Tìm kiếm
+            </button>
+            &nbsp;
+            <Link to='/gia_nuoc/them' className="btn-add">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Thêm nhóm giá
+            </Link>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Danh sách nhóm giá</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Tên nhóm giá</th>
+                <th>Loại khách hàng</th>
+                <th>HS dưới 10m³</th>
+                <th>HS 10m³ đến 20m³</th>
+                <th>HS 20m³ đến 30m³</th>
+                <th>HS trên 30m³</th>
+                <th>HS riêng</th>
+                <th>HS thuế</th>
+                <th>Giá bán</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {giaElements}
+            </tbody>
+          </table>
+          <Paginate
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
           />
         </div>
-        <div>
-          <button type="submit" className="btn-search">
-            <IoMdSearch style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Tìm kiếm
-          </button>
-          &nbsp;
-          <Link to='/gia_nuoc/them' className="btn-add">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Thêm nhóm giá
-          </Link>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách nhóm giá</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Tên nhóm giá</th>
-              <th>Loại khách hàng</th>
-              <th>HS dưới 10m³</th>
-              <th>HS 10m³ đến 20m³</th>
-              <th>HS 20m³ đến 30m³</th>
-              <th>HS trên 30m³</th>
-              <th>HS riêng</th>
-              <th>HS thuế</th>
-              <th>Giá bán</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {giaElements}
-          </tbody>
-        </table>
-        <Paginate
-          pageCount={pageCount}
-          onPageChange={handlePageClick}
-        />
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </>
   )
 }

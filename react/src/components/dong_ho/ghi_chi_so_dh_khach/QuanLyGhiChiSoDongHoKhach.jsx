@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useState, useEffect } from "react"
 import HopDong from "../../select-option/HopDong"
 import DongHoKhach from "../../select-option/DongHoKhach"
+import Sidebar from '../../layouts/Sidebar'
 
 export default function QuanLyGhiChiSoDongHoKhach() {
   const [lichSus, setLichSus] = useState([])
@@ -77,55 +78,59 @@ export default function QuanLyGhiChiSoDongHoKhach() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý ghi chỉ số đồng hồ KHÁCH HÀng</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="">Mã hợp đồng</label>
-          <HopDong
-            onChange={handleSelectChange}
-            name='ma_hop_dong'
-          />
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Quản lý ghi chỉ số đồng hồ KHÁCH HÀng</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="">Mã hợp đồng</label>
+            <HopDong
+              onChange={handleSelectChange}
+              name='ma_hop_dong'
+            />
+          </div>
+          <div>
+            <label htmlFor="">Mã đồng hồ</label>
+            <DongHoKhach
+              onChange={handleSelectChange}
+              name='ma_dong_ho'
+            />
+          </div>
+          <div>
+            <button type="submit" className="btn-search">
+              <IoMdSearch style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Tìm kiếm
+            </button>
+            &nbsp;
+            <Link to='/ghi_chi_so_dh_khach/thoi_gian' className="btn-add">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Ghi chỉ số
+            </Link>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Lịch sử ghi chỉ số đồng hồ khách hàng</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Mã đồng hồ</th>
+                <th>Kỳ hóa đơn</th>
+                <th>Từ ngày</th>
+                <th>Đến ngày</th>
+                <th>Chỉ số cũ</th>
+                <th>Chỉ số mới</th>
+                <th>Số tiêu thụ</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {lichSuElements}
+            </tbody>
+          </table>
         </div>
-        <div>
-          <label htmlFor="">Mã đồng hồ</label>
-          <DongHoKhach
-            onChange={handleSelectChange}
-            name='ma_dong_ho'
-          />
-        </div>
-        <div>
-          <button type="submit" className="btn-search">
-            <IoMdSearch style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Tìm kiếm
-          </button>
-          &nbsp;
-          <Link to='/ghi_chi_so_dh_khach/thoi_gian' className="btn-add">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Ghi chỉ số
-          </Link>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Lịch sử ghi chỉ số đồng hồ khách hàng</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Mã đồng hồ</th>
-              <th>Kỳ hóa đơn</th>
-              <th>Từ ngày</th>
-              <th>Đến ngày</th>
-              <th>Chỉ số cũ</th>
-              <th>Chỉ số mới</th>
-              <th>Số tiêu thụ</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {lichSuElements}
-          </tbody>
-        </table>
       </div>
-    </div>
+    </>
+
   )
 }

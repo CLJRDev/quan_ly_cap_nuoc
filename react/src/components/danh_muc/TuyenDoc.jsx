@@ -13,6 +13,7 @@ import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../layouts/Paginate"
+import Sidebar from '../layouts/Sidebar'
 
 export default function TuyenDoc() {
   const [tuyenDocs, setTuyenDocs] = useState([])
@@ -136,65 +137,68 @@ export default function TuyenDoc() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý danh mục tuyến đọc</h2>
-      <form className="form-container animated fadeInDown" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_tuyen">Tên tuyến đọc</label>
-          <input type="text" id="ten_tuyen" name='ten_tuyen' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="chi_nhanh">Tổ quản lý</label>
-          <ToQuanLy
-            isSearch={true}
-            onChange={handleSelectChange}
-            name="ma_to_quan_ly"
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Quản lý danh mục tuyến đọc</h2>
+        <form className="form-container animated fadeInDown" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_tuyen">Tên tuyến đọc</label>
+            <input type="text" id="ten_tuyen" name='ten_tuyen' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="chi_nhanh">Tổ quản lý</label>
+            <ToQuanLy
+              isSearch={true}
+              onChange={handleSelectChange}
+              name="ma_to_quan_ly"
+            />
+          </div>
+          <div>
+            <label htmlFor="chi_nhanh">Phường xã</label>
+            <PhuongXa
+              isSearch={true}
+              onChange={handleSelectChange}
+              name="ma_phuong_xa"
+            />
+          </div>
+          <div></div>
+          <div>
+            <button type="submit" className="btn-search">
+              <IoMdSearch style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Tìm kiếm
+            </button>
+            &nbsp;
+            <Link to='/tuyen_doc/them' className="btn-add">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Thêm tuyến đọc
+            </Link>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Danh sách tuyến đọc</div>
+          <table>
+            <thead>
+              <tr>
+                <th style={{ width: '150px' }}>Mã tuyến đọc</th>
+                <th>Tuyến đọc</th>
+                <th style={{ width: '120px' }}>Trạng thái</th>
+                <th>Phường xã</th>
+                <th>Tổ quản lý</th>
+                <th style={{ width: '200px' }}>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tuyenDocElements}
+            </tbody>
+          </table>
+          <Paginate
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
           />
         </div>
-        <div>
-          <label htmlFor="chi_nhanh">Phường xã</label>
-          <PhuongXa
-            isSearch={true}
-            onChange={handleSelectChange}
-            name="ma_phuong_xa"
-          />
-        </div>
-        <div></div>
-        <div>
-          <button type="submit" className="btn-search">
-            <IoMdSearch style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Tìm kiếm
-          </button>
-          &nbsp;
-          <Link to='/tuyen_doc/them' className="btn-add">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Thêm tuyến đọc
-          </Link>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách tuyến đọc</div>
-        <table>
-          <thead>
-            <tr>
-              <th style={{ width: '150px' }}>Mã tuyến đọc</th>
-              <th>Tuyến đọc</th>
-              <th style={{ width: '120px' }}>Trạng thái</th>
-              <th>Phường xã</th>
-              <th>Tổ quản lý</th>
-              <th style={{ width: '200px' }}>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tuyenDocElements}
-          </tbody>
-        </table>
-        <Paginate
-          pageCount={pageCount}
-          onPageChange={handlePageClick}
-        />
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </>
   )
 }

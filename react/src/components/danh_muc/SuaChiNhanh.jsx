@@ -7,6 +7,7 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '../layouts/Sidebar'
 
 
 export default function SuaChiNhanh() {
@@ -62,25 +63,28 @@ export default function SuaChiNhanh() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Sửa chi nhánh</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_chi_nhanh">Tên chi nhánh</label>
-          <input required type="text" name="ten_chi_nhanh" id="ten_chi_nhanh" onChange={handleChange} value={chiNhanh.ten_chi_nhanh} />
-        </div>
-        <div>
-          <label htmlFor="dia_chi">Địa chỉ</label>
-          <input required type="text" name="dia_chi" id="dia_chi" onChange={handleChange} value={chiNhanh.dia_chi} />
-        </div>
-        <div>
-          <button type="submit" className="btn-edit">
-            <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Sửa chi nhánh
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Sửa chi nhánh</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_chi_nhanh">Tên chi nhánh</label>
+            <input required type="text" name="ten_chi_nhanh" id="ten_chi_nhanh" onChange={handleChange} value={chiNhanh.ten_chi_nhanh} />
+          </div>
+          <div>
+            <label htmlFor="dia_chi">Địa chỉ</label>
+            <input required type="text" name="dia_chi" id="dia_chi" onChange={handleChange} value={chiNhanh.dia_chi} />
+          </div>
+          <div>
+            <button type="submit" className="btn-edit">
+              <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Sửa chi nhánh
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

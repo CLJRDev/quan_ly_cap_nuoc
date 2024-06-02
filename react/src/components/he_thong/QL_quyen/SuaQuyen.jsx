@@ -8,7 +8,7 @@ import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TrangThai from '../../select-option/TrangThai'
-
+import Sidebar from '../../layouts/Sidebar'
 
 export default function SuaQuyen() {
   const navigate = useNavigate()
@@ -66,29 +66,32 @@ export default function SuaQuyen() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Sửa quyền</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_quyen">Tên quyền</label>
-          <input type="text" id='ten_quyen' name='ten_quyen' value={quyen.ten_quyen} onChange={handleChange} />
-        </div>
-        <div>
-          <label htmlFor="trang_thai">Trạng thái</label>
-          <TrangThai
-            name='trang_thai'
-            onChange={handleSelectChange}
-            value={selectedOptions.trang_thai}
-          />
-        </div>
-        <div>
-          <button type="submit" className="btn-edit">
-            <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Sửa quyền
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Sửa quyền</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_quyen">Tên quyền</label>
+            <input type="text" id='ten_quyen' name='ten_quyen' value={quyen.ten_quyen} onChange={handleChange} />
+          </div>
+          <div>
+            <label htmlFor="trang_thai">Trạng thái</label>
+            <TrangThai
+              name='trang_thai'
+              onChange={handleSelectChange}
+              value={selectedOptions.trang_thai}
+            />
+          </div>
+          <div>
+            <button type="submit" className="btn-edit">
+              <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Sửa quyền
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

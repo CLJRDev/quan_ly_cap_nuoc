@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { VscDebugContinue } from "react-icons/vsc"
 import Nam from '../../select-option/Nam'
 import Thang from '../../select-option/Thang'
+import Sidebar from '../../layouts/Sidebar'
 
 export default function ChonThoiGianDongHoKhoi() {
   const navigate = useNavigate();
@@ -41,42 +42,45 @@ export default function ChonThoiGianDongHoKhoi() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Chọn thời gian</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="">Kỳ hóa đơn</label>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '10px' }}>
-            <Thang
-              onChange={handleSelectChange}
-              name='thang'
-              require={true}
-              value={formData.thang}
-            />
-            <Nam
-              onChange={handleSelectChange}
-              name='nam'
-              require={true}
-              value={formData.nam}
-            />
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Chọn thời gian</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="">Kỳ hóa đơn</label>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '10px' }}>
+              <Thang
+                onChange={handleSelectChange}
+                name='thang'
+                require={true}
+                value={formData.thang}
+              />
+              <Nam
+                onChange={handleSelectChange}
+                name='nam'
+                require={true}
+                value={formData.nam}
+              />
+            </div>
           </div>
-        </div>
-        <div>
-          <label htmlFor="">Từ ngày</label>
-          <input required type="date" name='tu_ngay' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="">Đến ngày</label>
-          <input required type="date" name='den_ngay' onChange={handleInputChange} />
-        </div>
-        <div></div>
-        <div>
-          <button type="submit" className="btn-add">
-            <VscDebugContinue style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Tiếp tục
-          </button>
-        </div>
-      </form>
-    </div>
+          <div>
+            <label htmlFor="">Từ ngày</label>
+            <input required type="date" name='tu_ngay' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="">Đến ngày</label>
+            <input required type="date" name='den_ngay' onChange={handleInputChange} />
+          </div>
+          <div></div>
+          <div>
+            <button type="submit" className="btn-add">
+              <VscDebugContinue style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Tiếp tục
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   )
 }

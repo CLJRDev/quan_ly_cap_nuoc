@@ -11,7 +11,7 @@ import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../../layouts/Paginate"
-
+import Sidebar from '../../layouts/Sidebar'
 
 export default function QuanLyHopDong() {
   const [hopDongs, setHopDongs] = useState([])
@@ -159,83 +159,86 @@ export default function QuanLyHopDong() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý hợp đồng</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ma_hop_dong">Mã hợp đồng</label>
-          <input type="number" id='ma_hop_dong' name='ma_hop_dong' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="ten_nguoi_dai_dien">Tên người đại diện</label>
-          <input type="text" id='ten_nguoi_dai_dien' name='ten_nguoi_dai_dien' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="ma_khach_hang">Mã khách hàng</label>
-          <input type="number" id='ma_khach_hang' name='ma_khach_hang' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="ten_khach_hang">Tên khách hàng</label>
-          <input type="text" id='ten_khach_hang' name='ten_khach_hang' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="ma_dong_ho">Mã đồng hồ</label>
-          <input type="number" id='ma_dong_ho' name='ma_dong_ho' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="">Nhóm giá</label>
-          <NhomGia
-            onChange={handleSelectChange}
-            isSearch={true}
-            name='ma_nhom_gia'
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Quản lý hợp đồng</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ma_hop_dong">Mã hợp đồng</label>
+            <input type="number" id='ma_hop_dong' name='ma_hop_dong' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="ten_nguoi_dai_dien">Tên người đại diện</label>
+            <input type="text" id='ten_nguoi_dai_dien' name='ten_nguoi_dai_dien' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="ma_khach_hang">Mã khách hàng</label>
+            <input type="number" id='ma_khach_hang' name='ma_khach_hang' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="ten_khach_hang">Tên khách hàng</label>
+            <input type="text" id='ten_khach_hang' name='ten_khach_hang' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="ma_dong_ho">Mã đồng hồ</label>
+            <input type="number" id='ma_dong_ho' name='ma_dong_ho' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="">Nhóm giá</label>
+            <NhomGia
+              onChange={handleSelectChange}
+              isSearch={true}
+              name='ma_nhom_gia'
+            />
+          </div>
+          <div>
+            <label htmlFor="dia_chi">Địa chỉ</label>
+            <input type="text" id='dia_chi' name='dia_chi' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="ngay_lap">Ngày lập</label>
+            <input type="date" id='ngay_lap' name='ngay_lap' onChange={handleInputChange} />
+          </div>
+          <div>
+            <button type="submit" className="btn-search">
+              <IoMdSearch style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Tìm kiếm
+            </button>
+            &nbsp;
+            <Link to='/hop_dong/them' className="btn-add">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Thêm hợp đồng
+            </Link>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Danh sách hợp đồng</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Mã HĐ</th>
+                <th>Tên khách hàng</th>
+                <th>Ngày lập</th>
+                <th>Người đại diện</th>
+                <th>Tuyến đọc</th>
+                <th>Địa chỉ</th>
+                <th>Nhóm giá</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {hopDongElements}
+            </tbody>
+          </table>
+          <Paginate
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
           />
         </div>
-        <div>
-          <label htmlFor="dia_chi">Địa chỉ</label>
-          <input type="text" id='dia_chi' name='dia_chi' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="ngay_lap">Ngày lập</label>
-          <input type="date" id='ngay_lap' name='ngay_lap' onChange={handleInputChange} />
-        </div>
-        <div>
-          <button type="submit" className="btn-search">
-            <IoMdSearch style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Tìm kiếm
-          </button>
-          &nbsp;
-          <Link to='/hop_dong/them' className="btn-add">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Thêm hợp đồng
-          </Link>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách hợp đồng</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Mã HĐ</th>
-              <th>Tên khách hàng</th>
-              <th>Ngày lập</th>
-              <th>Người đại diện</th>
-              <th>Tuyến đọc</th>
-              <th>Địa chỉ</th>
-              <th>Nhóm giá</th>
-              <th>Trạng thái</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {hopDongElements}
-          </tbody>
-        </table>
-        <Paginate
-          pageCount={pageCount}
-          onPageChange={handlePageClick}
-        />
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </>
   )
 }

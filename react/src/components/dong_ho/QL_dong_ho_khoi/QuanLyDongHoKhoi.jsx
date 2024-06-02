@@ -18,7 +18,7 @@ import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../../layouts/Paginate"
-
+import Sidebar from '../../layouts/Sidebar'
 
 export default function QuanLyDongHoKhoi() {
   const [dongHoKhois, setDongHoKhois] = useState([])
@@ -223,118 +223,121 @@ export default function QuanLyDongHoKhoi() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý đồng hồ khối</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ma_dong_ho">Mã đồng hồ</label>
-          <input type="text" id='ma_dong_ho' name='ma_dong_ho' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="ten_dong_ho">Tên đồng hồ</label>
-          <input type="text" id='ten_dong_ho' name='ten_dong_ho' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="">Loại đồng hồ</label>
-          <LoaiDongHo
-            onChange={handleSelectChange}
-            isSearch={true}
-            name='ma_loai_dong_ho'
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Quản lý đồng hồ khối</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ma_dong_ho">Mã đồng hồ</label>
+            <input type="text" id='ma_dong_ho' name='ma_dong_ho' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="ten_dong_ho">Tên đồng hồ</label>
+            <input type="text" id='ten_dong_ho' name='ten_dong_ho' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="">Loại đồng hồ</label>
+            <LoaiDongHo
+              onChange={handleSelectChange}
+              isSearch={true}
+              name='ma_loai_dong_ho'
+            />
+          </div>
+          <div>
+            <label htmlFor="">Nhà cung cấp</label>
+            <NhaCungCap
+              onChange={handleSelectChange}
+              isSearch={true}
+              name='ma_nha_cung_cap'
+            />
+          </div>
+          <div>
+            <label htmlFor="">Kích cỡ</label>
+            <CoDongHo
+              onChange={handleSelectChange}
+              isSearch={true}
+              name='ma_co_dong_ho'
+            />
+          </div>
+          <div>
+            <label htmlFor="">Tình trạng</label>
+            <TrangThai
+              isSearch={true}
+              isDongHo={true}
+              onChange={handleSelectChange}
+              name="tinh_trang"
+            />
+          </div>
+          <div>
+            <label htmlFor="">Ngày nhập</label>
+            <DateRangeComp onDateChange={handleNgayNhapChange} />
+          </div>
+          <div>
+            <label htmlFor="">Ngày kiểm định</label>
+            <DateRangeComp onDateChange={handleNgayKiemDinhChange} />
+          </div>
+          <div>
+            <label htmlFor="">Số năm hiệu lực</label>
+            <SliderCom
+              defaultValue={[0, 20]}
+              minDistance={1}
+              min={1}
+              max={20}
+              onChange={handleNamHieuLucChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="">Số tháng bảo hành</label>
+            <SliderCom
+              defaultValue={[0, 99]}
+              minDistance={5}
+              min={1}
+              max={99}
+              onChange={handleThangBaoHanhChange}
+            />
+          </div>
+          <div style={{ marginTop: '25px' }}>
+            <button type="submit" className="btn-search">
+              <IoMdSearch style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Tìm kiếm
+            </button>
+            &nbsp;
+            <Link to='/dong_ho_khoi/them' className="btn-add">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Thêm đồng hồ
+            </Link>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Danh sách đồng hồ khối</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Mã đồng hồ</th>
+                <th>Tên đồng hồ</th>
+                <th>Loại đồng hồ</th>
+                <th>Nhà cung cấp</th>
+                <th>Kích cỡ</th>
+                <th>Tình trạng</th>
+                <th>Ngày nhập</th>
+                <th>Ngày kiểm định</th>
+                <th>Số năm hiệu lực</th>
+                <th>Số tháng bảo hành</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {dongHoKhoiElements}
+            </tbody>
+          </table>
+          <Paginate
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
           />
         </div>
-        <div>
-          <label htmlFor="">Nhà cung cấp</label>
-          <NhaCungCap
-            onChange={handleSelectChange}
-            isSearch={true}
-            name='ma_nha_cung_cap'
-          />
-        </div>
-        <div>
-          <label htmlFor="">Kích cỡ</label>
-          <CoDongHo
-            onChange={handleSelectChange}
-            isSearch={true}
-            name='ma_co_dong_ho'
-          />
-        </div>
-        <div>
-          <label htmlFor="">Tình trạng</label>
-          <TrangThai
-            isSearch={true}
-            isDongHo={true}
-            onChange={handleSelectChange}
-            name="tinh_trang"
-          />
-        </div>
-        <div>
-          <label htmlFor="">Ngày nhập</label>
-          <DateRangeComp onDateChange={handleNgayNhapChange} />
-        </div>
-        <div>
-          <label htmlFor="">Ngày kiểm định</label>
-          <DateRangeComp onDateChange={handleNgayKiemDinhChange} />
-        </div>
-        <div>
-          <label htmlFor="">Số năm hiệu lực</label>
-          <SliderCom
-            defaultValue={[0, 20]}
-            minDistance={1}
-            min={1}
-            max={20}
-            onChange={handleNamHieuLucChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="">Số tháng bảo hành</label>
-          <SliderCom
-            defaultValue={[0, 99]}
-            minDistance={5}
-            min={1}
-            max={99}
-            onChange={handleThangBaoHanhChange}
-          />
-        </div>
-        <div style={{ marginTop: '25px' }}>
-          <button type="submit" className="btn-search">
-            <IoMdSearch style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Tìm kiếm
-          </button>
-          &nbsp;
-          <Link to='/dong_ho_khoi/them' className="btn-add">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Thêm đồng hồ
-          </Link>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách đồng hồ khối</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Mã đồng hồ</th>
-              <th>Tên đồng hồ</th>
-              <th>Loại đồng hồ</th>
-              <th>Nhà cung cấp</th>
-              <th>Kích cỡ</th>
-              <th>Tình trạng</th>
-              <th>Ngày nhập</th>
-              <th>Ngày kiểm định</th>
-              <th>Số năm hiệu lực</th>
-              <th>Số tháng bảo hành</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {dongHoKhoiElements}
-          </tbody>
-        </table>
-        <Paginate
-          pageCount={pageCount}
-          onPageChange={handlePageClick}
-        />
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </>
   )
 }

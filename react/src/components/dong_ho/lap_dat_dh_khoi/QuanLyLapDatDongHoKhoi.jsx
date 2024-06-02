@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from "react"
 import Select from 'react-select'
-
+import Sidebar from '../../layouts/Sidebar'
 
 export default function QuanLyLapDatDongHoKhoi() {
   const [lichSus, setLichSus] = useState([])
@@ -89,54 +89,57 @@ export default function QuanLyLapDatDongHoKhoi() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý lắp đặt đồng hồ khối</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ma_dong_ho">Mã đồng hồ</label>
-          <input type="number" id='ma_dong_ho' name='ma_dong_ho' onChange={handleInputChange} />
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Quản lý lắp đặt đồng hồ khối</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ma_dong_ho">Mã đồng hồ</label>
+            <input type="number" id='ma_dong_ho' name='ma_dong_ho' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="ma_tuyen">Tuyến đọc</label>
+            <TuyenDoc
+              onChange={handleSelectChange}
+              isSearch={true}
+              name='ma_tuyen'
+            />
+          </div>
+          <div>
+            <button type="submit" className="btn-search">
+              <IoMdSearch style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Tìm kiếm
+            </button>
+            &nbsp;
+            <Link to='/lap_dat_dh_khoi/them' className="btn-add">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Lắp đặt đồng hồ
+            </Link>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Lịch sử lắp đặt đồng hồ khối</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Mã đồng hồ</th>
+                <th>Tên đồng hồ</th>
+                <th>Tuyến đọc</th>
+                <th>Ngày lắp</th>
+                <th>Ngày kết thúc</th>
+                <th>Chỉ số đầu</th>
+                <th>Chỉ số cuối</th>
+                <th>Số tiêu thụ</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {lichSuElements}
+            </tbody>
+          </table>
         </div>
-        <div>
-          <label htmlFor="ma_tuyen">Tuyến đọc</label>
-          <TuyenDoc
-            onChange={handleSelectChange}
-            isSearch={true}
-            name='ma_tuyen'
-          />
-        </div>
-        <div>
-          <button type="submit" className="btn-search">
-            <IoMdSearch style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Tìm kiếm
-          </button>
-          &nbsp;
-          <Link to='/lap_dat_dh_khoi/them' className="btn-add">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Lắp đặt đồng hồ
-          </Link>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Lịch sử lắp đặt đồng hồ khối</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Mã đồng hồ</th>
-              <th>Tên đồng hồ</th>
-              <th>Tuyến đọc</th>
-              <th>Ngày lắp</th>
-              <th>Ngày kết thúc</th>
-              <th>Chỉ số đầu</th>
-              <th>Chỉ số cuối</th>
-              <th>Số tiêu thụ</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {lichSuElements}
-          </tbody>
-        </table>
       </div>
-    </div>
+    </>
   )
 }

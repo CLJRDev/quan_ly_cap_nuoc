@@ -2,7 +2,7 @@ import axios from "axios"
 import { useState, useEffect, useRef } from "react"
 import { IoIosAddCircleOutline } from "react-icons/io"
 import { IoMdSearch } from "react-icons/io"
-import { Link } from "react-router-dom"
+import { Link, Route } from "react-router-dom"
 import SuccessToast from '../notification/SuccessToast'
 import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../layouts/Paginate"
 import QuanHuyen from "../select-option/QuanHuyen"
+import Sidebar from '../layouts/Sidebar'
 
 
 export default function PhuongXa() {
@@ -102,53 +103,56 @@ export default function PhuongXa() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý danh mục phường xã</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_phuong_xa">Tên phường xã</label>
-          <input type="text" id='ten_phuong_xa' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="">Tên quận huyện</label>
-          <QuanHuyen
-            onChange={handleSelectChange}
-            isSearch={true}
+    <>
+      <Route />
+      <div className="page">
+        <h2 className="title">Quản lý danh mục phường xã</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_phuong_xa">Tên phường xã</label>
+            <input type="text" id='ten_phuong_xa' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="">Tên quận huyện</label>
+            <QuanHuyen
+              onChange={handleSelectChange}
+              isSearch={true}
+            />
+          </div>
+          <div>
+            <button className="btn-add" type="submit">
+              <IoMdSearch style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Tìm kiếm
+            </button>
+            &nbsp;
+            <Link className="btn-add" to='/phuong_xa/them'>
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Thêm phường xã
+            </Link>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Danh sách phường xã</div>
+          <table>
+            <thead>
+              <tr>
+                <th style={{ width: '150px' }}>Mã phường xã</th>
+                <th>Tên phường xã</th>
+                <th>Tên quận huyện</th>
+                <th style={{ width: '150px' }}>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {phuongXaElements}
+            </tbody>
+          </table>
+          <Paginate
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
           />
         </div>
-        <div>
-          <button className="btn-add" type="submit">
-            <IoMdSearch style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Tìm kiếm
-          </button>
-          &nbsp;
-          <Link className="btn-add" to='/phuong_xa/them'>
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Thêm phường xã
-          </Link>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách phường xã</div>
-        <table>
-          <thead>
-            <tr>
-              <th style={{ width: '150px' }}>Mã phường xã</th>
-              <th>Tên phường xã</th>
-              <th>Tên quận huyện</th>
-              <th style={{ width: '150px' }}>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {phuongXaElements}
-          </tbody>
-        </table>
-        <Paginate
-          pageCount={pageCount}
-          onPageChange={handlePageClick}
-        />
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </>
   )
 }

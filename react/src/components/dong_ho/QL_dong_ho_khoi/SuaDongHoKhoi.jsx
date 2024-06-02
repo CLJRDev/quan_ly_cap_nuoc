@@ -11,6 +11,7 @@ import ErrorToast from '../../notification/ErrorToast'
 import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '../../layouts/Sidebar'
 
 export default function SuaDongHoKhoi() {
   const { id } = useParams()
@@ -100,71 +101,74 @@ export default function SuaDongHoKhoi() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Sửa đồng hồ khối</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_dong_ho">Tên đồng hồ</label>
-          <input type="text" id='ten_dong_ho' name='ten_dong_ho' onChange={handleInputChange} value={dongHo.ten_dong_ho} />
-        </div>
-        <div>
-          <label htmlFor="">Loại đồng hồ</label>
-          <LoaiDongHo
-            onChange={handleSelectChange}
-            name="loai_dong_ho"
-            value={selectedOptions.loai_dong_ho}
-          />
-        </div>
-        <div>
-          <label htmlFor="">Nhà cung cấp</label>
-          <NhaCungCap
-            onChange={handleSelectChange}
-            name="nha_cung_cap"
-            value={selectedOptions.nha_cung_cap}
-          />
-        </div>
-        <div>
-          <label htmlFor="">Kích cỡ</label>
-          <CoDongHo
-            onChange={handleSelectChange}
-            name="co_dong_ho"
-            value={selectedOptions.co_dong_ho}
-          />
-        </div>
-        <div>
-          <label htmlFor="">Tình trạng</label>
-          <Select
-            options={trangThaiOptions}
-            onChange={handleSelectChange}
-            name="tinh_trang"
-            value={selectedOptions.tinh_trang}
-          />
-        </div>
-        <div>
-          <label htmlFor="ngay_nhap">Ngày nhập</label>
-          <input type="date" id='ngay_nhap' name='ngay_nhap' onChange={handleInputChange} value={dongHo.ngay_nhap} />
-        </div>
-        <div>
-          <label htmlFor="ngay_kiem_dinh">Ngày kiểm định</label>
-          <input type="date" id='ngay_kiem_dinh' name='ngay_kiem_dinh' onChange={handleInputChange} value={dongHo.ngay_kiem_dinh} />
-        </div>
-        <div>
-          <label htmlFor="so_nam_hieu_luc">Số năm hiệu lực</label>
-          <input type="number" id='so_nam_hieu_luc' name='so_nam_hieu_luc' onChange={handleInputChange} value={dongHo.so_nam_hieu_luc} />
-        </div>
-        <div>
-          <label htmlFor="so_thang_bao_hanh">Số tháng bảo hành</label>
-          <input type="number" id='so_thang_bao_hanh' name='so_thang_bao_hanh' onChange={handleInputChange} value={dongHo.so_thang_bao_hanh} />
-        </div>
-        <div></div>
-        <div>
-          <button className="btn-edit" type="submit">
-            <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Sửa đồng hồ
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Sửa đồng hồ khối</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_dong_ho">Tên đồng hồ</label>
+            <input type="text" id='ten_dong_ho' name='ten_dong_ho' onChange={handleInputChange} value={dongHo.ten_dong_ho} />
+          </div>
+          <div>
+            <label htmlFor="">Loại đồng hồ</label>
+            <LoaiDongHo
+              onChange={handleSelectChange}
+              name="loai_dong_ho"
+              value={selectedOptions.loai_dong_ho}
+            />
+          </div>
+          <div>
+            <label htmlFor="">Nhà cung cấp</label>
+            <NhaCungCap
+              onChange={handleSelectChange}
+              name="nha_cung_cap"
+              value={selectedOptions.nha_cung_cap}
+            />
+          </div>
+          <div>
+            <label htmlFor="">Kích cỡ</label>
+            <CoDongHo
+              onChange={handleSelectChange}
+              name="co_dong_ho"
+              value={selectedOptions.co_dong_ho}
+            />
+          </div>
+          <div>
+            <label htmlFor="">Tình trạng</label>
+            <Select
+              options={trangThaiOptions}
+              onChange={handleSelectChange}
+              name="tinh_trang"
+              value={selectedOptions.tinh_trang}
+            />
+          </div>
+          <div>
+            <label htmlFor="ngay_nhap">Ngày nhập</label>
+            <input type="date" id='ngay_nhap' name='ngay_nhap' onChange={handleInputChange} value={dongHo.ngay_nhap} />
+          </div>
+          <div>
+            <label htmlFor="ngay_kiem_dinh">Ngày kiểm định</label>
+            <input type="date" id='ngay_kiem_dinh' name='ngay_kiem_dinh' onChange={handleInputChange} value={dongHo.ngay_kiem_dinh} />
+          </div>
+          <div>
+            <label htmlFor="so_nam_hieu_luc">Số năm hiệu lực</label>
+            <input type="number" id='so_nam_hieu_luc' name='so_nam_hieu_luc' onChange={handleInputChange} value={dongHo.so_nam_hieu_luc} />
+          </div>
+          <div>
+            <label htmlFor="so_thang_bao_hanh">Số tháng bảo hành</label>
+            <input type="number" id='so_thang_bao_hanh' name='so_thang_bao_hanh' onChange={handleInputChange} value={dongHo.so_thang_bao_hanh} />
+          </div>
+          <div></div>
+          <div>
+            <button className="btn-edit" type="submit">
+              <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Sửa đồng hồ
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

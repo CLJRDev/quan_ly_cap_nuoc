@@ -7,7 +7,7 @@ import { useState, useEffect } from "react"
 import DongHoKhoi from "../../select-option/DongHoKhoi"
 import TuyenDoc from "../../select-option/TuyenDoc"
 import Paginate from "../../layouts/Paginate"
-
+import Sidebar from '../../layouts/Sidebar'
 
 export default function QuanLyGhiChiSoDongHoKhoi() {
   const [lichSus, setLichSus] = useState([])
@@ -85,60 +85,63 @@ export default function QuanLyGhiChiSoDongHoKhoi() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý ghi chỉ số đồng hồ khối</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="">Mã đồng hồ</label>
-          <DongHoKhoi
-            onChange={handleSelectChange}
-            name='ma_dong_ho'
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Quản lý ghi chỉ số đồng hồ khối</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="">Mã đồng hồ</label>
+            <DongHoKhoi
+              onChange={handleSelectChange}
+              name='ma_dong_ho'
+            />
+          </div>
+          <div>
+            <label htmlFor="">Tuyến đọc</label>
+            <TuyenDoc
+              onChange={handleSelectChange}
+              name='ma_tuyen'
+            />
+          </div>
+          <div>
+            <button type="submit" className="btn-search">
+              <IoMdSearch style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Tìm kiếm
+            </button>
+            &nbsp;
+            <Link to='/ghi_chi_so_dh_khoi/ghi' className="btn-add">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Ghi chỉ số
+            </Link>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Lịch sử ghi chỉ số đồng hồ khối</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Mã lịch sử</th>
+                <th>Kỳ chỉ số</th>
+                <th>Từ ngày</th>
+                <th>Đến ngày</th>
+                <th>Chỉ số cũ</th>
+                <th>Chỉ số mới</th>
+                <th>Số tiêu thụ</th>
+                <th>Tuyến đọc</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {lichSuElements}
+            </tbody>
+          </table>
+          <Paginate
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
           />
         </div>
-        <div>
-          <label htmlFor="">Tuyến đọc</label>
-          <TuyenDoc
-            onChange={handleSelectChange}
-            name='ma_tuyen'
-          />
-        </div>
-        <div>
-          <button type="submit" className="btn-search">
-            <IoMdSearch style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Tìm kiếm
-          </button>
-          &nbsp;
-          <Link to='/ghi_chi_so_dh_khoi/ghi' className="btn-add">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Ghi chỉ số
-          </Link>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Lịch sử ghi chỉ số đồng hồ khối</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Mã lịch sử</th>
-              <th>Kỳ chỉ số</th>
-              <th>Từ ngày</th>
-              <th>Đến ngày</th>
-              <th>Chỉ số cũ</th>
-              <th>Chỉ số mới</th>
-              <th>Số tiêu thụ</th>
-              <th>Tuyến đọc</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {lichSuElements}
-          </tbody>
-        </table>
-        <Paginate
-          pageCount={pageCount}
-          onPageChange={handlePageClick}
-        />
       </div>
-    </div>
+    </>
   )
 }

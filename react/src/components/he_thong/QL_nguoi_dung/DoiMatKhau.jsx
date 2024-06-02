@@ -1,7 +1,14 @@
+import Sidebar from '../../layouts/Sidebar'
+
+
 export default function DoiMatKhau() {
   return (
-    <div>
-      Đổi mật khẩu
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        Đổi mật khẩu
+      </div>
+    </>
+
   )
 }

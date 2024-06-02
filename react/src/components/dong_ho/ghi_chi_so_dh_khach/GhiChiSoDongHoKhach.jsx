@@ -8,6 +8,7 @@ import ErrorToast from '../../notification/ErrorToast'
 import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '../../layouts/Sidebar'
 
 export default function GhiChiSoDongHoKhach() {
   const location = useLocation();
@@ -92,29 +93,32 @@ export default function GhiChiSoDongHoKhach() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">GHI CHỈ SỐ ĐỒNG HỒ KHÁCH HÀNG</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="">Mã đồng hồ</label>
-          <Select
-            options={dongHoOptions}
-            onChange={handleSelectChange}
-            name='ma_lap_dat'
-          />
-        </div>
-        <div>
-          <label htmlFor="">Chỉ số mới</label>
-          <input required type="number" name='chi_so_moi' onChange={handleInputChange} value={ghiChiSo.chi_so_moi} />
-        </div>
-        <div>
-          <button type="submit" className="btn-add">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Ghi chỉ số
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">GHI CHỈ SỐ ĐỒNG HỒ KHÁCH HÀNG</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="">Mã đồng hồ</label>
+            <Select
+              options={dongHoOptions}
+              onChange={handleSelectChange}
+              name='ma_lap_dat'
+            />
+          </div>
+          <div>
+            <label htmlFor="">Chỉ số mới</label>
+            <input required type="number" name='chi_so_moi' onChange={handleInputChange} value={ghiChiSo.chi_so_moi} />
+          </div>
+          <div>
+            <button type="submit" className="btn-add">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Ghi chỉ số
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

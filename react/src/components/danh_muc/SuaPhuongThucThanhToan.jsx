@@ -7,7 +7,7 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Sidebar from '../layouts/Sidebar'
 
 export default function SuaPhuongThucThanhToan() {
   const { id } = useParams()
@@ -50,22 +50,25 @@ export default function SuaPhuongThucThanhToan() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Sửa phương thức thanh toán</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_phuong_thuc">Tên phương thức</label>
-          <input required type="text" id='ten_phuong_thuc' value={tenPhuongThuc} onChange={handleChange} />
-        </div>
-        <div></div>
-        <div>
-          <button className="btn-add" type="submit">
-            <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Sửa phương thức
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Sửa phương thức thanh toán</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_phuong_thuc">Tên phương thức</label>
+            <input required type="text" id='ten_phuong_thuc' value={tenPhuongThuc} onChange={handleChange} />
+          </div>
+          <div></div>
+          <div>
+            <button className="btn-add" type="submit">
+              <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Sửa phương thức
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

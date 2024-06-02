@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TaiKhoan from '../../select-option/TaiKhoan'
 import Quyen from '../../select-option/Quyen'
+import Sidebar from '../../layouts/Sidebar'
 
 export default function PhanQuyenTaiKhoan() {
   const navigate = useNavigate()
@@ -56,34 +57,37 @@ export default function PhanQuyenTaiKhoan() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Phân quyền tài khoản</h2>
-      <form onSubmit={handleSubmit} className="form-container">
-        <div>
-          <label htmlFor="">Mã nhân viên</label>
-          <TaiKhoan
-            name='ma_nhan_vien'
-            require={true}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="">Tên quyền</label>
-          <Quyen
-            isMulti={true}
-            name='quyens'
-            require={true}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <button type="submit" className="btn-add">
-            <TbSubtask style={{ transform: 'scale(1.2)' }} />&nbsp;
-            Phân quyền
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Phân quyền tài khoản</h2>
+        <form onSubmit={handleSubmit} className="form-container">
+          <div>
+            <label htmlFor="">Mã nhân viên</label>
+            <TaiKhoan
+              name='ma_nhan_vien'
+              require={true}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="">Tên quyền</label>
+            <Quyen
+              isMulti={true}
+              name='quyens'
+              require={true}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <button type="submit" className="btn-add">
+              <TbSubtask style={{ transform: 'scale(1.2)' }} />&nbsp;
+              Phân quyền
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

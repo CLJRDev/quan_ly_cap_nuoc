@@ -8,7 +8,7 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Sidebar from '../layouts/Sidebar'
 
 export default function SuaPhuongXa() {
   const { id } = useParams()
@@ -73,30 +73,33 @@ export default function SuaPhuongXa() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Sửa phường xã</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_phuong_xa">Tên phường xã</label>
-          <input required type="text" id='ten_phuong_xa' onChange={handleInputChange} value={tenPhuongXa} />
-        </div>
-        <div>
-          <label htmlFor="">Tên quận huyện</label>
-          <Select
-            required
-            options={quanHuyenOptions}
-            onChange={handleSelectChange}
-            value={quanHuyenOption}
-          />
-        </div>
-        <div>
-          <button className="btn-add" type="submit">
-            <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Sửa phường xã
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Sửa phường xã</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_phuong_xa">Tên phường xã</label>
+            <input required type="text" id='ten_phuong_xa' onChange={handleInputChange} value={tenPhuongXa} />
+          </div>
+          <div>
+            <label htmlFor="">Tên quận huyện</label>
+            <Select
+              required
+              options={quanHuyenOptions}
+              onChange={handleSelectChange}
+              value={quanHuyenOption}
+            />
+          </div>
+          <div>
+            <button className="btn-add" type="submit">
+              <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Sửa phường xã
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

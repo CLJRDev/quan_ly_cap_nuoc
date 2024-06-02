@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -41,7 +41,7 @@ const DropdownLink = styled(Link)`
 export default function SubMenu({ item }) {
   const [subnav, setSubnav] = useState(false)
   const showSubnav = () => setSubnav(!subnav)
-
+  const quyensArray = JSON.parse(localStorage.getItem('quyens'))
   return (
     <>
       <SidebarLink onClick={item.subNav && showSubnav}>
@@ -59,12 +59,14 @@ export default function SubMenu({ item }) {
       </SidebarLink>
       {subnav &&
         item.subNav.map((item, index) => {
-          return (
-            <DropdownLink to={item.path} key={index}>
-              {item.icon}
-              <SidebarLabel>{item.title}</SidebarLabel>
-            </DropdownLink>
-          );
+          if (quyensArray.includes(item.maQuyen)) {
+            return (
+              <DropdownLink to={item.path} key={index}>
+                {item.icon}
+                <SidebarLabel>{item.title}</SidebarLabel>
+              </DropdownLink>
+            )
+          }
         })}
     </>
   )

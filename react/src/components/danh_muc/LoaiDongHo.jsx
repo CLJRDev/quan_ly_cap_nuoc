@@ -7,6 +7,7 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '../layouts/Sidebar'
 
 export default function LoaiDongHo() {
   const [loaiDongHos, setLoaiDongHos] = useState(null)
@@ -71,37 +72,40 @@ export default function LoaiDongHo() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý danh mục loại đồng hồ</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_loai_dong_ho">Tên loại đồng hồ</label>
-          <input required type="text" id='ten_loai_dong_ho' ref={tenLoaiDongHoRef} />
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Quản lý danh mục loại đồng hồ</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_loai_dong_ho">Tên loại đồng hồ</label>
+            <input required type="text" id='ten_loai_dong_ho' ref={tenLoaiDongHoRef} />
+          </div>
+          <div></div>
+          <div>
+            <button className="btn-add" type="submit">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Thêm loại đồng hồ
+            </button>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Danh sách loại đồng hồ</div>
+          <table>
+            <thead>
+              <tr>
+                <th style={{ width: '150px' }}>Mã loại ĐH</th>
+                <th style={{ textAlign: 'left' }}>Tên loại đồng hồ</th>
+                <th style={{ width: '150px' }}>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loaiDongHoElements}
+            </tbody>
+          </table>
         </div>
-        <div></div>
-        <div>
-          <button className="btn-add" type="submit">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Thêm loại đồng hồ
-          </button>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách loại đồng hồ</div>
-        <table>
-          <thead>
-            <tr>
-              <th style={{ width: '150px' }}>Mã loại ĐH</th>
-              <th style={{ textAlign: 'left' }}>Tên loại đồng hồ</th>
-              <th style={{ width: '150px' }}>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loaiDongHoElements}
-          </tbody>
-        </table>
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </>
   )
 }

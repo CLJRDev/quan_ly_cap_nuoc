@@ -10,11 +10,13 @@ import ErrorToast from '../../notification/ErrorToast'
 import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '../../layouts/Sidebar'
 
 export default function QuanLyLapDatDongHoKhach() {
   const [lichSus, setLichSus] = useState([])
   const [searchData, setSearchData] = useState({
-    ma_dong_ho: ''
+    ma_dong_ho: '',
+    ma_hop_dong: ''
   })
 
   let first = true
@@ -52,10 +54,13 @@ export default function QuanLyLapDatDongHoKhach() {
   }
 
   const timKiem = async () => {
-    const { ma_dong_ho } = searchData;
+    const { ma_dong_ho, ma_hop_dong } = searchData;
     let queryString = '?'
     if (ma_dong_ho != '') {
       queryString += `ma_dong_ho=${ma_dong_ho}&`
+    }
+    if (ma_hop_dong != '') {
+      queryString += `ma_hop_dong=${ma_hop_dong}&`
     }
     console.log(queryString)
     const response = await axios.get(`http://127.0.0.1:8000/api/lap_dat_dh_khach_search/${queryString}`)
@@ -69,49 +74,55 @@ export default function QuanLyLapDatDongHoKhach() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý lắp đặt đồng hồ khách hàng</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ma_dong_ho">Mã đồng hồ</label>
-          <input required type="number" id='ma_dong_ho' name='ma_dong_ho' onChange={handleInputChange} />
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Quản lý lắp đặt đồng hồ khách hàng</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ma_dong_ho">Mã đồng hồ</label>
+            <input type="number" id='ma_dong_ho' name='ma_dong_ho' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="ma_hop_dong">Mã hợp đồng</label>
+            <input type="number" id='ma_hop_dong' name='ma_hop_dong' onChange={handleInputChange} />
+          </div>
+          <div>
+            <button type="submit" className="btn-search">
+              <IoMdSearch style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Tìm kiếm
+            </button>
+            &nbsp;
+            <Link to='/lap_dat_dh_khach/them' className="btn-add">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Lắp đặt đồng hồ
+            </Link>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Lịch sử lắp đặt đồng hồ khách hàng</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Mã đồng hồ</th>
+                <th>Tên đồng hồ</th>
+                <th>Mã hợp đồng</th>
+                <th>Tuyến đọc</th>
+                <th>Ngày lắp</th>
+                <th>Ngày kết thúc</th>
+                <th>Chỉ số đầu</th>
+                <th>Chỉ số cuối</th>
+                <th>Số tiêu thụ</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {lichSuElements}
+            </tbody>
+          </table>
         </div>
-        <div></div>
-        <div>
-          <button type="submit" className="btn-search">
-            <IoMdSearch style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Tìm kiếm
-          </button>
-          &nbsp;
-          <Link to='/lap_dat_dh_khach/them' className="btn-add">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Lắp đặt đồng hồ
-          </Link>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Lịch sử lắp đặt đồng hồ khách hàng</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Mã đồng hồ</th>
-              <th>Tên đồng hồ</th>
-              <th>Mã hợp đồng</th>
-              <th>Tuyến đọc</th>
-              <th>Ngày lắp</th>
-              <th>Ngày kết thúc</th>
-              <th>Chỉ số đầu</th>
-              <th>Chỉ số cuối</th>
-              <th>Số tiêu thụ</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {lichSuElements}
-          </tbody>
-        </table>
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </>
   )
 }

@@ -8,7 +8,7 @@ import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../layouts/Paginate"
-
+import Sidebar from '../layouts/Sidebar'
 
 export default function ChiNhanh() {
   const [chiNhanhs, setChiNhanhs] = useState([])
@@ -93,45 +93,48 @@ export default function ChiNhanh() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý danh mục chi nhánh</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_chi_nhanh">Tên chi nhánh</label>
-          <input required type="text" name="ten_chi_nhanh" id="ten_chi_nhanh" onChange={handleChange} />
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Quản lý danh mục chi nhánh</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_chi_nhanh">Tên chi nhánh</label>
+            <input required type="text" name="ten_chi_nhanh" id="ten_chi_nhanh" onChange={handleChange} />
+          </div>
+          <div>
+            <label htmlFor="dia_chi">Địa chỉ</label>
+            <input required type="text" name="dia_chi" id="dia_chi" onChange={handleChange} />
+          </div>
+          <div>
+            <button type="submit" className="btn-add">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Thêm chi nhánh
+            </button>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Danh sách chi nhánh</div>
+          <table>
+            <thead>
+              <tr>
+                <th style={{ width: '150px' }}>Mã chi nhánh</th>
+                <th style={{ width: '200px' }}>Tên chi nhánh</th>
+                <th>Địa chỉ</th>
+                <th style={{ width: '150px' }}>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {chiNhanhElements}
+            </tbody>
+          </table>
+          <Paginate
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
+          />
         </div>
-        <div>
-          <label htmlFor="dia_chi">Địa chỉ</label>
-          <input required type="text" name="dia_chi" id="dia_chi" onChange={handleChange} />
-        </div>
-        <div>
-          <button type="submit" className="btn-add">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Thêm chi nhánh
-          </button>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách chi nhánh</div>
-        <table>
-          <thead>
-            <tr>
-              <th style={{ width: '150px' }}>Mã chi nhánh</th>
-              <th style={{ width: '200px' }}>Tên chi nhánh</th>
-              <th>Địa chỉ</th>
-              <th style={{ width: '150px' }}>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {chiNhanhElements}
-          </tbody>
-        </table>
-        <Paginate
-          pageCount={pageCount}
-          onPageChange={handlePageClick}
-        />
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </>
   )
 }

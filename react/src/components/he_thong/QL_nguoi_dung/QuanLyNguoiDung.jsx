@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../../layouts/Paginate"
 import TrangThai from '../../select-option/TrangThai'
+import Sidebar from '../../layouts/Sidebar';
 
 export default function QuanLyNguoiDung() {
   const [users, setUsers] = useState([])
@@ -123,74 +124,78 @@ export default function QuanLyNguoiDung() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý người dùng</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ma_nhan_vien">Mã nhân viên</label>
-          <input type="text" id='ma_nhan_vien' name='ma_nhan_vien' onChange={handleChange} />
-        </div>
-        <div>
-          <label htmlFor="chuc_vu">Chức vụ</label>
-          <input type="text" id='chuc_vu' name='chuc_vu' onChange={handleChange} />
-        </div>
-        <div>
-          <label htmlFor="trang_thai">Trạng thái</label>
-          <TrangThai
-            isSearch={true}
-            name='trang_thai'
-            onChange={handleSelectChange}
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Quản lý người dùng</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ma_nhan_vien">Mã nhân viên</label>
+            <input type="text" id='ma_nhan_vien' name='ma_nhan_vien' onChange={handleChange} />
+          </div>
+          <div>
+            <label htmlFor="chuc_vu">Chức vụ</label>
+            <input type="text" id='chuc_vu' name='chuc_vu' onChange={handleChange} />
+          </div>
+          <div>
+            <label htmlFor="trang_thai">Trạng thái</label>
+            <TrangThai
+              isSearch={true}
+              name='trang_thai'
+              onChange={handleSelectChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="sdt">Số điện thoại</label>
+            <input type="number" id='sdt' name='sdt' onChange={handleChange} />
+          </div>
+          <div>
+            <label htmlFor="ho_ten">Họ tên</label>
+            <input type="text" id='ho_ten' name='ho_ten' onChange={handleChange} />
+          </div>
+          <div>
+            <label htmlFor="email">Email</label>
+            <input type="email" id='email' name='email' onChange={handleChange} />
+          </div>
+          <div>
+            <button type="submit" className="btn-search">
+              <IoMdSearch style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Tìm kiếm
+            </button>
+            &nbsp;
+            <Link to='/nguoi_dung/them' className="btn-add">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Thêm người dùng
+            </Link>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Danh sách người dùng</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Mã nhân viên</th>
+                <th>Họ tên</th>
+                <th>Chức vụ</th>
+                <th>Ngày sinh</th>
+                <th>Điện thoại</th>
+                <th>Email</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userElements}
+            </tbody>
+          </table>
+          <Paginate
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
           />
         </div>
-        <div>
-          <label htmlFor="sdt">Số điện thoại</label>
-          <input type="number" id='sdt' name='sdt' onChange={handleChange} />
-        </div>
-        <div>
-          <label htmlFor="ho_ten">Họ tên</label>
-          <input type="text" id='ho_ten' name='ho_ten' onChange={handleChange} />
-        </div>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input type="email" id='email' name='email' onChange={handleChange} />
-        </div>
-        <div>
-          <button type="submit" className="btn-search">
-            <IoMdSearch style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Tìm kiếm
-          </button>
-          &nbsp;
-          <Link to='/nguoi_dung/them' className="btn-add">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Thêm người dùng
-          </Link>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách người dùng</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Mã nhân viên</th>
-              <th>Họ tên</th>
-              <th>Chức vụ</th>
-              <th>Ngày sinh</th>
-              <th>Điện thoại</th>
-              <th>Email</th>
-              <th>Trạng thái</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {userElements}
-          </tbody>
-        </table>
-        <Paginate
-          pageCount={pageCount}
-          onPageChange={handlePageClick}
-        />
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </>
+
   )
 }

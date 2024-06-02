@@ -7,6 +7,7 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '../layouts/Sidebar'
 
 
 export default function NhaCungCap() {
@@ -76,47 +77,50 @@ export default function NhaCungCap() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý danh mục nhà cung cấp đồng hồ</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_nha_cung_cap">Tên nhà cung cấp</label>
-          <input required type="text" id='ten_nha_cung_cap' ref={tenNhaCungCapRef} />
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Quản lý danh mục nhà cung cấp đồng hồ</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_nha_cung_cap">Tên nhà cung cấp</label>
+            <input required type="text" id='ten_nha_cung_cap' ref={tenNhaCungCapRef} />
+          </div>
+          <div>
+            <label htmlFor="dia_chi">Địa chỉ</label>
+            <input required type="text" id='dia_chi' ref={diaChiRef} />
+          </div>
+          <div>
+            <label htmlFor="sdt">Số điện thoại</label>
+            <input required type="number" id='sdt' ref={sdtRef} />
+          </div>
+          <div></div>
+          <div>
+            <button className="btn-add" type="submit">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Thêm nhà cung cấp
+            </button>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Danh sách nhà cung cấp đồng hồ</div>
+          <table>
+            <thead>
+              <tr>
+                <th style={{ width: '150px', maxWidth: '150px' }}>Mã NCC</th>
+                <th style={{ textAlign: 'left', width: '300px', maxWidth: '300px' }}>Tên nhà cung cấp</th>
+                <th style={{ textAlign: 'left' }}>Địa chỉ</th>
+                <th style={{ textAlign: 'left', width: '250px', maxWidth: '250px' }}>Số điện thoại</th>
+                <th style={{ width: '150px' }}>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {nhaCungCapElements}
+            </tbody>
+          </table>
         </div>
-        <div>
-          <label htmlFor="dia_chi">Địa chỉ</label>
-          <input required type="text" id='dia_chi' ref={diaChiRef} />
-        </div>
-        <div>
-          <label htmlFor="sdt">Số điện thoại</label>
-          <input required type="number" id='sdt' ref={sdtRef} />
-        </div>
-        <div></div>
-        <div>
-          <button className="btn-add" type="submit">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Thêm nhà cung cấp
-          </button>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách nhà cung cấp đồng hồ</div>
-        <table>
-          <thead>
-            <tr>
-              <th style={{ width: '150px', maxWidth: '150px' }}>Mã NCC</th>
-              <th style={{ textAlign: 'left', width: '300px', maxWidth: '300px' }}>Tên nhà cung cấp</th>
-              <th style={{ textAlign: 'left' }}>Địa chỉ</th>
-              <th style={{ textAlign: 'left', width: '250px', maxWidth: '250px' }}>Số điện thoại</th>
-              <th style={{ width: '150px' }}>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {nhaCungCapElements}
-          </tbody>
-        </table>
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </>
   )
 }

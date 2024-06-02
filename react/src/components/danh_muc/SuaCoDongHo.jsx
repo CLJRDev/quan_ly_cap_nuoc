@@ -7,6 +7,7 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '../layouts/Sidebar'
 
 export default function SuaCoDongHo() {
   const { id } = useParams()
@@ -49,22 +50,25 @@ export default function SuaCoDongHo() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Sửa cỡ đồng hồ</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_co_dong_ho">Tên cỡ đồng hồ</label>
-          <input required type="text" id='ten_co_dong_ho' value={tenCoDongHo} onChange={handleChange}/>
-        </div>
-        <div></div>
-        <div>
-          <button className="btn-edit" type="submit">
-            <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Sửa cỡ đồng hồ
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Sửa cỡ đồng hồ</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_co_dong_ho">Tên cỡ đồng hồ</label>
+            <input required type="text" id='ten_co_dong_ho' value={tenCoDongHo} onChange={handleChange} />
+          </div>
+          <div></div>
+          <div>
+            <button className="btn-edit" type="submit">
+              <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Sửa cỡ đồng hồ
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

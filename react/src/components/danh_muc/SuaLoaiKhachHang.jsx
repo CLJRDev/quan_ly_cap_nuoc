@@ -7,6 +7,7 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '../layouts/Sidebar'
 
 export default function SuaLoaiKhachHang() {
   const { id } = useParams()
@@ -49,22 +50,25 @@ export default function SuaLoaiKhachHang() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Sửa loại khách hàng</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_loai_khach_hang">Tên loại khách hàng</label>
-          <input required onChange={handleChange} type="text" id='ten_loai_khach_hang' name="ten_loai_khach_hang" value={tenLoaiKhachHang} />
-        </div>
-        <div></div>
-        <div>
-          <button type="submit" className="btn-edit">
-            <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Sửa loại khách hàng
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Sửa loại khách hàng</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_loai_khach_hang">Tên loại khách hàng</label>
+            <input required onChange={handleChange} type="text" id='ten_loai_khach_hang' name="ten_loai_khach_hang" value={tenLoaiKhachHang} />
+          </div>
+          <div></div>
+          <div>
+            <button type="submit" className="btn-edit">
+              <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Sửa loại khách hàng
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

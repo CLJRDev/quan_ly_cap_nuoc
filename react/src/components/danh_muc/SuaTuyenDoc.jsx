@@ -9,6 +9,7 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '../layouts/Sidebar'
 
 export default function SuaTuyenDoc() {
   const navigate = useNavigate()
@@ -65,38 +66,41 @@ export default function SuaTuyenDoc() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Sửa tuyến đọc</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_tuyen">Tên tuyến đọc</label>
-          <input required type="text" id="ten_tuyen" name='ten_tuyen' onChange={handleInputChange} value={tuyenDoc} />
-        </div>
-        <div>
-          <label htmlFor="">Tổ quản lý</label>
-          <ToQuanLy
-            require={true}
-            onChange={handleToQuanLyChange}
-            value={toQuanLyOption}
-          />
-        </div>
-        <div>
-          <label htmlFor="">Phường xã</label>
-          <PhuongXa
-            require={true}
-            onChange={handlePhuongXaChange}
-            value={phuongXaOption}
-          />
-        </div>
-        <div></div>
-        <div>
-          <button type="submit" className="btn-add">
-            <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Sửa tuyến đọc
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Sửa tuyến đọc</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_tuyen">Tên tuyến đọc</label>
+            <input required type="text" id="ten_tuyen" name='ten_tuyen' onChange={handleInputChange} value={tuyenDoc} />
+          </div>
+          <div>
+            <label htmlFor="">Tổ quản lý</label>
+            <ToQuanLy
+              require={true}
+              onChange={handleToQuanLyChange}
+              value={toQuanLyOption}
+            />
+          </div>
+          <div>
+            <label htmlFor="">Phường xã</label>
+            <PhuongXa
+              require={true}
+              onChange={handlePhuongXaChange}
+              value={phuongXaOption}
+            />
+          </div>
+          <div></div>
+          <div>
+            <button type="submit" className="btn-add">
+              <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Sửa tuyến đọc
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

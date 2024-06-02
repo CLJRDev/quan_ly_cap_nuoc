@@ -9,6 +9,7 @@ import ErrorToast from '../../notification/ErrorToast'
 import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '../../layouts/Sidebar'
 
 export default function ThemLapDatDongHoKhach() {
   const navigate = useNavigate()
@@ -105,44 +106,47 @@ export default function ThemLapDatDongHoKhach() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Lắp đặt đồng hồ khách hàng</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="">Mã đồng hồ</label>
-          <DongHoKhach
-            onChange={handleSelectChange}
-            isLapDat={true}
-            name='ma_dong_ho'
-            require={true}
-            value={selectedDongHo && selectedDongHo}
-            isDisabled={isDisabledDongHo}
-          />
-        </div>
-        <div>
-          <label htmlFor="">Mã hợp đồng</label>
-          <HopDong
-            onChange={handleSelectChange}
-            name='ma_hop_dong'
-            value={selectedHopDong && selectedHopDong}
-            isLapDat={true}
-            require={true}
-            isDisabled={isDisabledHopDong}
-          />
-        </div>
-        <div>
-          <label htmlFor="tu_ngay">Ngày lắp</label>
-          <input type="date" id='tu_ngay' name="tu_ngay" onChange={handleInputChange} />
-        </div>
-        <div></div>
-        <div>
-          <button className="btn-add" type="submit">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Lắp đặt
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Lắp đặt đồng hồ khách hàng</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="">Mã đồng hồ</label>
+            <DongHoKhach
+              onChange={handleSelectChange}
+              isLapDat={true}
+              name='ma_dong_ho'
+              require={true}
+              value={selectedDongHo && selectedDongHo}
+              isDisabled={isDisabledDongHo}
+            />
+          </div>
+          <div>
+            <label htmlFor="">Mã hợp đồng</label>
+            <HopDong
+              onChange={handleSelectChange}
+              name='ma_hop_dong'
+              value={selectedHopDong && selectedHopDong}
+              isLapDat={true}
+              require={true}
+              isDisabled={isDisabledHopDong}
+            />
+          </div>
+          <div>
+            <label htmlFor="tu_ngay">Ngày lắp</label>
+            <input type="date" id='tu_ngay' name="tu_ngay" onChange={handleInputChange} />
+          </div>
+          <div></div>
+          <div>
+            <button className="btn-add" type="submit">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Lắp đặt
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

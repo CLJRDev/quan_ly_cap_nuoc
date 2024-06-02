@@ -8,6 +8,7 @@ import { Link } from "react-router-dom"
 import { DownloadTableExcel } from 'react-export-table-to-excel'
 import { TbTableExport } from "react-icons/tb";
 import Paginate from "../layouts/Paginate"
+import Sidebar from '../layouts/Sidebar'
 
 export default function BaoCaoSuDungBatThuong() {
   const [baoCao, setBaoCao] = useState([])
@@ -98,66 +99,69 @@ export default function BaoCaoSuDungBatThuong() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Báo cáo thống kê sử dụng bất thường</h2>
-      {/* <form className="form-container" onSubmit={handleSubmit}>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Báo cáo thống kê sử dụng bất thường</h2>
+        {/* <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <button className="btn-search"><IoMdSearch style={{ transform: 'scale(1.2)' }} />
             &nbsp; Tìm kiếm</button>
         </div>
       </form> */}
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách hợp đồng sử dụng bất thường</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Mã hợp đồng</th>
-              <th>Tên khách hàng</th>
-              <th>Loại khách hàng</th>
-              <th>Kỳ hóa đơn</th>
-              <th>Mức tiêu thụ hàng tháng</th>
-              <th>Số tiêu thụ kỳ gần nhất</th>
-              <th>Tổng tiền</th>
-              <th style={{ width: '150px' }}>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {baoCaoElements}
-          </tbody>
-        </table>
-        {/* Table to export excel */}
-        <table style={{ display: 'none' }} ref={tableRef}>
-          <thead>
-            <tr>
-              <th>Mã hợp đồng</th>
-              <th>Tên khách hàng</th>
-              <th>Loại khách hàng</th>
-              <th>Kỳ hóa đơn</th>
-              <th>Mức tiêu thụ hàng tháng</th>
-              <th>Số tiêu thụ kỳ gần nhất</th>
-              <th>Tổng tiền</th>
-            </tr>
-          </thead>
-          <tbody>
-            {baoCaoCloneElements}
-          </tbody>
-        </table>
-        <Paginate
-          pageCount={pageCount}
-          onPageChange={handlePageClick}
-        />
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <DownloadTableExcel
-            filename="bao_cao_su_dung_bat_thuong"
-            sheet="Báo cáo sử dụng bất thường"
-            currentTableRef={tableRef.current}
-          >
-            <button type="button" className="btn-export">
-              <TbTableExport style={{ transform: 'scale(1.2)' }} />&nbsp; Xuất file Excel
-            </button>
-          </DownloadTableExcel>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Danh sách hợp đồng sử dụng bất thường</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Mã hợp đồng</th>
+                <th>Tên khách hàng</th>
+                <th>Loại khách hàng</th>
+                <th>Kỳ hóa đơn</th>
+                <th>Mức tiêu thụ hàng tháng</th>
+                <th>Số tiêu thụ kỳ gần nhất</th>
+                <th>Tổng tiền</th>
+                <th style={{ width: '150px' }}>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {baoCaoElements}
+            </tbody>
+          </table>
+          {/* Table to export excel */}
+          <table style={{ display: 'none' }} ref={tableRef}>
+            <thead>
+              <tr>
+                <th>Mã hợp đồng</th>
+                <th>Tên khách hàng</th>
+                <th>Loại khách hàng</th>
+                <th>Kỳ hóa đơn</th>
+                <th>Mức tiêu thụ hàng tháng</th>
+                <th>Số tiêu thụ kỳ gần nhất</th>
+                <th>Tổng tiền</th>
+              </tr>
+            </thead>
+            <tbody>
+              {baoCaoCloneElements}
+            </tbody>
+          </table>
+          <Paginate
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
+          />
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <DownloadTableExcel
+              filename="bao_cao_su_dung_bat_thuong"
+              sheet="Báo cáo sử dụng bất thường"
+              currentTableRef={tableRef.current}
+            >
+              <button type="button" className="btn-export">
+                <TbTableExport style={{ transform: 'scale(1.2)' }} />&nbsp; Xuất file Excel
+              </button>
+            </DownloadTableExcel>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

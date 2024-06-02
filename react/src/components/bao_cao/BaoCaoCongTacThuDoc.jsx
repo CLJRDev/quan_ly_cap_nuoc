@@ -8,6 +8,7 @@ import { Link } from "react-router-dom"
 import { DownloadTableExcel } from 'react-export-table-to-excel'
 import { TbTableExport } from "react-icons/tb";
 import Paginate from "../layouts/Paginate"
+import Sidebar from '../layouts/Sidebar'
 
 export default function BaoCaoCongTacThuDoc() {
   const [baoCao, setBaoCao] = useState([])
@@ -96,87 +97,90 @@ export default function BaoCaoCongTacThuDoc() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Báo cáo thống kê công tác thu đọc</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="">Tuyến đọc</label>
-          <TuyenDoc
-            isSearch={true}
-            name='ma_tuyen'
-            onChange={handleSelectChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="">Kỳ hóa đơn</label>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '10px' }}>
-            <Thang
-              onChange={handleSelectChange}
-              name='thang'
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Báo cáo thống kê công tác thu đọc</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="">Tuyến đọc</label>
+            <TuyenDoc
               isSearch={true}
-            />
-            <Nam
+              name='ma_tuyen'
               onChange={handleSelectChange}
-              name='nam'
-              isSearch={true}
             />
           </div>
-        </div>
-        <div>
-          <button className="btn-search"><IoMdSearch style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Tìm kiếm</button>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách hóa đơn chưa phát hành</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Mã hóa đơn</th>
-              <th>Kỳ hóa đơn</th>
-              <th>Mã khách hàng</th>
-              <th>Tên khách hàng</th>
-              <th>Số tiêu thụ</th>
-              <th>Tổng tiền</th>
-              <th style={{ width: '150px' }}>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {baoCaoElements}
-          </tbody>
-        </table>
-        {/* Table to export excel */}
-        <table style={{ display: 'none' }} ref={tableRef}>
-          <thead>
-            <tr>
-              <th>Mã hóa đơn</th>
-              <th>Kỳ hóa đơn</th>
-              <th>Mã khách hàng</th>
-              <th>Tên khách hàng</th>
-              <th>Số tiêu thụ</th>
-              <th>Tổng tiền</th>
-            </tr>
-          </thead>
-          <tbody>
-            {baoCaoCloneElements}
-          </tbody>
-        </table>
-        <Paginate
-          pageCount={pageCount}
-          onPageChange={handlePageClick}
-        />
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <DownloadTableExcel
-            filename="bao_cao_chua_phat_hanh_hoa_don"
-            sheet="Chưa phát hành hóa đơn"
-            currentTableRef={tableRef.current}
-          >
-            <button type="button" className="btn-export">
-              <TbTableExport style={{ transform: 'scale(1.2)' }} />&nbsp; Xuất file Excel
-            </button>
-          </DownloadTableExcel>
+          <div>
+            <label htmlFor="">Kỳ hóa đơn</label>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '10px' }}>
+              <Thang
+                onChange={handleSelectChange}
+                name='thang'
+                isSearch={true}
+              />
+              <Nam
+                onChange={handleSelectChange}
+                name='nam'
+                isSearch={true}
+              />
+            </div>
+          </div>
+          <div>
+            <button className="btn-search"><IoMdSearch style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Tìm kiếm</button>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Danh sách hóa đơn chưa phát hành</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Mã hóa đơn</th>
+                <th>Kỳ hóa đơn</th>
+                <th>Mã khách hàng</th>
+                <th>Tên khách hàng</th>
+                <th>Số tiêu thụ</th>
+                <th>Tổng tiền</th>
+                <th style={{ width: '150px' }}>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {baoCaoElements}
+            </tbody>
+          </table>
+          {/* Table to export excel */}
+          <table style={{ display: 'none' }} ref={tableRef}>
+            <thead>
+              <tr>
+                <th>Mã hóa đơn</th>
+                <th>Kỳ hóa đơn</th>
+                <th>Mã khách hàng</th>
+                <th>Tên khách hàng</th>
+                <th>Số tiêu thụ</th>
+                <th>Tổng tiền</th>
+              </tr>
+            </thead>
+            <tbody>
+              {baoCaoCloneElements}
+            </tbody>
+          </table>
+          <Paginate
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
+          />
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <DownloadTableExcel
+              filename="bao_cao_chua_phat_hanh_hoa_don"
+              sheet="Chưa phát hành hóa đơn"
+              currentTableRef={tableRef.current}
+            >
+              <button type="button" className="btn-export">
+                <TbTableExport style={{ transform: 'scale(1.2)' }} />&nbsp; Xuất file Excel
+              </button>
+            </DownloadTableExcel>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

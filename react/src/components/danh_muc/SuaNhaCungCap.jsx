@@ -7,6 +7,7 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '../layouts/Sidebar'
 
 export default function SuaNhaCungCap() {
   const { id } = useParams()
@@ -61,30 +62,33 @@ export default function SuaNhaCungCap() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Sửa nhà cung cấp đồng hồ</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_nha_cung_cap">Tên nhà cung cấp</label>
-          <input required type="text" id='ten_nha_cung_cap' name="ten_nha_cung_cap" value={nhaCungCap.ten_nha_cung_cap} onChange={handleChange} />
-        </div>
-        <div>
-          <label htmlFor="dia_chi">Địa chỉ</label>
-          <input required type="text" id='dia_chi' name='dia_chi' value={nhaCungCap.dia_chi} onChange={handleChange} />
-        </div>
-        <div>
-          <label htmlFor="sdt">Số điện thoại</label>
-          <input required type="number" id='sdt' name="sdt" value={nhaCungCap.sdt} onChange={handleChange} />
-        </div>
-        <div></div>
-        <div>
-          <button className="btn-edit" type="submit">
-            <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Sửa nhà cung cấp
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Sửa nhà cung cấp đồng hồ</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_nha_cung_cap">Tên nhà cung cấp</label>
+            <input required type="text" id='ten_nha_cung_cap' name="ten_nha_cung_cap" value={nhaCungCap.ten_nha_cung_cap} onChange={handleChange} />
+          </div>
+          <div>
+            <label htmlFor="dia_chi">Địa chỉ</label>
+            <input required type="text" id='dia_chi' name='dia_chi' value={nhaCungCap.dia_chi} onChange={handleChange} />
+          </div>
+          <div>
+            <label htmlFor="sdt">Số điện thoại</label>
+            <input required type="number" id='sdt' name="sdt" value={nhaCungCap.sdt} onChange={handleChange} />
+          </div>
+          <div></div>
+          <div>
+            <button className="btn-edit" type="submit">
+              <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Sửa nhà cung cấp
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

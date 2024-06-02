@@ -8,7 +8,7 @@ import ErrorToast from '../../notification/ErrorToast'
 import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Sidebar from '../../layouts/Sidebar'
 
 export default function SuaGia() {
   const { id } = useParams()
@@ -100,58 +100,61 @@ export default function SuaGia() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Sửa giá nước</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_nhom_gia">Tên nhóm giá</label>
-          <input type="text" id='ten_nhom_gia' name='ten_nhom_gia' onChange={handleInputChange} value={gia.ten_nhom_gia} />
-        </div>
-        <div>
-          <label htmlFor="loai_khach_hang">Loại khách hàng</label>
-          <Select
-            options={options}
-            onChange={handleSelectChange}
-            value={selectedOption}
-          />
-        </div>
-        <div>
-          <label htmlFor="hs_duoi_10m">Hệ số dưới 10m³</label>
-          <input type="number" id='hs_duoi_10m' step='0.01' name='hs_duoi_10m' onChange={handleInputChange} value={!gia.hs_duoi_10m ? '' : gia.hs_duoi_10m} />
-        </div>
-        <div>
-          <label htmlFor="hs_tu_10m_den_20m">Hệ số từ 10m³ đến 20m³</label>
-          <input type="number" id='hs_tu_10m_den_20m' step='0.01' name='hs_tu_10m_den_20m' onChange={handleInputChange} value={!gia.hs_tu_10m_den_20m ? '' : gia.hs_tu_10m_den_20m} />
-        </div>
-        <div>
-          <label htmlFor="hs_tu_20m_den_30m">Hệ số từ 20m³ đến 30m³</label>
-          <input type="number" id='hs_tu_20m_den_30m' step='0.01' name='hs_tu_20m_den_30m' onChange={handleInputChange} value={!gia.hs_tu_20m_den_30m ? '' : gia.hs_tu_20m_den_30m} />
-        </div>
-        <div>
-          <label htmlFor="hs_tren_30m">Hệ số trên 30m³</label>
-          <input type="number" id='hs_tren_30m' step='0.01' name='hs_tren_30m' onChange={handleInputChange} value={!gia.hs_tren_30m ? '' : gia.hs_tren_30m} />
-        </div>
-        <div>
-          <label htmlFor="hs_rieng">Hệ số riêng</label>
-          <input type="number" id='hs_rieng' step='0.01' name='hs_rieng' onChange={handleInputChange} value={!gia.hs_rieng ? '' : gia.hs_rieng} />
-        </div>
-        <div>
-          <label htmlFor="hs_thue">Hệ số thuế</label>
-          <input type="number" id='hs_thue' step='0.01' name='hs_thue' onChange={handleInputChange} value={gia.hs_thue} />
-        </div>
-        <div>
-          <label htmlFor="gia_ban">Giá bán</label>
-          <input type="number" id='gia_ban' step='0.01' name='gia_ban' onChange={handleInputChange} value={gia.gia_ban} />
-        </div>
-        <div></div>
-        <div>
-          <button className="btn-add">
-            <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Sửa nhóm giá
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Sửa giá nước</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_nhom_gia">Tên nhóm giá</label>
+            <input type="text" id='ten_nhom_gia' name='ten_nhom_gia' onChange={handleInputChange} value={gia.ten_nhom_gia} />
+          </div>
+          <div>
+            <label htmlFor="loai_khach_hang">Loại khách hàng</label>
+            <Select
+              options={options}
+              onChange={handleSelectChange}
+              value={selectedOption}
+            />
+          </div>
+          <div>
+            <label htmlFor="hs_duoi_10m">Hệ số dưới 10m³</label>
+            <input type="number" id='hs_duoi_10m' step='0.01' name='hs_duoi_10m' onChange={handleInputChange} value={!gia.hs_duoi_10m ? '' : gia.hs_duoi_10m} />
+          </div>
+          <div>
+            <label htmlFor="hs_tu_10m_den_20m">Hệ số từ 10m³ đến 20m³</label>
+            <input type="number" id='hs_tu_10m_den_20m' step='0.01' name='hs_tu_10m_den_20m' onChange={handleInputChange} value={!gia.hs_tu_10m_den_20m ? '' : gia.hs_tu_10m_den_20m} />
+          </div>
+          <div>
+            <label htmlFor="hs_tu_20m_den_30m">Hệ số từ 20m³ đến 30m³</label>
+            <input type="number" id='hs_tu_20m_den_30m' step='0.01' name='hs_tu_20m_den_30m' onChange={handleInputChange} value={!gia.hs_tu_20m_den_30m ? '' : gia.hs_tu_20m_den_30m} />
+          </div>
+          <div>
+            <label htmlFor="hs_tren_30m">Hệ số trên 30m³</label>
+            <input type="number" id='hs_tren_30m' step='0.01' name='hs_tren_30m' onChange={handleInputChange} value={!gia.hs_tren_30m ? '' : gia.hs_tren_30m} />
+          </div>
+          <div>
+            <label htmlFor="hs_rieng">Hệ số riêng</label>
+            <input type="number" id='hs_rieng' step='0.01' name='hs_rieng' onChange={handleInputChange} value={!gia.hs_rieng ? '' : gia.hs_rieng} />
+          </div>
+          <div>
+            <label htmlFor="hs_thue">Hệ số thuế</label>
+            <input type="number" id='hs_thue' step='0.01' name='hs_thue' onChange={handleInputChange} value={gia.hs_thue} />
+          </div>
+          <div>
+            <label htmlFor="gia_ban">Giá bán</label>
+            <input type="number" id='gia_ban' step='0.01' name='gia_ban' onChange={handleInputChange} value={gia.gia_ban} />
+          </div>
+          <div></div>
+          <div>
+            <button className="btn-add">
+              <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Sửa nhóm giá
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

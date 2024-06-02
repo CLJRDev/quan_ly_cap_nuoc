@@ -7,6 +7,8 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '../layouts/Sidebar'
+
 
 export default function PhuongThucThanhToan() {
   const [phuongThucs, setPhuongThucs] = useState(null)
@@ -71,37 +73,40 @@ export default function PhuongThucThanhToan() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý danh mục phương thức thanh toán</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_phuong_thuc">Tên phương thức</label>
-          <input required type="text" id='ten_phuong_thuc' ref={tenPhuongThucRef} />
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Quản lý danh mục phương thức thanh toán</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_phuong_thuc">Tên phương thức</label>
+            <input required type="text" id='ten_phuong_thuc' ref={tenPhuongThucRef} />
+          </div>
+          <div></div>
+          <div>
+            <button className="btn-add" type="submit">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Thêm phương thức
+            </button>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Danh sách phương thức thanh toán</div>
+          <table>
+            <thead>
+              <tr>
+                <th style={{ width: '150px' }}>Mã PTTT</th>
+                <th style={{ textAlign: 'left' }}>Tên phương thức</th>
+                <th style={{ width: '150px' }}>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {phuongThucElements}
+            </tbody>
+          </table>
         </div>
-        <div></div>
-        <div>
-          <button className="btn-add" type="submit">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Thêm phương thức
-          </button>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách phương thức thanh toán</div>
-        <table>
-          <thead>
-            <tr>
-              <th style={{ width: '150px' }}>Mã PTTT</th>
-              <th style={{ textAlign: 'left' }}>Tên phương thức</th>
-              <th style={{ width: '150px' }}>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {phuongThucElements}
-          </tbody>
-        </table>
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </>
   )
 }

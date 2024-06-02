@@ -8,7 +8,7 @@ import ErrorToast from '../../notification/ErrorToast'
 import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Sidebar from '../../layouts/Sidebar'
 
 export default function SuaKhachHang() {
   const { id } = useParams()
@@ -69,38 +69,41 @@ export default function SuaKhachHang() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Sửa khách hàng</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_khach_hang">Tên khách hàng</label>
-          <input required type="text" id='ten_khach_hang' name='ten_khach_hang' onChange={handleInputChange} value={khachHang.ten_khach_hang} />
-        </div>
-        <div>
-          <label htmlFor="can_cuoc">Căn cước công dân</label>
-          <input required type="number" id='can_cuoc' name='can_cuoc' onChange={handleInputChange} value={khachHang.can_cuoc} />
-        </div>
-        <div>
-          <label htmlFor="dia_chi">Địa chỉ</label>
-          <input required type="text" id='dia_chi' name='dia_chi' onChange={handleInputChange} value={khachHang.dia_chi} />
-        </div>
-        <div>
-          <label htmlFor="sdt">Số điện thoại</label>
-          <input required type="number" id='sdt' name='sdt' onChange={handleInputChange} value={khachHang.sdt} />
-        </div>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input required type="email" id='email' name='email' onChange={handleInputChange} value={khachHang.email} />
-        </div>
-        <div></div>
-        <div>
-          <button type="submit" className="btn-add">
-            <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Sửa khách hàng
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Sửa khách hàng</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_khach_hang">Tên khách hàng</label>
+            <input required type="text" id='ten_khach_hang' name='ten_khach_hang' onChange={handleInputChange} value={khachHang.ten_khach_hang} />
+          </div>
+          <div>
+            <label htmlFor="can_cuoc">Căn cước công dân</label>
+            <input required type="number" id='can_cuoc' name='can_cuoc' onChange={handleInputChange} value={khachHang.can_cuoc} />
+          </div>
+          <div>
+            <label htmlFor="dia_chi">Địa chỉ</label>
+            <input required type="text" id='dia_chi' name='dia_chi' onChange={handleInputChange} value={khachHang.dia_chi} />
+          </div>
+          <div>
+            <label htmlFor="sdt">Số điện thoại</label>
+            <input required type="number" id='sdt' name='sdt' onChange={handleInputChange} value={khachHang.sdt} />
+          </div>
+          <div>
+            <label htmlFor="email">Email</label>
+            <input required type="email" id='email' name='email' onChange={handleInputChange} value={khachHang.email} />
+          </div>
+          <div></div>
+          <div>
+            <button type="submit" className="btn-add">
+              <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Sửa khách hàng
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

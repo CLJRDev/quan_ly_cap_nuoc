@@ -10,7 +10,7 @@ import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../../layouts/Paginate"
-
+import Sidebar from '../../layouts/Sidebar'
 
 export default function QuanLyKhachHang() {
   const [khachHangs, setKhachHangs] = useState([])
@@ -108,66 +108,69 @@ export default function QuanLyKhachHang() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý khách hàng</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_khach_hang">Tên khách hàng</label>
-          <input type="text" id='ten_khach_hang' name='ten_khach_hang' onChange={handleInputChange} />
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Quản lý khách hàng</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_khach_hang">Tên khách hàng</label>
+            <input type="text" id='ten_khach_hang' name='ten_khach_hang' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="can_cuoc">Căn cước công dân</label>
+            <input type="number" id='can_cuoc' name='can_cuoc' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="dia_chi">Địa chỉ</label>
+            <input type="text" id='dia_chi' name='dia_chi' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="sdt">Số điện thoại</label>
+            <input type="number" id='sdt' name='sdt' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="email">Email</label>
+            <input type="text" id='email' name='email' onChange={handleInputChange} />
+          </div>
+          <div></div>
+          <div>
+            <button type="submit" className="btn-search">
+              <IoMdSearch style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Tìm kiếm
+            </button>
+            &nbsp;
+            <Link to='/khach_hang/them' className="btn-add">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Thêm khách hàng
+            </Link>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Danh sách khách hàng</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Mã KH</th>
+                <th>Tên khách hàng</th>
+                <th>Số CCCD</th>
+                <th>Địa chỉ</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {khachHangElements}
+            </tbody>
+          </table>
+          <Paginate
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
+          />
         </div>
-        <div>
-          <label htmlFor="can_cuoc">Căn cước công dân</label>
-          <input type="number" id='can_cuoc' name='can_cuoc' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="dia_chi">Địa chỉ</label>
-          <input type="text" id='dia_chi' name='dia_chi' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="sdt">Số điện thoại</label>
-          <input type="number" id='sdt' name='sdt' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input type="text" id='email' name='email' onChange={handleInputChange} />
-        </div>
-        <div></div>
-        <div>
-          <button type="submit" className="btn-search">
-            <IoMdSearch style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Tìm kiếm
-          </button>
-          &nbsp;
-          <Link to='/khach_hang/them' className="btn-add">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Thêm khách hàng
-          </Link>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách khách hàng</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Mã KH</th>
-              <th>Tên khách hàng</th>
-              <th>Số CCCD</th>
-              <th>Địa chỉ</th>
-              <th>Số điện thoại</th>
-              <th>Email</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {khachHangElements}
-          </tbody>
-        </table>
-        <Paginate
-          pageCount={pageCount}
-          onPageChange={handlePageClick}
-        />
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </>
   )
 }

@@ -10,6 +10,7 @@ import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../layouts/Paginate"
+import Sidebar from '../layouts/Sidebar'
 
 export default function ThemTuyenDoc() {
   const navigate = useNavigate()
@@ -66,38 +67,41 @@ export default function ThemTuyenDoc() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Thêm tuyến đọc</h2>
-      <form className="form-container animated fadeInDown" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_tuyen">Tên tuyến đọc</label>
-          <input required type="text" id="ten_tuyen" name='ten_tuyen' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="chi_nhanh">Tổ quản lý</label>
-          <ToQuanLy
-            require={true}
-            onChange={handleSelectChange}
-            name="ma_to_quan_ly"
-          />
-        </div>
-        <div>
-          <label htmlFor="chi_nhanh">Phường xã</label>
-          <PhuongXa
-            require={true}
-            onChange={handleSelectChange}
-            name="ma_phuong_xa"
-          />
-        </div>
-        <div></div>
-        <div>
-          <button type="submit" className="btn-add">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Thêm tuyến đọc
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Thêm tuyến đọc</h2>
+        <form className="form-container animated fadeInDown" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_tuyen">Tên tuyến đọc</label>
+            <input required type="text" id="ten_tuyen" name='ten_tuyen' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="chi_nhanh">Tổ quản lý</label>
+            <ToQuanLy
+              require={true}
+              onChange={handleSelectChange}
+              name="ma_to_quan_ly"
+            />
+          </div>
+          <div>
+            <label htmlFor="chi_nhanh">Phường xã</label>
+            <PhuongXa
+              require={true}
+              onChange={handleSelectChange}
+              name="ma_phuong_xa"
+            />
+          </div>
+          <div></div>
+          <div>
+            <button type="submit" className="btn-add">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Thêm tuyến đọc
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

@@ -7,6 +7,7 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '../layouts/Sidebar'
 
 export default function SuaQuanHuyen() {
   const { id } = useParams()
@@ -49,22 +50,26 @@ export default function SuaQuanHuyen() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Sửa quận huyện</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_quan_huyen">Tên quận huyện</label>
-          <input required onChange={handleChange} type="text" id='ten_quan_huyen' name="ten_quan_huyen" value={tenQuanHuyen} />
-        </div>
-        <div></div>
-        <div>
-          <button type="submit" className="btn-edit">
-            <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Sửa quận huyện
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Sửa quận huyện</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_quan_huyen">Tên quận huyện</label>
+            <input required onChange={handleChange} type="text" id='ten_quan_huyen' name="ten_quan_huyen" value={tenQuanHuyen} />
+          </div>
+          <div></div>
+          <div>
+            <button type="submit" className="btn-edit">
+              <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Sửa quận huyện
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
+
   )
 }

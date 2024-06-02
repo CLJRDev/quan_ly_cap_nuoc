@@ -13,7 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-
+import Sidebar from '../../layouts/Sidebar'
 
 export default function SuaHopDong() {
   const { id } = useParams()
@@ -125,85 +125,88 @@ export default function SuaHopDong() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Sửa hợp đồng</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="can_cuoc">Căn cước công dân</label>
-          <div style={{ display: 'grid', gridTemplateColumns: '4fr 1fr', columnGap: '10px' }}>
-            <input required type="text" id="can_cuoc" name='can_cuoc' value={hopDong.can_cuoc} onChange={handleInputChange} />
-            <Popup
-              trigger={<button className="btn-search" type="button"> <IoMdSearch style={{ transform: 'scale(1.2)' }} /> Kiểm tra</button>}
-              position="right center"
-              modal
-              nested
-            >
-              {close => (
-                <div className="modal">
-                  <button className="close" onClick={close}>
-                    &times;
-                  </button>
-                  <div className="header"> Thông tin khách hàng </div>
-                  <div className="content">
-                    {isExist ? (
-                      <>
-                        Mã khách hàng: {khachHangInfo.ma_khach_hang} <br />
-                        Tên khách hàng: {khachHangInfo.ten_khach_hang} <br />
-                        Số điện thoại: {khachHangInfo.sdt} <br />
-                        Email: {khachHangInfo.email} <br />
-                      </>
-                    ) : (
-                      <>{khachHangInfo}</>
-                    )}
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Sửa hợp đồng</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="can_cuoc">Căn cước công dân</label>
+            <div style={{ display: 'grid', gridTemplateColumns: '4fr 1fr', columnGap: '10px' }}>
+              <input required type="text" id="can_cuoc" name='can_cuoc' value={hopDong.can_cuoc} onChange={handleInputChange} />
+              <Popup
+                trigger={<button className="btn-search" type="button"> <IoMdSearch style={{ transform: 'scale(1.2)' }} /> Kiểm tra</button>}
+                position="right center"
+                modal
+                nested
+              >
+                {close => (
+                  <div className="modal">
+                    <button className="close" onClick={close}>
+                      &times;
+                    </button>
+                    <div className="header"> Thông tin khách hàng </div>
+                    <div className="content">
+                      {isExist ? (
+                        <>
+                          Mã khách hàng: {khachHangInfo.ma_khach_hang} <br />
+                          Tên khách hàng: {khachHangInfo.ten_khach_hang} <br />
+                          Số điện thoại: {khachHangInfo.sdt} <br />
+                          Email: {khachHangInfo.email} <br />
+                        </>
+                      ) : (
+                        <>{khachHangInfo}</>
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
-            </Popup>
+                )}
+              </Popup>
+            </div>
           </div>
-        </div>
-        <div>
-          <label htmlFor="ten_nguoi_dai_dien">Tên người đại diện</label>
-          <input value={hopDong.ten_nguoi_dai_dien} required type="text" id='ten_nguoi_dai_dien' name='ten_nguoi_dai_dien' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="chuc_vu_nguoi_dai_dien">Chức vụ người đại diện</label>
-          <input value={hopDong.chuc_vu_nguoi_dai_dien} required type="text" id='chuc_vu_nguoi_dai_dien' name='chuc_vu_nguoi_dai_dien' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="">Tuyến đọc</label>
-          <TuyenDoc
-            require={true}
-            onChange={handleSelectChange}
-            name="tuyen_doc"
-            value={selectedOptions.tuyen_doc}
-          />
-        </div>
-        <div>
-          <label htmlFor="">Nhóm giá</label>
-          <NhomGia
-            require={true}
-            onChange={handleSelectChange}
-            name="nhom_gia"
-            value={selectedOptions.nhom_gia}
-          />
-        </div>
-        <div>
-          <label htmlFor="dia_chi_hop_dong">Địa chỉ</label>
-          <input value={hopDong.dia_chi_hop_dong} required type="text" id='dia_chi_hop_dong' name='dia_chi_hop_dong' onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="ngay_lap">Ngày lập</label>
-          <input value={hopDong.ngay_lap} required type="date" id='ngay_lap' name='ngay_lap' onChange={handleInputChange} />
-        </div>
-        <div></div>
-        <div>
-          <button type="submit" className="btn-add">
-            <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Sửa hợp đồng
-          </button>
-        </div>
-      </form>
-      <ToastContainer />
-    </div>
+          <div>
+            <label htmlFor="ten_nguoi_dai_dien">Tên người đại diện</label>
+            <input value={hopDong.ten_nguoi_dai_dien} required type="text" id='ten_nguoi_dai_dien' name='ten_nguoi_dai_dien' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="chuc_vu_nguoi_dai_dien">Chức vụ người đại diện</label>
+            <input value={hopDong.chuc_vu_nguoi_dai_dien} required type="text" id='chuc_vu_nguoi_dai_dien' name='chuc_vu_nguoi_dai_dien' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="">Tuyến đọc</label>
+            <TuyenDoc
+              require={true}
+              onChange={handleSelectChange}
+              name="tuyen_doc"
+              value={selectedOptions.tuyen_doc}
+            />
+          </div>
+          <div>
+            <label htmlFor="">Nhóm giá</label>
+            <NhomGia
+              require={true}
+              onChange={handleSelectChange}
+              name="nhom_gia"
+              value={selectedOptions.nhom_gia}
+            />
+          </div>
+          <div>
+            <label htmlFor="dia_chi_hop_dong">Địa chỉ</label>
+            <input value={hopDong.dia_chi_hop_dong} required type="text" id='dia_chi_hop_dong' name='dia_chi_hop_dong' onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="ngay_lap">Ngày lập</label>
+            <input value={hopDong.ngay_lap} required type="date" id='ngay_lap' name='ngay_lap' onChange={handleInputChange} />
+          </div>
+          <div></div>
+          <div>
+            <button type="submit" className="btn-add">
+              <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Sửa hợp đồng
+            </button>
+          </div>
+        </form>
+        <ToastContainer />
+      </div>
+    </>
   )
 }

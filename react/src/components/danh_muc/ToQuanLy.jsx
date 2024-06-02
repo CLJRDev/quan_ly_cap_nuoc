@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../layouts/Paginate"
 import ChiNhanh from '../select-option/ChiNhanh'
+import Sidebar from '../layouts/Sidebar'
 
 export default function ToQuanLy() {
   const [toQuanLys, setToQuanLys] = useState([])
@@ -110,49 +111,52 @@ export default function ToQuanLy() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý danh tổ quản lý</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_to_quan_ly">Tên tổ quản lý</label>
-          <input required type="text" name='ten_to_quan_ly' id="ten_to_quan_ly" onChange={handleInputChange} />
-        </div>
-        <div>
-          <label htmlFor="chi_nhanh">Chi nhánh</label>
-          <ChiNhanh
-            require={true}
-            name='ma_chi_nhanh'
-            onChange={handleSelectChange}
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Quản lý danh tổ quản lý</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_to_quan_ly">Tên tổ quản lý</label>
+            <input required type="text" name='ten_to_quan_ly' id="ten_to_quan_ly" onChange={handleInputChange} />
+          </div>
+          <div>
+            <label htmlFor="chi_nhanh">Chi nhánh</label>
+            <ChiNhanh
+              require={true}
+              name='ma_chi_nhanh'
+              onChange={handleSelectChange}
+            />
+          </div>
+          <div>
+            <button type="submit" className="btn-add">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Thêm tổ quản lý
+            </button>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Danh sách tổ quản lý</div>
+          <table>
+            <thead>
+              <tr>
+                <th style={{ width: '150px' }}>Mã tổ quản lý</th>
+                <th>Tên tổ quản lý</th>
+                <th>Tên chi nhánh</th>
+                <th style={{ width: '150px' }}>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {toQuanLyElements}
+            </tbody>
+          </table>
+          <Paginate
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
           />
         </div>
-        <div>
-          <button type="submit" className="btn-add">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Thêm tổ quản lý
-          </button>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách tổ quản lý</div>
-        <table>
-          <thead>
-            <tr>
-              <th style={{ width: '150px' }}>Mã tổ quản lý</th>
-              <th>Tên tổ quản lý</th>
-              <th>Tên chi nhánh</th>
-              <th style={{ width: '150px' }}>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {toQuanLyElements}
-          </tbody>
-        </table>
-        <Paginate
-          pageCount={pageCount}
-          onPageChange={handlePageClick}
-        />
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </>
   )
 }

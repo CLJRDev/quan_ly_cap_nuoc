@@ -1,8 +1,8 @@
-import Sidebar from './components/layouts/Sidebar'
+import Home from './components/he_thong/QL_nguoi_dung/Home'
 import QuanLyNguoiDung from './components/he_thong/QL_nguoi_dung/QuanLyNguoiDung'
 import ThemNguoiDung from './components/he_thong/QL_nguoi_dung/ThemNguoiDung'
 import SuaNguoiDung from './components/he_thong/QL_nguoi_dung/SuaNguoiDung'
-import Login from './components/he_thong/QL_nguoi_dung/Login'
+import Login from './components/auth/Login'
 import QuanLyPhanQuyen from './components/he_thong/QL_phan_quyen/QuanLyPhanQuyen'
 import ThemQuyen from './components/he_thong/QL_quyen/ThemQuyen'
 import SuaQuyen from './components/he_thong/QL_quyen/SuaQuyen'
@@ -65,15 +65,13 @@ import BaoCaoThatThoatNuoc from './components/bao_cao/BaoCaoThatThoatNuoc'
 import BaoCaoThuTien from './components/bao_cao/BaoCaoThuTien'
 
 
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 
 function App() {
-  const location = useLocation();
-  const sidebarShow = !location.pathname.startsWith('/login');
   return (
     <>
-      {sidebarShow && <Sidebar />}
       <Routes>
+        <Route path='/home' element={<Home />} />
         <Route path='/nguoi_dung' element={<QuanLyNguoiDung />} />
         <Route path='/nguoi_dung/them' element={<ThemNguoiDung />} />
         <Route path='/nguoi_dung/sua/:id' element={<SuaNguoiDung />} />

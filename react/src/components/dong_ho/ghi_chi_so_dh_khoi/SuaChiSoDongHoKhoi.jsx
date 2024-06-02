@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Select from 'react-select'
 import { MdOutlineEdit } from "react-icons/md"
 import TuyenDoc from "../../select-option/TuyenDoc"
+import Sidebar from '../../layouts/Sidebar'
 
 export default function SuaChiSoDongHoKhoi() {
   const { id } = useParams()
@@ -55,29 +56,32 @@ export default function SuaChiSoDongHoKhoi() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Sửa chỉ số đồng hồ khối</h2>
-      <form className='form-container' onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="">Từ ngày</label>
-          <input required type="date" name='tu_ngay' onChange={handleInputChange} value={ghiChiSo.tu_ngay} />
-        </div>
-        <div>
-          <label htmlFor="">Đến ngày</label>
-          <input required type="date" name='den_ngay' onChange={handleInputChange} value={ghiChiSo.den_ngay} />
-        </div>
-        <div>
-          <label htmlFor="">Chỉ số mới</label>
-          <input required type="number" name='chi_so_moi' onChange={handleInputChange} value={ghiChiSo.chi_so_moi} />
-        </div>
-        <div></div>
-        <div>
-          <button type="submit" className="btn-edit">
-            <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
-            &nbsp; Sửa chỉ số
-          </button>
-        </div>
-      </form>
-    </div>
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Sửa chỉ số đồng hồ khối</h2>
+        <form className='form-container' onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="">Từ ngày</label>
+            <input required type="date" name='tu_ngay' onChange={handleInputChange} value={ghiChiSo.tu_ngay} />
+          </div>
+          <div>
+            <label htmlFor="">Đến ngày</label>
+            <input required type="date" name='den_ngay' onChange={handleInputChange} value={ghiChiSo.den_ngay} />
+          </div>
+          <div>
+            <label htmlFor="">Chỉ số mới</label>
+            <input required type="number" name='chi_so_moi' onChange={handleInputChange} value={ghiChiSo.chi_so_moi} />
+          </div>
+          <div></div>
+          <div>
+            <button type="submit" className="btn-edit">
+              <MdOutlineEdit style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Sửa chỉ số
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   )
 }

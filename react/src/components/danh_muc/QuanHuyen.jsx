@@ -7,6 +7,7 @@ import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '../layouts/Sidebar'
 
 
 export default function QuanHuyen() {
@@ -70,37 +71,40 @@ export default function QuanHuyen() {
   }
 
   return (
-    <div className="page">
-      <h2 className="title">Quản lý danh mục quận huyện</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="ten_quan_huyen">Tên quận huyện</label>
-          <input required type="text" id='ten_quan_huyen' ref={tenQuanHuyenRef} />
+    <>
+      <Sidebar />
+      <div className="page">
+        <h2 className="title">Quản lý danh mục quận huyện</h2>
+        <form className="form-container" onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="ten_quan_huyen">Tên quận huyện</label>
+            <input required type="text" id='ten_quan_huyen' ref={tenQuanHuyenRef} />
+          </div>
+          <div></div>
+          <div>
+            <button className="btn-add" type="submit">
+              <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
+              &nbsp;Thêm quận huyện
+            </button>
+          </div>
+        </form>
+        <div className="table-container animated fadeInDown">
+          <div className="title" style={{ marginBottom: '5px' }}>Danh sách quận huyện</div>
+          <table>
+            <thead>
+              <tr>
+                <th style={{ width: '150px' }}>Mã quận huyện</th>
+                <th style={{ textAlign: 'left' }}>Tên quận huyện</th>
+                <th style={{ width: '150px' }}>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {quanHuyenElements}
+            </tbody>
+          </table>
         </div>
-        <div></div>
-        <div>
-          <button className="btn-add" type="submit">
-            <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
-            &nbsp;Thêm quận huyện
-          </button>
-        </div>
-      </form>
-      <div className="table-container animated fadeInDown">
-        <div className="title" style={{ marginBottom: '5px' }}>Danh sách quận huyện</div>
-        <table>
-          <thead>
-            <tr>
-              <th style={{ width: '150px' }}>Mã quận huyện</th>
-              <th style={{ textAlign: 'left' }}>Tên quận huyện</th>
-              <th style={{ width: '150px' }}>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            {quanHuyenElements}
-          </tbody>
-        </table>
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </>
   )
 }
