@@ -80,19 +80,19 @@ export default function BaoCaoSuDungBatThuong() {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    await timKiem()
+    // e.preventDefault()
+    // await timKiem()
   }
 
   return (
     <div className="page">
       <h2 className="title">Báo cáo thống kê sử dụng bất thường</h2>
-      <form className="form-container" onSubmit={handleSubmit}>
+      {/* <form className="form-container" onSubmit={handleSubmit}>
         <div>
           <button className="btn-search"><IoMdSearch style={{ transform: 'scale(1.2)' }} />
             &nbsp; Tìm kiếm</button>
         </div>
-      </form>
+      </form> */}
       <div className="table-container animated fadeInDown">
         <div className="title" style={{ marginBottom: '5px' }}>Danh sách hợp đồng sử dụng bất thường</div>
         <table>
