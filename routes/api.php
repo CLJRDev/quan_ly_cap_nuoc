@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BackupController;
 use App\Http\Controllers\BaoCaoController;
 use App\Http\Controllers\DMChiNhanhController;
 use App\Http\Controllers\DMCoDongHoController;
@@ -113,7 +114,6 @@ Route::get('/ds_ls_dhkhach',[QLHoaDonController::class,'get_list_dhkhach']);
 Route::get('/lookup_dh_khach',[QLHoaDonController::class,'lookup_dh_khach']);
 Route::get('/check_tuyen',[QLHoaDonController::class,'check_tuyen']);
 Route::post('/send_bill',[QLHoaDonController::class,'send_bill']);
-
 //bao cao
 Route::get('/bc_thu_tien',[BaoCaoController::class,'bc_thu_tien']);
 Route::get('/bc_kh_chua_dong',[BaoCaoController::class,'bc_kh_chua_dong']);
@@ -121,6 +121,8 @@ Route::get('/bc_that_thoat',[BaoCaoController::class,'bc_that_thoat']);
 Route::get('/bc_bat_thuong',[BaoCaoController::class,'bc_bat_thuong']);
 Route::get('/bc_thu_doc',[BaoCaoController::class,'bc_thu_doc']);
 Route::get('/kh_chua_co_hd',[BaoCaoController::class,'kh_chua_co_hd']);
+//backup
+Route::get('/backup', [BackupController::class, 'backup']);
 //404
 Route::fallback(function(){
     return response()->json([
