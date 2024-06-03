@@ -78,7 +78,7 @@ class BaoCaoController extends Controller
         ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
         ->join('ql_khachhang','ql_hopdong.ma_khach_hang','=','ql_khachhang.ma_khach_hang')
         ->join('dm_tuyendoc','ql_hopdong.ma_tuyen','=','dm_tuyendoc.ma_tuyen')
-        ->whereRaw('ql_hoadon.khoa=0');
+        ->whereRaw('ql_hoadon.khoa=0 and ql_hoadon.so_tieu_thu>0');
         if($request->has('ma_tuyen')){
             $query->where('dm_tuyendoc.ma_tuyen',$request->ma_tuyen);
         }
