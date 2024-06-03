@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\LSDongHoKhoiModel;
+use App\Models\QLDongHoKhachModel;
+use App\Models\QLDongHoKhoiModel;
 use App\Models\QLHoaDonModel;
+use App\Models\QLHopDongModel;
 use App\Models\QLKhachHangModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -93,5 +96,18 @@ class BaoCaoController extends Controller
         ->leftJoin('ql_hopdong','ql_hopdong.ma_khach_hang','=','ql_khachhang.ma_khach_hang')
         ->whereRaw('ql_khachhang.co_hop_dong = 0');
         return $ds_khach_co_hd->get();
+    }
+    public function dashboard(Request $request){
+        $tong_khach_hang=QLKhachHangModel::selectRaw('count(ql_khachhang.ma_khach_hang) as so_khach_hang')->get();
+        $tong_hop_dong=QLHopDongModel::selectRaw('count(ql_hopdong.ma_hop_dong) as so_hop_dong')->get();
+        $tong_dh_khoi=QLDongHoKhoiModel::selectRaw('count(ql_donghokhoi.ma_dong_ho) as so_dh_khoi')->get();
+        $tong_dh_khach=QLDongHoKhachModel::selectRaw('count(ql_donghokhach.ma_dong_ho) as so_dh_khach')->get();
+        // $tong_khach_hang_moi = 
+        return response()->json([
+            $tong_khach_hang,
+            $tong_hop_dong,
+            $tong_dh_khoi,
+            $tong_dh_khach,
+          ]);
     }
 }

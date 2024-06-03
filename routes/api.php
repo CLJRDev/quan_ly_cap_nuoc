@@ -121,6 +121,7 @@ Route::get('/bc_that_thoat',[BaoCaoController::class,'bc_that_thoat']);
 Route::get('/bc_bat_thuong',[BaoCaoController::class,'bc_bat_thuong']);
 Route::get('/bc_thu_doc',[BaoCaoController::class,'bc_thu_doc']);
 Route::get('/kh_chua_co_hd',[BaoCaoController::class,'kh_chua_co_hd']);
+Route::get('/dashboard',[BaoCaoController::class,'dashboard']);
 //backup
 Route::get('/backup', [BackupController::class, 'backup']);
 //404
