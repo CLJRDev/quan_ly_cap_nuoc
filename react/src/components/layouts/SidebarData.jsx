@@ -143,6 +143,12 @@ export const SidebarData = [
         path: '/hoa_don',
         icon: <FaIcons.FaFileInvoiceDollar />,
         maQuyen: 17
+      },
+      {
+        title: 'Thanh toán',
+        path: '/thanh_toan',
+        icon: <FaIcons.FaFileInvoiceDollar />,
+        maQuyen: 17
       }
     ]
   },

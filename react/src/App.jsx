@@ -58,6 +58,7 @@ import QuanLyGhiChiSoDongHoKhach from './components/dong_ho/ghi_chi_so_dh_khach/
 import ChonThoiGianDongHoKhach from './components/dong_ho/ghi_chi_so_dh_khach/ChonThoiGianDongHoKhach'
 import GhiChiSoDongHoKhach from './components/dong_ho/ghi_chi_so_dh_khach/GhiChiSoDongHoKhach'
 import QuanLyHoaDon from './components/khach_hang_thanh_toan/QL_hoa_don/QuanLyHoaDon'
+import QuanLyThanhToan from './components/khach_hang_thanh_toan/QL_thanh_toan/QuanLyThanhToan'
 import XemHoaDon from './components/khach_hang_thanh_toan/QL_hoa_don/XemHoaDon'
 import BaoCaoChuaDongTien from './components/bao_cao/BaoCaoChuaDongTien'
 import BaoCaoCongTacThuDoc from './components/bao_cao/BaoCaoCongTacThuDoc'
@@ -135,6 +136,7 @@ function App() {
         <Route path='/ghi_chi_so_dh_khach/thoi_gian/ghi' element={<GhiChiSoDongHoKhach />} />
         <Route path='/hoa_don' element={<QuanLyHoaDon />} />
         <Route path='/hoa_don/xem/:id' element={<XemHoaDon />} />
+        <Route path='/thanh_toan' element={<QuanLyThanhToan />} />
         <Route path='/bao_cao_thu_doc' element={<BaoCaoCongTacThuDoc />} />
         <Route path='/bao_cao_that_thoat_nuoc' element={<BaoCaoThatThoatNuoc />} />
         <Route path='/bao_cao_su_dung_bat_thuong' element={<BaoCaoSuDungBatThuong />} />
