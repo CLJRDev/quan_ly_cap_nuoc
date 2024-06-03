@@ -4,11 +4,11 @@ export default function Paginate({ pageCount, onPageChange }) {
   return (
     <ReactPaginate
       breakLabel="..."
-      nextLabel="Tiếp >"
+      nextLabel=">"
       onPageChange={onPageChange}
       pageRangeDisplayed={3}
       pageCount={pageCount}
-      previousLabel="< Trước"
+      previousLabel="<"
       renderOnZeroPageCount={null}
       containerClassName="pagination"
       pageLinkClassName="page-num"

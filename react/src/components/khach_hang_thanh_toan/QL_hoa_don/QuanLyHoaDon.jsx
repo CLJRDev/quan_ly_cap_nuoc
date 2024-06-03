@@ -50,6 +50,26 @@ export default function QuanLyHoaDon() {
     fetchData()
   }, [])
 
+  const guiEmail = async (id) => {
+    console.log(id)
+    const formData = new FormData()
+    formData.append('ma_hoa_don', id)
+    try {
+      const response = await axios.post(`http://127.0.0.1:8000/api/send_bill`, formData)
+      console.log(response)
+      SuccessToast(response.data.message)
+    } catch (error) {
+      if (typeof error.response.data.error === 'object') {
+        const errorsArray = Object.values(error.response.data.error).flat();
+        errorsArray.forEach(item => {
+          WarningToast(item)
+        })
+      } else {
+        WarningToast(error.response.data.error)
+      }
+    }
+  }
+
   const hoaDonElements = currentItems.map((item, index) => {
     return <tr key={index}>
       <td>{item.ma_hoa_don}</td>
@@ -64,7 +84,7 @@ export default function QuanLyHoaDon() {
         {/* <button className="btn-edit">Gửi Email</button> */}
         <Link to={`/hoa_don/xem/${item.ma_hoa_don}`} className="btn-edit">Xem chi tiết</Link>&nbsp;
         <button className="btn-edit">Hợp đồng</button>&nbsp;
-        <button className="btn-edit">Gửi email</button>
+        <button className="btn-edit" onClick={() => guiEmail(item.ma_hoa_don)}>Gửi email</button>
       </td>
     </tr>
   })

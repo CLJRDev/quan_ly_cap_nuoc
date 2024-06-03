@@ -397,8 +397,8 @@ class QLHoaDonController extends Controller
         else return $query;
     }
     public function send_bill(Request $request)
-    {
-    $hoa_don = QLHoaDonModel::select('ql_hoadon.*','ql_hopdong.ma_hop_dong','ql_hopdong.dia_chi as dia_chi_hop_dong','dm_tuyendoc.ten_tuyen','ql_khachhang.ten_khach_hang','ql_khachhang.ma_khach_hang','ql_khachhang.sdt','ql_nhomgia.gia_ban','ql_nhomgia.hs_thue','ql_khachhang.dia_chi as dia_chi_khach','ql_khachhang.email')
+    {      
+      $hoa_don = QLHoaDonModel::select('ql_hoadon.*','ql_hopdong.ma_hop_dong','ql_hopdong.dia_chi as dia_chi_hop_dong','dm_tuyendoc.ten_tuyen','ql_khachhang.ten_khach_hang','ql_khachhang.ma_khach_hang','ql_khachhang.sdt','ql_nhomgia.gia_ban','ql_nhomgia.hs_thue','ql_khachhang.dia_chi as dia_chi_khach','ql_khachhang.email')
         ->join('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
         ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
         ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
