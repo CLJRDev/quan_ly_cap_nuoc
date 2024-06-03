@@ -62,7 +62,7 @@ class BaoCaoController extends Controller
         $query = QLHoaDonModel::joinSub($subQuery, 'avg_table', function ($join) {
             $join->on('ql_hoadon.ma_lap_dat', '=', 'avg_table.ma_lap_dat');
         })
-        ->select('ql_hoadon.*', 'avg_table.avg_so_tieu_thu','ql_hopdong.ma_hop_dong','ql_khachhang.ten_khach_hang','dm_loaikhachhang.ten_loai_khach_hang','dm_loaikhachhang.ma_loai_khach_hang')
+        ->select('ql_hoadon.*', 'avg_table.avg_so_tieu_thu','ql_hopdong.ma_hop_dong','ql_khachhang.ten_khach_hang','ql_khachhang.ma_khach_hang','dm_loaikhachhang.ten_loai_khach_hang','dm_loaikhachhang.ma_loai_khach_hang')
         ->leftJoin('ql_lapdatdhkhach','ql_lapdatdhkhach.ma_lap_dat','=','ql_hoadon.ma_lap_dat')
         ->leftJoin('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
         ->leftJoin('ql_khachhang','ql_hopdong.ma_khach_hang','=','ql_khachhang.ma_khach_hang')

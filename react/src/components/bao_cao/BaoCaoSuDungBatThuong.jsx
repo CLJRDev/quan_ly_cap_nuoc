@@ -47,8 +47,8 @@ export default function BaoCaoSuDungBatThuong() {
       <td>{item.so_tieu_thu}</td>
       <td>{new Intl.NumberFormat('en-VN', { maximumSignificantDigits: 3 }).format(item.tong_cong)}</td>
       <td>
-        <button className="btn-edit">Hợp đồng</button>&nbsp;
-        <button className="btn-edit">Khách hàng</button>
+        <Link className="btn-edit" to={`/xem_hop_dong_from_hoa_don/${item.ma_hop_dong}`}>Hợp đồng</Link>&nbsp;
+        <Link className="btn-edit" to={`/xem_khach_hang_from_bao_cao/${item.ma_khach_hang}`}>Khách hàng</Link>
       </td>
     </tr>
   })

@@ -46,8 +46,8 @@ export default function BaoCaoThatThoatNuoc() {
       <td>{item.dhkhach_tieu_thu}</td>
       <td>{item.that_thoat}</td>
       <td>
-        <button className="btn-edit">Đồng hồ khối</button>&nbsp;
-        <button className="btn-edit">Tuyến đọc</button>
+        <Link to={`/xem_tuyen_doc_from_bao_cao/${item.ma_tuyen}`} className="btn-edit">Tuyến đọc</Link>&nbsp;
+        <Link to={`/xem_dong_ho_khoi_from_bao_cao/${item.ma_dong_ho}`} className="btn-edit">Đồng hồ khối</Link>
       </td>
     </tr>
   })

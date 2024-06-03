@@ -42,10 +42,10 @@ export default function BaoCaoThuTien() {
       <td>{item.ky_hoa_don}</td>
       <td>{item.ten_tuyen}</td>
       <td>{new Intl.NumberFormat('en-VN', { maximumSignificantDigits: 3 }).format(item.tong_cong)}</td>
-      <td>
+      {/* <td>
         <button className="btn-edit">...</button>&nbsp;
         <button className="btn-edit">...</button>
-      </td>
+      </td> */}
     </tr>
   })
 
@@ -133,7 +133,7 @@ export default function BaoCaoThuTien() {
                 <th>Kỳ hóa đơn</th>
                 <th>Tuyến đọc</th>
                 <th>Tổng tiền</th>
-                <th style={{ width: '150px' }}>Hành động</th>
+                {/* <th style={{ width: '150px' }}>Hành động</th> */}
               </tr>
             </thead>
             <tbody>

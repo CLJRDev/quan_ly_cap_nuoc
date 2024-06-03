@@ -83,8 +83,8 @@ export default function QuanLyHoaDon() {
       <td>
         {/* <button className="btn-edit">Gửi Email</button> */}
         <Link to={`/hoa_don/xem/${item.ma_hoa_don}`} className="btn-edit">Xem chi tiết</Link>&nbsp;
-        <button className="btn-edit">Hợp đồng</button>&nbsp;
-        <button className="btn-edit" onClick={() => guiEmail(item.ma_hoa_don)}>Gửi email</button>
+        <Link className="btn-edit" to={`/xem_hop_dong_from_hoa_don/${item.ma_hop_dong}`}>Hợp đồng</Link>&nbsp;
+        <button className="btn-edit" onClick={() => guiEmail(item.ma_hop_dong)}>Gửi email</button>
       </td>
     </tr>
   })

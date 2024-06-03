@@ -16,7 +16,7 @@ import 'reactjs-popup/dist/index.css';
 import Sidebar from '../../layouts/Sidebar'
 
 export default function SuaHopDong() {
-  const { id, ma_dong_ho } = useParams()
+  const { id, ma_dong_ho, ma_hoa_don } = useParams()
   const navigate = useNavigate()
   const [hopDong, setHopDong] = useState({
     ten_nguoi_dai_dien: '',

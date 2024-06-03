@@ -89,6 +89,7 @@ function App() {
         <Route path='/tuyen_doc' element={<TuyenDoc />} />
         <Route path='/tuyen_doc/them' element={<ThemTuyenDoc />} />
         <Route path='/tuyen_doc/sua/:id' element={<SuaTuyenDoc />} />
+        <Route path='/xem_tuyen_doc_from_bao_cao/:id' element={<SuaTuyenDoc />} />
         <Route path='/quan_huyen' element={<QuanHuyen />} />
         <Route path='/quan_huyen/sua/:id' element={<SuaQuanHuyen />} />
         <Route path='/phuong_xa' element={<PhuongXa />} />
@@ -110,9 +111,11 @@ function App() {
         <Route path='/dong_ho_khoi' element={<QuanLyDongHoKhoi />} />
         <Route path='/dong_ho_khoi/them' element={<ThemDongHoKhoi />} />
         <Route path='/dong_ho_khoi/sua/:id' element={<SuaDongHoKhoi />} />
+        <Route path='/xem_dong_ho_khoi_from_bao_cao/:id' element={<SuaDongHoKhoi />} />
         <Route path='/khach_hang' element={<QuanLyKhachHang />} />
         <Route path='/khach_hang/them' element={<ThemKhachHang />} />
         <Route path='/khach_hang/sua/:id' element={<SuaKhachHang />} />
+        <Route path='/xem_khach_hang_from_bao_cao/:id' element={<SuaKhachHang />} />
         <Route path='/dong_ho_khach' element={<QuanLyDongHoKhach />} />
         <Route path='/dong_ho_khach/them' element={<ThemDongHoKhach />} />
         <Route path='/dong_ho_khach/sua/:id' element={<SuaDongHoKhach />} />
@@ -122,6 +125,7 @@ function App() {
         <Route path='/xem_hop_dong_from_khach_hang/:ma_khach_hang' element={<QuanLyHopDong />} />
         <Route path='/hop_dong/them' element={<ThemHopDong />} />
         <Route path='/hop_dong/sua/:id' element={<SuaHopDong />} />
+        <Route path='/xem_hop_dong_from_hoa_don/:id' element={<SuaHopDong />} />
         <Route path='/lap_dat_dh_khoi' element={<QuanLyLapDatDongHoKhoi />} />
         <Route path='/lap_dat_dh_khoi/them' element={<ThemLapDatDongHoKhoi />} />
         <Route path='/lap_dat_dh_khoi/sua/:id' element={<SuaLapDatDongHoKhoi />} />
