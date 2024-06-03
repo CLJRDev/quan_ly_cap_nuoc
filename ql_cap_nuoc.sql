@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 02, 2024 at 02:26 PM
+-- Generation Time: Jun 03, 2024 at 08:22 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -1321,7 +1321,14 @@ INSERT INTO `ql_phanquyen` (`ma_phan_quyen`, `ma_nhan_vien`, `ma_quyen`, `ma_tuy
 (6, 100000, 5, NULL),
 (7, 100001, 6, NULL),
 (8, 100001, 2, NULL),
-(11, 100006, 14, 1);
+(11, 100006, 14, 1),
+(12, 100000, 14, NULL),
+(13, 100000, 16, NULL),
+(14, 100000, 8, NULL),
+(15, 100000, 7, NULL),
+(16, 100000, 17, NULL),
+(17, 100000, 18, NULL),
+(18, 100000, 15, NULL);
 
 -- --------------------------------------------------------
 
@@ -1780,7 +1787,7 @@ ALTER TABLE `ql_nhomgia`
 -- AUTO_INCREMENT for table `ql_phanquyen`
 --
 ALTER TABLE `ql_phanquyen`
-  MODIFY `ma_phan_quyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ma_phan_quyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `ql_taikhoan`
