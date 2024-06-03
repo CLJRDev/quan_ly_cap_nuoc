@@ -62,6 +62,8 @@ export default function QuanLyKhachHang() {
       <td>
         <Link className="btn-edit" to={`/xem_hop_dong_from_khach_hang/${item.ma_khach_hang}`}>Hợp đồng</Link>
         &nbsp;
+        <Link className="btn-edit" to={`/them_hop_dong_from_khach_hang${item.ma_khach_hang}`}>Tạo hợp đồng</Link>
+        &nbsp;
         <Link className="btn-edit" to={`/khach_hang/sua/${item.ma_khach_hang}`}>Sửa</Link>
         &nbsp;
         <button onClick={() => xoa(item.ma_khach_hang)} className="btn-delete">Xóa</button>

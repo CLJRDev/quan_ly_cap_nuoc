@@ -65,6 +65,7 @@ import BaoCaoCongTacThuDoc from './components/bao_cao/BaoCaoCongTacThuDoc'
 import BaoCaoSuDungBatThuong from './components/bao_cao/BaoCaoSuDungBatThuong'
 import BaoCaoThatThoatNuoc from './components/bao_cao/BaoCaoThatThoatNuoc'
 import BaoCaoThuTien from './components/bao_cao/BaoCaoThuTien'
+import BaoCaoChuaCoHopDong from './components/bao_cao/BaoCaoChuaCoHopDong'
 
 import { Routes, Route } from 'react-router-dom'
 
@@ -124,6 +125,7 @@ function App() {
         <Route path='/hop_dong' element={<QuanLyHopDong />} />
         <Route path='/xem_hop_dong_from_khach_hang/:ma_khach_hang' element={<QuanLyHopDong />} />
         <Route path='/hop_dong/them' element={<ThemHopDong />} />
+        <Route path='/them_hop_dong_from_khach_hang/:ma_khach_hang' element={<ThemHopDong />} />
         <Route path='/hop_dong/sua/:id' element={<SuaHopDong />} />
         <Route path='/xem_hop_dong_from_hoa_don/:id' element={<SuaHopDong />} />
         <Route path='/lap_dat_dh_khoi' element={<QuanLyLapDatDongHoKhoi />} />
@@ -149,6 +151,7 @@ function App() {
         <Route path='/bao_cao_su_dung_bat_thuong' element={<BaoCaoSuDungBatThuong />} />
         <Route path='/bao_cao_chua_dong_tien' element={<BaoCaoChuaDongTien />} />
         <Route path='/bao_cao_quan_ly_thu_tien' element={<BaoCaoThuTien />} />
+        <Route path='/bao_cao_chua_co_hop_dong' element={<BaoCaoChuaCoHopDong />} />
         <Route path='/login' element={<Login />} />
       </Routes>
     </>

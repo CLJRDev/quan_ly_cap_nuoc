@@ -57,6 +57,7 @@ class QLHopDongController extends Controller
         ],422);
       }
       $hop_dong = new QLHopDongModel;
+      $khach_hang = QLKhachHangModel::where('ma_khach_hang',$request->ma_khach_hang)->first();
       $hop_dong->ten_nguoi_dai_dien = $request->ten_nguoi_dai_dien;
       $hop_dong->chuc_vu_nguoi_dai_dien = $request->chuc_vu_nguoi_dai_dien;
       $hop_dong->dia_chi = $request->dia_chi;
@@ -65,6 +66,7 @@ class QLHopDongController extends Controller
       $hop_dong->ma_khach_hang = $request->ma_khach_hang;
       $hop_dong->ma_tuyen = $request->ma_tuyen;
       $hop_dong->ma_nhom_gia  = $request->ma_nhom_gia ;
+      $khach_hang->co_hop_dong = 1;
       $result = $hop_dong->save();
       if ($result) {
         return response()->json([

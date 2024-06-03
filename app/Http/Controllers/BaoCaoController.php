@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\LSDongHoKhoiModel;
 use App\Models\QLHoaDonModel;
+use App\Models\QLKhachHangModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -86,5 +87,11 @@ class BaoCaoController extends Controller
             $query->where("ql_hoadon.ky_hoa_don","like","%".$request->ky_hoa_don."%");
         }
         return $query->get();
+    }
+    public function kh_chua_co_hd(Request $request){
+        $ds_khach_co_hd=QLKhachHangModel::selectRaw('ql_khachhang.*')
+        ->leftJoin('ql_hopdong','ql_hopdong.ma_khach_hang','=','ql_khachhang.ma_khach_hang')
+        ->whereRaw('ql_khachhang.co_hop_dong = 0');
+        return $ds_khach_co_hd->get();
     }
 }

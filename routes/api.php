@@ -120,6 +120,7 @@ Route::get('/bc_kh_chua_dong',[BaoCaoController::class,'bc_kh_chua_dong']);
 Route::get('/bc_that_thoat',[BaoCaoController::class,'bc_that_thoat']);
 Route::get('/bc_bat_thuong',[BaoCaoController::class,'bc_bat_thuong']);
 Route::get('/bc_thu_doc',[BaoCaoController::class,'bc_thu_doc']);
+Route::get('/kh_chua_co_hd',[BaoCaoController::class,'kh_chua_co_hd']);
 //404
 Route::fallback(function(){
     return response()->json([

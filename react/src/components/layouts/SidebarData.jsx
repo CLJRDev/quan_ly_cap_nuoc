@@ -235,6 +235,12 @@ export const SidebarData = [
         path: '/bao_cao_quan_ly_thu_tien',
         icon: <TbIcons.TbReportAnalytics />,
         maQuyen: 7
+      },
+      {
+        title: 'Báo cáo chưa có hợp đồng',
+        path: '/bao_cao_chua_co_hop_dong',
+        icon: <TbIcons.TbReportAnalytics />,
+        maQuyen: 7
       }
     ]
   },
