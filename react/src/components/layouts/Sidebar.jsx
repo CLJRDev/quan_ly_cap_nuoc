@@ -30,6 +30,10 @@ const SidebarNav = styled.nav`
   transition: 350ms;
   z-index: 10;
   overflow: auto;
+
+  @media (max-width: 500px) {
+    display: none;
+  }
 `
 const SidebarWrap = styled.div`
   width: 100%;

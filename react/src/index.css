@@ -175,6 +175,19 @@ table>tbody>tr>td {
   gap: 16px;
 }
 
+@media (max-width: 500px) {
+  .form-container {
+    margin: 10px 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .page {
+    margin: 20px;
+  }
+}
+
 input,
 select {
   outline: 0;

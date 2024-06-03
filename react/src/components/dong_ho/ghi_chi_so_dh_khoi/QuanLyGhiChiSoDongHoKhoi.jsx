@@ -23,18 +23,18 @@ export default function QuanLyGhiChiSoDongHoKhoi() {
 
   let first = true
   const lichSuElements = currentItems.map((item, index) => {
-    const actions = first === true ?
-      <td style={{ display: 'flex', justifyContent: 'center' }}>
-        <Link className="btn-edit" to={`/ghi_chi_so_dh_khoi/sua/${item.ma_lich_su}`}>Sửa</Link>
-        &nbsp;
-        <button onClick={() => xoa(item.ma_lich_su)} className="btn-delete">Xóa</button>
-      </td>
-      :
-      <td style={{ display: 'flex', justifyContent: 'center' }}>
-        <button style={{ background: '#ccc' }} className="btn-edit">Sửa</button>
-        &nbsp;
-        <button style={{ background: '#ccc' }} className="btn-delete">Xóa</button>
-      </td>
+    // const actions = first === true ?
+    //   <td style={{ display: 'flex', justifyContent: 'center' }}>
+    //     <Link className="btn-edit" to={`/ghi_chi_so_dh_khoi/sua/${item.ma_lich_su}`}>Sửa</Link>
+    //     &nbsp;
+    //     <button onClick={() => xoa(item.ma_lich_su)} className="btn-delete">Xóa</button>
+    //   </td>
+    //   :
+    //   <td style={{ display: 'flex', justifyContent: 'center' }}>
+    //     <button style={{ background: '#ccc' }} className="btn-edit">Sửa</button>
+    //     &nbsp;
+    //     <button style={{ background: '#ccc' }} className="btn-delete">Xóa</button>
+    //   </td>
 
     first = false;
     return <tr key={index}>
@@ -46,7 +46,12 @@ export default function QuanLyGhiChiSoDongHoKhoi() {
       <td>{item.chi_so_moi}</td>
       <td>{item.so_tieu_thu}</td>
       <td>{item.ten_tuyen}</td>
-      {actions}
+      <td style={{ display: 'flex', justifyContent: 'center' }}>
+        <button style={{ background: '#ccc' }} className="btn-edit">Sửa</button>
+        &nbsp;
+        <button style={{ background: '#ccc' }} className="btn-delete">Xóa</button>
+      </td>
+      {/* {actions} */}
     </tr>
   })
 

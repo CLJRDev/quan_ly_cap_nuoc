@@ -29,11 +29,11 @@ export default function QuanLyLapDatDongHoKhoi() {
 
   let first = true
   const lichSuElements = lichSus.map((item, index) => {
-    const deleteButton = first === true ?
-      <button onClick={() => xoa(item.ma_lap_dat)} className="btn-delete">Xóa</button>
-      :
-      <button style={{ background: '#ccc' }} className="btn-delete">Xóa</button>
-    first = false;
+    // const deleteButton = first === true ?
+    //   <button onClick={() => xoa(item.ma_lap_dat)} className="btn-delete">Xóa</button>
+    //   :
+    //   <button style={{ background: '#ccc' }} className="btn-delete">Xóa</button>
+    // first = false;
     return <tr key={index}>
       <td>{item.ma_dong_ho}</td>
       <td>{item.ten_dong_ho}</td>
@@ -43,9 +43,9 @@ export default function QuanLyLapDatDongHoKhoi() {
       <td>{item.chi_so_dau}</td>
       <td>{item.chi_so_cuoi}</td>
       <td>{item.so_tieu_thu}</td>
-      <td>
+      {/* <td>
         {deleteButton}
-      </td>
+      </td> */}
     </tr>
   })
 
@@ -131,7 +131,7 @@ export default function QuanLyLapDatDongHoKhoi() {
                 <th>Chỉ số đầu</th>
                 <th>Chỉ số cuối</th>
                 <th>Số tiêu thụ</th>
-                <th>Hành động</th>
+                {/* <th>Hành động</th> */}
               </tr>
             </thead>
             <tbody>
