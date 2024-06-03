@@ -116,7 +116,10 @@ function App() {
         <Route path='/dong_ho_khach' element={<QuanLyDongHoKhach />} />
         <Route path='/dong_ho_khach/them' element={<ThemDongHoKhach />} />
         <Route path='/dong_ho_khach/sua/:id' element={<SuaDongHoKhach />} />
+        <Route path='/xem_dong_ho_khach_from_hop_dong/:ma_hop_dong' element={<SuaDongHoKhach />} />
+        <Route path='/xem_hop_dong_from_dong_ho_khach/:ma_dong_ho' element={<SuaHopDong />} />
         <Route path='/hop_dong' element={<QuanLyHopDong />} />
+        <Route path='/xem_hop_dong_from_khach_hang/:ma_khach_hang' element={<QuanLyHopDong />} />
         <Route path='/hop_dong/them' element={<ThemHopDong />} />
         <Route path='/hop_dong/sua/:id' element={<SuaHopDong />} />
         <Route path='/lap_dat_dh_khoi' element={<QuanLyLapDatDongHoKhoi />} />

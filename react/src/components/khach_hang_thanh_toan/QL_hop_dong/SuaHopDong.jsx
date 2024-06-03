@@ -16,7 +16,7 @@ import 'reactjs-popup/dist/index.css';
 import Sidebar from '../../layouts/Sidebar'
 
 export default function SuaHopDong() {
-  const { id } = useParams()
+  const { id, ma_dong_ho } = useParams()
   const navigate = useNavigate()
   const [hopDong, setHopDong] = useState({
     ten_nguoi_dai_dien: '',
@@ -33,14 +33,25 @@ export default function SuaHopDong() {
   })
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/hop_dong/${id}`)
-      .then(response => {
-        setHopDong(response.data)
-        setSelectedOptions({
-          nhom_gia: { value: response.data.ma_nhom_gia, label: response.data.ten_nhom_gia },
-          tuyen_doc: { value: response.data.ma_tuyen, label: response.data.ten_tuyen }
+    if (ma_dong_ho) {
+      axios.get(`http://127.0.0.1:8000/api/lookup_dh_hop_dong?ma_dong_ho=${ma_dong_ho}`)
+        .then(response => {
+          setHopDong(response.data)
+          setSelectedOptions({
+            nhom_gia: { value: response.data.ma_nhom_gia, label: response.data.ten_nhom_gia },
+            tuyen_doc: { value: response.data.ma_tuyen, label: response.data.ten_tuyen }
+          })
         })
-      })
+    } else {
+      axios.get(`http://127.0.0.1:8000/api/hop_dong/${id}`)
+        .then(response => {
+          setHopDong(response.data)
+          setSelectedOptions({
+            nhom_gia: { value: response.data.ma_nhom_gia, label: response.data.ten_nhom_gia },
+            tuyen_doc: { value: response.data.ma_tuyen, label: response.data.ten_tuyen }
+          })
+        })
+    }
   }, [])
 
   useEffect(() => {

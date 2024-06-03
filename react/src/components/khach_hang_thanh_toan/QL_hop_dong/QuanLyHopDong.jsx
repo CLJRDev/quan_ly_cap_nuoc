@@ -1,6 +1,6 @@
 import { IoMdSearch } from "react-icons/io"
 import { IoIosAddCircleOutline } from "react-icons/io"
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from "react"
 import Select from 'react-select'
@@ -14,6 +14,7 @@ import Paginate from "../../layouts/Paginate"
 import Sidebar from '../../layouts/Sidebar'
 
 export default function QuanLyHopDong() {
+  const { ma_khach_hang } = useParams()
   const [hopDongs, setHopDongs] = useState([])
   const [searchData, setSearchData] = useState({
     ma_hop_dong: '',
@@ -33,10 +34,17 @@ export default function QuanLyHopDong() {
   const pageCount = Math.ceil(hopDongs.length / itemsPerPage);
 
   const fetchData = () => {
-    axios.get(`http://127.0.0.1:8000/api/hop_dong`)
-      .then(response => {
-        setHopDongs(response.data)
-      })
+    if (!ma_khach_hang) {
+      axios.get(`http://127.0.0.1:8000/api/hop_dong`)
+        .then(response => {
+          setHopDongs(response.data)
+        })
+    } else {
+      axios.get(`http://127.0.0.1:8000/api/hop_dong_search?ma_khach_hang=${ma_khach_hang}`)
+        .then(response => {
+          setHopDongs(response.data)
+        })
+    }
   }
 
   useEffect(() => {
@@ -93,7 +101,7 @@ export default function QuanLyHopDong() {
           <button onClick={() => goLapDat(item.ma_hop_dong)} className="btn-edit">Gỡ ĐH</button> :
           <Link className="btn-edit" to={`/lap_dat_dh_khach_from_hop_dong/${item.ma_hop_dong}`}>Lắp đặt</Link>
         }&nbsp;
-        {item.trang_thai == 1 && <Link className="btn-edit">Đồng hồ</Link>}&nbsp;
+        {item.trang_thai == 1 && <Link className="btn-edit" to={`/xem_dong_ho_khach_from_hop_dong/${item.ma_hop_dong}`}>Đồng hồ</Link>}&nbsp;
         <Link className="btn-edit" to={`/hop_dong/sua/${item.ma_hop_dong}`}>Sửa</Link>&nbsp;
         <button onClick={() => xoa(item.ma_hop_dong)} className="btn-delete">Xóa</button>
       </td>

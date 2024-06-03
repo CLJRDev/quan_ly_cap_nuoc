@@ -1,6 +1,6 @@
 import { IoMdSearch } from "react-icons/io"
 import { IoIosAddCircleOutline } from "react-icons/io"
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from "react"
 import Select from 'react-select'
@@ -121,7 +121,7 @@ export default function QuanLyDongHoKhach() {
           <button onClick={() => goLapDat(item.ma_dong_ho)} className="btn-edit">Gỡ</button> :
           <Link className="btn-edit" to={`/lap_dat_dh_khach_from_dong_ho/${item.ma_dong_ho}`}>Lắp đặt</Link>
         }&nbsp;
-        {item.tinh_trang == 1 && <Link className="btn-edit">Hợp đồng</Link>}&nbsp;
+        {item.tinh_trang == 1 && <Link className="btn-edit" to={`/xem_hop_dong_from_dong_ho_khach/${item.ma_dong_ho}`}>Hợp đồng</Link>}&nbsp;
         <Link className="btn-edit" to={`/dong_ho_khach/sua/${item.ma_dong_ho}`}>Sửa</Link>&nbsp;
         <button onClick={() => xoa(item.ma_dong_ho)} className="btn-delete">Xóa</button>
       </td>

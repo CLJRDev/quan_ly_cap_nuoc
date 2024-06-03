@@ -14,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from '../../layouts/Sidebar'
 
 export default function SuaDongHoKhach() {
-  const { id } = useParams()
+  const { id, ma_hop_dong } = useParams()
   const navigate = useNavigate()
   const [dongHo, setDongHo] = useState({
     ten_dong_ho: '',
@@ -32,15 +32,27 @@ export default function SuaDongHoKhach() {
   })
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/dong_ho_khach/${id}`)
-      .then(response => {
-        setDongHo(response.data)
-        setSelectedOptions({
-          loai_dong_ho: { value: response.data.ma_loai_dong_ho, label: response.data.ten_loai_dong_ho },
-          nha_cung_cap: { value: response.data.ma_nha_cung_cap, label: response.data.ten_nha_cung_cap },
-          co_dong_ho: { value: response.data.ma_co_dong_ho, label: response.data.ten_co_dong_ho }
+    if (ma_hop_dong) {
+      axios.get(`http://127.0.0.1:8000/api/lookup_dh_hop_dong?ma_hop_dong=${ma_hop_dong}`)
+        .then(response => {
+          setDongHo(response.data)
+          setSelectedOptions({
+            loai_dong_ho: { value: response.data.ma_loai_dong_ho, label: response.data.ten_loai_dong_ho },
+            nha_cung_cap: { value: response.data.ma_nha_cung_cap, label: response.data.ten_nha_cung_cap },
+            co_dong_ho: { value: response.data.ma_co_dong_ho, label: response.data.ten_co_dong_ho }
+          })
         })
-      })
+    } else {
+      axios.get(`http://127.0.0.1:8000/api/dong_ho_khach/${id}`)
+        .then(response => {
+          setDongHo(response.data)
+          setSelectedOptions({
+            loai_dong_ho: { value: response.data.ma_loai_dong_ho, label: response.data.ten_loai_dong_ho },
+            nha_cung_cap: { value: response.data.ma_nha_cung_cap, label: response.data.ten_nha_cung_cap },
+            co_dong_ho: { value: response.data.ma_co_dong_ho, label: response.data.ten_co_dong_ho }
+          })
+        })
+    }
   }, [])
 
 

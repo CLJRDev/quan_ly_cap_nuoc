@@ -308,9 +308,15 @@ class QLLapDatDHKhachController extends Controller
         if($request->has('ma_dong_ho')){
             $lap_dat = QLLapDatDHKhachModel::where('ma_dong_ho',$request->ma_dong_ho)->orderBy('ma_lap_dat','DESC')->first();
         }
-        $query = $lap_dat->select('ql_donghokhach.*','ql_hopdong.*')
+        $query = $lap_dat->select('ql_donghokhach.*','ql_hopdong.*','ql_hopdong.dia_chi as dia_chi_hop_dong', 'dm_loaidongho.ten_loai_dong_ho','dm_codongho.ten_co_dong_ho','dm_nhacungcap.ten_nha_cung_cap', 'ql_nhomgia.ten_nhom_gia','ql_khachhang.*', 'dm_tuyendoc.ten_tuyen')
         ->join('ql_donghokhach','ql_donghokhach.ma_dong_ho','=','ql_lapdatdhkhach.ma_dong_ho')
-        ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong');
-        return $query->orderBy('ma_lap_dat','desc')->first();
+        ->join('ql_hopdong','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
+        ->join('dm_loaidongho','dm_loaidongho.ma_loai_dong_ho','=','ql_donghokhach.ma_loai_dong_ho')
+        ->join('dm_codongho','dm_codongho.ma_co_dong_ho','=','ql_donghokhach.ma_co_dong_ho')
+        ->join('dm_nhacungcap','dm_nhacungcap.ma_nha_cung_cap','=','ql_donghokhach.ma_nha_cung_cap')
+        ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hopdong.ma_nhom_gia')
+        ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
+        ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_hopdong.ma_tuyen');
+        return $query->orderBy('ma_lap_dat','desc')->first();        
     }
 }
