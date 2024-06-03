@@ -16,7 +16,7 @@ class QLKhachHangController extends Controller
      */
     public function index()
   {
-    return QLKhachHangModel::orderBy('ma_khach_hang', 'ASC')->get();
+    return QLKhachHangModel::orderBy('ma_khach_hang', 'DESC')->get();
   }
 
   /**

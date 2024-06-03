@@ -1,6 +1,6 @@
 import { IoMdSearch } from "react-icons/io"
 import { IoIosAddCircleOutline } from "react-icons/io"
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from "react"
 import NhomGia from "../../select-option/NhomGia"
@@ -16,10 +16,33 @@ import 'reactjs-popup/dist/index.css';
 import Sidebar from '../../layouts/Sidebar'
 
 export default function ThemHopDong() {
+  const { can_cuoc } = useParams()
   const navigate = useNavigate()
-  const [hopDong, setHopDong] = useState({})
+  const [hopDong, setHopDong] = useState({
+    can_cuoc: can_cuoc || '',
+    ten_nguoi_dai_dien: '',
+    chuc_vu_nguoi_dai_dien: '',
+    ma_tuyen: '',
+    ma_nhom_gia: '',
+    dia_chi: '',
+    ngay_lap: ''
+  })
   const [khachHangInfo, setKhachHangInfo] = useState('Khách hàng không tồn tại!')
   const [isExist, setIsExist] = useState(false)
+
+  useEffect(() => {
+    if (can_cuoc) {
+      axios.get(`http://127.0.0.1:8000/api/lookup_khach_hang?can_cuoc=${can_cuoc}`)
+        .then(response => {
+          setKhachHangInfo(response.data)
+          setIsExist(true)
+        })
+        .catch(error => {
+          setKhachHangInfo(error.response.data.error)
+          setIsExist(false)
+        })
+    }
+  }, [])
 
   const handleInputChange = async (e) => {
     const { name, value } = e.target
@@ -87,6 +110,8 @@ export default function ThemHopDong() {
     await them()
   }
 
+  console.log(can_cuoc)
+
   return (
     <>
       <Sidebar />
@@ -96,7 +121,7 @@ export default function ThemHopDong() {
           <div>
             <label htmlFor="can_cuoc">Căn cước công dân</label>
             <div style={{ display: 'grid', gridTemplateColumns: '4fr 1fr', columnGap: '10px' }}>
-              <input required type="text" id="can_cuoc" name='can_cuoc' onChange={handleInputChange} />
+              <input required type="text" id="can_cuoc" name='can_cuoc' onChange={handleInputChange} value={hopDong.can_cuoc} />
               <Popup
                 trigger={<button className="btn-search" type="button"> <IoMdSearch style={{ transform: 'scale(1.2)' }} /> Kiểm tra</button>}
                 position="right center"

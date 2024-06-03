@@ -60,7 +60,8 @@ export default function QuanLyKhachHang() {
       <td>{item.sdt}</td>
       <td>{item.email}</td>
       <td>
-        <Link className="btn-edit" to={`/xem_hop_dong_from_khach_hang/${item.ma_khach_hang}`}>Hợp đồng</Link>
+        <Link className="btn-edit" to={`/xem_hop_dong_from_khach_hang/${item.ma_khach_hang}`}>Hợp đồng</Link>&nbsp;
+        <Link className="btn-edit" to={`/them_hop_dong_from_khach_hang/${item.can_cuoc}`}>Tạo hợp đồng</Link>
         &nbsp;
         <Link className="btn-edit" to={`/khach_hang/sua/${item.ma_khach_hang}`}>Sửa</Link>
         &nbsp;
