@@ -20,7 +20,7 @@ export default function Dashboard() {
     { name: "Hợp đồng", number: dashboard[1][0].so_hop_dong },
     { name: "Khách hàng mới", number: dashboard[4][0].so_khach_hang_moi },
     { name: "Khách hàng mới không có hợp đồng", number: dashboard[5][0].so_khach_hang_moi_khong_hd },
-    { name: "Hợp đồng chưa lắp đặt", number: dashboard[6][0].so_khach_hang_moi_khong_lap_dat },
+    { name: "Hợp đồng chưa lắp đặt", number: dashboard[6][0].tong_khach_hang_co_hd_chua_lap_dat },
   ]
 
   const data2 = [

@@ -9,7 +9,6 @@ import { DownloadTableExcel } from 'react-export-table-to-excel'
 import { TbTableExport } from "react-icons/tb";
 import Paginate from "../layouts/Paginate"
 import Sidebar from '../layouts/Sidebar'
-import PDFfile from "./PDFfile"
 
 export default function ThongKeKhachHang() {
 
@@ -81,8 +80,17 @@ export default function ThongKeKhachHang() {
               &nbsp; Tìm kiếm</button>
           </div>
         </form>
-        <div className="table-container animated fadeInDown">
-          <Link className="btn-edit" to='/xem_thong_ke_khach_hang'>Xem PDF</Link>
+        <div className="table-container animated fadeInDown" style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ width: '900px', backgroundColor: 'red' }}>
+            <div>
+              <div>
+                Công ty Cổ phần Cấp nước Hải Phòng
+              </div>
+              <div>
+
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>

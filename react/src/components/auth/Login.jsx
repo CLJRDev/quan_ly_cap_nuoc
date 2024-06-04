@@ -1,16 +1,28 @@
 import { Link, useNavigate } from "react-router-dom"
-import { useRef, useState, useContext } from 'react'
+import { useRef, useState, useContext, useEffect } from 'react'
 import axios from "axios"
 import SuccessToast from '../notification/SuccessToast'
 import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FcGoogle } from "react-icons/fc";
 
 export default function Login() {
   const navigate = useNavigate()
   const maNhanVienRef = useRef()
   const matKhauRef = useRef()
+  const [googleLoginUrl, setGoogleLoginUrl] = useState(null)
+
+  useEffect(() => {
+    axios.get(`http://127.0.0.1:8000/api/auth/google/url`)
+      .then(response => {
+        setGoogleLoginUrl(response.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }, [])
 
   const login = async () => {
     const formData = new FormData()
@@ -25,7 +37,7 @@ export default function Login() {
       const quyens = JSON.stringify(response.data.quyen)
       localStorage.setItem('quyens', quyens)
       localStorage.setItem('user', maNhanVienRef.current.value)
-      navigate('/home')
+      navigate('/dashboard')
     } catch (error) {
       if (typeof error.response.data.error === 'object') {
         const errorsArray = Object.values(error.response.data.error).flat();
@@ -36,7 +48,6 @@ export default function Login() {
         WarningToast(error.response.data.error)
       }
     }
-
   }
 
   const handleSubmit = async (e) => {
@@ -52,6 +63,9 @@ export default function Login() {
           <input required ref={maNhanVienRef} type="text" placeholder="Mã nhân viên" />
           <input required style={{ marginTop: '10px' }} ref={matKhauRef} type="password" placeholder="Mật khẩu" />
           <button style={{ marginTop: '10px' }} className="btn btn-block">Đăng nhập</button>
+          {googleLoginUrl && <Link to={`${googleLoginUrl}`} style={{ marginTop: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="btn btn-block">
+            <FcGoogle style={{ transform: 'scale(1.4)' }} />&nbsp;Đăng nhập với Google
+          </Link>}
         </form>
       </div>
       <ToastContainer />

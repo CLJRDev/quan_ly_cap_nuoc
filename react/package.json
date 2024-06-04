@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "proxy": "http://localhost:8000",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -14,6 +15,7 @@
     "@coreui/coreui-pro": "^5.1.0",
     "@coreui/react": "^5.0.0",
     "@coreui/react-pro": "^5.1.0",
+    "@react-oauth/google": "^0.12.1",
     "@react-pdf/renderer": "^3.4.4",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
