@@ -94,20 +94,37 @@ class BaoCaoController extends Controller
     public function kh_chua_co_hd(Request $request){
         $ds_khach_co_hd=QLKhachHangModel::selectRaw('ql_khachhang.*')
         ->leftJoin('ql_hopdong','ql_hopdong.ma_khach_hang','=','ql_khachhang.ma_khach_hang')
-        ->whereRaw('ql_khachhang.co_hop_dong = 0');
+        ->whereRaw('ql_hopdong.ma_hop_dong is null');
         return $ds_khach_co_hd->get();
     }
     public function dashboard(Request $request){
+        $date = date("YYYY-mm-dd");
         $tong_khach_hang=QLKhachHangModel::selectRaw('count(ql_khachhang.ma_khach_hang) as so_khach_hang')->get();
         $tong_hop_dong=QLHopDongModel::selectRaw('count(ql_hopdong.ma_hop_dong) as so_hop_dong')->get();
         $tong_dh_khoi=QLDongHoKhoiModel::selectRaw('count(ql_donghokhoi.ma_dong_ho) as so_dh_khoi')->get();
         $tong_dh_khach=QLDongHoKhachModel::selectRaw('count(ql_donghokhach.ma_dong_ho) as so_dh_khach')->get();
-        // $tong_khach_hang_moi = 
+        $tong_khach_hang_moi = QLKhachHangModel::selectRaw('count(ql_khachhang.ma_khach_hang) as so_khach_hang_moi')
+            ->whereBetween('ngay_dang_ky',[date_sub($date,date_interval_create_from_date_string("1 month")),date_add($date,date_interval_create_from_date_string("1 month"))])
+            ->get();
+        $tong_khach_hang_moi_khong_hd = QLKhachHangModel::selectRaw('count(ql_khachhang.ma_khach_hang) as so_khach_hang_moi_khong_hd')
+            ->leftJoin('ql_hopdong','ql_hopdong.ma_khach_hang','=','ql_khachhang.ma_khach_hang')
+            ->whereRaw('ql_hopdong.ma_hop_dong is null')
+            ->whereBetween('ngay_dang_ky',[date_sub($date,date_interval_create_from_date_string("1 month")),date_add($date,date_interval_create_from_date_string("1 month"))])
+            ->get();
+        $tong_khach_hang_moi_khong_lap_dat = QLKhachHangModel::selectRaw('count(ql_khachhang.ma_khach_hang) as so_khach_hang_moi_khong_lap_dat')
+            ->leftJoin('ql_hopdong','ql_hopdong.ma_khach_hang','=','ql_khachhang.ma_khach_hang')
+            ->leftJoin('ql_lapdatdhkhach','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
+            ->whereRaw('ql_hopdong.ma_lap_dat is null')
+            ->whereBetween('ngay_dang_ky',[date_sub($date,date_interval_create_from_date_string("1 month")),date_add($date,date_interval_create_from_date_string("1 month"))])
+            ->get();
         return response()->json([
             $tong_khach_hang,
             $tong_hop_dong,
             $tong_dh_khoi,
             $tong_dh_khach,
+            $tong_khach_hang_moi,
+            $tong_khach_hang_moi_khong_hd,
+            $tong_khach_hang_moi_khong_lap_dat,
           ]);
     }
 }
