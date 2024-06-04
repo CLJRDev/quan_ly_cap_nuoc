@@ -10,7 +10,14 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 class QLTaiKhoanModel extends Model
 {
     use HasFactory;
-    protected $table = 'ql_taikhoan';
+    protected $fillable = [
+      'email',
+      'sdt',
+      'ho_ten',
+      'mat_khau',
+      'trang_thai',
+      'chuc_vu',
+  ];    protected $table = 'ql_taikhoan';
     public $incrementing = true;
     protected $primaryKey = 'ma_nhan_vien';
     protected $keytype = 'int';

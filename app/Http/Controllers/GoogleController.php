@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Models\QLPhanQuyenModel;
 use App\Models\QLTaiKhoanModel;
 use App\Models\SocialAccount;
 use App\Models\TaiKhoanSocialModel;
@@ -36,13 +37,25 @@ class GoogleController extends Controller
                 $tai_khoan = QLTaiKhoanModel::create([
                     'email' => $tai_khoan_google->getEmail(),
                     'ho_ten' => $tai_khoan_google->getName(),
+                    'mat_khau' => md5(1),
+                    'trang_thai' => 1,
+                    'chuc_vu' => 'Nhân viên',
                 ]);
                 $tai_khoan_social->fill(['ma_nhan_vien' => $tai_khoan->ma_nhan_vien])->save();
             }
         });
+        $tai_khoan_moi = QLTaiKhoanModel::where('email',$tai_khoan_google->email)->first();
+        $quyen = QLPhanQuyenModel::where('ma_nhan_vien',$tai_khoan_moi->ma_nhan_vien)->pluck('ma_quyen')->toArray();
+                session()->put('quyen', $quyen);
+                session()->put('bao_loi', '');
+                session()->put('nguoi_dung', $tai_khoan_moi->ma_nhan_vien);
 
         return Response::json([
-            'user' => new UserResource($tai_khoan),
+            'login' => 'true',
+            'quyen' =>session('quyen'),
+            'nguoi_dung' => session('nguoi_dung'),
+            'token' => session()->getId(),
+            'user' => $tai_khoan,
             'google_user' => $tai_khoan_google,
         ]);
     }
