@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 import HopDong from "../../select-option/HopDong"
 import DongHoKhach from "../../select-option/DongHoKhach"
 import Sidebar from '../../layouts/Sidebar'
+import Paginate from "../../layouts/Paginate"
 
 export default function QuanLyGhiChiSoDongHoKhach() {
   const [lichSus, setLichSus] = useState([])
@@ -13,9 +14,18 @@ export default function QuanLyGhiChiSoDongHoKhach() {
     ma_hop_dong: '',
     ma_dong_ho: ''
   })
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = lichSus.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(lichSus.length / itemsPerPage);
+
+  useEffect(() => {
+    timKiem()
+  }, [])
 
   // let first = true
-  const lichSuElements = lichSus.map((item, index) => {
+  const lichSuElements = currentItems.map((item, index) => {
     // const actions = first === true ?
     //   <td style={{ display: 'flex', justifyContent: 'center' }}>
     //     <Link className="btn-edit" to={`/ghi_chi_so_dh_khach/sua/${item.ma_hoa_don}`}>Sửa</Link>
@@ -56,7 +66,10 @@ export default function QuanLyGhiChiSoDongHoKhach() {
     })
   }
 
-  console.log(searchData)
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % lichSus.length;
+    setItemOffset(newOffset);
+  }
 
   const timKiem = async (e) => {
     const { ma_hop_dong, ma_dong_ho } = searchData;
@@ -128,9 +141,12 @@ export default function QuanLyGhiChiSoDongHoKhach() {
               {lichSuElements}
             </tbody>
           </table>
+          <Paginate
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
+          />
         </div>
       </div>
     </>
-
   )
 }

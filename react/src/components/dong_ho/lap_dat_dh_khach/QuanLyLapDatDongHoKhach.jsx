@@ -1,16 +1,17 @@
 import HopDong from "../../select-option/HopDong"
+import DongHoKhach from "../../select-option/DongHoKhach"
 import { IoMdSearch } from "react-icons/io"
 import { IoIosAddCircleOutline } from "react-icons/io"
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from "react"
-import Select from 'react-select'
 import SuccessToast from '../../notification/SuccessToast'
 import ErrorToast from '../../notification/ErrorToast'
 import WarningToast from '../../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from '../../layouts/Sidebar'
+import Paginate from "../../layouts/Paginate"
 
 export default function QuanLyLapDatDongHoKhach() {
   const [lichSus, setLichSus] = useState([])
@@ -19,13 +20,17 @@ export default function QuanLyLapDatDongHoKhach() {
     ma_hop_dong: ''
   })
 
-  let first = true
-  const lichSuElements = lichSus.map((item, index) => {
-    // const deleteButton = first === true ?
-    //   <button onClick={() => xoa(item.ma_lap_dat)} className="btn-delete">Xóa</button>
-    //   :
-    //   <button style={{ background: '#ccc' }} className="btn-delete">Xóa</button>
-    // first = false;
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = lichSus.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(lichSus.length / itemsPerPage);
+
+  useEffect(() => {
+    timKiem()
+  }, [])
+
+  const lichSuElements = currentItems.map((item, index) => {
     return <tr key={index}>
       <td>{item.ma_dong_ho}</td>
       <td>{item.ten_dong_ho}</td>
@@ -36,21 +41,22 @@ export default function QuanLyLapDatDongHoKhach() {
       <td>{item.chi_so_dau}</td>
       <td>{item.chi_so_cuoi}</td>
       <td>{item.so_tieu_thu}</td>
-      {/* <td>
-        {deleteButton}
-      </td> */}
     </tr>
   })
 
-
-  const handleInputChange = e => {
-    const { name, value } = e.target
+  const handleSelectChange = (option, e) => {
+    const name = e.name
     setSearchData(pre => {
       return {
         ...pre,
-        [name]: value
+        [name]: option.value
       }
     })
+  }
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % lichSus.length;
+    setItemOffset(newOffset);
   }
 
   const timKiem = async () => {
@@ -81,11 +87,19 @@ export default function QuanLyLapDatDongHoKhach() {
         <form className="form-container" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="ma_dong_ho">Mã đồng hồ</label>
-            <input type="number" id='ma_dong_ho' name='ma_dong_ho' onChange={handleInputChange} />
+            <DongHoKhach
+              onChange={handleSelectChange}
+              isSearch={true}
+              name='ma_dong_ho'
+            />
           </div>
           <div>
             <label htmlFor="ma_hop_dong">Mã hợp đồng</label>
-            <input type="number" id='ma_hop_dong' name='ma_hop_dong' onChange={handleInputChange} />
+            <HopDong
+              onChange={handleSelectChange}
+              isSearch={true}
+              name='ma_hop_dong'
+            />
           </div>
           <div>
             <button type="submit" className="btn-search">
@@ -119,6 +133,10 @@ export default function QuanLyLapDatDongHoKhach() {
               {lichSuElements}
             </tbody>
           </table>
+          <Paginate
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
+          />
         </div>
         <ToastContainer />
       </div>
