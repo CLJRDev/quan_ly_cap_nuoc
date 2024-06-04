@@ -17,7 +17,7 @@ export default function Login() {
   useEffect(() => {
     axios.get(`http://127.0.0.1:8000/api/auth/google/url`)
       .then(response => {
-        setGoogleLoginUrl(response.data)
+        setGoogleLoginUrl(response.data.url)
       })
       .catch(error => {
         console.log(error)
