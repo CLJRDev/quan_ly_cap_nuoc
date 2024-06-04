@@ -59,7 +59,7 @@ class QLKhachHangController extends Controller
     $khach_hang->dia_chi = $request->dia_chi;
     $khach_hang->email = $request->email;
     $khach_hang->sdt = $request->sdt;
-    $khach_hang->co_hop_dong = 0;
+    $khach_hang->ngay_dang_ky = date("YYYY-mm-dd");
     $result = $khach_hang->save();
     if ($result) {
       return response()->json([
