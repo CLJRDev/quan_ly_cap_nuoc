@@ -122,7 +122,7 @@ Route::get('/bc_bat_thuong',[BaoCaoController::class,'bc_bat_thuong']);
 Route::get('/bc_thu_doc',[BaoCaoController::class,'bc_thu_doc']);
 Route::get('/kh_chua_co_hd',[BaoCaoController::class,'kh_chua_co_hd']);
 Route::get('/dashboard',[BaoCaoController::class,'dashboard']);
-Route::get('/kh_khu_vuc',[BaoCaoController::class,'kh_khu_vuc']);
+Route::get('/bc_kh_khu_vuc',[BaoCaoController::class,'bc_kh_khu_vuc']);
 //backup
 Route::get('/backup', [BackupController::class, 'backup']);
 //404
