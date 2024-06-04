@@ -84,7 +84,7 @@ export default function BaoCaoChuaCoHopDong() {
           <table style={{ display: 'none' }} ref={tableRef}>
             <thead>
               <tr>
-              <th>Mã khách hàng</th>
+                <th>Mã khách hàng</th>
                 <th>Tên khách hàng</th>
                 <th>Căn cước</th>
                 <th>Địa chỉ</th>

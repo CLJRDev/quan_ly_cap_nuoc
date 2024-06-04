@@ -1,5 +1,6 @@
 import { IoMdSearch } from "react-icons/io"
 import { IoIosAddCircleOutline } from "react-icons/io"
+import { CgImport } from "react-icons/cg";
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from "react"
@@ -61,12 +62,8 @@ export default function QuanLyKhachHang() {
       <td>{item.email}</td>
       <td>
         <Link className="btn-edit" to={`/xem_hop_dong_from_khach_hang/${item.ma_khach_hang}`}>Hợp đồng</Link>&nbsp;
-        <Link className="btn-edit" to={`/them_hop_dong_from_khach_hang/${item.can_cuoc}`}>Tạo hợp đồng</Link>
-        &nbsp;
-        <Link className="btn-edit" to={`/them_hop_dong_from_khach_hang${item.ma_khach_hang}`}>Tạo hợp đồng</Link>
-        &nbsp;
-        <Link className="btn-edit" to={`/khach_hang/sua/${item.ma_khach_hang}`}>Sửa</Link>
-        &nbsp;
+        <Link className="btn-edit" to={`/them_hop_dong_from_khach_hang/${item.can_cuoc}`}>Tạo hợp đồng</Link>&nbsp;
+        <Link className="btn-edit" to={`/khach_hang/sua/${item.ma_khach_hang}`}>Sửa</Link>&nbsp;
         <button onClick={() => xoa(item.ma_khach_hang)} className="btn-delete">Xóa</button>
       </td>
     </tr>
@@ -146,6 +143,11 @@ export default function QuanLyKhachHang() {
             <Link to='/khach_hang/them' className="btn-add">
               <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
               &nbsp; Thêm khách hàng
+            </Link>
+            &nbsp;
+            <Link to='/khach_hang/import_excel' className="btn-add">
+              <CgImport style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Import Excel
             </Link>
           </div>
         </form>

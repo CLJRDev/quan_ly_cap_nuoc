@@ -21,35 +21,28 @@ const SidebarNav = styled.nav`
   background: #0051a9;
   width: 300px;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: space-between;
   position: fixed;
   top: 0;
   left: 0;
   transition: 350ms;
   z-index: 10;
   overflow: auto;
-
   @media (max-width: 500px) {
     display: none;
   }
 `
 const SidebarWrap = styled.div`
   width: 100%;
-  position: absolute;
 `
 
 const LogoutWrap = styled.div`
-  width: 300px;
+  width: 250px;
   position: fixed;
-  bottom: 0;
+  top: 10px;
+  right: 0;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  border-top: 2px solid #ccc;
-  padding: 10px 0;
-  background-color: #0051a9;
 `
 
 const LogoutButton = styled.button`
@@ -65,7 +58,7 @@ const LogoutButton = styled.button`
   }
 `
 const User = styled.div`
-  color: #fff;
+  color: #0051a9;
   font-weight: bold;
 `
 
@@ -109,15 +102,15 @@ export default function Sidebar() {
                 return <SubMenu item={item} key={index} />
               }
             })}
-            <LogoutWrap>
-              <User>
-                {nhanVien.ho_ten}
-              </User>
-              <LogoutButton onClick={logout}>
-                <IoMdLogOut style={{ transform: 'scale(1.3)' }} /> Đăng xuất
-              </LogoutButton>
-            </LogoutWrap>
           </SidebarWrap>
+          <LogoutWrap>
+            <User>
+              {nhanVien.ho_ten}
+            </User>
+            <LogoutButton onClick={logout}>
+              <IoMdLogOut style={{ transform: 'scale(1.3)' }} /> Đăng xuất
+            </LogoutButton>
+          </LogoutWrap>
         </SidebarNav>
       </IconContext.Provider>
     </>

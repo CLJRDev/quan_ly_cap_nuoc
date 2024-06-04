@@ -199,7 +199,7 @@ class QLHopDongController extends Controller
         $query->where('ten_nguoi_dai_dien', "like", "%" . $request->ten_nguoi_dai_dien . "%");
       }
       if ($request->has('ma_khach_hang')) {
-        $query->where('ql_hopdong.ma_khach_hang', "like", "%" . $request->ma_khach_hang . "%");
+        $query->where('ql_hopdong.ma_khach_hang', $request->ma_khach_hang);
       }
       if ($request->has('ten_khach_hang')) {
         $query->where('ten_khach_hang', "like", "%" . $request->ten_khach_hang . "%");

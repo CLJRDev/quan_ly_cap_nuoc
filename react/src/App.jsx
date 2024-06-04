@@ -66,6 +66,7 @@ import BaoCaoSuDungBatThuong from './components/bao_cao/BaoCaoSuDungBatThuong'
 import BaoCaoThatThoatNuoc from './components/bao_cao/BaoCaoThatThoatNuoc'
 import BaoCaoThuTien from './components/bao_cao/BaoCaoThuTien'
 import BaoCaoChuaCoHopDong from './components/bao_cao/BaoCaoChuaCoHopDong'
+import ImportExcelKhachHang from './components/khach_hang_thanh_toan/QL_khach_hang/ImportExcelKhachHang'
 
 import { Routes, Route } from 'react-router-dom'
 
@@ -115,6 +116,7 @@ function App() {
         <Route path='/xem_dong_ho_khoi_from_bao_cao/:id' element={<SuaDongHoKhoi />} />
         <Route path='/khach_hang' element={<QuanLyKhachHang />} />
         <Route path='/khach_hang/them' element={<ThemKhachHang />} />
+        <Route path='/khach_hang/import_excel' element={<ImportExcelKhachHang />} />
         <Route path='/khach_hang/sua/:id' element={<SuaKhachHang />} />
         <Route path='/xem_khach_hang_from_bao_cao/:id' element={<SuaKhachHang />} />
         <Route path='/dong_ho_khach' element={<QuanLyDongHoKhach />} />

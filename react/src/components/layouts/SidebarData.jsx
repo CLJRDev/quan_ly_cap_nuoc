@@ -237,7 +237,7 @@ export const SidebarData = [
         maQuyen: 7
       },
       {
-        title: 'Báo cáo chưa có hợp đồng',
+        title: 'Chưa có hợp đồng',
         path: '/bao_cao_chua_co_hop_dong',
         icon: <TbIcons.TbReportAnalytics />,
         maQuyen: 7
