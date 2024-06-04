@@ -36,13 +36,16 @@ const SidebarWrap = styled.div`
 `
 
 const LogoutWrap = styled.div`
-  width: 250px;
+  width: 280px;
   position: fixed;
   top: 10px;
-  right: 0;
+  right: 1rem;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  border: 1px solid #0051a9;
+  padding: 5px;
+  border-radius: 5px;
 `
 
 const LogoutButton = styled.button`

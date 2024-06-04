@@ -52,10 +52,9 @@ export default function ImportExcelKhachHang() {
 
       try {
         const response = await axios.post(`http://127.0.0.1:8000/api/khach_hang`, formData)
-        setTimeout(() => {
-          SuccessToast(response.data.message)
-        }, 500)
+        SuccessToast(response.data.message)
       } catch (error) {
+        console.log(error)
         const errorsArray = Object.values(error.response.data.error).flat();
         errorsArray.forEach(item => {
           WarningToast(`Khách hàng: ${khachHangs[i][0]} - ${item}`)
@@ -75,7 +74,7 @@ export default function ImportExcelKhachHang() {
           </div>
           <div></div>
           <div>
-            <button onClick={() => handleClick()} className="btn-add">Thêm dữ liệu khách hàng</button>
+            <button onClick={() => handleClick()} className="btn-add"><CgImport style={{ transform: 'scale(1.2)' }} />&nbsp; Thêm dữ liệu khách hàng</button>
           </div>
         </div>
         <div className="table-container animated fadeInDown">
