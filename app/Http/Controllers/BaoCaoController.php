@@ -98,7 +98,7 @@ class BaoCaoController extends Controller
         return $ds_khach_co_hd->get();
     }
     public function dashboard(Request $request){
-        $date = date("YYYY-mm-dd");
+        $date = strtotime(date("YYYY-mm-dd"));
         $tong_khach_hang=QLKhachHangModel::selectRaw('count(ql_khachhang.ma_khach_hang) as so_khach_hang')->get();
         $tong_hop_dong=QLHopDongModel::selectRaw('count(ql_hopdong.ma_hop_dong) as so_hop_dong')->get();
         $tong_dh_khoi=QLDongHoKhoiModel::selectRaw('count(ql_donghokhoi.ma_dong_ho) as so_dh_khoi')->get();
