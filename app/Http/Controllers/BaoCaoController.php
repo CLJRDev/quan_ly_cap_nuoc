@@ -133,7 +133,7 @@ class BaoCaoController extends Controller
         ->leftJoin('ql_lapdatdhkhach','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
         ->leftJoin('ql_hoadon','ql_hoadon.ma_lap_dat','=','ql_lapdatdhkhach.ma_lap_dat')
         ->where('ma_tuyen',$request->ma_tuyen)
-        ->whereRaw('(ql_hoadon.tu_ngay>='.$request->tu_ngay.' and ql_hoadon.den_ngay<='.$request->den_ngay.')'
+        ->whereRaw('(ql_hoadon.tu_ngay>='.$request->tu_ngay.' and ql_hoadon.den_ngay<='.$request->den_ngay.')')
         ->whereBetween('ngay_dang_ky',[$request->tu_ngay,$request->den_ngay]);
         return $ds_khach_khu_vuc->get();
     }
