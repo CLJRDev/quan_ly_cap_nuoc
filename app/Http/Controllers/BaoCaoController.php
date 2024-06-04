@@ -132,17 +132,9 @@ class BaoCaoController extends Controller
         ->leftJoin('ql_hopdong','ql_hopdong.ma_khach_hang','=','ql_khachhang.ma_khach_hang')
         ->leftJoin('ql_lapdatdhkhach','ql_hopdong.ma_hop_dong','=','ql_lapdatdhkhach.ma_hop_dong')
         ->leftJoin('ql_hoadon','ql_hoadon.ma_lap_dat','=','ql_lapdatdhkhach.ma_lap_dat')
-        ->where('ma_tuyen',$request->ma_tuyen);
-        if($request->khoang=='thang'){
-            $ds_khach_khu_vuc->whereBetween('ngay_dang_ky',[date_sub($date,date_interval_create_from_date_string("45 days")),date_add($date,date_interval_create_from_date_string("45 days"))])
-        }
-        else if($request->khoang=='quy'){
-            $ds_khach_khu_vuc->whereBetween('ngay_dang_ky',[date_sub($date,date_interval_create_from_date_string("45 days")),date_add($date,date_interval_create_from_date_string("45 days"))])
-        }
-        else if($request->khoang=='nam'){
-            $ds_khach_khu_vuc->whereBetween('ngay_dang_ky',[date_sub($date,date_interval_create_from_date_string("45 days")),date_add($date,date_interval_create_from_date_string("45 days"))])
-        }
-        
+        ->where('ma_tuyen',$request->ma_tuyen)
+        ->whereRaw('(ql_hoadon.tu_ngay>='.$request->tu_ngay.' and ql_hoadon.den_ngay<='.$request->den_ngay.')'
+        ->whereBetween('ngay_dang_ky',[$request->tu_ngay,$request->den_ngay]);
         return $ds_khach_khu_vuc->get();
     }
 }
