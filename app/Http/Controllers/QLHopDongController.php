@@ -66,7 +66,6 @@ class QLHopDongController extends Controller
       $hop_dong->ma_khach_hang = $request->ma_khach_hang;
       $hop_dong->ma_tuyen = $request->ma_tuyen;
       $hop_dong->ma_nhom_gia  = $request->ma_nhom_gia ;
-      $khach_hang->co_hop_dong = 1;
       $result = $hop_dong->save();
       if ($result) {
         return response()->json([
