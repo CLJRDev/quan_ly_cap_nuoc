@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 03, 2024 at 08:22 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th6 04, 2024 lúc 05:54 AM
+-- Phiên bản máy phục vụ: 10.4.32-MariaDB
+-- Phiên bản PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `ql_cap_nuoc`
+-- Cơ sở dữ liệu: `ql_cap_nuoc`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cache`
+-- Cấu trúc bảng cho bảng `cache`
 --
 
 CREATE TABLE `cache` (
@@ -36,7 +36,7 @@ CREATE TABLE `cache` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cache_locks`
+-- Cấu trúc bảng cho bảng `cache_locks`
 --
 
 CREATE TABLE `cache_locks` (
@@ -48,7 +48,7 @@ CREATE TABLE `cache_locks` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dm_chinhanh`
+-- Cấu trúc bảng cho bảng `dm_chinhanh`
 --
 
 CREATE TABLE `dm_chinhanh` (
@@ -58,7 +58,7 @@ CREATE TABLE `dm_chinhanh` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `dm_chinhanh`
+-- Đang đổ dữ liệu cho bảng `dm_chinhanh`
 --
 
 INSERT INTO `dm_chinhanh` (`ma_chi_nhanh`, `ten_chi_nhanh`, `dia_chi`) VALUES
@@ -77,7 +77,7 @@ INSERT INTO `dm_chinhanh` (`ma_chi_nhanh`, `ten_chi_nhanh`, `dia_chi`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dm_codongho`
+-- Cấu trúc bảng cho bảng `dm_codongho`
 --
 
 CREATE TABLE `dm_codongho` (
@@ -86,7 +86,7 @@ CREATE TABLE `dm_codongho` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `dm_codongho`
+-- Đang đổ dữ liệu cho bảng `dm_codongho`
 --
 
 INSERT INTO `dm_codongho` (`ma_co_dong_ho`, `ten_co_dong_ho`) VALUES
@@ -108,7 +108,7 @@ INSERT INTO `dm_codongho` (`ma_co_dong_ho`, `ten_co_dong_ho`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dm_loaidongho`
+-- Cấu trúc bảng cho bảng `dm_loaidongho`
 --
 
 CREATE TABLE `dm_loaidongho` (
@@ -117,7 +117,7 @@ CREATE TABLE `dm_loaidongho` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `dm_loaidongho`
+-- Đang đổ dữ liệu cho bảng `dm_loaidongho`
 --
 
 INSERT INTO `dm_loaidongho` (`ma_loai_dong_ho`, `ten_loai_dong_ho`) VALUES
@@ -129,7 +129,7 @@ INSERT INTO `dm_loaidongho` (`ma_loai_dong_ho`, `ten_loai_dong_ho`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dm_loaikhachhang`
+-- Cấu trúc bảng cho bảng `dm_loaikhachhang`
 --
 
 CREATE TABLE `dm_loaikhachhang` (
@@ -138,7 +138,7 @@ CREATE TABLE `dm_loaikhachhang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `dm_loaikhachhang`
+-- Đang đổ dữ liệu cho bảng `dm_loaikhachhang`
 --
 
 INSERT INTO `dm_loaikhachhang` (`ma_loai_khach_hang`, `ten_loai_khach_hang`) VALUES
@@ -152,7 +152,7 @@ INSERT INTO `dm_loaikhachhang` (`ma_loai_khach_hang`, `ten_loai_khach_hang`) VAL
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dm_nhacungcap`
+-- Cấu trúc bảng cho bảng `dm_nhacungcap`
 --
 
 CREATE TABLE `dm_nhacungcap` (
@@ -163,7 +163,7 @@ CREATE TABLE `dm_nhacungcap` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `dm_nhacungcap`
+-- Đang đổ dữ liệu cho bảng `dm_nhacungcap`
 --
 
 INSERT INTO `dm_nhacungcap` (`ma_nha_cung_cap`, `ten_nha_cung_cap`, `dia_chi`, `sdt`) VALUES
@@ -190,7 +190,7 @@ INSERT INTO `dm_nhacungcap` (`ma_nha_cung_cap`, `ten_nha_cung_cap`, `dia_chi`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dm_phuongxa`
+-- Cấu trúc bảng cho bảng `dm_phuongxa`
 --
 
 CREATE TABLE `dm_phuongxa` (
@@ -200,7 +200,7 @@ CREATE TABLE `dm_phuongxa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `dm_phuongxa`
+-- Đang đổ dữ liệu cho bảng `dm_phuongxa`
 --
 
 INSERT INTO `dm_phuongxa` (`ma_phuong_xa`, `ten_phuong_xa`, `ma_quan_huyen`) VALUES
@@ -425,7 +425,7 @@ INSERT INTO `dm_phuongxa` (`ma_phuong_xa`, `ten_phuong_xa`, `ma_quan_huyen`) VAL
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dm_ptthanhtoan`
+-- Cấu trúc bảng cho bảng `dm_ptthanhtoan`
 --
 
 CREATE TABLE `dm_ptthanhtoan` (
@@ -434,7 +434,7 @@ CREATE TABLE `dm_ptthanhtoan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `dm_ptthanhtoan`
+-- Đang đổ dữ liệu cho bảng `dm_ptthanhtoan`
 --
 
 INSERT INTO `dm_ptthanhtoan` (`ma_phuong_thuc`, `ten_phuong_thuc`) VALUES
@@ -448,7 +448,7 @@ INSERT INTO `dm_ptthanhtoan` (`ma_phuong_thuc`, `ten_phuong_thuc`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dm_quanhuyen`
+-- Cấu trúc bảng cho bảng `dm_quanhuyen`
 --
 
 CREATE TABLE `dm_quanhuyen` (
@@ -457,7 +457,7 @@ CREATE TABLE `dm_quanhuyen` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `dm_quanhuyen`
+-- Đang đổ dữ liệu cho bảng `dm_quanhuyen`
 --
 
 INSERT INTO `dm_quanhuyen` (`ma_quan_huyen`, `ten_quan_huyen`) VALUES
@@ -480,7 +480,7 @@ INSERT INTO `dm_quanhuyen` (`ma_quan_huyen`, `ten_quan_huyen`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dm_quyen`
+-- Cấu trúc bảng cho bảng `dm_quyen`
 --
 
 CREATE TABLE `dm_quyen` (
@@ -490,7 +490,7 @@ CREATE TABLE `dm_quyen` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `dm_quyen`
+-- Đang đổ dữ liệu cho bảng `dm_quyen`
 --
 
 INSERT INTO `dm_quyen` (`ma_quyen`, `ten_quyen`, `trang_thai`) VALUES
@@ -509,7 +509,7 @@ INSERT INTO `dm_quyen` (`ma_quyen`, `ten_quyen`, `trang_thai`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dm_toquanly`
+-- Cấu trúc bảng cho bảng `dm_toquanly`
 --
 
 CREATE TABLE `dm_toquanly` (
@@ -519,7 +519,7 @@ CREATE TABLE `dm_toquanly` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `dm_toquanly`
+-- Đang đổ dữ liệu cho bảng `dm_toquanly`
 --
 
 INSERT INTO `dm_toquanly` (`ma_to_quan_ly`, `ten_to_quan_ly`, `ma_chi_nhanh`) VALUES
@@ -582,7 +582,7 @@ INSERT INTO `dm_toquanly` (`ma_to_quan_ly`, `ten_to_quan_ly`, `ma_chi_nhanh`) VA
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dm_tuyendoc`
+-- Cấu trúc bảng cho bảng `dm_tuyendoc`
 --
 
 CREATE TABLE `dm_tuyendoc` (
@@ -594,7 +594,7 @@ CREATE TABLE `dm_tuyendoc` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `dm_tuyendoc`
+-- Đang đổ dữ liệu cho bảng `dm_tuyendoc`
 --
 
 INSERT INTO `dm_tuyendoc` (`ma_tuyen`, `ten_tuyen`, `trang_thai`, `ma_phuong_xa`, `ma_to_quan_ly`) VALUES
@@ -666,7 +666,7 @@ INSERT INTO `dm_tuyendoc` (`ma_tuyen`, `ten_tuyen`, `trang_thai`, `ma_phuong_xa`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `failed_jobs`
+-- Cấu trúc bảng cho bảng `failed_jobs`
 --
 
 CREATE TABLE `failed_jobs` (
@@ -681,7 +681,7 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jobs`
+-- Cấu trúc bảng cho bảng `jobs`
 --
 
 CREATE TABLE `jobs` (
@@ -695,7 +695,7 @@ CREATE TABLE `jobs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `jobs`
+-- Đang đổ dữ liệu cho bảng `jobs`
 --
 
 INSERT INTO `jobs` (`id`, `queue`, `payload`, `attempts`, `reserved_at`, `available_at`, `created_at`) VALUES
@@ -719,7 +719,7 @@ INSERT INTO `jobs` (`id`, `queue`, `payload`, `attempts`, `reserved_at`, `availa
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ls_donghokhoi`
+-- Cấu trúc bảng cho bảng `ls_donghokhoi`
 --
 
 CREATE TABLE `ls_donghokhoi` (
@@ -735,7 +735,7 @@ CREATE TABLE `ls_donghokhoi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `ls_donghokhoi`
+-- Đang đổ dữ liệu cho bảng `ls_donghokhoi`
 --
 
 INSERT INTO `ls_donghokhoi` (`ma_lich_su`, `ky_chi_so`, `tu_ngay`, `den_ngay`, `khoa`, `chi_so_cu`, `chi_so_moi`, `so_tieu_thu`, `ma_lap_dat`) VALUES
@@ -820,7 +820,7 @@ INSERT INTO `ls_donghokhoi` (`ma_lich_su`, `ky_chi_so`, `tu_ngay`, `den_ngay`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `migrations`
+-- Cấu trúc bảng cho bảng `migrations`
 --
 
 CREATE TABLE `migrations` (
@@ -830,7 +830,7 @@ CREATE TABLE `migrations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `migrations`
+-- Đang đổ dữ liệu cho bảng `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
@@ -840,7 +840,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `password_reset_tokens`
+-- Cấu trúc bảng cho bảng `password_reset_tokens`
 --
 
 CREATE TABLE `password_reset_tokens` (
@@ -852,7 +852,7 @@ CREATE TABLE `password_reset_tokens` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ql_donghokhach`
+-- Cấu trúc bảng cho bảng `ql_donghokhach`
 --
 
 CREATE TABLE `ql_donghokhach` (
@@ -871,7 +871,7 @@ CREATE TABLE `ql_donghokhach` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `ql_donghokhach`
+-- Đang đổ dữ liệu cho bảng `ql_donghokhach`
 --
 
 INSERT INTO `ql_donghokhach` (`ma_dong_ho`, `ten_dong_ho`, `tinh_trang`, `nam_san_xuat`, `so_seri`, `ngay_nhap`, `ngay_kiem_dinh`, `so_nam_hieu_luc`, `so_thang_bao_hanh`, `ma_loai_dong_ho`, `ma_nha_cung_cap`, `ma_co_dong_ho`) VALUES
@@ -899,7 +899,7 @@ INSERT INTO `ql_donghokhach` (`ma_dong_ho`, `ten_dong_ho`, `tinh_trang`, `nam_sa
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ql_donghokhoi`
+-- Cấu trúc bảng cho bảng `ql_donghokhoi`
 --
 
 CREATE TABLE `ql_donghokhoi` (
@@ -916,7 +916,7 @@ CREATE TABLE `ql_donghokhoi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `ql_donghokhoi`
+-- Đang đổ dữ liệu cho bảng `ql_donghokhoi`
 --
 
 INSERT INTO `ql_donghokhoi` (`ma_dong_ho`, `ten_dong_ho`, `tinh_trang`, `ngay_nhap`, `ngay_kiem_dinh`, `so_nam_hieu_luc`, `so_thang_bao_hanh`, `ma_loai_dong_ho`, `ma_nha_cung_cap`, `ma_co_dong_ho`) VALUES
@@ -953,7 +953,7 @@ INSERT INTO `ql_donghokhoi` (`ma_dong_ho`, `ten_dong_ho`, `tinh_trang`, `ngay_nh
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ql_hoadon`
+-- Cấu trúc bảng cho bảng `ql_hoadon`
 --
 
 CREATE TABLE `ql_hoadon` (
@@ -974,7 +974,7 @@ CREATE TABLE `ql_hoadon` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `ql_hoadon`
+-- Đang đổ dữ liệu cho bảng `ql_hoadon`
 --
 
 INSERT INTO `ql_hoadon` (`ma_hoa_don`, `ky_hoa_don`, `tu_ngay`, `den_ngay`, `khoa`, `chi_so_cu`, `chi_so_moi`, `so_tieu_thu`, `tong_tien_thue`, `tong_tien_truoc_thue`, `tong_cong`, `trang_thai`, `ma_phuong_thuc`, `ma_lap_dat`) VALUES
@@ -1073,7 +1073,7 @@ INSERT INTO `ql_hoadon` (`ma_hoa_don`, `ky_hoa_don`, `tu_ngay`, `den_ngay`, `kho
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ql_hopdong`
+-- Cấu trúc bảng cho bảng `ql_hopdong`
 --
 
 CREATE TABLE `ql_hopdong` (
@@ -1089,7 +1089,7 @@ CREATE TABLE `ql_hopdong` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `ql_hopdong`
+-- Đang đổ dữ liệu cho bảng `ql_hopdong`
 --
 
 INSERT INTO `ql_hopdong` (`ma_hop_dong`, `ten_nguoi_dai_dien`, `chuc_vu_nguoi_dai_dien`, `dia_chi`, `ngay_lap`, `trang_thai`, `ma_khach_hang`, `ma_tuyen`, `ma_nhom_gia`) VALUES
@@ -1123,7 +1123,7 @@ INSERT INTO `ql_hopdong` (`ma_hop_dong`, `ten_nguoi_dai_dien`, `chuc_vu_nguoi_da
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ql_khachhang`
+-- Cấu trúc bảng cho bảng `ql_khachhang`
 --
 
 CREATE TABLE `ql_khachhang` (
@@ -1132,46 +1132,47 @@ CREATE TABLE `ql_khachhang` (
   `can_cuoc` varchar(12) NOT NULL,
   `dia_chi` text NOT NULL,
   `sdt` varchar(10) NOT NULL,
-  `email` varchar(100) NOT NULL
+  `email` varchar(100) NOT NULL,
+  `ngay_dang_ky` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `ql_khachhang`
+-- Đang đổ dữ liệu cho bảng `ql_khachhang`
 --
 
-INSERT INTO `ql_khachhang` (`ma_khach_hang`, `ten_khach_hang`, `can_cuoc`, `dia_chi`, `sdt`, `email`) VALUES
-(1, 'Phạm Thị Thu Hiền', '031300005030', '34/46 Lạch Tray', '0834285958', 'ddmanh1420@gmail.com'),
-(2, 'Nguyễn Văn A', '000000000001', '1 Lạch Tray', '0000000001', 'NVA@qlcn.com'),
-(3, 'Nguyễn Văn B', '000000000002', '2 Lạch Tray', '0000000002', 'ddmanh1420@gmail.com'),
-(4, 'Nguyễn Văn C', '000000000003', '3 Lạch Tray', '0000000003', 'NVC@qlcn.com'),
-(5, 'Nguyễn Văn D', '000000000004', '4 Lạch Tray', '0000000004', 'NVD@qlcn.com'),
-(6, 'Nguyễn Văn E', '000000000005', '5 Lạch Tray', '0000000005', 'NVE@qlcn.com'),
-(7, 'Nguyễn Văn F', '000000000006', '6 Lạch Tray', '0000000006', 'NVF@qlcn.com'),
-(8, 'Nguyễn Văn G', '000000000007', '7 Lạch Tray', '0000000007', 'NVG@qlcn.com'),
-(9, 'Nguyễn Văn H', '000000000008', '8 Lạch Tray', '0000000008', 'NVH@qlcn.com'),
-(10, 'Nguyễn Văn I', '000000000009', '9 Lạch Tray', '0000000009', 'NVI@qlcn.com'),
-(11, 'Nguyễn Văn J', '000000000010', '10 Lạch Tray', '0000000010', 'NVJ@qlcn.com'),
-(12, 'Nguyễn Văn K', '000000000011', '11 Lạch Tray', '0000000011', 'NVK@qlcn.com'),
-(13, 'Nguyễn Văn L', '000000000012', '12 Lạch Tray', '0000000012', 'NVL@qlcn.com'),
-(14, 'Nguyễn Văn M', '000000000013', '13 Lạch Tray', '0000000013', 'NVM@qlcn.com'),
-(15, 'Nguyễn Văn N', '000000000014', '14 Lạch Tray', '0000000014', 'NVN@qlcn.com'),
-(16, 'Nguyễn Văn O', '000000000015', '15 Lạch Tray', '0000000015', 'NVO@qlcn.com'),
-(17, 'Nguyễn Văn P', '000000000016', '16 Lạch Tray', '0000000016', 'NVP@qlcn.com'),
-(18, 'Nguyễn Văn Q', '000000000017', '17 Lạch Tray', '0000000017', 'NVQ@qlcn.com'),
-(19, 'Nguyễn Văn R', '000000000019', '19 Lạch Tray', '0000000019', 'NVR@qlcn.com'),
-(20, 'Nguyễn Văn S', '000000000020', '20 Lạch Tray', '0000000020', 'NVS@qlcn.com'),
-(21, 'Nguyễn Văn T', '000000000021', '21 Lạch Tray', '0000000021', 'NVT@qlcn.com'),
-(22, 'Nguyễn Văn U', '000000000022', '22 Lạch Tray', '0000000022', 'NVU@qlcn.com'),
-(23, 'Nguyễn Văn V', '000000000023', '23 Lạch Tray', '0000000023', 'NVV@qlcn.com'),
-(24, 'Nguyễn Văn W', '000000000024', '24 Lạch Tray', '0000000024', 'NVW@qlcn.com'),
-(25, 'Nguyễn Văn X', '000000000025', '25 Lạch Tray', '0000000025', 'NVX@qlcn.com'),
-(26, 'Nguyễn Văn Y', '000000000026', '26 Lạch Tray', '0000000026', 'NVY@qlcn.com'),
-(27, 'Nguyễn Văn Z', '000000000027', '27 Lạch Tray', '0000000027', 'NVZ@qlcn.com');
+INSERT INTO `ql_khachhang` (`ma_khach_hang`, `ten_khach_hang`, `can_cuoc`, `dia_chi`, `sdt`, `email`, `ngay_dang_ky`) VALUES
+(1, 'Phạm Thị Thu Hiền', '031300005030', '34/46 Lạch Tray', '0834285958', 'ddmanh1420@gmail.com', '2024-01-01'),
+(2, 'Nguyễn Văn A', '000000000001', '1 Lạch Tray', '0000000001', 'NVA@qlcn.com', '2024-01-01'),
+(3, 'Nguyễn Văn B', '000000000002', '2 Lạch Tray', '0000000002', 'ddmanh1420@gmail.com', '2024-01-01'),
+(4, 'Nguyễn Văn C', '000000000003', '3 Lạch Tray', '0000000003', 'NVC@qlcn.com', '2024-01-01'),
+(5, 'Nguyễn Văn D', '000000000004', '4 Lạch Tray', '0000000004', 'NVD@qlcn.com', '2024-01-01'),
+(6, 'Nguyễn Văn E', '000000000005', '5 Lạch Tray', '0000000005', 'NVE@qlcn.com', '2024-02-01'),
+(7, 'Nguyễn Văn F', '000000000006', '6 Lạch Tray', '0000000006', 'NVF@qlcn.com', '2024-02-01'),
+(8, 'Nguyễn Văn G', '000000000007', '7 Lạch Tray', '0000000007', 'NVG@qlcn.com', '2024-02-01'),
+(9, 'Nguyễn Văn H', '000000000008', '8 Lạch Tray', '0000000008', 'NVH@qlcn.com', '2024-02-01'),
+(10, 'Nguyễn Văn I', '000000000009', '9 Lạch Tray', '0000000009', 'NVI@qlcn.com', '2024-02-01'),
+(11, 'Nguyễn Văn J', '000000000010', '10 Lạch Tray', '0000000010', 'NVJ@qlcn.com', '2024-02-01'),
+(12, 'Nguyễn Văn K', '000000000011', '11 Lạch Tray', '0000000011', 'NVK@qlcn.com', '2024-02-01'),
+(13, 'Nguyễn Văn L', '000000000012', '12 Lạch Tray', '0000000012', 'NVL@qlcn.com', '2024-03-01'),
+(14, 'Nguyễn Văn M', '000000000013', '13 Lạch Tray', '0000000013', 'NVM@qlcn.com', '2024-03-01'),
+(15, 'Nguyễn Văn N', '000000000014', '14 Lạch Tray', '0000000014', 'NVN@qlcn.com', '2024-03-01'),
+(16, 'Nguyễn Văn O', '000000000015', '15 Lạch Tray', '0000000015', 'NVO@qlcn.com', '2024-03-01'),
+(17, 'Nguyễn Văn P', '000000000016', '16 Lạch Tray', '0000000016', 'NVP@qlcn.com', '2024-03-01'),
+(18, 'Nguyễn Văn Q', '000000000017', '17 Lạch Tray', '0000000017', 'NVQ@qlcn.com', '2024-03-01'),
+(19, 'Nguyễn Văn R', '000000000019', '19 Lạch Tray', '0000000019', 'NVR@qlcn.com', '2024-03-01'),
+(20, 'Nguyễn Văn S', '000000000020', '20 Lạch Tray', '0000000020', 'NVS@qlcn.com', '2024-04-01'),
+(21, 'Nguyễn Văn T', '000000000021', '21 Lạch Tray', '0000000021', 'NVT@qlcn.com', '2024-04-01'),
+(22, 'Nguyễn Văn U', '000000000022', '22 Lạch Tray', '0000000022', 'NVU@qlcn.com', '2024-04-01'),
+(23, 'Nguyễn Văn V', '000000000023', '23 Lạch Tray', '0000000023', 'NVV@qlcn.com', '2024-06-01'),
+(24, 'Nguyễn Văn W', '000000000024', '24 Lạch Tray', '0000000024', 'NVW@qlcn.com', '2024-06-01'),
+(25, 'Nguyễn Văn X', '000000000025', '25 Lạch Tray', '0000000025', 'NVX@qlcn.com', '2024-06-01'),
+(26, 'Nguyễn Văn Y', '000000000026', '26 Lạch Tray', '0000000026', 'NVY@qlcn.com', '2024-06-01'),
+(27, 'Nguyễn Văn Z', '000000000027', '27 Lạch Tray', '0000000027', 'NVZ@qlcn.com', '2024-06-01');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ql_lapdatdhkhach`
+-- Cấu trúc bảng cho bảng `ql_lapdatdhkhach`
 --
 
 CREATE TABLE `ql_lapdatdhkhach` (
@@ -1186,7 +1187,7 @@ CREATE TABLE `ql_lapdatdhkhach` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `ql_lapdatdhkhach`
+-- Đang đổ dữ liệu cho bảng `ql_lapdatdhkhach`
 --
 
 INSERT INTO `ql_lapdatdhkhach` (`ma_lap_dat`, `chi_so_dau`, `chi_so_cuoi`, `so_tieu_thu`, `tu_ngay`, `den_ngay`, `ma_dong_ho`, `ma_hop_dong`) VALUES
@@ -1212,7 +1213,7 @@ INSERT INTO `ql_lapdatdhkhach` (`ma_lap_dat`, `chi_so_dau`, `chi_so_cuoi`, `so_t
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ql_lapdatdhkhoi`
+-- Cấu trúc bảng cho bảng `ql_lapdatdhkhoi`
 --
 
 CREATE TABLE `ql_lapdatdhkhoi` (
@@ -1227,7 +1228,7 @@ CREATE TABLE `ql_lapdatdhkhoi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `ql_lapdatdhkhoi`
+-- Đang đổ dữ liệu cho bảng `ql_lapdatdhkhoi`
 --
 
 INSERT INTO `ql_lapdatdhkhoi` (`ma_lap_dat`, `chi_so_dau`, `chi_so_cuoi`, `so_tieu_thu`, `tu_ngay`, `den_ngay`, `ma_dong_ho`, `ma_tuyen`) VALUES
@@ -1263,7 +1264,7 @@ INSERT INTO `ql_lapdatdhkhoi` (`ma_lap_dat`, `chi_so_dau`, `chi_so_cuoi`, `so_ti
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ql_nhomgia`
+-- Cấu trúc bảng cho bảng `ql_nhomgia`
 --
 
 CREATE TABLE `ql_nhomgia` (
@@ -1280,7 +1281,7 @@ CREATE TABLE `ql_nhomgia` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `ql_nhomgia`
+-- Đang đổ dữ liệu cho bảng `ql_nhomgia`
 --
 
 INSERT INTO `ql_nhomgia` (`ma_nhom_gia`, `ten_nhom_gia`, `hs_duoi_10m`, `hs_tu_10m_den_20m`, `hs_tu_20m_den_30m`, `hs_tren_30m`, `hs_rieng`, `hs_thue`, `gia_ban`, `ma_loai_khach_hang`) VALUES
@@ -1301,7 +1302,7 @@ INSERT INTO `ql_nhomgia` (`ma_nhom_gia`, `ten_nhom_gia`, `hs_duoi_10m`, `hs_tu_1
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ql_phanquyen`
+-- Cấu trúc bảng cho bảng `ql_phanquyen`
 --
 
 CREATE TABLE `ql_phanquyen` (
@@ -1312,7 +1313,7 @@ CREATE TABLE `ql_phanquyen` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `ql_phanquyen`
+-- Đang đổ dữ liệu cho bảng `ql_phanquyen`
 --
 
 INSERT INTO `ql_phanquyen` (`ma_phan_quyen`, `ma_nhan_vien`, `ma_quyen`, `ma_tuyen`) VALUES
@@ -1333,7 +1334,7 @@ INSERT INTO `ql_phanquyen` (`ma_phan_quyen`, `ma_nhan_vien`, `ma_quyen`, `ma_tuy
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ql_taikhoan`
+-- Cấu trúc bảng cho bảng `ql_taikhoan`
 --
 
 CREATE TABLE `ql_taikhoan` (
@@ -1348,7 +1349,7 @@ CREATE TABLE `ql_taikhoan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `ql_taikhoan`
+-- Đang đổ dữ liệu cho bảng `ql_taikhoan`
 --
 
 INSERT INTO `ql_taikhoan` (`ma_nhan_vien`, `mat_khau`, `trang_thai`, `email`, `sdt`, `chuc_vu`, `ho_ten`, `ngay_sinh`) VALUES
@@ -1385,7 +1386,7 @@ INSERT INTO `ql_taikhoan` (`ma_nhan_vien`, `mat_khau`, `trang_thai`, `email`, `s
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sessions`
+-- Cấu trúc bảng cho bảng `sessions`
 --
 
 CREATE TABLE `sessions` (
@@ -1400,7 +1401,7 @@ CREATE TABLE `sessions` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Cấu trúc bảng cho bảng `users`
 --
 
 CREATE TABLE `users` (
@@ -1415,58 +1416,58 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Indexes for dumped tables
+-- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Indexes for table `cache`
+-- Chỉ mục cho bảng `cache`
 --
 ALTER TABLE `cache`
   ADD PRIMARY KEY (`key`);
 
 --
--- Indexes for table `cache_locks`
+-- Chỉ mục cho bảng `cache_locks`
 --
 ALTER TABLE `cache_locks`
   ADD PRIMARY KEY (`key`);
 
 --
--- Indexes for table `dm_chinhanh`
+-- Chỉ mục cho bảng `dm_chinhanh`
 --
 ALTER TABLE `dm_chinhanh`
   ADD PRIMARY KEY (`ma_chi_nhanh`),
   ADD UNIQUE KEY `ten_chi_nhanh` (`ten_chi_nhanh`);
 
 --
--- Indexes for table `dm_codongho`
+-- Chỉ mục cho bảng `dm_codongho`
 --
 ALTER TABLE `dm_codongho`
   ADD PRIMARY KEY (`ma_co_dong_ho`),
   ADD UNIQUE KEY `ten_co_dong_ho` (`ten_co_dong_ho`);
 
 --
--- Indexes for table `dm_loaidongho`
+-- Chỉ mục cho bảng `dm_loaidongho`
 --
 ALTER TABLE `dm_loaidongho`
   ADD PRIMARY KEY (`ma_loai_dong_ho`),
   ADD UNIQUE KEY `ten_loai_dong_ho` (`ten_loai_dong_ho`);
 
 --
--- Indexes for table `dm_loaikhachhang`
+-- Chỉ mục cho bảng `dm_loaikhachhang`
 --
 ALTER TABLE `dm_loaikhachhang`
   ADD PRIMARY KEY (`ma_loai_khach_hang`),
   ADD UNIQUE KEY `ten_loai_khach_hang` (`ten_loai_khach_hang`);
 
 --
--- Indexes for table `dm_nhacungcap`
+-- Chỉ mục cho bảng `dm_nhacungcap`
 --
 ALTER TABLE `dm_nhacungcap`
   ADD PRIMARY KEY (`ma_nha_cung_cap`),
   ADD UNIQUE KEY `ten_nha_cung_cap` (`ten_nha_cung_cap`);
 
 --
--- Indexes for table `dm_phuongxa`
+-- Chỉ mục cho bảng `dm_phuongxa`
 --
 ALTER TABLE `dm_phuongxa`
   ADD PRIMARY KEY (`ma_phuong_xa`),
@@ -1474,35 +1475,35 @@ ALTER TABLE `dm_phuongxa`
   ADD KEY `dm_phuongxa_ibfk_1` (`ma_quan_huyen`);
 
 --
--- Indexes for table `dm_ptthanhtoan`
+-- Chỉ mục cho bảng `dm_ptthanhtoan`
 --
 ALTER TABLE `dm_ptthanhtoan`
   ADD PRIMARY KEY (`ma_phuong_thuc`),
   ADD UNIQUE KEY `ten_phuong_thuc` (`ten_phuong_thuc`);
 
 --
--- Indexes for table `dm_quanhuyen`
+-- Chỉ mục cho bảng `dm_quanhuyen`
 --
 ALTER TABLE `dm_quanhuyen`
   ADD PRIMARY KEY (`ma_quan_huyen`),
   ADD UNIQUE KEY `ten_quan_huyen` (`ten_quan_huyen`);
 
 --
--- Indexes for table `dm_quyen`
+-- Chỉ mục cho bảng `dm_quyen`
 --
 ALTER TABLE `dm_quyen`
   ADD PRIMARY KEY (`ma_quyen`),
   ADD UNIQUE KEY `ten_quyen` (`ten_quyen`);
 
 --
--- Indexes for table `dm_toquanly`
+-- Chỉ mục cho bảng `dm_toquanly`
 --
 ALTER TABLE `dm_toquanly`
   ADD PRIMARY KEY (`ma_to_quan_ly`),
   ADD KEY `ma_chi_nhanh` (`ma_chi_nhanh`);
 
 --
--- Indexes for table `dm_tuyendoc`
+-- Chỉ mục cho bảng `dm_tuyendoc`
 --
 ALTER TABLE `dm_tuyendoc`
   ADD PRIMARY KEY (`ma_tuyen`),
@@ -1510,39 +1511,39 @@ ALTER TABLE `dm_tuyendoc`
   ADD KEY `ma_to_quan_ly` (`ma_to_quan_ly`);
 
 --
--- Indexes for table `failed_jobs`
+-- Chỉ mục cho bảng `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `jobs`
+-- Chỉ mục cho bảng `jobs`
 --
 ALTER TABLE `jobs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `queue` (`queue`);
 
 --
--- Indexes for table `ls_donghokhoi`
+-- Chỉ mục cho bảng `ls_donghokhoi`
 --
 ALTER TABLE `ls_donghokhoi`
   ADD PRIMARY KEY (`ma_lich_su`),
   ADD KEY `ma_lap_dat` (`ma_lap_dat`);
 
 --
--- Indexes for table `migrations`
+-- Chỉ mục cho bảng `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `password_reset_tokens`
+-- Chỉ mục cho bảng `password_reset_tokens`
 --
 ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
 
 --
--- Indexes for table `ql_donghokhach`
+-- Chỉ mục cho bảng `ql_donghokhach`
 --
 ALTER TABLE `ql_donghokhach`
   ADD PRIMARY KEY (`ma_dong_ho`),
@@ -1553,7 +1554,7 @@ ALTER TABLE `ql_donghokhach`
   ADD KEY `ma_nha_cung_cap` (`ma_nha_cung_cap`);
 
 --
--- Indexes for table `ql_donghokhoi`
+-- Chỉ mục cho bảng `ql_donghokhoi`
 --
 ALTER TABLE `ql_donghokhoi`
   ADD PRIMARY KEY (`ma_dong_ho`),
@@ -1563,7 +1564,7 @@ ALTER TABLE `ql_donghokhoi`
   ADD KEY `ma_nha_cung_cap` (`ma_nha_cung_cap`);
 
 --
--- Indexes for table `ql_hoadon`
+-- Chỉ mục cho bảng `ql_hoadon`
 --
 ALTER TABLE `ql_hoadon`
   ADD PRIMARY KEY (`ma_hoa_don`),
@@ -1571,7 +1572,7 @@ ALTER TABLE `ql_hoadon`
   ADD KEY `ma_phuong_thuc` (`ma_phuong_thuc`);
 
 --
--- Indexes for table `ql_hopdong`
+-- Chỉ mục cho bảng `ql_hopdong`
 --
 ALTER TABLE `ql_hopdong`
   ADD PRIMARY KEY (`ma_hop_dong`),
@@ -1580,7 +1581,7 @@ ALTER TABLE `ql_hopdong`
   ADD KEY `ql_hopdong_ibfk_3` (`ma_tuyen`);
 
 --
--- Indexes for table `ql_khachhang`
+-- Chỉ mục cho bảng `ql_khachhang`
 --
 ALTER TABLE `ql_khachhang`
   ADD PRIMARY KEY (`ma_khach_hang`),
@@ -1588,7 +1589,7 @@ ALTER TABLE `ql_khachhang`
   ADD UNIQUE KEY `sdt` (`sdt`,`email`);
 
 --
--- Indexes for table `ql_lapdatdhkhach`
+-- Chỉ mục cho bảng `ql_lapdatdhkhach`
 --
 ALTER TABLE `ql_lapdatdhkhach`
   ADD PRIMARY KEY (`ma_lap_dat`),
@@ -1596,7 +1597,7 @@ ALTER TABLE `ql_lapdatdhkhach`
   ADD KEY `ma_hop_dong` (`ma_hop_dong`);
 
 --
--- Indexes for table `ql_lapdatdhkhoi`
+-- Chỉ mục cho bảng `ql_lapdatdhkhoi`
 --
 ALTER TABLE `ql_lapdatdhkhoi`
   ADD PRIMARY KEY (`ma_lap_dat`),
@@ -1604,7 +1605,7 @@ ALTER TABLE `ql_lapdatdhkhoi`
   ADD KEY `ql_lapdatdhkhoi_ibfk_2` (`ma_dong_ho`);
 
 --
--- Indexes for table `ql_nhomgia`
+-- Chỉ mục cho bảng `ql_nhomgia`
 --
 ALTER TABLE `ql_nhomgia`
   ADD PRIMARY KEY (`ma_nhom_gia`),
@@ -1612,7 +1613,7 @@ ALTER TABLE `ql_nhomgia`
   ADD KEY `ma_loai_khach_hang` (`ma_loai_khach_hang`);
 
 --
--- Indexes for table `ql_phanquyen`
+-- Chỉ mục cho bảng `ql_phanquyen`
 --
 ALTER TABLE `ql_phanquyen`
   ADD PRIMARY KEY (`ma_phan_quyen`),
@@ -1621,13 +1622,13 @@ ALTER TABLE `ql_phanquyen`
   ADD KEY `ql_phanquyen_ibfk_3` (`ma_tuyen`);
 
 --
--- Indexes for table `ql_taikhoan`
+-- Chỉ mục cho bảng `ql_taikhoan`
 --
 ALTER TABLE `ql_taikhoan`
   ADD PRIMARY KEY (`ma_nhan_vien`);
 
 --
--- Indexes for table `sessions`
+-- Chỉ mục cho bảng `sessions`
 --
 ALTER TABLE `sessions`
   ADD PRIMARY KEY (`id`),
@@ -1635,203 +1636,203 @@ ALTER TABLE `sessions`
   ADD KEY `sessions_last_activity_index` (`last_activity`);
 
 --
--- Indexes for table `users`
+-- Chỉ mục cho bảng `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT cho các bảng đã đổ
 --
 
 --
--- AUTO_INCREMENT for table `dm_chinhanh`
+-- AUTO_INCREMENT cho bảng `dm_chinhanh`
 --
 ALTER TABLE `dm_chinhanh`
   MODIFY `ma_chi_nhanh` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `dm_codongho`
+-- AUTO_INCREMENT cho bảng `dm_codongho`
 --
 ALTER TABLE `dm_codongho`
   MODIFY `ma_co_dong_ho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT for table `dm_loaidongho`
+-- AUTO_INCREMENT cho bảng `dm_loaidongho`
 --
 ALTER TABLE `dm_loaidongho`
   MODIFY `ma_loai_dong_ho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `dm_loaikhachhang`
+-- AUTO_INCREMENT cho bảng `dm_loaikhachhang`
 --
 ALTER TABLE `dm_loaikhachhang`
   MODIFY `ma_loai_khach_hang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `dm_nhacungcap`
+-- AUTO_INCREMENT cho bảng `dm_nhacungcap`
 --
 ALTER TABLE `dm_nhacungcap`
   MODIFY `ma_nha_cung_cap` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT for table `dm_phuongxa`
+-- AUTO_INCREMENT cho bảng `dm_phuongxa`
 --
 ALTER TABLE `dm_phuongxa`
   MODIFY `ma_phuong_xa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=343;
 
 --
--- AUTO_INCREMENT for table `dm_ptthanhtoan`
+-- AUTO_INCREMENT cho bảng `dm_ptthanhtoan`
 --
 ALTER TABLE `dm_ptthanhtoan`
   MODIFY `ma_phuong_thuc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `dm_quanhuyen`
+-- AUTO_INCREMENT cho bảng `dm_quanhuyen`
 --
 ALTER TABLE `dm_quanhuyen`
   MODIFY `ma_quan_huyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT for table `dm_quyen`
+-- AUTO_INCREMENT cho bảng `dm_quyen`
 --
 ALTER TABLE `dm_quyen`
   MODIFY `ma_quyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT for table `dm_toquanly`
+-- AUTO_INCREMENT cho bảng `dm_toquanly`
 --
 ALTER TABLE `dm_toquanly`
   MODIFY `ma_to_quan_ly` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
--- AUTO_INCREMENT for table `dm_tuyendoc`
+-- AUTO_INCREMENT cho bảng `dm_tuyendoc`
 --
 ALTER TABLE `dm_tuyendoc`
   MODIFY `ma_tuyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
--- AUTO_INCREMENT for table `failed_jobs`
+-- AUTO_INCREMENT cho bảng `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `jobs`
+-- AUTO_INCREMENT cho bảng `jobs`
 --
 ALTER TABLE `jobs`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT for table `ls_donghokhoi`
+-- AUTO_INCREMENT cho bảng `ls_donghokhoi`
 --
 ALTER TABLE `ls_donghokhoi`
   MODIFY `ma_lich_su` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
--- AUTO_INCREMENT for table `migrations`
+-- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `ql_donghokhach`
+-- AUTO_INCREMENT cho bảng `ql_donghokhach`
 --
 ALTER TABLE `ql_donghokhach`
   MODIFY `ma_dong_ho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT for table `ql_donghokhoi`
+-- AUTO_INCREMENT cho bảng `ql_donghokhoi`
 --
 ALTER TABLE `ql_donghokhoi`
   MODIFY `ma_dong_ho` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
--- AUTO_INCREMENT for table `ql_hoadon`
+-- AUTO_INCREMENT cho bảng `ql_hoadon`
 --
 ALTER TABLE `ql_hoadon`
   MODIFY `ma_hoa_don` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
--- AUTO_INCREMENT for table `ql_hopdong`
+-- AUTO_INCREMENT cho bảng `ql_hopdong`
 --
 ALTER TABLE `ql_hopdong`
   MODIFY `ma_hop_dong` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
--- AUTO_INCREMENT for table `ql_khachhang`
+-- AUTO_INCREMENT cho bảng `ql_khachhang`
 --
 ALTER TABLE `ql_khachhang`
   MODIFY `ma_khach_hang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
--- AUTO_INCREMENT for table `ql_lapdatdhkhach`
+-- AUTO_INCREMENT cho bảng `ql_lapdatdhkhach`
 --
 ALTER TABLE `ql_lapdatdhkhach`
   MODIFY `ma_lap_dat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT for table `ql_lapdatdhkhoi`
+-- AUTO_INCREMENT cho bảng `ql_lapdatdhkhoi`
 --
 ALTER TABLE `ql_lapdatdhkhoi`
   MODIFY `ma_lap_dat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
--- AUTO_INCREMENT for table `ql_nhomgia`
+-- AUTO_INCREMENT cho bảng `ql_nhomgia`
 --
 ALTER TABLE `ql_nhomgia`
   MODIFY `ma_nhom_gia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT for table `ql_phanquyen`
+-- AUTO_INCREMENT cho bảng `ql_phanquyen`
 --
 ALTER TABLE `ql_phanquyen`
   MODIFY `ma_phan_quyen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT for table `ql_taikhoan`
+-- AUTO_INCREMENT cho bảng `ql_taikhoan`
 --
 ALTER TABLE `ql_taikhoan`
   MODIFY `ma_nhan_vien` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100030;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- Constraints for dumped tables
+-- Các ràng buộc cho các bảng đã đổ
 --
 
 --
--- Constraints for table `dm_phuongxa`
+-- Các ràng buộc cho bảng `dm_phuongxa`
 --
 ALTER TABLE `dm_phuongxa`
   ADD CONSTRAINT `dm_phuongxa_ibfk_1` FOREIGN KEY (`ma_quan_huyen`) REFERENCES `dm_quanhuyen` (`ma_quan_huyen`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `dm_toquanly`
+-- Các ràng buộc cho bảng `dm_toquanly`
 --
 ALTER TABLE `dm_toquanly`
   ADD CONSTRAINT `dm_toquanly_ibfk_1` FOREIGN KEY (`ma_chi_nhanh`) REFERENCES `dm_chinhanh` (`ma_chi_nhanh`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `dm_tuyendoc`
+-- Các ràng buộc cho bảng `dm_tuyendoc`
 --
 ALTER TABLE `dm_tuyendoc`
   ADD CONSTRAINT `dm_tuyendoc_ibfk_1` FOREIGN KEY (`ma_phuong_xa`) REFERENCES `dm_phuongxa` (`ma_phuong_xa`) ON UPDATE CASCADE,
   ADD CONSTRAINT `dm_tuyendoc_ibfk_2` FOREIGN KEY (`ma_to_quan_ly`) REFERENCES `dm_toquanly` (`ma_to_quan_ly`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `ls_donghokhoi`
+-- Các ràng buộc cho bảng `ls_donghokhoi`
 --
 ALTER TABLE `ls_donghokhoi`
   ADD CONSTRAINT `ls_donghokhoi_ibfk_1` FOREIGN KEY (`ma_lap_dat`) REFERENCES `ql_lapdatdhkhoi` (`ma_lap_dat`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `ql_donghokhach`
+-- Các ràng buộc cho bảng `ql_donghokhach`
 --
 ALTER TABLE `ql_donghokhach`
   ADD CONSTRAINT `ql_donghokhach_ibfk_1` FOREIGN KEY (`ma_co_dong_ho`) REFERENCES `dm_codongho` (`ma_co_dong_ho`) ON UPDATE CASCADE,
@@ -1839,7 +1840,7 @@ ALTER TABLE `ql_donghokhach`
   ADD CONSTRAINT `ql_donghokhach_ibfk_3` FOREIGN KEY (`ma_nha_cung_cap`) REFERENCES `dm_nhacungcap` (`ma_nha_cung_cap`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `ql_donghokhoi`
+-- Các ràng buộc cho bảng `ql_donghokhoi`
 --
 ALTER TABLE `ql_donghokhoi`
   ADD CONSTRAINT `ql_donghokhoi_ibfk_1` FOREIGN KEY (`ma_co_dong_ho`) REFERENCES `dm_codongho` (`ma_co_dong_ho`) ON UPDATE CASCADE,
@@ -1847,14 +1848,14 @@ ALTER TABLE `ql_donghokhoi`
   ADD CONSTRAINT `ql_donghokhoi_ibfk_3` FOREIGN KEY (`ma_nha_cung_cap`) REFERENCES `dm_nhacungcap` (`ma_nha_cung_cap`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `ql_hoadon`
+-- Các ràng buộc cho bảng `ql_hoadon`
 --
 ALTER TABLE `ql_hoadon`
   ADD CONSTRAINT `ql_hoadon_ibfk_3` FOREIGN KEY (`ma_phuong_thuc`) REFERENCES `dm_ptthanhtoan` (`ma_phuong_thuc`) ON UPDATE CASCADE,
   ADD CONSTRAINT `ql_hoadon_ibfk_4` FOREIGN KEY (`ma_lap_dat`) REFERENCES `ql_lapdatdhkhach` (`ma_lap_dat`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `ql_hopdong`
+-- Các ràng buộc cho bảng `ql_hopdong`
 --
 ALTER TABLE `ql_hopdong`
   ADD CONSTRAINT `ql_hopdong_ibfk_1` FOREIGN KEY (`ma_nhom_gia`) REFERENCES `ql_nhomgia` (`ma_nhom_gia`) ON UPDATE CASCADE,
@@ -1862,27 +1863,27 @@ ALTER TABLE `ql_hopdong`
   ADD CONSTRAINT `ql_hopdong_ibfk_3` FOREIGN KEY (`ma_tuyen`) REFERENCES `dm_tuyendoc` (`ma_tuyen`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `ql_lapdatdhkhach`
+-- Các ràng buộc cho bảng `ql_lapdatdhkhach`
 --
 ALTER TABLE `ql_lapdatdhkhach`
   ADD CONSTRAINT `ql_lapdatdhkhach_ibfk_1` FOREIGN KEY (`ma_dong_ho`) REFERENCES `ql_donghokhach` (`ma_dong_ho`) ON UPDATE CASCADE,
   ADD CONSTRAINT `ql_lapdatdhkhach_ibfk_2` FOREIGN KEY (`ma_hop_dong`) REFERENCES `ql_hopdong` (`ma_hop_dong`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `ql_lapdatdhkhoi`
+-- Các ràng buộc cho bảng `ql_lapdatdhkhoi`
 --
 ALTER TABLE `ql_lapdatdhkhoi`
   ADD CONSTRAINT `ql_lapdatdhkhoi_ibfk_1` FOREIGN KEY (`ma_tuyen`) REFERENCES `dm_tuyendoc` (`ma_tuyen`) ON UPDATE CASCADE,
   ADD CONSTRAINT `ql_lapdatdhkhoi_ibfk_2` FOREIGN KEY (`ma_dong_ho`) REFERENCES `ql_donghokhoi` (`ma_dong_ho`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `ql_nhomgia`
+-- Các ràng buộc cho bảng `ql_nhomgia`
 --
 ALTER TABLE `ql_nhomgia`
   ADD CONSTRAINT `ql_nhomgia_ibfk_1` FOREIGN KEY (`ma_loai_khach_hang`) REFERENCES `dm_loaikhachhang` (`ma_loai_khach_hang`);
 
 --
--- Constraints for table `ql_phanquyen`
+-- Các ràng buộc cho bảng `ql_phanquyen`
 --
 ALTER TABLE `ql_phanquyen`
   ADD CONSTRAINT `ql_phanquyen_ibfk_1` FOREIGN KEY (`ma_quyen`) REFERENCES `dm_quyen` (`ma_quyen`),
