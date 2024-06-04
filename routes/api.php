@@ -15,6 +15,7 @@ use App\Http\Controllers\DMQuyenController;
 use App\Http\Controllers\DMThanhToanController;
 use App\Http\Controllers\DMToQuanLyController;
 use App\Http\Controllers\DMtuyendocController;
+use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\LSDongHoKhachController;
 use App\Http\Controllers\LSDongHoKhoiController;
 use App\Http\Controllers\QLDongHoKhachController;
@@ -125,6 +126,9 @@ Route::get('/dashboard',[BaoCaoController::class,'dashboard']);
 Route::get('/bc_kh_khu_vuc',[BaoCaoController::class,'bc_kh_khu_vuc']);
 //backup
 Route::get('/backup', [BackupController::class, 'backup']);
+//google login
+Route::get('auth/google/url', [GoogleController::class, 'loginUrl']);
+Route::get('auth/google/callback', [GoogleController::class, 'loginCallback']);
 //404
 Route::fallback(function(){
     return response()->json([
