@@ -18,6 +18,11 @@ export const SidebarData = [
     isAllow: [1, 0],
     subNav: [
       {
+        title: 'Dashboard',
+        path: '/dashboard',
+        icon: <MdIcons.MdOutlineSpaceDashboard />
+      },
+      {
         title: 'Người dùng',
         path: '/nguoi_dung',
         icon: <FaIcons.FaUsers />,
@@ -241,7 +246,13 @@ export const SidebarData = [
         path: '/bao_cao_chua_co_hop_dong',
         icon: <TbIcons.TbReportAnalytics />,
         maQuyen: 7
-      }
+      },
+      {
+        title: 'Thống kê khách hàng',
+        path: '/thong_ke_khach_hang',
+        icon: <TbIcons.TbReportAnalytics />,
+        maQuyen: 7
+      },
     ]
   },
 ]

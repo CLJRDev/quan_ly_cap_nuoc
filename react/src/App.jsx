@@ -67,6 +67,9 @@ import BaoCaoThatThoatNuoc from './components/bao_cao/BaoCaoThatThoatNuoc'
 import BaoCaoThuTien from './components/bao_cao/BaoCaoThuTien'
 import BaoCaoChuaCoHopDong from './components/bao_cao/BaoCaoChuaCoHopDong'
 import ImportExcelKhachHang from './components/khach_hang_thanh_toan/QL_khach_hang/ImportExcelKhachHang'
+import ThongKeKhachHang from './components/bao_cao/ThongKeKhachHang'
+import XemThongKeKhachHang from './components/bao_cao/XemThongKeKhachHang'
+import Dashboard from './components/layouts/Dashboard'
 
 import { Routes, Route } from 'react-router-dom'
 
@@ -155,6 +158,10 @@ function App() {
         <Route path='/bao_cao_chua_dong_tien' element={<BaoCaoChuaDongTien />} />
         <Route path='/bao_cao_quan_ly_thu_tien' element={<BaoCaoThuTien />} />
         <Route path='/bao_cao_chua_co_hop_dong' element={<BaoCaoChuaCoHopDong />} />
+        <Route path='/thong_ke_khach_hang' element={<ThongKeKhachHang />} />
+        <Route path='/xem_thong_ke_khach_hang' element={<XemThongKeKhachHang />} />
+        <Route path='/dashboard' element={<Dashboard />} />
+        
         <Route path='/login' element={<Login />} />
       </Routes>
     </>
