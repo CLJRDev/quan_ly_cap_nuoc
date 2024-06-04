@@ -21,6 +21,10 @@ export default function QuanLyGhiChiSoDongHoKhoi() {
   const currentItems = lichSus.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(lichSus.length / itemsPerPage);
 
+  useEffect(() => {
+    timKiem()
+  }, [])
+
   let first = true
   const lichSuElements = currentItems.map((item, index) => {
     // const actions = first === true ?

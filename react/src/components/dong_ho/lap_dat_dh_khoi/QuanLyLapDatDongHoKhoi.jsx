@@ -1,11 +1,13 @@
 import TuyenDoc from "../../select-option/TuyenDoc"
+import DongHoKhoi from "../../select-option/DongHoKhoi"
 import { IoMdSearch } from "react-icons/io"
 import { IoIosAddCircleOutline } from "react-icons/io"
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from "react"
-import Select from 'react-select'
 import Sidebar from '../../layouts/Sidebar'
+import Paginate from "../../layouts/Paginate"
+import { ToastContainer } from "react-toastify"
 
 export default function QuanLyLapDatDongHoKhoi() {
   const [lichSus, setLichSus] = useState([])
@@ -13,27 +15,17 @@ export default function QuanLyLapDatDongHoKhoi() {
     ma_dong_ho: '',
     ma_tuyen: ''
   })
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = lichSus.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(lichSus.length / itemsPerPage);
 
-  // const xoa = id => {
-  //   if (!window.confirm('Bạn có chắc chắn muốn xóa lịch sử lắp đặt này?'))
-  //     return
-  //   axios.delete(`http://127.0.0.1:8000/api/lap_dat_dh_khoi/${id}`)
-  //     .then(response => {
-  //       console.log(response.data.message);
-  //       fetchData()
-  //     })
-  //     .catch(error => {
-  //       console.log(error.response.data.error)
-  //     });
-  // }
+  useEffect(() => {
+    timKiem()
+  }, [])
 
-  let first = true
-  const lichSuElements = lichSus.map((item, index) => {
-    // const deleteButton = first === true ?
-    //   <button onClick={() => xoa(item.ma_lap_dat)} className="btn-delete">Xóa</button>
-    //   :
-    //   <button style={{ background: '#ccc' }} className="btn-delete">Xóa</button>
-    // first = false;
+  const lichSuElements = currentItems.map((item, index) => {
     return <tr key={index}>
       <td>{item.ma_dong_ho}</td>
       <td>{item.ten_dong_ho}</td>
@@ -43,9 +35,6 @@ export default function QuanLyLapDatDongHoKhoi() {
       <td>{item.chi_so_dau}</td>
       <td>{item.chi_so_cuoi}</td>
       <td>{item.so_tieu_thu}</td>
-      {/* <td>
-        {deleteButton}
-      </td> */}
     </tr>
   })
 
@@ -67,6 +56,11 @@ export default function QuanLyLapDatDongHoKhoi() {
         [name]: option.value
       }
     })
+  }
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % lichSus.length;
+    setItemOffset(newOffset);
   }
 
   const timKiem = async () => {
@@ -96,7 +90,11 @@ export default function QuanLyLapDatDongHoKhoi() {
         <form className="form-container" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="ma_dong_ho">Mã đồng hồ</label>
-            <input type="number" id='ma_dong_ho' name='ma_dong_ho' onChange={handleInputChange} />
+            <DongHoKhoi
+              onChange={handleSelectChange}
+              isSearch={true}
+              name='ma_dong_ho'
+            />
           </div>
           <div>
             <label htmlFor="ma_tuyen">Tuyến đọc</label>
@@ -131,15 +129,19 @@ export default function QuanLyLapDatDongHoKhoi() {
                 <th>Chỉ số đầu</th>
                 <th>Chỉ số cuối</th>
                 <th>Số tiêu thụ</th>
-                {/* <th>Hành động</th> */}
               </tr>
             </thead>
             <tbody>
               {lichSuElements}
             </tbody>
           </table>
+          <Paginate
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
+          />
         </div>
       </div>
+      <ToastContainer />
     </>
   )
 }
