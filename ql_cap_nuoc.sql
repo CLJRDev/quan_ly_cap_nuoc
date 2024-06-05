@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 04, 2024 at 09:49 PM
+-- Generation Time: Jun 05, 2024 at 10:25 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -1342,10 +1342,10 @@ CREATE TABLE `ql_taikhoan` (
   `mat_khau` varchar(32) NOT NULL,
   `trang_thai` int(11) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `sdt` varchar(10) NOT NULL,
+  `sdt` varchar(10) DEFAULT NULL,
   `chuc_vu` varchar(50) NOT NULL,
   `ho_ten` varchar(50) NOT NULL,
-  `ngay_sinh` date NOT NULL
+  `ngay_sinh` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1381,7 +1381,11 @@ INSERT INTO `ql_taikhoan` (`ma_nhan_vien`, `mat_khau`, `trang_thai`, `email`, `s
 (100026, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVW@qlcn.com', '0000000023', 'Nhân viên', 'Nguyễn Văn W', '2024-05-25'),
 (100027, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVX@qlcn.com', '0000000024', 'Nhân viên', 'Nguyễn Văn X', '2024-05-25'),
 (100028, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVY@qlcn.com', '0000000025', 'Nhân viên', 'Nguyễn Văn Y', '2024-05-25'),
-(100029, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVZ@qlcn.com', '0000000026', 'Nhân viên', 'Nguyễn Văn Z', '2024-05-25');
+(100029, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'NVZ@qlcn.com', '0000000026', 'Nhân viên', 'Nguyễn Văn Z', '2024-05-25'),
+(100034, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'markdont1420@gmail.com', NULL, 'Nhân viên', 'Mark Do', NULL),
+(100035, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'manhddfx16236@funix.edu.vn', NULL, 'Nhân viên', 'Do Duc Manh FX16236', NULL),
+(100037, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'hoanghaiminh1420@gmail.com', NULL, 'Nhân viên', 'Minh Hoang Hai', NULL),
+(100045, 'c4ca4238a0b923820dcc509a6f75849b', 1, 'ducmanh1427@gmail.com', NULL, 'Nhân viên', 'Mạnh Đỗ Đức', NULL);
 
 -- --------------------------------------------------------
 
@@ -1396,6 +1400,16 @@ CREATE TABLE `ql_taikhoansocial` (
   `ten_social` varchar(100) DEFAULT NULL,
   `nguon_social` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ql_taikhoansocial`
+--
+
+INSERT INTO `ql_taikhoansocial` (`ma_tai_khoan`, `ma_nhan_vien`, `ma_social`, `ten_social`, `nguon_social`) VALUES
+(5, 100035, '107312227306358620944', 'Do Duc Manh FX16236', 'google'),
+(7, 100037, '103775169553515288541', 'Minh Hoang Hai', 'google'),
+(11, 100034, '101374469411897176353', 'Mark Do', 'google'),
+(12, 100045, '106013666646116865227', 'Mạnh Đỗ Đức', 'google');
 
 -- --------------------------------------------------------
 
@@ -1639,14 +1653,15 @@ ALTER TABLE `ql_phanquyen`
 -- Indexes for table `ql_taikhoan`
 --
 ALTER TABLE `ql_taikhoan`
-  ADD PRIMARY KEY (`ma_nhan_vien`);
+  ADD PRIMARY KEY (`ma_nhan_vien`),
+  ADD UNIQUE KEY `email` (`email`,`sdt`);
 
 --
 -- Indexes for table `ql_taikhoansocial`
 --
 ALTER TABLE `ql_taikhoansocial`
   ADD PRIMARY KEY (`ma_tai_khoan`),
-  ADD KEY `ma_nhan_vien` (`ma_nhan_vien`);
+  ADD KEY `ql_taikhoansocial_ibfk_1` (`ma_nhan_vien`);
 
 --
 -- Indexes for table `sessions`
@@ -1815,13 +1830,13 @@ ALTER TABLE `ql_phanquyen`
 -- AUTO_INCREMENT for table `ql_taikhoan`
 --
 ALTER TABLE `ql_taikhoan`
-  MODIFY `ma_nhan_vien` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100030;
+  MODIFY `ma_nhan_vien` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100046;
 
 --
 -- AUTO_INCREMENT for table `ql_taikhoansocial`
 --
 ALTER TABLE `ql_taikhoansocial`
-  MODIFY `ma_tai_khoan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ma_tai_khoan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1921,7 +1936,7 @@ ALTER TABLE `ql_phanquyen`
 -- Constraints for table `ql_taikhoansocial`
 --
 ALTER TABLE `ql_taikhoansocial`
-  ADD CONSTRAINT `ql_taikhoansocial_ibfk_1` FOREIGN KEY (`ma_nhan_vien`) REFERENCES `ql_taikhoan` (`ma_nhan_vien`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `ql_taikhoansocial_ibfk_1` FOREIGN KEY (`ma_nhan_vien`) REFERENCES `ql_taikhoan` (`ma_nhan_vien`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
