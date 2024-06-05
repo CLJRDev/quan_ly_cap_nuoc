@@ -15,6 +15,7 @@ use App\Http\Controllers\DMQuyenController;
 use App\Http\Controllers\DMThanhToanController;
 use App\Http\Controllers\DMToQuanLyController;
 use App\Http\Controllers\DMtuyendocController;
+use App\Http\Controllers\FBController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\LSDongHoKhachController;
 use App\Http\Controllers\LSDongHoKhoiController;
@@ -129,6 +130,9 @@ Route::get('/backup', [BackupController::class, 'backup']);
 //google login
 Route::get('auth/google/url', [GoogleController::class, 'loginUrl']);
 Route::get('auth/google/callback', [GoogleController::class, 'loginCallback']);
+//fb login
+Route::get('auth/fb/url', [FBController::class, 'loginUrl']);
+Route::get('auth/fb/callback', [FBController::class, 'loginCallback']);
 //404
 Route::fallback(function(){
     return response()->json([
