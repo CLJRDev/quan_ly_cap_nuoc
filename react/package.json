@@ -33,6 +33,7 @@
     "react-router-dom": "^6.23.0",
     "react-select": "^5.8.0",
     "react-slider": "^2.0.6",
+    "react-to-print": "^2.15.1",
     "react-toastify": "^10.0.5",
     "reactjs-popup": "^2.0.6",
     "recharts": "^2.12.7",
