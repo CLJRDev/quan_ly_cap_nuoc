@@ -131,8 +131,8 @@ Route::get('/backup', [BackupController::class, 'backup']);
 Route::get('auth/google/url', [GoogleController::class, 'loginUrl']);
 Route::get('auth/google/callback', [GoogleController::class, 'loginCallback']);
 //fb login
-Route::get('auth/fb/url', [FBController::class, 'loginUrl']);
-Route::get('auth/fb/callback', [FBController::class, 'loginCallback']);
+Route::get('auth/facebook/url', [FBController::class, 'loginUrl']);
+Route::get('auth/facebook/callback', [FBController::class, 'loginCallback']);
 //404
 Route::fallback(function(){
     return response()->json([

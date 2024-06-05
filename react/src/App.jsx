@@ -74,255 +74,95 @@ import AuthFacebook from './components/auth/AuthFacebook'
 
 import { Routes, Route } from 'react-router-dom'
 
-const user = localStorage.getItem('user')
-const quyensArray = JSON.parse(localStorage.getItem('quyens'))
+// const user = localStorage.getItem('user')
+// const quyensArray = JSON.parse(localStorage.getItem('quyens'))
 
 function App() {
   return (
     <Routes>
       <Route path='/' element={<Login />} />
-      <Route path='/home' element={!user ? <Login /> : <Home />} />
-      <Route path='/nguoi_dung' element={
-        !user ? <Login /> : quyensArray.includes(1) ? <QuanLyNguoiDung /> : <Home />
-      } />
-      <Route path='/nguoi_dung/them' element={
-        !user ? <Login /> : quyensArray.includes(1) ? <ThemNguoiDung /> : <Home />
-      } />
-      <Route path='/nguoi_dung/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(1) ? <SuaNguoiDung /> : <Home />
-      } />
-      <Route path='/doi_mat_khau' element={!user ? <Login /> : <DoiMatKhau />} />
-      <Route path='/quan_ly_phan_quyen' element={
-        !user ? <Login /> : quyensArray.includes(1) ? <QuanLyPhanQuyen /> : <Home />
-      } />
-      <Route path='/quyen' element={
-        !user ? <Login /> : quyensArray.includes(1) ? <ThemQuyen /> : <Home />
-      } />
-      <Route path='/quyen/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(1) ? <SuaQuyen /> : <Home />
-      } />
-      <Route path='/quan_ly_phan_quyen/them' element={
-        !user ? <Login /> : quyensArray.includes(1) ? <PhanQuyenTaiKhoan /> : <Home />
-      } />
-      <Route path='/quan_ly_phan_quyen/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(1) ? <SuaPhanQuyen /> : <Home />
-      } />
-      <Route path='/chi_nhanh' element={
-        !user ? <Login /> : quyensArray.includes(2) ? <ChiNhanh /> : <Home />
-      } />
-      <Route path='/chi_nhanh/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(2) ? <SuaChiNhanh /> : <Home />
-      } />
-      <Route path='/to_quan_ly' element={
-        !user ? <Login /> : quyensArray.includes(2) ? <ToQuanLy /> : <Home />
-      } />
-      <Route path='/to_quan_ly/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(2) ? <SuaToQuanLy /> : <Home />
-      } />
-      <Route path='/tuyen_doc' element={
-        !user ? <Login /> : quyensArray.includes(2) ? <TuyenDoc /> : <Home />
-      } />
-      <Route path='/tuyen_doc/them' element={
-        !user ? <Login /> : quyensArray.includes(2) ? <ThemTuyenDoc /> : <Home />
-      } />
-      <Route path='/tuyen_doc/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(2) ? <SuaTuyenDoc /> : <Home />
-      } />
-      <Route path='/xem_tuyen_doc_from_bao_cao/:id' element={
-        !user ? <Login /> : quyensArray.includes(2) ? <SuaTuyenDoc /> : <Home />
-      } />
-      <Route path='/quan_huyen' element={
-        !user ? <Login /> : quyensArray.includes(2) ? <QuanHuyen /> : <Home />
-      } />
-      <Route path='/quan_huyen/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(2) ? <SuaQuanHuyen /> : <Home />
-      } />
-      <Route path='/phuong_xa' element={
-        !user ? <Login /> : quyensArray.includes(2) ? <PhuongXa /> : <Home />
-      } />
-      <Route path='/phuong_xa/them' element={
-        !user ? <Login /> : quyensArray.includes(2) ? <ThemPhuongXa /> : <Home />
-      } />
-      <Route path='/phuong_xa/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(2) ? <SuaPhuongXa /> : <Home />
-      } />
-      <Route path='/loai_khach_hang' element={
-        !user ? <Login /> : quyensArray.includes(6) ? <LoaiKhachHang /> : <Home />
-      } />
-      <Route path='/loai_khach_hang/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(6) ? <SuaLoaiKhachHang /> : <Home />
-      } />
-      <Route path='/loai_dong_ho' element={
-        !user ? <Login /> : quyensArray.includes(5) ? <LoaiDongHo /> : <Home />
-      } />
-      <Route path='/loai_dong_ho/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(5) ? <SuaLoaiDongHo /> : <Home />
-      } />
-      <Route path='/nha_cung_cap' element={
-        !user ? <Login /> : quyensArray.includes(5) ? <NhaCungCap /> : <Home />
-      } />
-      <Route path='/nha_cung_cap/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(5) ? <SuaNhaCungCap /> : <Home />
-      } />
-      <Route path='/co_dong_ho' element={
-        !user ? <Login /> : quyensArray.includes(5) ? <CoDongHo /> : <Home />
-      } />
-      <Route path='/co_dong_ho/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(5) ? <SuaCoDongHo /> : <Home />
-      } />
-      <Route path='/phuong_thuc_thanh_toan' element={
-        !user ? <Login /> : quyensArray.includes(6) ? <PhuongThucThanhToan /> : <Home />
-      } />
-      <Route path='/phuong_thuc_thanh_toan/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(6) ? <SuaPhuongThucThanhToan /> : <Home />
-      } />
-      <Route path='/gia_nuoc' element={
-        !user ? <Login /> : quyensArray.includes(18) ? <QuanLyGiaNuoc /> : <Home />
-      } />
-      <Route path='/gia_nuoc/them' element={
-        !user ? <Login /> : quyensArray.includes(18) ? <ThemGia /> : <Home />
-      } />
-      <Route path='/gia_nuoc/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(18) ? <SuaGia /> : <Home />
-      } />
-      <Route path='/dong_ho_khoi' element={
-        !user ? <Login /> : quyensArray.includes(8) ? <QuanLyDongHoKhoi /> : <Home />
-      } />
-      <Route path='/dong_ho_khoi/them' element={
-        !user ? <Login /> : quyensArray.includes(8) ? <ThemDongHoKhoi /> : <Home />
-      } />
-      <Route path='/dong_ho_khoi/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(8) ? <SuaDongHoKhoi /> : <Home />
-      } />
-      <Route path='/xem_dong_ho_khoi_from_bao_cao/:id' element={
-        !user ? <Login /> : quyensArray.includes(8) ? <SuaDongHoKhoi /> : <Home />
-      } />
-      <Route path='/khach_hang' element={
-        !user ? <Login /> : quyensArray.includes(15) ? <QuanLyKhachHang /> : <Home />
-      } />
-      <Route path='/khach_hang/them' element={
-        !user ? <Login /> : quyensArray.includes(15) ? <ThemKhachHang /> : <Home />
-      } />
-      <Route path='/khach_hang/import_excel' element={
-        !user ? <Login /> : quyensArray.includes(15) ? <ImportExcelKhachHang /> : <Home />
-      } />
-      <Route path='/khach_hang/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(15) ? <SuaKhachHang /> : <Home />
-      } />
-      <Route path='/xem_khach_hang_from_bao_cao/:id' element={
-        !user ? <Login /> : quyensArray.includes(15) ? <SuaKhachHang /> : <Home />
-      } />
-      <Route path='/dong_ho_khach' element={
-        !user ? <Login /> : quyensArray.includes(8) ? <QuanLyDongHoKhach /> : <Home />
-      } />
-      <Route path='/dong_ho_khach/them' element={
-        !user ? <Login /> : quyensArray.includes(8) ? <ThemDongHoKhach /> : <Home />
-      } />
-      <Route path='/dong_ho_khach/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(8) ? <SuaDongHoKhach /> : <Home />
-      } />
-      <Route path='/xem_dong_ho_khach_from_hop_dong/:ma_hop_dong' element={
-        !user ? <Login /> : quyensArray.includes(8) ? <SuaDongHoKhach /> : <Home />
-      } />
-      <Route path='/xem_hop_dong_from_dong_ho_khach/:ma_dong_ho' element={
-        !user ? <Login /> : quyensArray.includes(16) ? <SuaHopDong /> : <Home />
-      } />
-      <Route path='/hop_dong' element={
-        !user ? <Login /> : quyensArray.includes(16) ? <QuanLyHopDong /> : <Home />
-      } />
-      <Route path='/them_hop_dong_from_khach_hang/:can_cuoc' element={
-        !user ? <Login /> : quyensArray.includes(16) ? <ThemHopDong /> : <Home />
-      } />
-      <Route path='/xem_hop_dong_from_khach_hang/:ma_khach_hang' element={
-        !user ? <Login /> : quyensArray.includes(16) ? <QuanLyHopDong /> : <Home />
-      } />
-      <Route path='/hop_dong/them' element={
-        !user ? <Login /> : quyensArray.includes(16) ? <ThemHopDong /> : <Home />
-      } />
-      <Route path='/them_hop_dong_from_khach_hang/:ma_khach_hang' element={
-        !user ? <Login /> : quyensArray.includes(16) ? <ThemHopDong /> : <Home />
-      } />
-      <Route path='/hop_dong/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(16) ? <SuaHopDong /> : <Home />
-      } />
-      <Route path='/xem_hop_dong_from_hoa_don/:id' element={
-        !user ? <Login /> : quyensArray.includes(16) ? <SuaHopDong /> : <Home />
-      } />
-      <Route path='/lap_dat_dh_khoi' element={
-        !user ? <Login /> : quyensArray.includes(8) ? <QuanLyLapDatDongHoKhoi /> : <Home />
-      } />
-      <Route path='/lap_dat_dh_khoi/them' element={
-        !user ? <Login /> : quyensArray.includes(8) ? <ThemLapDatDongHoKhoi /> : <Home />
-      } />
-      <Route path='/lap_dat_dh_khoi/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(8) ? <SuaLapDatDongHoKhoi /> : <Home />
-      } />
-      <Route path='/lap_dat_dh_khoi_from_tuyen_doc/:ma_tuyen' element={
-        !user ? <Login /> : quyensArray.includes(8) ? <ThemLapDatDongHoKhoi /> : <Home />
-      } />
-      <Route path='/lap_dat_dh_khoi_from_dong_ho/:ma_dong_ho' element={
-        !user ? <Login /> : quyensArray.includes(8) ? <ThemLapDatDongHoKhoi /> : <Home />
-      } />
-      <Route path='/ghi_chi_so_dh_khoi' element={
-        !user ? <Login /> : quyensArray.includes(14) ? <QuanLyGhiChiSoDongHoKhoi /> : <Home />
-      } />
-      <Route path='/ghi_chi_so_dh_khoi/ghi' element={
-        !user ? <Login /> : quyensArray.includes(14) ? <GhiChiSoDongHoKhoi /> : <Home />
-      } />
-      <Route path='/ghi_chi_so_dh_khoi/sua/:id' element={
-        !user ? <Login /> : quyensArray.includes(14) ? <SuaChiSoDongHoKhoi /> : <Home />
-      } />
-      <Route path='/lap_dat_dh_khach' element={
-        !user ? <Login /> : quyensArray.includes(8) ? <QuanLyLapDatDongHoKhach /> : <Home />
-      } />
-      <Route path='/lap_dat_dh_khach/them' element={
-        !user ? <Login /> : quyensArray.includes(8) ? <ThemLapDatDongHoKhach /> : <Home />
-      } />
-      <Route path='/lap_dat_dh_khach_from_hop_dong/:ma_hop_dong' element={
-        !user ? <Login /> : quyensArray.includes(8) ? <ThemLapDatDongHoKhach /> : <Home />
-      } />
-      <Route path='/lap_dat_dh_khach_from_dong_ho/:ma_dong_ho' element={
-        !user ? <Login /> : quyensArray.includes(8) ? <ThemLapDatDongHoKhach /> : <Home />
-      } />
-      <Route path='/ghi_chi_so_dh_khach' element={
-        !user ? <Login /> : quyensArray.includes(14) ? <QuanLyGhiChiSoDongHoKhach /> : <Home />
-      } />
-      <Route path='/ghi_chi_so_dh_khach/thoi_gian' element={
-        !user ? <Login /> : quyensArray.includes(14) ? <ChonThoiGianDongHoKhach /> : <Home />
-      } />
-      <Route path='/ghi_chi_so_dh_khach/thoi_gian/ghi' element={
-        !user ? <Login /> : quyensArray.includes(14) ? <GhiChiSoDongHoKhach /> : <Home />
-      } />
-      <Route path='/hoa_don' element={
-        !user ? <Login /> : quyensArray.includes(17) ? <QuanLyHoaDon /> : <Home />
-      } />
-      <Route path='/hoa_don/xem/:id' element={
-        !user ? <Login /> : quyensArray.includes(17) ? <XemHoaDon /> : <Home />
-      } />
-      <Route path='/thanh_toan' element={
-        !user ? <Login /> : quyensArray.includes(17) ? <QuanLyThanhToan /> : <Home />
-      } />
-      <Route path='/bao_cao_thu_doc' element={
-        !user ? <Login /> : quyensArray.includes(7) ? <BaoCaoCongTacThuDoc /> : <Home />
-      } />
-      <Route path='/bao_cao_that_thoat_nuoc' element={
-        !user ? <Login /> : quyensArray.includes(7) ? <BaoCaoThatThoatNuoc /> : <Home />
-      } />
-      <Route path='/bao_cao_su_dung_bat_thuong' element={
-        !user ? <Login /> : quyensArray.includes(7) ? <BaoCaoSuDungBatThuong /> : <Home />
-      } />
-      <Route path='/bao_cao_chua_dong_tien' element={
-        !user ? <Login /> : quyensArray.includes(7) ? <BaoCaoChuaDongTien /> : <Home />
-      } />
-      <Route path='/bao_cao_quan_ly_thu_tien' element={
-        !user ? <Login /> : quyensArray.includes(7) ? <BaoCaoThuTien /> : <Home />
-      } />
-      <Route path='/bao_cao_chua_co_hop_dong' element={
-        !user ? <Login /> : quyensArray.includes(7) ? <BaoCaoChuaCoHopDong /> : <Home />
-      } />
-      <Route path='/thong_ke_khach_hang' element={
-        !user ? <Login /> : quyensArray.includes(7) ? <ThongKeKhachHang /> : <Home />
-      } />
+      <Route path='/home' element={<Home />} />
+      <Route path='/nguoi_dung' element={<QuanLyNguoiDung />} />
+      <Route path='/nguoi_dung/them' element={<ThemNguoiDung />} />
+      <Route path='/nguoi_dung/sua/:id' element={<SuaNguoiDung />} />
+      <Route path='/doi_mat_khau' element={<DoiMatKhau />} />
+      <Route path='/quan_ly_phan_quyen' element={<QuanLyPhanQuyen />} />
+      <Route path='/quyen' element={<ThemQuyen />} />
+      <Route path='/quyen/sua/:id' element={<SuaQuyen />} />
+      <Route path='/quan_ly_phan_quyen/them' element={<PhanQuyenTaiKhoan />} />
+      <Route path='/quan_ly_phan_quyen/sua/:id' element={<SuaPhanQuyen />} />
+      <Route path='/chi_nhanh' element={<ChiNhanh />} />
+      <Route path='/chi_nhanh/sua/:id' element={<SuaChiNhanh />} />
+      <Route path='/to_quan_ly' element={<ToQuanLy />} />
+      <Route path='/to_quan_ly/sua/:id' element={<SuaToQuanLy />} />
+      <Route path='/tuyen_doc' element={<TuyenDoc />} />
+      <Route path='/tuyen_doc/them' element={<ThemTuyenDoc />} />
+      <Route path='/tuyen_doc/sua/:id' element={<SuaTuyenDoc />} />
+      <Route path='/xem_tuyen_doc_from_bao_cao/:id' element={<SuaTuyenDoc />} />
+      <Route path='/quan_huyen' element={<QuanHuyen />} />
+      <Route path='/quan_huyen/sua/:id' element={<SuaQuanHuyen />} />
+      <Route path='/phuong_xa' element={<PhuongXa />} />
+      <Route path='/phuong_xa/them' element={<ThemPhuongXa />} />
+      <Route path='/phuong_xa/sua/:id' element={<SuaPhuongXa />} />
+      <Route path='/loai_khach_hang' element={<LoaiKhachHang />} />
+      <Route path='/loai_khach_hang/sua/:id' element={<SuaLoaiKhachHang />} />
+      <Route path='/loai_dong_ho' element={<LoaiDongHo />} />
+      <Route path='/loai_dong_ho/sua/:id' element={<SuaLoaiDongHo />} />
+      <Route path='/nha_cung_cap' element={<NhaCungCap />} />
+      <Route path='/nha_cung_cap/sua/:id' element={<SuaNhaCungCap />} />
+      <Route path='/co_dong_ho' element={<CoDongHo />} />
+      <Route path='/co_dong_ho/sua/:id' element={<SuaCoDongHo />} />
+      <Route path='/phuong_thuc_thanh_toan' element={<PhuongThucThanhToan />} />
+      <Route path='/phuong_thuc_thanh_toan/sua/:id' element={<SuaPhuongThucThanhToan />} />
+      <Route path='/gia_nuoc' element={<QuanLyGiaNuoc />} />
+      <Route path='/gia_nuoc/them' element={<ThemGia />} />
+      <Route path='/gia_nuoc/sua/:id' element={<SuaGia />} />
+      <Route path='/dong_ho_khoi' element={<QuanLyDongHoKhoi />} />
+      <Route path='/dong_ho_khoi/them' element={<ThemDongHoKhoi />} />
+      <Route path='/dong_ho_khoi/sua/:id' element={<SuaDongHoKhoi />} />
+      <Route path='/xem_dong_ho_khoi_from_bao_cao/:id' element={<SuaDongHoKhoi />} />
+      <Route path='/khach_hang' element={<QuanLyKhachHang />} />
+      <Route path='/khach_hang/them' element={<ThemKhachHang />} />
+      <Route path='/khach_hang/import_excel' element={<ImportExcelKhachHang />} />
+      <Route path='/khach_hang/sua/:id' element={<SuaKhachHang />} />
+      <Route path='/xem_khach_hang_from_bao_cao/:id' element={<SuaKhachHang />} />
+      <Route path='/dong_ho_khach' element={<QuanLyDongHoKhach />} />
+      <Route path='/dong_ho_khach/them' element={<ThemDongHoKhach />} />
+      <Route path='/dong_ho_khach/sua/:id' element={<SuaDongHoKhach />} />
+      <Route path='/xem_dong_ho_khach_from_hop_dong/:ma_hop_dong' element={<SuaDongHoKhach />} />
+      <Route path='/xem_hop_dong_from_dong_ho_khach/:ma_dong_ho' element={<SuaHopDong />} />
+      <Route path='/hop_dong' element={<QuanLyHopDong />} />
+      <Route path='/them_hop_dong_from_khach_hang/:can_cuoc' element={<ThemHopDong />} />
+      <Route path='/xem_hop_dong_from_khach_hang/:ma_khach_hang' element={<QuanLyHopDong />} />
+      <Route path='/hop_dong/them' element={<ThemHopDong />} />
+      <Route path='/them_hop_dong_from_khach_hang/:ma_khach_hang' element={<ThemHopDong />} />
+      <Route path='/hop_dong/sua/:id' element={<SuaHopDong />} />
+      <Route path='/xem_hop_dong_from_hoa_don/:id' element={<SuaHopDong />} />
+      <Route path='/lap_dat_dh_khoi' element={<QuanLyLapDatDongHoKhoi />} />
+      <Route path='/lap_dat_dh_khoi/them' element={<ThemLapDatDongHoKhoi />} />
+      <Route path='/lap_dat_dh_khoi/sua/:id' element={<SuaLapDatDongHoKhoi />} />
+      <Route path='/lap_dat_dh_khoi_from_tuyen_doc/:ma_tuyen' element={<ThemLapDatDongHoKhoi />} />
+      <Route path='/lap_dat_dh_khoi_from_dong_ho/:ma_dong_ho' element={<ThemLapDatDongHoKhoi />} />
+      <Route path='/ghi_chi_so_dh_khoi' element={<QuanLyGhiChiSoDongHoKhoi />} />
+      <Route path='/ghi_chi_so_dh_khoi/ghi' element={<GhiChiSoDongHoKhoi />} />
+      <Route path='/ghi_chi_so_dh_khoi/sua/:id' element={<SuaChiSoDongHoKhoi />} />
+      <Route path='/lap_dat_dh_khach' element={<QuanLyLapDatDongHoKhach />} />
+      <Route path='/lap_dat_dh_khach/them' element={<ThemLapDatDongHoKhach />} />
+      <Route path='/lap_dat_dh_khach_from_hop_dong/:ma_hop_dong' element={<ThemLapDatDongHoKhach />} />
+      <Route path='/lap_dat_dh_khach_from_dong_ho/:ma_dong_ho' element={<ThemLapDatDongHoKhach />} />
+      <Route path='/ghi_chi_so_dh_khach' element={<QuanLyGhiChiSoDongHoKhach />} />
+      <Route path='/ghi_chi_so_dh_khach/thoi_gian' element={<ChonThoiGianDongHoKhach />} />
+      <Route path='/ghi_chi_so_dh_khach/thoi_gian/ghi' element={<GhiChiSoDongHoKhach />} />
+      <Route path='/hoa_don' element={<QuanLyHoaDon />} />
+      <Route path='/hoa_don/xem/:id' element={<XemHoaDon />} />
+      <Route path='/thanh_toan' element={<QuanLyThanhToan />} />
+      <Route path='/bao_cao_thu_doc' element={<BaoCaoCongTacThuDoc />} />
+      <Route path='/bao_cao_that_thoat_nuoc' element={<BaoCaoThatThoatNuoc />} />
+      <Route path='/bao_cao_su_dung_bat_thuong' element={<BaoCaoSuDungBatThuong />} />
+      <Route path='/bao_cao_chua_dong_tien' element={<BaoCaoChuaDongTien />} />
+      <Route path='/bao_cao_quan_ly_thu_tien' element={<BaoCaoThuTien />} />
+      <Route path='/bao_cao_chua_co_hop_dong' element={<BaoCaoChuaCoHopDong />} />
+      <Route path='/thong_ke_khach_hang' element={<ThongKeKhachHang />} />
       <Route path='/dashboard' element={<Dashboard />} />
       <Route path='/auth/google' element={<AuthGoogle />} />
       <Route path='/auth/facebook' element={<AuthFacebook />} />
