@@ -6,7 +6,7 @@ export default function AuthFacebook() {
   const navigate = useNavigate()
   console.log(window.location.search)
   // useEffect(() => {
-  //   axios.get(`http://127.0.0.1:8000/api/auth/fb/callback${window.location.search}`)
+  //   axios.get(`http://127.0.0.1:8000/api/auth/facebook/callback${window.location.search}`)
   //     .then(response => {
   //       console.log(response)
   //       const quyens = JSON.stringify(response.data.quyen)
