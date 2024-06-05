@@ -108,7 +108,7 @@ export default function Sidebar() {
           </SidebarWrap>
           <LogoutWrap>
             <User>
-              {nhanVien.ho_ten}
+              {`${nhanVien.ho_ten}`}
             </User>
             <LogoutButton onClick={logout}>
               <IoMdLogOut style={{ transform: 'scale(1.3)' }} /> Đăng xuất

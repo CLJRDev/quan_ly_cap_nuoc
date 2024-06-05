@@ -27,7 +27,7 @@ export default function Login() {
   }, [])
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/auth/fb/url`)
+    axios.get(`http://127.0.0.1:8000/api/auth/facebook/url`)
       .then(response => {
         setFbLoginUrl(response.data)
       })
