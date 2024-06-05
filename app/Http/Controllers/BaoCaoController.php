@@ -126,7 +126,7 @@ class BaoCaoController extends Controller
           ]);
     }
     public function bc_kh_khu_vuc(Request $request){
-        $ds_khach_khu_vuc = QLKhachHangModel::selectRaw('ql_khachhang.*, SUM(ql_hoadon.tong_cong)')
+        $ds_khach_khu_vuc = QLKhachHangModel::selectRaw('ql_khachhang.*, SUM(ql_hoadon.tong_cong) AS tong_cong')
             ->leftJoin('ql_hopdong', 'ql_hopdong.ma_khach_hang', '=', 'ql_khachhang.ma_khach_hang')
             ->leftJoin('ql_lapdatdhkhach', 'ql_hopdong.ma_hop_dong', '=', 'ql_lapdatdhkhach.ma_hop_dong')
             ->leftJoin('ql_hoadon', 'ql_hoadon.ma_lap_dat', '=', 'ql_lapdatdhkhach.ma_lap_dat')
