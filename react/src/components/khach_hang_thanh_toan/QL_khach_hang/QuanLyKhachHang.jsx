@@ -3,7 +3,7 @@ import { IoIosAddCircleOutline } from "react-icons/io"
 import { CgImport } from "react-icons/cg";
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Select from 'react-select'
 import SuccessToast from '../../notification/SuccessToast'
 import ErrorToast from '../../notification/ErrorToast'
@@ -12,8 +12,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../../layouts/Paginate"
 import Sidebar from '../../layouts/Sidebar'
+import { DownloadTableExcel } from 'react-export-table-to-excel'
+import { TbTableExport } from "react-icons/tb";
 
 export default function QuanLyKhachHang() {
+  const tableRef = useRef(null)
   const [khachHangs, setKhachHangs] = useState([])
   const [searchData, setSearchData] = useState({
     ten_khach_hang: '',
@@ -66,6 +69,17 @@ export default function QuanLyKhachHang() {
         <Link className="btn-edit" to={`/khach_hang/sua/${item.ma_khach_hang}`}>Sửa</Link>&nbsp;
         <button onClick={() => xoa(item.ma_khach_hang)} className="btn-delete">Xóa</button>
       </td>
+    </tr>
+  })
+
+  const khachHangCloneElements = khachHangs.map((item, index) => {
+    return <tr key={index}>
+      <td>{item.ma_khach_hang}</td>
+      <td>{item.ten_khach_hang}</td>
+      <td>{item.can_cuoc}</td>
+      <td>{item.dia_chi}</td>
+      <td>{item.sdt}</td>
+      <td>{item.email}</td>
     </tr>
   })
 
@@ -169,13 +183,39 @@ export default function QuanLyKhachHang() {
               {khachHangElements}
             </tbody>
           </table>
+          <table style={{ display: 'none' }} ref={tableRef}>
+            <thead>
+              <tr>
+                <th>Mã KH</th>
+                <th>Tên khách hàng</th>
+                <th>Số CCCD</th>
+                <th>Địa chỉ</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              {khachHangCloneElements}
+            </tbody>
+          </table>
           <Paginate
             pageCount={pageCount}
             onPageChange={handlePageClick}
           />
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <DownloadTableExcel
+              filename="danh_sach_khach_hang"
+              sheet="Danh sách khách hàng"
+              currentTableRef={tableRef.current}
+            >
+              <button type="button" className="btn-export">
+                <TbTableExport style={{ transform: 'scale(1.2)' }} />&nbsp; Xuất file Excel
+              </button>
+            </DownloadTableExcel>
+          </div>
         </div>
-        <ToastContainer />
       </div>
+      <ToastContainer />
     </>
   )
 }

@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../../layouts/Paginate"
 import TrangThai from '../../select-option/TrangThai'
 import Sidebar from '../../layouts/Sidebar';
+import { MdBackup } from "react-icons/md";
 
 export default function QuanLyNguoiDung() {
   const [users, setUsers] = useState([])
@@ -123,6 +124,16 @@ export default function QuanLyNguoiDung() {
     setUsers(response.data)
   }
 
+  const backupDatabase = () => {
+    axios.get(`http://127.0.0.1:8000/api/backup`)
+      .then(response => {
+        SuccessToast(response.data.message)
+      })
+      .catch(error => {
+        console.log(error.response.data.error)
+      })
+  }
+
   return (
     <>
       <Sidebar />
@@ -166,7 +177,9 @@ export default function QuanLyNguoiDung() {
             <Link to='/nguoi_dung/them' className="btn-add">
               <IoIosAddCircleOutline style={{ transform: 'scale(1.2)' }} />
               &nbsp; Thêm người dùng
-            </Link>
+            </Link>&nbsp;
+            <button className="btn-edit" type="button" onClick={() => backupDatabase()}><MdBackup style={{ transform: 'scale(1.2)' }} />
+              &nbsp; Backup Database</button>
           </div>
         </form>
         <div className="table-container animated fadeInDown">

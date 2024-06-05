@@ -7,17 +7,29 @@ import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa";
 
 export default function Login() {
   const navigate = useNavigate()
   const maNhanVienRef = useRef()
   const matKhauRef = useRef()
   const [googleLoginUrl, setGoogleLoginUrl] = useState(null)
+  const [fbLoginUrl, setFbLoginUrl] = useState(null)
 
   useEffect(() => {
     axios.get(`http://127.0.0.1:8000/api/auth/google/url`)
       .then(response => {
         setGoogleLoginUrl(response.data.url)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }, [])
+
+  useEffect(() => {
+    axios.get(`http://127.0.0.1:8000/api/auth/fb/url`)
+      .then(response => {
+        setFbLoginUrl(response.data)
       })
       .catch(error => {
         console.log(error)
@@ -64,7 +76,10 @@ export default function Login() {
           <input required style={{ marginTop: '10px' }} ref={matKhauRef} type="password" placeholder="Mật khẩu" />
           <button style={{ marginTop: '10px' }} className="btn btn-block">Đăng nhập</button>
           {googleLoginUrl && <Link to={`${googleLoginUrl}`} style={{ marginTop: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="btn btn-block">
-            <FcGoogle style={{ transform: 'scale(1.4)' }} />&nbsp;Đăng nhập với Google
+            <FcGoogle style={{ transform: 'scale(1.4)' }} />&nbsp;&nbsp;Đăng nhập với Google
+          </Link>}
+          {fbLoginUrl && <Link to={`${fbLoginUrl}`} style={{ marginTop: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="btn btn-block">
+            <FaFacebook style={{ transform: 'scale(1.4)' }} />&nbsp;&nbsp;Đăng nhập với Facebook
           </Link>}
         </form>
       </div>

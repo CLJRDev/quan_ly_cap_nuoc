@@ -19,7 +19,7 @@ class BackupController extends Controller
             ], Response::HTTP_OK);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Đã xảy ra lỗi khi backup lại database',
+                'error' => 'Đã xảy ra lỗi khi backup lại database',
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
