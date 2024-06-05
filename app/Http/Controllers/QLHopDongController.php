@@ -21,7 +21,7 @@ class QLHopDongController extends Controller
       ->join('ql_nhomgia','ql_nhomgia.ma_nhom_gia','=','ql_hopdong.ma_nhom_gia')
       ->join('dm_tuyendoc','dm_tuyendoc.ma_tuyen','=','ql_hopdong.ma_tuyen')
       ->join('ql_khachhang','ql_khachhang.ma_khach_hang','=','ql_hopdong.ma_khach_hang')
-      ->orderBy('ma_hop_dong', 'ASC')->get();
+      ->orderBy('ma_hop_dong', 'DESC')->get();
     }
   
     /**
