@@ -325,7 +325,7 @@ function App() {
       } />
       <Route path='/dashboard' element={<Dashboard />} />
       <Route path='/auth/google' element={<AuthGoogle />} />
-      <Route path='/auth/fb' element={<AuthFacebook />} />
+      <Route path='/auth/facebook' element={<AuthFacebook />} />
       <Route path='/login' element={<Login />} />
     </Routes>
   )
