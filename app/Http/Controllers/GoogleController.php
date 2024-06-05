@@ -28,7 +28,7 @@ class GoogleController extends Controller
         $tai_khoan = null;
         $tai_khoan_ton_tai = QLTaiKhoanModel::where('email',$tai_khoan_google->email)->first();
         if(empty($tai_khoan_ton_tai)) {
-            DB::transaction(function () use ($tai_khoan_google, &$tai_khoan) {
+            DB::transaction(function () use ($tai_khoan_google, $tai_khoan_ton_tai, &$tai_khoan) {
                 $tai_khoan_social = TaiKhoanSocialModel::firstOrNew(
                     ['ma_social' => $tai_khoan_google->getId(), 'nguon_social' => 'google'],
                     ['ten_social' => $tai_khoan_google->getName()]
@@ -46,12 +46,11 @@ class GoogleController extends Controller
                 });
         }
         else{
-            DB::transaction(function () use ($tai_khoan_google, &$tai_khoan) {
+            DB::transaction(function () use ($tai_khoan_google, $tai_khoan_ton_tai, &$tai_khoan) {
             $tai_khoan_social = TaiKhoanSocialModel::firstOrNew(
                 ['ma_social' => $tai_khoan_google->getId(), 'nguon_social' => 'google'],
                 ['ten_social' => $tai_khoan_google->getName()]
             );
-            $tai_khoan_ton_tai = QLTaiKhoanModel::where('email',$tai_khoan_google->email)->first();
             $tai_khoan_social->fill(['ma_nhan_vien' => $tai_khoan_ton_tai->ma_nhan_vien])->save();
             });
         }
