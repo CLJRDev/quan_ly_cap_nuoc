@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Sidebar from './Sidebar'
 import { PieChart, Pie, Tooltip, BarChart, XAxis, YAxis, Legend, CartesianGrid, Bar, } from "recharts";
 import axios from 'axios'
+import { ToastContainer } from 'react-toastify';
 
 export default function Dashboard() {
   const [dashboard, setDashboard] = useState(null)
@@ -75,6 +76,7 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </>
   )
 }

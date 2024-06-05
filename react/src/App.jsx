@@ -322,7 +322,7 @@ function App() {
       <Route path='/thong_ke_khach_hang' element={
         !user ? <Login /> : quyensArray.includes(7) ? <ThongKeKhachHang /> : <Home />
       } />
-      <Route path='/dashboard' element={user ? <Dashboard /> : <Login />} />
+      <Route path='/dashboard' element={<Dashboard />} />
       <Route path='/auth/google' element={<AuthGoogle />} />
       <Route path='/login' element={<Login />} />
     </Routes>
