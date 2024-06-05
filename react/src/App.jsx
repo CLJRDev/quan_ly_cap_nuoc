@@ -70,6 +70,7 @@ import ImportExcelKhachHang from './components/khach_hang_thanh_toan/QL_khach_ha
 import ThongKeKhachHang from './components/bao_cao/ThongKeKhachHang'
 import Dashboard from './components/layouts/Dashboard'
 import AuthGoogle from './components/auth/AuthGoogle'
+import AuthFacebook from './components/auth/AuthFacebook'
 
 import { Routes, Route } from 'react-router-dom'
 
@@ -324,6 +325,7 @@ function App() {
       } />
       <Route path='/dashboard' element={<Dashboard />} />
       <Route path='/auth/google' element={<AuthGoogle />} />
+      <Route path='/auth/fb' element={<AuthFacebook />} />
       <Route path='/login' element={<Login />} />
     </Routes>
   )
