@@ -3,9 +3,14 @@ import Sidebar from './Sidebar'
 import { PieChart, Pie, Tooltip, BarChart, XAxis, YAxis, Legend, CartesianGrid, Bar, } from "recharts";
 import axios from 'axios'
 import { ToastContainer } from 'react-toastify';
+import { Navigate } from 'react-router-dom';
+import CheckAuth from "../auth/CheckAuth"
 
 export default function Dashboard() {
   const [dashboard, setDashboard] = useState(null)
+  const auth = CheckAuth(1)
+  if (auth == 1)
+    return <Navigate to='/' />
 
   useEffect(() => {
     axios.get(`http://127.0.0.1:8000/api/dashboard`)
