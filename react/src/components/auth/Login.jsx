@@ -49,7 +49,7 @@ export default function Login() {
       const quyens = JSON.stringify(response.data.quyen)
       localStorage.setItem('quyens', quyens)
       localStorage.setItem('user', maNhanVienRef.current.value)
-      navigate('/dashboard')
+      navigate('/home')
     } catch (error) {
       if (typeof error.response.data.error === 'object') {
         const errorsArray = Object.values(error.response.data.error).flat();
