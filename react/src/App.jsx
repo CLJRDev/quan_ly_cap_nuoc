@@ -32,6 +32,7 @@ import SuaCoDongHo from './components/danh_muc/SuaCoDongHo'
 import PhuongThucThanhToan from './components/danh_muc/PhuongThucThanhToan'
 import SuaPhuongThucThanhToan from './components/danh_muc/SuaPhuongThucThanhToan'
 import QuanLyGiaNuoc from './components/khach_hang_thanh_toan/QL_gia_nuoc/QuanLyGiaNuoc'
+import CapNhapGiaNuoc from './components/khach_hang_thanh_toan/QL_gia_nuoc/CapNhapGiaNuoc'
 import ThemGia from './components/khach_hang_thanh_toan/QL_gia_nuoc/ThemGia'
 import SuaGia from './components/khach_hang_thanh_toan/QL_gia_nuoc/SuaGia'
 import QuanLyDongHoKhoi from './components/dong_ho/QL_dong_ho_khoi/QuanLyDongHoKhoi'
@@ -112,6 +113,7 @@ function App() {
       <Route path='/phuong_thuc_thanh_toan' element={<PhuongThucThanhToan />} />
       <Route path='/phuong_thuc_thanh_toan/sua/:id' element={<SuaPhuongThucThanhToan />} />
       <Route path='/gia_nuoc' element={<QuanLyGiaNuoc />} />
+      <Route path='/cap_nhap_gia_nuoc' element={<CapNhapGiaNuoc />} />
       <Route path='/gia_nuoc/them' element={<ThemGia />} />
       <Route path='/gia_nuoc/sua/:id' element={<SuaGia />} />
       <Route path='/dong_ho_khoi' element={<QuanLyDongHoKhoi />} />

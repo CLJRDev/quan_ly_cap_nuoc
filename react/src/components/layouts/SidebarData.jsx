@@ -126,6 +126,12 @@ export const SidebarData = [
     isAllow: [15, 16, 17, 18],
     subNav: [
       {
+        title: 'Cập nhập giá Nước',
+        path: '/cap_nhap_gia_nuoc',
+        icon: <IoIcons.IoIosPricetags />,
+        maQuyen: 18
+      },
+      {
         title: 'Giá Nước',
         path: '/gia_nuoc',
         icon: <IoIcons.IoIosPricetags />,

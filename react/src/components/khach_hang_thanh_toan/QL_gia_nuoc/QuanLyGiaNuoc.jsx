@@ -86,8 +86,7 @@ export default function QuanLyGiaNuoc() {
       <td>{item.hs_thue}</td>
       <td>{item.gia_ban}</td>
       <td>
-        <Link className="btn-edit" to={`/gia_nuoc/sua/${item.ma_nhom_gia}`}>Sửa</Link>
-        &nbsp;
+        <Link className="btn-edit" to={`/gia_nuoc/sua/${item.ma_nhom_gia}`}>Sửa</Link>&nbsp;
         <button onClick={() => xoa(item.ma_nhom_gia)} className="btn-delete">Xóa</button>
       </td>
     </tr>
