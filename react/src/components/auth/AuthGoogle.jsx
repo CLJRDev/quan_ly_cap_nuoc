@@ -12,7 +12,7 @@ export default function AuthGoogle() {
         const quyens = JSON.stringify(response.data.quyen)
         localStorage.setItem('quyens', quyens)
         localStorage.setItem('user', response.data.nguoi_dung)
-        navigate('/dashboard')
+        navigate('/home')
       })
       .catch(error => {
         console.log(error)
