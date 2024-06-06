@@ -145,8 +145,6 @@ class QLGiaNuocController extends Controller
             $ls_nhom_gia->hs_rieng=$nhom_gia->hs_rieng;
             $ls_nhom_gia->hs_thue=$nhom_gia->hs_thue;
             $ls_nhom_gia->gia_ban=$nhom_gia->gia_ban;
-            $ls_nhom_gia->tu_ngay=$request->tu_ngay;
-            $ls_nhom_gia->den_ngay=$request->den_ngay;
             if(!empty($ls_nhom_gia_cu)){
                 $ls_nhom_gia_cu->den_ngay=$nhom_gia->den_ngay;
             }
@@ -239,12 +237,5 @@ class QLGiaNuocController extends Controller
         }
         $result = $query->orderBy('ma_nhom_gia', 'ASC')->get();
         return $result;
-    }
-    public function index_ls_nhom_gia()
-    {
-        return LSGiaNuocModel::select('ls_nhomgia.*','dm_loaikhachhang.ten_loai_khach_hang')
-        ->join('ql_nhomgia','ls_nhomgia.ma_nhom_gia','=','ql_nhomgia.ma_nhom_gia')
-        ->join('dm_loaikhachhang','dm_loaikhachhang.ma_loai_khach_hang','=','ql_nhomgia.ma_loai_khach_hang')
-        ->orderBy('ma_nhom_gia', 'ASC')->get();
     }
 }
