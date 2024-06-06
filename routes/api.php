@@ -81,6 +81,7 @@ Route::get('/nha_cung_cap_search',[DMNhaCungCapController::class,'search']);
 //gia nuoc
 Route::apiResource("nhom_gia",QLGiaNuocController::class);
 Route::get('/nhom_gia_search',[QLGiaNuocController::class,'search']);
+Route::get('/index_ls_nhom_gia',[QLGiaNuocController::class,'index_ls_nhom_gia']);
 //khach hang
 Route::apiResource("khach_hang",QLKhachHangController::class);
 Route::get('/khach_hang_search',[QLKhachHangController::class,'search']);
