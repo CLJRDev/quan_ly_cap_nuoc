@@ -22,7 +22,7 @@ class QLTaiKhoanController extends Controller
    */
   public function index()
   {
-    return QLTaiKhoanModel::orderBy('ma_nhan_vien', 'ASC')->get();
+    return QLTaiKhoanModel::orderBy('ma_nhan_vien', 'DESC')->get();
   }
 
   /**
@@ -224,7 +224,7 @@ class QLTaiKhoanController extends Controller
     if ($request->has('trang_thai')) {
       $query->where('trang_thai', $request->trang_thai);
     }
-    $result = $query->orderBy('ma_nhan_vien', 'ASC')->get();
+    $result = $query->orderBy('ma_nhan_vien', 'DESC')->get();
     return $result;
   }
   public function login(Request $request)

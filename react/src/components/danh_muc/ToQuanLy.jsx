@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useState, useEffect, useRef } from "react"
 import { IoIosAddCircleOutline } from "react-icons/io"
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import Select from 'react-select'
 import SuccessToast from '../notification/SuccessToast'
 import ErrorToast from '../notification/ErrorToast'
@@ -11,8 +11,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../layouts/Paginate"
 import ChiNhanh from '../select-option/ChiNhanh'
 import Sidebar from '../layouts/Sidebar'
+import CheckAuth from "../auth/CheckAuth"
 
 export default function ToQuanLy() {
+  const auth = CheckAuth(2)
+  if (auth == 1)
+    return <Navigate to='/' />
+  else if (auth == 3) return <Navigate to='/home' />
   const [toQuanLys, setToQuanLys] = useState([])
   const [toQuanLy, setToQuanLy] = useState({
     ten_to_quan_ly: '',

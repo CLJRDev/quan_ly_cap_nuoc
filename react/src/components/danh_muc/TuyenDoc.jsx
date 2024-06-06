@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { IoIosAddCircleOutline } from "react-icons/io"
 import { FaRegTrashAlt } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import PhuongXa from '../select-option/PhuongXa'
 import ToQuanLy from '../select-option/ToQuanLy'
 import SuccessToast from '../notification/SuccessToast'
@@ -14,8 +14,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../layouts/Paginate"
 import Sidebar from '../layouts/Sidebar'
+import CheckAuth from "../auth/CheckAuth"
 
 export default function TuyenDoc() {
+  const auth = CheckAuth(2)
+  if (auth == 1)
+    return <Navigate to='/' />
+  else if (auth == 3) return <Navigate to='/home' />
   const [tuyenDocs, setTuyenDocs] = useState([])
   const [searchData, setSearchData] = useState({
     ten_tuyen: '',

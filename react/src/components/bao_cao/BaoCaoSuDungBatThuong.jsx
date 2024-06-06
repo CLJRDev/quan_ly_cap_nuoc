@@ -4,13 +4,19 @@ import Nam from "../select-option/Nam"
 import { IoMdSearch } from "react-icons/io"
 import axios from "axios"
 import { useEffect, useState, useRef } from "react"
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import { DownloadTableExcel } from 'react-export-table-to-excel'
 import { TbTableExport } from "react-icons/tb";
 import Paginate from "../layouts/Paginate"
 import Sidebar from '../layouts/Sidebar'
+import CheckAuth from "../auth/CheckAuth"
 
 export default function BaoCaoSuDungBatThuong() {
+  const auth = CheckAuth(7)
+  if (auth == 1)
+    return <Navigate to='/' />
+  else if (auth == 3) return <Navigate to='/home' />
+  
   const [baoCao, setBaoCao] = useState([])
   const [searchData, setSearchData] = useState({
     thang: '',

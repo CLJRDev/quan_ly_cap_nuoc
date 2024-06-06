@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
 import { IoIosAddCircleOutline } from "react-icons/io"
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import SuccessToast from '../notification/SuccessToast'
 import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
@@ -9,8 +9,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../layouts/Paginate"
 import Sidebar from '../layouts/Sidebar'
+import CheckAuth from "../auth/CheckAuth"
 
 export default function ChiNhanh() {
+  const auth = CheckAuth(2)
+  if (auth == 1)
+    return <Navigate to='/' />
+  else if (auth == 3) return <Navigate to='/home' />
   const [chiNhanhs, setChiNhanhs] = useState([])
   const [chiNhanhData, setChiNhanhData] = useState(null)
   const [itemOffset, setItemOffset] = useState(0);

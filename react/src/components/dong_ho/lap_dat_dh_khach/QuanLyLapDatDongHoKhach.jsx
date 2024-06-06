@@ -2,7 +2,7 @@ import HopDong from "../../select-option/HopDong"
 import DongHoKhach from "../../select-option/DongHoKhach"
 import { IoMdSearch } from "react-icons/io"
 import { IoIosAddCircleOutline } from "react-icons/io"
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from "react"
 import SuccessToast from '../../notification/SuccessToast'
@@ -12,8 +12,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from '../../layouts/Sidebar'
 import Paginate from "../../layouts/Paginate"
+import CheckAuth from "../../auth/CheckAuth"
 
 export default function QuanLyLapDatDongHoKhach() {
+  const auth = CheckAuth(8)
+  if (auth == 1)
+    return <Navigate to='/' />
+  else if (auth == 3) return <Navigate to='/home' />
+  
   const [lichSus, setLichSus] = useState([])
   const [searchData, setSearchData] = useState({
     ma_dong_ho: '',

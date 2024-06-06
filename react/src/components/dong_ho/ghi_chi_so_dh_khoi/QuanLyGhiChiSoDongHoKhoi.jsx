@@ -1,6 +1,6 @@
 import { IoMdSearch } from "react-icons/io"
 import { IoIosAddCircleOutline } from "react-icons/io"
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { format } from 'date-fns'
 import axios from 'axios'
 import { useState, useEffect } from "react"
@@ -8,8 +8,14 @@ import DongHoKhoi from "../../select-option/DongHoKhoi"
 import TuyenDoc from "../../select-option/TuyenDoc"
 import Paginate from "../../layouts/Paginate"
 import Sidebar from '../../layouts/Sidebar'
+import CheckAuth from "../../auth/CheckAuth"
 
 export default function QuanLyGhiChiSoDongHoKhoi() {
+  const auth = CheckAuth(14)
+  if (auth == 1)
+    return <Navigate to='/' />
+  else if (auth == 3) return <Navigate to='/home' />
+
   const [lichSus, setLichSus] = useState([])
   const [searchData, setSearchData] = useState({
     ma_dong_ho: '',

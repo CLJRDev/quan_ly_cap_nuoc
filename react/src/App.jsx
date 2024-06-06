@@ -74,9 +74,6 @@ import AuthFacebook from './components/auth/AuthFacebook'
 
 import { Routes, Route } from 'react-router-dom'
 
-// const user = localStorage.getItem('user')
-// const quyensArray = JSON.parse(localStorage.getItem('quyens'))
-
 function App() {
   return (
     <Routes>
@@ -166,6 +163,7 @@ function App() {
       <Route path='/dashboard' element={<Dashboard />} />
       <Route path='/auth/google' element={<AuthGoogle />} />
       <Route path='/auth/facebook' element={<AuthFacebook />} />
+
       <Route path='/login' element={<Login />} />
     </Routes>
   )

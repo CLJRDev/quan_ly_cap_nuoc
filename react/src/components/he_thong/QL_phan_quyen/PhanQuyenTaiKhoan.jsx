@@ -1,8 +1,7 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Navigate } from "react-router-dom"
 import { TbSubtask } from "react-icons/tb";
-import Select from 'react-select'
 import SuccessToast from '../../notification/SuccessToast'
 import ErrorToast from '../../notification/ErrorToast'
 import WarningToast from '../../notification/WarningToast'
@@ -11,8 +10,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import TaiKhoan from '../../select-option/TaiKhoan'
 import Quyen from '../../select-option/Quyen'
 import Sidebar from '../../layouts/Sidebar'
+import CheckAuth from "../../auth/CheckAuth"
 
 export default function PhanQuyenTaiKhoan() {
+  const auth = CheckAuth(1)
+  if (auth == 1)
+    return <Navigate to='/' />
+  else if (auth == 3) return <Navigate to='/home' />
+
   const navigate = useNavigate()
   const [phanQuyenData, setPhanQuyenData] = useState({
     ma_nhan_vien: {},

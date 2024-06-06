@@ -1,6 +1,6 @@
 import { IoMdSearch } from "react-icons/io"
 import { IoIosAddCircleOutline } from "react-icons/io"
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from "react"
 import { FaRegTrashAlt } from "react-icons/fa"
@@ -19,8 +19,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Paginate from "../../layouts/Paginate"
 import Sidebar from '../../layouts/Sidebar'
+import CheckAuth from "../../auth/CheckAuth"
 
 export default function QuanLyDongHoKhoi() {
+  const auth = CheckAuth(8)
+  if (auth == 1)
+    return <Navigate to='/' />
+  else if (auth == 3) return <Navigate to='/home' />
+
   const [dongHoKhois, setDongHoKhois] = useState([])
   const [searchData, setSearchData] = useState({
     ma_dong_ho: '',

@@ -1,7 +1,7 @@
 import { IoMdSearch } from "react-icons/io"
 import { IoIosAddCircleOutline } from "react-icons/io"
 import { CgImport } from "react-icons/cg";
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect, useRef } from "react"
 import Select from 'react-select'
@@ -14,8 +14,13 @@ import Paginate from "../../layouts/Paginate"
 import Sidebar from '../../layouts/Sidebar'
 import { DownloadTableExcel } from 'react-export-table-to-excel'
 import { TbTableExport } from "react-icons/tb";
+import CheckAuth from "../../auth/CheckAuth"
 
 export default function QuanLyKhachHang() {
+  const auth = CheckAuth(15)
+  if (auth == 1)
+    return <Navigate to='/' />
+  else if (auth == 3) return <Navigate to='/home' />
   const tableRef = useRef(null)
   const [khachHangs, setKhachHangs] = useState([])
   const [searchData, setSearchData] = useState({

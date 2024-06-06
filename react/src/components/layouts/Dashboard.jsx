@@ -29,7 +29,6 @@ export default function Dashboard() {
     { name: 'Đồng hồ khách hàng', number: dashboard[3][0].so_dh_khach }
   ]
 
-
   return (
     <>
       <Sidebar />

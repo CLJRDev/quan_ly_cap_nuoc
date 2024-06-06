@@ -1,15 +1,20 @@
 import axios from "axios"
 import { useState, useEffect, useRef } from "react"
 import { IoIosAddCircleOutline } from "react-icons/io"
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 import SuccessToast from '../notification/SuccessToast'
 import ErrorToast from '../notification/ErrorToast'
 import WarningToast from '../notification/WarningToast'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from '../layouts/Sidebar'
+import CheckAuth from "../auth/CheckAuth"
 
 export default function LoaiDongHo() {
+  const auth = CheckAuth(5)
+  if (auth == 1)
+    return <Navigate to='/' />
+  else if (auth == 3) return <Navigate to='/home' />
   const [loaiDongHos, setLoaiDongHos] = useState(null)
   const tenLoaiDongHoRef = useRef()
 
