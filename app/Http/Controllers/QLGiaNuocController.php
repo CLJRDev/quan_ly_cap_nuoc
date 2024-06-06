@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\LSGiaNuocModel;
 use App\Models\QLGiaNuocModel;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Validator;
@@ -133,7 +134,21 @@ class QLGiaNuocController extends Controller
                 ],422);
         }
         try{
+            $ls_nhom_gia = new LSGiaNuocModel;
             $nhom_gia = QLGiaNuocModel::findOrFail($id); 
+            $ls_nhom_gia_cu = LSGiaNuocModel::where('ma_nhom_gia',$nhom_gia->ma_nhom_gia)->orderBy('ma_lich_suk', 'DESC')->first();
+            $ls_nhom_gia->ma_nhom_gia=$nhom_gia->ma_nhom_gia;
+            $ls_nhom_gia->hs_duoi_10m=$nhom_gia->hs_duoi_10m;
+            $ls_nhom_gia->hs_tu_10m_den_20m=$nhom_gia->hs_tu_10m_den_20m;
+            $ls_nhom_gia->hs_tu_20m_den_30m=$nhom_gia->hs_tu_20m_den_30m;
+            $ls_nhom_gia->hs_tren_30m=$nhom_gia->hs_tren_30m;
+            $ls_nhom_gia->hs_rieng=$nhom_gia->hs_rieng;
+            $ls_nhom_gia->hs_thue=$nhom_gia->hs_thue;
+            $ls_nhom_gia->gia_ban=$nhom_gia->gia_ban;
+            $ls_nhom_gia->tu_ngay=$nhom_gia->tu_ngay;
+            if(!empty($ls_nhom_gia_cu)){
+                $ls_nhom_gia_cu->den_ngay=$nhom_gia->den_ngay;
+            }
             if(isset($request->ten_nhom_gia)){
                 $nhom_gia->ten_nhom_gia=$request->ten_nhom_gia;
             }
