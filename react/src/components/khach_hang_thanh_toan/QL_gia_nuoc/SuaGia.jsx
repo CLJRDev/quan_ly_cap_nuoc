@@ -22,7 +22,9 @@ export default function SuaGia() {
     hs_tren_30m: '',
     hs_rieng: '',
     hs_thue: '',
-    gia_ban: ''
+    gia_ban: '',
+    tu_ngay: '',
+    den_ngay: ''
   })
   const [selectedOption, setSelectedOption] = useState({})
 
@@ -78,6 +80,8 @@ export default function SuaGia() {
     }
     formData.append('hs_thue', gia.hs_thue)
     formData.append('gia_ban', gia.gia_ban)
+    formData.append('tu_ngay', gia.tu_ngay)
+    formData.append('den_ngay', gia.den_ngay)
     formData.append('ma_loai_khach_hang', selectedOption.value)
 
     try {
@@ -144,6 +148,14 @@ export default function SuaGia() {
           <div>
             <label htmlFor="gia_ban">Giá bán</label>
             <input type="number" id='gia_ban' step='0.01' name='gia_ban' onChange={handleInputChange} value={gia.gia_ban} />
+          </div>
+          <div>
+            <label htmlFor="tu_ngay">Từ ngày</label>
+            <input type="date" id='tu_ngay' name='tu_ngay' onChange={handleInputChange} value={gia.tu_ngay} />
+          </div>
+          <div>
+            <label htmlFor="den_ngay">Đến ngày</label>
+            <input type="date" id='den_ngay' name='den_ngay' onChange={handleInputChange} value={gia.den_ngay} />
           </div>
           <div></div>
           <div>
