@@ -35,7 +35,7 @@ export default function CapNhapGiaNuoc() {
       <div className="page">
         <h2 className="title">Cập nhập nhóm giá</h2>
         <div className="table-container animated fadeInDown">
-          <div className="title" style={{ marginBottom: '5px' }}>Lịch sử nhóm giá: {id}</div>
+          <div className="title" style={{ marginBottom: '5px' }}>Lịch sử nhóm giá</div>
           <table>
             <thead>
               <tr>
